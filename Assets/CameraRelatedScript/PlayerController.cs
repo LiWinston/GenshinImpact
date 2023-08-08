@@ -1,5 +1,4 @@
 using UnityEngine;
-using System.Collections;
 
 public class PlayerController : MonoBehaviour
 {
@@ -15,6 +14,9 @@ public class PlayerController : MonoBehaviour
     public float breatheShake = 0.005f;
     public float breatheSpeed = 0.2f;
 
+    [Header("Mouse Look Settings")]
+    public float mouseSensitivity = 100f;
+
     private bool isMoving = false;
     private bool isJumping = false;
     private bool isCrouching = false;
@@ -26,10 +28,14 @@ public class PlayerController : MonoBehaviour
     private CharacterController controller;
     private Transform cameraTransform;
 
+    private float xRotation = 0f;
+
     private void Start()
     {
         controller = GetComponent<CharacterController>();
         cameraTransform = Camera.main.transform;
+
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     private void Update()
@@ -100,7 +106,7 @@ public class PlayerController : MonoBehaviour
         }
 
         // Crouch logic
-        if (isCrouching)
+        if (!isCrouching)
         {
             transform.localScale = new Vector3(1, 1 - crouchAmount, 1);
         }
@@ -114,5 +120,15 @@ public class PlayerController : MonoBehaviour
 
         // Apply gravity and velocity
         controller.Move(velocity * Time.deltaTime);
+
+        // Mouse look
+        float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
+        float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
+
+        xRotation -= mouseY;
+        xRotation = Mathf.Clamp(xRotation, -90f, 90f);
+
+        cameraTransform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
+        transform.Rotate(Vector3.up * mouseX);
     }
 }
