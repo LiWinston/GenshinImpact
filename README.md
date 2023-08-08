@@ -111,74 +111,87 @@ Need more help? Check out these resources, which everything in this document is 
 * [Emoji Picker](https://github-emoji-picker.rickstaa.dev/)
 
 
-Milestone 2: Game Design Document
+# Milestone 2: Game Design Document
 
-Due: Sunday 20 August, 11.59pm AEST (team submission)
+**Due:** Sunday 20 August, 11.59pm AEST (team submission)
 
-By this milestone, your team must have drafted a Game Design Document (GDD) in the repository's README.md file. The GDD should provide a detailed vision of your game, allowing any member of your team (and the teaching team!) to understand exactly what your game will be.
+By this milestone, your team must have drafted a Game Design Document (GDD) in the repository's `README.md` file. The GDD should provide a detailed vision of your game, allowing any member of your team (and the teaching team!) to understand exactly what your game will be.
 
-Note
-The GDD is a "living document", meaning that it will be updated as your game evolves. You should have a "final draft" of the GDD by this milestone, and be ready to start prototyping as per the third milestone. Ensure that you keep the GDD up-to-date as you make changes to your game, so that it always reflects the current state.
+> **Note**
+>
+> The GDD is a "living document", meaning that it will be updated as your game evolves. You should have a "final draft" of the GDD by this milestone, and be ready to start prototyping as per the third milestone. Ensure that you keep the GDD up-to-date as you make changes to your game, so that it always reflects the current state.
 
-Below is a possible structure for your GDD. You can use this as a starting point, or modify it to better suit your game, but ensure that you comprehensively cover all the relevant sections (some sub-sections might not be relevant to your game, so you can skip them if that's the case). We are expecting this to be a very visual document -- use illustrations, sketches, photos, gifs, etc., liberally throughout.
-Game Overview
+Below is a possible structure for your GDD. You can use this as a starting point, or modify it to better suit your game, but ensure that you comprehensively cover all the relevant sections (some sub-sections might not be relevant to your game, so you can skip them if that's the case). We are expecting this to be a very visual document — use illustrations, sketches, photos, gifs, etc., liberally throughout.
+
+## Game Overview
 
 This section should describe the general concept of the game, its main themes, and overall player experience. Here are some questions you might want to answer:
 
-    Core Concept: What is the core concept of your game? What is the main idea behind your game? Who or what is the "player", and what is their role in the game?
-    Genre: What genre does your game belong to? What are some other games in this genre? Is the concept inspired by another creative work (could be a game but doesn't have to be)? Remember that the "time survival" mechanic is a requirement for this project, but it doesn't necessarily have to constrain the genre of your game.
-    Target Audience: Who is your game aimed at? Is there any demographic you are targeting in particular? Note that later this semester you will be required to conduct user testing with your target audience (it should be feasible to easily find people in your target audience to test your game).
-    Unique Selling Points (USPs): What makes your game unique? What are some of the key features that will make your game stand out from others in the same genre?
+- **Core Concept:** What is the core concept of your game? What is the main idea behind your game? Who or what is the "player", and what is their role in the game?
+- **Genre:** What genre does your game belong to? What are some other games in this genre? Is the concept inspired by another creative work (could be a game but doesn't have to be)? Remember that the "time survival" mechanic is a requirement for this project, but it doesn't necessarily have to constrain the genre of your game.
+- **Target Audience:** Who is your game aimed at? Is there any demographic you are targeting in particular? Note that later this semester you will be required to conduct user testing with your target audience (it should be feasible to easily find people in your target audience to test your game).
+- **Unique Selling Points (USPs):** What makes your game unique? What are some of the key features that will make your game stand out from others in the same genre?
 
-Story and Narrative
+## Story and Narrative
 
 If your game includes a narrative or characters aside from the main character, describe them here. Discuss the plot, character backgrounds, and how the story will unfold as the player progresses in the game. (If your game is not narrative-driven, some of the questions below might not be relevant.)
 
-    Backstory: What is the backstory of the game? What is the setting? What is the main conflict? If there is a story, how does it unfold as the player progresses through the game?
-    Characters: Is the player the only character? Is there a villain or boss? Who are the main characters in the game? What are their backgrounds? What are their motivations? What are their relationships to each other? What are their goals? What are their personalities? What do they look like?
+- **Backstory:** What is the backstory of the game? What is the setting? What is the main conflict? If there is a story, how does it unfold as the player progresses through the game?
+- **Characters:** Is the player the only character? Is there a villain or boss? Who are the main characters in the game? What are their backgrounds? What are their motivations? What are their relationships to each other? What are their goals? What are their personalities? What do they look like?
 
-Gameplay and Mechanics
+## Gameplay and Mechanics
 
 This is where you describe how the game works from the player's perspective. Remember to discuss the "time survival" aspect of the game, how other mechanics fit in around this. Detail any actions the player can take, challenges they will face, and rewards they can earn. The goal here is to convey the 'feel' of playing your game.
 
-    Player Perspective: Describe the player's perspective in the game. Is it first-person, third-person, or something else? Is the camera fixed or can it be moved? Is the player character visible on screen? If so, what does it look like?
-    Controls: Describe the controls for the game. What buttons or keys does the player need to press to play the game? Are there any special controls or combinations of controls? How does the player interact with the game world?
-    Progression: How does the game progress over time, and what challenges does the player face? How does the difficulty increase over time? How does the player "die" or "lose" the game? Is there a scoring system aside from just surviving until the end? What makes the player want to keep playing?
-    Gameplay Mechanics: What gameplay mechanics are used in the game? What actions can the player take? What rules or "laws" govern the game world? What are the core mechanics that make the game fun? How do these mechanics fit in with the "time survival" mechanic?
+- **Player Perspective:** Describe the player's perspective in the game. Is it first-person, third-person, or something else? Is the camera fixed or can it be moved? Is the player character visible on screen? If so, what does it look like?
+- **Controls:** Describe the controls for the game. What buttons or keys does the player need to press to play the game? Are there any special controls or combinations of controls? How does the player interact with the game world?
+- **Progression:** How does the game progress over time, and what challenges does the player face? How does the difficulty increase over time? How does the player "die" or "lose" the game? Is there a scoring system aside from just surviving until the end? What makes the player want to keep playing?
+- **Gameplay Mechanics:** What gameplay mechanics are used in the game? What actions can the player take? What rules or "laws" govern the game world? What are the core mechanics that make the game fun? How do these mechanics fit in with the "time survival" mechanic?
 
-Levels and World Design
+## Levels and World Design
 
 Describe the game world and layout of the game’s level(s), including any necessary sketches or diagrams. Include what the player will see, how they will navigate through the game world, and what they will interact with.
 
-    Game World: Describe the game world, and how it is captured on-screen. Is it 2D or 3D? Is it a single screen or does it scroll? Are there multiple levels? How does the player navigate through the game world? Is there a map or minimap?
-    Objects: What objects are in the game world? What do they look like? What are their roles? How do they interact with the player? How do they interact with each other?
-    Physics: What physics are in the game? How do objects move? How do objects interact with each other?
+- **Game World:** Describe the game world, and how it is captured on-screen. Is it 2D or 3D? Is it a single screen or does it scroll? Are there multiple levels? How does the player navigate through the game world? Is there a map or minimap?
+- **Objects:** What objects are in the game world? What do they look like? What are their roles? How do they interact with the player? How do they interact with each other?
+- **Physics:** What physics are in the game? How do objects move? How do objects interact with each other?
 
-Art and Audio
+## Art and Audio
 
-Convey overall artistic style of your game, key visual elements, as well as any other sensory or "artistic" elements such as sound and music.
+Convey the overall artistic style of your game, key visual elements, as well as any other sensory or "artistic" elements such as sound and music.
 
-    Art Style: What is the art style of the game? What does the game look like? What are the colours, shapes, and textures used? What is the overall aesthetic? Concept art and/or references to games with similar art styles might be helpful here.
-    Sound and Music: What is the sound design of the game? What sounds are used? What music is used? How do the sounds and music fit in with the overall aesthetic of the game?
-    Assets: What "artistic" assets are going to be used in the game? How are you planning to create or source these assets? Provide a list of candidate assets (e.g., URLs) and their sources if you are sourcing them from the internet.
+- **Art Style:** What is the art style of the game? What does the game look like? What are the colours, shapes, and textures used? What is the overall aesthetic? Concept art and/or references to games with similar art styles might be helpful here.
+- **Sound and Music:** What is the sound design of the game? What sounds are used? What music is used? How do the sounds and music fit in with the overall aesthetic of the game?
+- **Assets:** What "artistic" assets are going to be used in the game? How are you planning to create or source these assets? Provide a list of candidate assets (e.g., URLs) and their sources if you are sourcing them from the internet.
 
-Note
-Keep in mind your game will be played in a web browser, and there may be technological limitations specific to WebGL builds (early and regular prototyping is strongly encouraged here). Typical "AAA" game graphics are likely not realistic, and certainly not an expectation for a high mark in the project. Stylistic consistency is more important than "flashiness"!
-User Interface (UI)
+> **Note**
+>
+> Keep in mind your game will be played in a web browser, and there may be technological limitations specific to WebGL builds (early and regular prototyping is strongly encouraged here). Typical "AAA" game graphics are likely not realistic, and certainly not an expectation for a high mark in the project. Stylistic consistency is more important than "flashiness"!
 
-Describe the game's UI, including things like health bars, score displays, and menu screens. Detail both the functionality and aesthetic design of the UI. Include any diagrams, wireframes or sketches to assist with visualisation.
-Technology and Tools
+## User Interface (UI)
 
-List the software and tools you'll be using to create the game. Justify your choices as needed, and include any relevant version numbers or links. Of course, you must use Unity and GitHub as per the requirements of this project, but you can also include other tools such as image editing software, audio editing software, or 3D modelling software (these are not required, but you can use them if you wish).
-Team Communication, Timelines and Task Assignment
+Describe the game's UI, including things like health bars, score displays, and menu screens. Detail both the functionality and aesthetic design of the UI. Include any diagrams, wireframes or sketches to assist with visualization.
 
-Provide a detailed plan of how you'll distribute the work amongst your team, and what communication channels will be utilised to facilitate discussions. You may wish to use a project management tool such as Monday.com or Trello to help you delegate tasks and track your team's overall progress.
+## Technology and Tools
 
-Warning
-It is an expectation that your team communicates in English for all project-related activities. This is important for ensuring that everyone is included equally, and that the teaching team can understand your discussions in the (hopefully unlikely) event that we need to intervene.
-Possible Challenges
+List the software and tools you'll be using to create the game. Justify your choices as needed, and include any relevant version numbers or links. Of course, you must use Unity and GitHub as per the requirements of this project, but you can also include other tools such as image editing software, audio editing software, or 3D modeling software (these are not required, but you can use them if you wish).
+
+## Team Communication, Timelines and Task Assignment
+
+Provide a detailed plan of how you'll distribute the work amongst your team, and what communication channels will be utilized to facilitate discussions. You may wish to use a project management tool such as Monday.com or Trello to help you delegate tasks and track your team's overall progress.
+
+> **Warning**
+>
+> It is an expectation that your team communicates in English for all project-related activities. This is important for ensuring that everyone is included equally, and that the teaching team can understand your discussions in the (hopefully unlikely) event that we need to intervene.
+
+## Possible Challenges
 
 Discuss any potential difficulties you foresee in the project, and how your team plans to address these issues. These could be technical challenges, time constraints, or anything else that might impact your team's ability to complete the project. Ensure that you have a plan in place to address these issues -- prototyping and testing can be particularly helpful here, and you should trial these out in the next milestone.
-Submission
+
+## Submission
 
 Once you've completed the final draft of your GDD, remember to commit and push all changes to GitHub, resolve any merge conflicts, and once again ensure that all team members can see the "final draft" on their local machines. Finally, as a team, submit the project repository on Gradescope as per the instructions under the Gradescope Submissions section below, like you did for the first milestone.
+
+> **Note**
+>
+> Make sure to follow the formatting guidelines and use Markdown syntax appropriately to ensure a visually appealing and organized Game Design Document.
