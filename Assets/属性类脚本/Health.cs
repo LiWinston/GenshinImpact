@@ -19,6 +19,8 @@ public class Health : MonoBehaviour
     {
         healthBar = healthBarObject.GetComponent<Image>();
         energyBar = energyBarObject.GetComponent<Image>();
+        currentHealth = 100f;
+        currentEnergy = 100f;
     }
 
     private void Update()
