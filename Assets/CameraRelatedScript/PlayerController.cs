@@ -7,7 +7,7 @@ public class PlayerController : MonoBehaviour
     public float jumpForce = 7f;
     public float gravity = -9.81f;
     public float crouchAmount = 0.5f;
-    public float crouchSpeed = 5f;
+    public float crouchSpeed = 2f;
 
     [Header("Camera Settings")]
     public float idleShake = 0.02f;
@@ -30,12 +30,24 @@ public class PlayerController : MonoBehaviour
 
     private float xRotation = 0f;
 
+    public bool IsCrouching
+    {
+        get { return isCrouching; }
+        set { isCrouching = value; }
+    }
+
+    private Vector3 originalScale;
+    private Vector3 originalPosition;
+
     private void Start()
     {
         controller = GetComponent<CharacterController>();
         cameraTransform = Camera.main.transform;
 
         Cursor.lockState = CursorLockMode.Locked;
+
+        originalScale = transform.localScale;
+        originalPosition = transform.position;
     }
 
     private void Update()
@@ -106,17 +118,22 @@ public class PlayerController : MonoBehaviour
         }
 
         // Crouch logic
-        if (!isCrouching)
+        if (isCrouching)
         {
-            transform.localScale = new Vector3(1, 1 - crouchAmount, 1);
+            Vector3 newScale = new Vector3(originalScale.x, originalScale.y * (1 - crouchAmount), originalScale.z);
+            Vector3 newPosition = new Vector3(originalPosition.x, originalPosition.y - (originalScale.y - newScale.y) / 2, originalPosition.z);
+
+            transform.localScale = newScale;
+            transform.position = newPosition;
         }
         else
         {
-            transform.localScale = Vector3.one;
+            transform.localScale = originalScale;
+            transform.position = originalPosition;
         }
 
         // Apply movement
-        controller.Move(moveDirection * moveSpeed * Time.deltaTime);
+        controller.Move(moveDirection * (isCrouching ? crouchSpeed : moveSpeed) * Time.deltaTime);
 
         // Apply gravity and velocity
         controller.Move(velocity * Time.deltaTime);
