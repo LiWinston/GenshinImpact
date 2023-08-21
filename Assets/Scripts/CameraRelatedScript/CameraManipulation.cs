@@ -1,52 +1,59 @@
 using UnityEngine;
 
-public class CameraManipulation : MonoBehaviour
+namespace CameraRelatedScript
 {
-    [SerializeField]
-    private Transform attachedCamera;
-
-    [SerializeField]
-    private float crouchingHeight;
-    [SerializeField]Transform pirateEyesTransform;
-    private float standingHeight;
-
-    private PlayerController playerController; // Automatically get the PlayerController component
-
-    private void Start()
+    public class CameraManipulation : MonoBehaviour
     {
-        if (pirateEyesTransform == null)
-        {
-            Debug.LogError("Pirate_Eyes not found!");
-        }
-        standingHeight = pirateEyesTransform.position.y + 3;
-        playerController = GetComponent<PlayerController>();
-        if (playerController == null)
-        {
-            Debug.LogWarning("PlayerController component not found on the same GameObject!");
-        }
+        [SerializeField]
+        private Transform attachedCamera;
 
-        crouchingHeight = playerController.crouchAmount;
-    }
+        [SerializeField]
+        private float crouchingHeight;
+        [SerializeField]Transform pirateEyesTransform;
+        private float standingHeight;
 
-    private void Update()
-    {
-        if (playerController == null || attachedCamera == null || crouchingHeight == 0.0f)
-        {
-            return;
-        }
+        private PlayerController playerController; // Automatically get the PlayerController component
 
-        bool isCrouching = playerController.IsCrouching;
-        Vector3 newPosition = transform.position + new Vector3(0,300,0); // Use attachedCamera.position instead of attachedCamera.localPosition
+        private void Start()
+        {
+            if (pirateEyesTransform == null)
+            {
+                Debug.LogError("Pirate_Eyes not found!");
+            }
+            
+            
+            playerController = GetComponent<PlayerController>();
+            if (playerController == null)
+            {
+                Debug.LogWarning("PlayerController component not found on the same GameObject!");
+            }
 
-        if (isCrouching)
-        {
-            newPosition.y = standingHeight - crouchingHeight;
-        }
-        else
-        {
-            newPosition.y = standingHeight;
+            crouchingHeight = playerController.crouchAmount;
         }
 
-        attachedCamera.position = newPosition;
+        private void Update()
+        {
+            standingHeight = pirateEyesTransform.position.y;
+            
+            if (playerController == null || attachedCamera == null || crouchingHeight == 0.0f)
+            {
+                return;
+            }
+
+            bool isCrouching = playerController.IsCrouching;
+            // Vector3 newPosition = transform.position + new Vector3(0,300,0); // Use attachedCamera.position instead of attachedCamera.localPosition
+            Vector3 newPosition = transform.position;
+            
+            if (isCrouching)
+            {
+                newPosition.y = standingHeight - crouchingHeight;
+            }
+            else
+            {
+                newPosition.y = standingHeight;
+            }
+
+            attachedCamera.position = newPosition;
+        }
     }
 }
