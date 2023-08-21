@@ -18,7 +18,7 @@ public class CameraManipulation : MonoBehaviour
         {
             Debug.LogError("Pirate_Eyes not found!");
         }
-        standingHeight = pirateEyesTransform.position.y;
+        standingHeight = pirateEyesTransform.position.y + 3;
         playerController = GetComponent<PlayerController>();
         if (playerController == null)
         {
@@ -36,8 +36,7 @@ public class CameraManipulation : MonoBehaviour
         }
 
         bool isCrouching = playerController.IsCrouching;
-
-        Vector3 newPosition = transform.position; // Use attachedCamera.position instead of attachedCamera.localPosition
+        Vector3 newPosition = transform.position + new Vector3(0,300,0); // Use attachedCamera.position instead of attachedCamera.localPosition
 
         if (isCrouching)
         {
