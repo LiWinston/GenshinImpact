@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace CameraRelatedScript
 {
@@ -9,18 +10,22 @@ namespace CameraRelatedScript
 
         [SerializeField]
         private float crouchingHeight;
-        [SerializeField]GameObject pirateEyesTransform;
+        
+        [FormerlySerializedAs("pirateEyesTransform")]
+        [SerializeField]
+        GameObject 眼部;
         private float standingHeight;
 
         private PlayerController playerController; // Automatically get the PlayerController component
+        [SerializeField] private float forwardOffset;
+        [SerializeField] private float upwardOffset;
 
         private void Start()
         {
-            if (pirateEyesTransform == null)
+            if (眼部 == null)
             {
                 Debug.LogError("Pirate_Eyes not found!");
             }
-            
             
             playerController = GetComponent<PlayerController>();
             if (playerController == null)
@@ -33,7 +38,7 @@ namespace CameraRelatedScript
 
         private void LateUpdate()
         {
-            standingHeight = pirateEyesTransform.transform.position.y;
+            standingHeight = 眼部.transform.position.y;
             
             if (playerController == null || attachedCamera == null || crouchingHeight == 0.0f)
             {
@@ -41,17 +46,16 @@ namespace CameraRelatedScript
             }
 
             bool isCrouching = playerController.IsCrouching;
-            // Vector3 newPosition = transform.position + new Vector3(0,300,0); // Use attachedCamera.position instead of attachedCamera.localPosition
-            Vector3 newPosition = transform.position;
+            Vector3 newPosition = 眼部.transform.position; // Use the eye position as the base position
             
             if (isCrouching)
             {
-                newPosition.y = standingHeight - crouchingHeight;
+                newPosition.y += crouchingHeight; // Adjust the height for crouching
             }
-            else
-            {
-                newPosition.y = standingHeight;
-            }
+            
+            // Optionally, you can add an offset forward and/or upward
+            newPosition += transform.forward * forwardOffset;
+            newPosition += transform.up * upwardOffset;
 
             attachedCamera.position = newPosition;
         }

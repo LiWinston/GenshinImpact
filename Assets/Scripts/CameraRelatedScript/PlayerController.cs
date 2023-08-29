@@ -1,4 +1,6 @@
+using System;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class PlayerController : MonoBehaviour
 {
@@ -26,7 +28,7 @@ public class PlayerController : MonoBehaviour
 
     private Vector3 velocity;
     private CharacterController controller;
-    private GameObject mycamera;
+    [SerializeField]private GameObject mycamera;
 
     private float xRotation = 0f;
 
@@ -51,6 +53,15 @@ public class PlayerController : MonoBehaviour
     }
 
     private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            //Check Around 
+            
+        }
+    }
+
+    private void LateUpdate()
     {
         // Breathing shake
         if (!isMoving)
