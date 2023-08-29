@@ -26,7 +26,7 @@ public class PlayerController : MonoBehaviour
 
     private Vector3 velocity;
     private CharacterController controller;
-    private Transform cameraTransform;
+    private GameObject mycamera;
 
     private float xRotation = 0f;
 
@@ -42,7 +42,7 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         controller = GetComponent<CharacterController>();
-        cameraTransform = Camera.main.transform;
+        
 
         Cursor.lockState = CursorLockMode.Locked;
 
@@ -62,11 +62,11 @@ public class PlayerController : MonoBehaviour
                 breatheTimer -= breatheSpeed;
             }
 
-            cameraTransform.localPosition = new Vector3(Random.Range(-idleShake, idleShake), Random.Range(-idleShake, idleShake) + breatheOffset, 0);
+            mycamera.transform.localPosition = new Vector3(Random.Range(-idleShake, idleShake), Random.Range(-idleShake, idleShake) + breatheOffset, 0);
         }
         else
         {
-            cameraTransform.localPosition = Vector3.zero;
+            mycamera.transform.localPosition = Vector3.zero;
         }
 
         // WASD movement
@@ -145,7 +145,7 @@ public class PlayerController : MonoBehaviour
         xRotation -= mouseY;
         xRotation = Mathf.Clamp(xRotation, -90f, 90f);
 
-        cameraTransform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
+        mycamera.transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
         transform.Rotate(Vector3.up * mouseX);
     }
 }
