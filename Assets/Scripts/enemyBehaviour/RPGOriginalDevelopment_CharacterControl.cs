@@ -126,10 +126,10 @@ public class RPGOriginalDevelopment_CharacterControl : MonoBehaviour
             }
         }
         
-        Chara_camera.transform.position = Vector3.Lerp(Chara_camera.transform.position, 
-                                                        cameraPositions[currentCameraPosition].RefreshCurrentPosition(
-                                                            Input.mouseScrollDelta.y, Chara_camera, cameraParent), 
-                                                        0.5f);
+        // Chara_camera.transform.position = Vector3.Lerp(Chara_camera.transform.position, 
+        //                                                 cameraPositions[currentCameraPosition].RefreshCurrentPosition(
+        //                                                     Input.mouseScrollDelta.y, Chara_camera, cameraParent), 
+        //                                                 0.5f);
         
         moveForceTimerCounter -= Time.deltaTime;
         
@@ -216,7 +216,7 @@ public class RPGOriginalDevelopment_CharacterControl : MonoBehaviour
     {
         thisFramePositionOffset = transform.position - previousFramePosition;
         UserInput();
-        AnimationControl();
+        // AnimationControl();
         previousFramePosition = transform.position;
     }
 }

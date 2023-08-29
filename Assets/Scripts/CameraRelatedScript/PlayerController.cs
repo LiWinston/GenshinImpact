@@ -1,5 +1,8 @@
 using System;
+using System.ComponentModel;
+using UI;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 public class PlayerController : MonoBehaviour
@@ -40,6 +43,7 @@ public class PlayerController : MonoBehaviour
 
     private Vector3 originalScale;
     private Vector3 originalPosition;
+    [SerializeField] private float MAX_ALLOWED_INTERACT_RANGE;
 
     private void Start()
     {
@@ -56,11 +60,39 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
+            var hasPickable = false;
             //Check Around 
-            
+            Collider[] nearColliders = TryToInteract();
+            if (nearColliders!= null && nearColliders.Length > 0)
+            {
+                
+                foreach (var collider in nearColliders)
+                {
+                    Pickable pickable = collider.GetComponent<Pickable>();
+                    if (pickable != null)
+                    {
+                        hasPickable = true;
+                        float distance = Vector3.Distance(transform.position, pickable.transform.position);
+                        if (distance <= pickable.pickupRange)
+                        {
+                            pickable.Pick(); // 捡起物品
+                        }
+                    }else{
+                        throw new System.Exception("Pickable component not found on the object with collider!");
+                    }
+                }
+            };
+            if (hasPickable == false)
+            {
+                UIManager.ShowMessage1("Noooooooooooooooooo way!");
+            }
         }
     }
 
+    private Collider[] TryToInteract()
+    {
+        return Physics.OverlapSphere(transform.position, MAX_ALLOWED_INTERACT_RANGE);
+    }
     private void LateUpdate()
     {
         // Breathing shake
