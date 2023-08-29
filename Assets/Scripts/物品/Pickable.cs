@@ -1,49 +1,38 @@
 using System;
-using Unity.VisualScripting;
+using UI;
 using UnityEngine;
 
 public class Pickable : MonoBehaviour
 {
     public float pickupRange = 3.0f;
     private bool used = false;
-    private Effect _eff;
+    private PlayerBuffEffect _eff;
     private bool _isEffNotNull;
     private GameObject player;
 
-    private void Awake()
+    private void Start()
     {
+        _eff = GetComponent<PlayerBuffEffect>();
+        player = GameObject.Find("Player");
+        if(player == null) UIManager.ShowMessage1("NO Player found!");
+
+        // 在 Start 中初始化 _isEffNotNull
         _isEffNotNull = _eff != null;
     }
 
-    private void Start()
+    public void Update()
     {
-        _eff = GetComponent<Effect>();
-        player = GameObject.FindWithTag("Player");
-
-        if (player != null)
-        {
-            // 找到了带有 "Player" 标签的游戏对象
-            // 可以对该对象执行操作
-        }
-        else
-        {
-            // 没有找到带有 "Player" 标签的游戏对象
-            // 可以处理找不到的情况
-        }
-
+        if(used) Destroy(gameObject);
     }
 
-    public virtual void Pick()
+    public void Pick()
     {
         if (_isEffNotNull)
         {
             _eff.AffectPlayer(player);
             used = true;
         }
-    }
 
-    public void LateUpdate()
-    {
-        if(used) Destroy(gameObject);
+        // 标记物体为销毁，Unity 会在下一帧销毁它
     }
 }

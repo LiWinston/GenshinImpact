@@ -62,23 +62,21 @@ public class PlayerController : MonoBehaviour
         {
             var hasPickable = false;
             //Check Around 
-            Collider[] nearColliders = TryToInteract();
+            var nearColliders = TryToInteract();
             if (nearColliders!= null && nearColliders.Length > 0)
             {
                 
                 foreach (var collider in nearColliders)
                 {
-                    Pickable pickable = collider.GetComponent<Pickable>();
+                    var pickable = collider.GetComponent<Pickable>();
                     if (pickable != null)
                     {
                         hasPickable = true;
-                        float distance = Vector3.Distance(transform.position, pickable.transform.position);
+                        var distance = Vector3.Distance(transform.position, pickable.transform.position);
                         if (distance <= pickable.pickupRange)
                         {
                             pickable.Pick(); // 捡起物品
                         }
-                    }else{
-                        throw new System.Exception("Pickable component not found on the object with collider!");
                     }
                 }
             };

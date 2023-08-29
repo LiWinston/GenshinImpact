@@ -3,11 +3,11 @@ using UnityEngine.UI;
 
 public class Health : MonoBehaviour
 {
-    public float maxHealth = 100f;
-    public float currentHealth = 100f;
+    [SerializeField]private float maxHealth;
+    [SerializeField]private float currentHealth;
 
-    public float maxEnergy = 100f;
-    public float currentEnergy = 100f;
+    [SerializeField]private float maxEnergy;
+    [SerializeField]private float currentEnergy;
 
     public GameObject healthBarObject;
     public GameObject energyBarObject;
@@ -15,12 +15,20 @@ public class Health : MonoBehaviour
     private Image healthBar;
     private Image energyBar;
 
+    public float CurrentHealth
+    {
+        get=>currentHealth;
+        set =>currentHealth = Mathf.Clamp(value, 0f, maxHealth);// 在设置 CurrentHealth 时，确保值不超出最大生命值范围
+    }
+    public float CurrentMana
+    {
+        get=>currentEnergy;
+        set =>currentEnergy = Mathf.Clamp(value, 0f, maxEnergy);// 在设置 CurrentHealth 时，确保值不超出最大生命值范围
+    }
     private void Start()
     {
         healthBar = healthBarObject.GetComponent<Image>();
         energyBar = energyBarObject.GetComponent<Image>();
-        currentHealth = 100f;
-        currentEnergy = 100f;
     }
 
     private void Update()
