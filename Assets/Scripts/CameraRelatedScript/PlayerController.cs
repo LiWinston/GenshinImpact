@@ -1,6 +1,9 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using CameraView;
 using UI;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
@@ -43,7 +46,7 @@ public class PlayerController : MonoBehaviour
 
     private Vector3 originalScale;
     private Vector3 originalPosition;
-    [SerializeField] private float MAX_ALLOWED_INTERACT_RANGE;
+    [SerializeField] private float MAX_ALLOWED_INTERACT_RANGE = 5;
 
     private void Start()
     {
@@ -58,34 +61,89 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E))
+        checkInteract();
+    }
+
+    // private void checkInteract()
+    // {
+    //     if (!Input.GetKeyDown(KeyCode.E)) return;
+    //     var hasPickable = false;
+    //     //Check Around 
+    //     var nearColliders = TryToInteract();
+    //     if (nearColliders is { Length: > 0 })
+    //     {
+    //         Pickable nearestPickable = null;
+    //         var distance = 1 / 0.0f;
+    //         foreach (var cld in nearColliders)
+    //         {
+    //             var pkb = cld.GetComponent<Pickable>();
+    //             if (null == pkb) continue;
+    //             if (distance <= pkb.pickupRange &&
+    //                 Vector3.Distance(transform.position, pkb.transform.position) < 
+    //                     math.min(distance,MAX_ALLOWED_INTERACT_RANGE) )
+    //             {
+    //                 distance = Vector3.Distance(transform.position, pkb.transform.position);
+    //                 nearestPickable = pkb;
+    //                 hasPickable = true;
+    //                 
+    //             }
+    //         }
+    //         if (nearestPickable != null)
+    //         {
+    //             nearestPickable.Pick();
+    //         }
+    //     };
+    //     if (hasPickable == false)
+    //     {
+    //         UIManager.ShowMessage1("Noooooooooooooooooo way!");
+    //     }
+    // }
+    private void checkInteract()
+    {
+        InSightDetect sightDetector = new InSightDetect();
+        if (!Input.GetKeyDown(KeyCode.E)) return;
+        var hasPickable = false;
+        // Check Around
+        var nearColliders = TryToInteract();
+        if (nearColliders is { Length: > 0 })
         {
-            var hasPickable = false;
-            //Check Around 
-            var nearColliders = TryToInteract();
-            if (nearColliders!= null && nearColliders.Length > 0)
+            // Create a list to store pickable objects and their distances.
+            List<(Pickable pickable, float distance)> pickableList = new List<(Pickable, float)>();
+
+            foreach (var cld in nearColliders)
             {
-                
-                foreach (var collider in nearColliders)
+                var pkb = cld.GetComponent<Pickable>();
+                if (null == pkb) continue;
+
+                float currentDistance = Vector3.Distance(transform.position, pkb.transform.position);
+
+                // Only consider pickable objects within MAX_ALLOWED_INTERACT_RANGE.
+                if (currentDistance <= MAX_ALLOWED_INTERACT_RANGE)
                 {
-                    var pickable = collider.GetComponent<Pickable>();
-                    if (pickable != null)
-                    {
-                        hasPickable = true;
-                        var distance = Vector3.Distance(transform.position, pickable.transform.position);
-                        if (distance <= pickable.pickupRange)
-                        {
-                            pickable.Pick(); // 捡起物品
-                        }
-                    }
+                    pickableList.Add((pkb, currentDistance));
                 }
-            };
-            if (hasPickable == false)
+            }
+
+            // Sort the list by distance, from nearest to farthest.
+            pickableList.Sort((a, b) => a.distance.CompareTo(b.distance));
+
+            foreach (var (pickable, distance) in pickableList)
             {
-                UIManager.ShowMessage1("Noooooooooooooooooo way!");
+                if ((distance < pickable.pickupRange) && sightDetector.IsInLineOfSight(pickable))
+                {
+                    pickable.Pick();
+                    hasPickable = true;
+                    break;
+                }
             }
         }
+
+        if (!hasPickable)
+        {
+            UIManager.ShowMessage1("Noooooooooooooooooo way!");
+        }
     }
+
 
     private Collider[] TryToInteract()
     {

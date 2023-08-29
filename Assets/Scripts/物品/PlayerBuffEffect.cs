@@ -19,7 +19,7 @@ public class PlayerBuffEffect : MonoBehaviour
     // ReSharper disable Unity.PerformanceAnalysis
     public void AffectPlayer(GameObject obj)
     {
-        Debug.Log("AffectPlayer() " + obj + " 被调用");
+        // Debug.Log("AffectPlayer() " + obj + " 被调用");
         if (!obj.CompareTag("Player"))
         {
             Console.WriteLine("Not Player in AffectPlayer(GameObject obj) in Effect.cs");
