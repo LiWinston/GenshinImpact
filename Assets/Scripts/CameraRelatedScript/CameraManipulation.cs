@@ -9,7 +9,7 @@ namespace CameraRelatedScript
 
         [SerializeField]
         private float crouchingHeight;
-        [SerializeField]Transform pirateEyesTransform;
+        [SerializeField]GameObject pirateEyesTransform;
         private float standingHeight;
 
         private PlayerController playerController; // Automatically get the PlayerController component
@@ -31,9 +31,9 @@ namespace CameraRelatedScript
             crouchingHeight = playerController.crouchAmount;
         }
 
-        private void Update()
+        private void LateUpdate()
         {
-            standingHeight = pirateEyesTransform.position.y;
+            standingHeight = pirateEyesTransform.transform.position.y;
             
             if (playerController == null || attachedCamera == null || crouchingHeight == 0.0f)
             {
