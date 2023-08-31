@@ -710,9 +710,7 @@ ModelImporter:
     legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
     blendShapeNormalImportMode: 1
     normalSmoothingSource: 0
-  referencedClips:
-  - 0299e323fcfc84384a7ad7e47c926c17
-  - 8e10990cbf61a754cad4ea6dcdfbe09b
+  referencedClips: []
   importAnimation: 1
   humanDescription:
     serializedVersion: 3
@@ -1254,6 +1252,26 @@ ModelImporter:
       position: {x: 2.1316282e-16, y: 0, z: 2.6645352e-17}
       rotation: {x: -0, y: -0, z: 0.0000000037252899, w: 1}
       scale: {x: 0.99999994, y: 0.9999999, z: 1}
+    - name: DemonicSword
+      parentName: ik_hand_r
+      position: {x: -0.062065493, y: 0.45025617, z: -0.04772548}
+      rotation: {x: 0.55097437, y: 0.21326019, z: 0.20581056, w: 0.78012145}
+      scale: {x: 0.71846, y: 0.44338, z: 1}
+    - name: EnergySource
+      parentName: DemonicSword
+      position: {x: -0.001638508, y: 0.14243919, z: -0.0001554965}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Sword
+      parentName: DemonicSword
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Scabbard
+      parentName: DemonicSword
+      position: {x: 0, y: 0.701, z: 0}
+      rotation: {x: 0.7071068, y: -0, z: 0.7071068, w: 0}
+      scale: {x: 1, y: 1, z: 1}
     - name: pelvis
       parentName: root
       position: {x: -1.3536842e-30, y: -0.0018983237, z: 0.9073676}
@@ -1352,7 +1370,7 @@ ModelImporter:
     - name: ring_03_l
       parentName: ring_02_l
       position: {x: -0.02561344, y: 0.002592167, z: 0.002272072}
-      rotation: {x: -0.00019885457, y: -0.026257766, z: 0.11221295, w: 0.99333715}
+      rotation: {x: -0.0001988546, y: -0.026257766, z: 0.11221296, w: 0.99333715}
       scale: {x: 1.0000005, y: 0.9999998, z: 1}
     - name: thumb_01_l
       parentName: hand_l
@@ -1474,30 +1492,10 @@ ModelImporter:
       position: {x: 0.029685322, y: 0.0028306853, z: 0.0048973104}
       rotation: {x: 0.021399016, y: -0.0018833126, z: 0.10793766, w: 0.9939256}
       scale: {x: 1.0000004, y: 1.0000001, z: 1}
-    - name: DemonicSword
-      parentName: hand_r
-      position: {x: 0.13, y: 0.022, z: 0.111}
-      rotation: {x: 0.49143606, y: -0.065743215, z: -0.09284596, w: 0.8634513}
-      scale: {x: 1, y: 1, z: 1}
-    - name: EnergySource
-      parentName: DemonicSword
-      position: {x: -0.001638508, y: 0.14243919, z: -0.0001554965}
-      rotation: {x: 0, y: -0, z: -0, w: 1}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Sword
-      parentName: DemonicSword
-      position: {x: -0, y: 0, z: 0}
-      rotation: {x: 0, y: -0, z: -0, w: 1}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Scabbard
-      parentName: DemonicSword
-      position: {x: 0, y: 0.701, z: 0}
-      rotation: {x: 0.7071068, y: -0, z: 0.7071068, w: 0}
-      scale: {x: 1, y: 1, z: 1}
     - name: lowerarm_twist_01_r
       parentName: lowerarm_r
       position: {x: 0.13906273, y: -0.010145557, z: 0.019389339}
-      rotation: {x: -0.11762722, y: -0.0000001639127, z: -0.000000024680036, w: 0.9930578}
+      rotation: {x: -0.117627226, y: -0.00000016391272, z: -0.000000024680038, w: 0.99305785}
       scale: {x: 0.9999998, y: 0.9999998, z: 1.0000007}
     - name: upperarm_twist_01_r
       parentName: upperarm_r

@@ -2,42 +2,39 @@ using System.Collections;
 using System.Collections.Generic;
 using CameraView;
 using UI;
+using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.UIElements;
+using Cursor = UnityEngine.Cursor;
 using Random = UnityEngine.Random;
 
 public class PlayerController : MonoBehaviour
 {
+    private Rigidbody rb;
+    
     [Header("Movement Settings")]
     public float moveSpeed = 5f;
-    // public float jumpForce = 7f;
-    public float gravity = -9.81f;
-    public float crouchAmount = 0.5f;
+
     public float crouchSpeed = 2f;
-
-    [Header("Camera Settings")]
-    public float idleShake = 0.02f;
-    public float breatheShake = 0.005f;
-    public float breatheSpeed = 0.2f;
-
+    
     [Header("Mouse Look Settings")]
     public float mouseSensitivity = 100f;
 
     private bool isMoving = false;
     private bool isJumping = false;
     private bool isCrouching = false;
+    public float forwardForce = 100;
+    public float jumpForce = 800;
     
-    public float climbingSpeed = 2.0f; // 爬墙速度
-    public float maxClimbingHeight = 5.0f; // 最大爬升高度
+    
     private bool isClimbing = false;
-    private float initialHeight;
-    private Vector3 moveDirection = Vector3.zero;
+    
+    private Vector3 moveDirection;
 
     private float breatheTimer = 0f;
     private float breatheOffset = 0f;
-
-    private Vector3 velocity = Vector3.zero;
-    private CharacterController controller;
-    [SerializeField]private GameObject mycamera;
+    
+    [SerializeField]private Camera mycamera;
     
     private Animator animator;/// <summary>
                               /// important
@@ -56,12 +53,17 @@ public class PlayerController : MonoBehaviour
     // private Vector3 originalScale;
     private Vector3 originalPosition;
     [SerializeField] private float MAX_ALLOWED_INTERACT_RANGE = 5;
+    private bool isGrounded;
+    public float moveForceTimer = 0.05f;
+    public float moveForceTimerCounter = 0.05f;
+    [SerializeField] private GameObject handBoneTransform;
+    [SerializeField] private GameObject swordTransform;
 
     private void Start()
     {
-        controller = GetComponent<CharacterController>();
-        // 查找子物体中的Animator组件
-        var childTransform = transform.Find("Model"); // 替换为子物体的名称
+        rb = GetComponent<Rigidbody>();
+        moveDirection = Vector3.zero;
+        var childTransform = transform.Find("Model"); 
         if (childTransform != null)
         {
             animator = childTransform.GetComponent<Animator>();
@@ -77,172 +79,132 @@ public class PlayerController : MonoBehaviour
     }
 
     private void Update()
+
     {
-        if(!isMoving) animator.SetBool("Standing",true);
+        // Vector3 handPosition = handBoneTransform.transform.position;
+        //
+        // // 设置剑的位置为手部骨骼的位置
+        // swordTransform.transform.position = handPosition;
+        
         // WASD movement
+        if(!isMoving) animator.SetBool("Standing",true);
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
-        Vector3 moveDirection = transform.right * horizontal + transform.forward * vertical;
+        moveDirection = transform.right * horizontal + transform.forward * vertical;
 
-        if (velocity.magnitude >= 0.001f)
+        if (math.abs(rb.velocity.x) + math.abs(rb.velocity.z) > 0.01f)
         {
             isMoving = true;
-            // if (velocity.magnitude >= 0.0f) isRunning = true;
+            animator.SetBool("isMoving",isMoving);
         }
         else
         {
             isMoving = false;
+            animator.SetBool("isMoving",isMoving);
         }
         
-        if(isMoving == true) animator.SetBool("isMoving",true);
+        UserInput();
+        
+        
+        
         if (Input.GetMouseButtonDown(0)) // 检测左键点击事件
         {
-            // StartCoroutine(DecreaseSpeedAndDisableRunning());// 开始协程执行骤减速度和设置isRunning的操作
-            animator.SetTrigger("AttackTrigger");// 触发攻击动作
+            
+            animator.SetTrigger("AttackTrigger");
         }
-        initialHeight = transform.position.y;
-        checkClimbing();
+        
+        // checkClimbing();
         checkInteract();
         
-        if (Input.GetKeyDown(KeyCode.V)) // 以按下H键触发为例
+        if (Input.GetKeyDown(KeyCode.V)) 
         {
-            // 设置触发器参数为true，触发动画
             animator.SetTrigger("HurricaneKickTrigger");
+            rb.velocity = Vector3.zero;
         }
         
         // Crouch
-        if(Input.GetKeyDown(KeyCode.LeftControl)) animator.SetTrigger("BeginCrouch");
-        if (Input.GetKey(KeyCode.LeftControl))
+        if (Input.GetKeyDown(KeyCode.LeftControl))
         {
+            animator.SetTrigger("BeginCrouch");
             isCrouching = true;
         }
-        else
+        
+        if(Input.GetKeyUp(KeyCode.LeftControl))
         {
             isCrouching = false;
         }
 
-
-        // Apply gravity
-        if (!controller.isGrounded)
+        
+        if (Mathf.Abs(rb.velocity.y) < 0.01f)
         {
-            UIManager.ShowMessage1("没着地！");
-            velocity.y += gravity * Time.deltaTime;
-        }
-        else if (velocity.y < 0)
-        {
-            velocity.y = -2f;
-        }
-
-        // Jump logic
-        if (isJumping)
-        {
-            float jumpHeight = GetComponent<Jumpability>() ? GetComponent<Jumpability>().JumpHeight : 0.7f;
-            velocity.y = Mathf.Sqrt(jumpHeight * 2f * Mathf.Abs(gravity));
-            isJumping = false;
-        }
-
-        // Crouch logic
-        if (isCrouching)
-        {
-            animator.SetBool("isCrouching",true);
+            UIManager.ShowMessage1("着地了！" + rb.velocity.y);
+            isGrounded = true;
+            isJumping = false; // 重置跳跃标志
         }
         else
         {
-            transform.position = originalPosition;
+            UIManager.ShowMessage1("没着地！" + rb.velocity.y);
+            isGrounded = false;
         }
 
-        // Apply movement
-        controller.Move(moveDirection * (isCrouching ? crouchSpeed : moveSpeed) * Time.deltaTime);
+        
 
-        // Apply gravity and velocity
-        controller.Move(velocity * Time.deltaTime);
-
+        // Crouch
+        animator.SetBool("isCrouching",isCrouching);
+        
         // Mouse look
         float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
         float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
-
         xRotation -= mouseY;
         xRotation = Mathf.Clamp(xRotation, -90f, 90f);
-
         mycamera.transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
         transform.Rotate(Vector3.up * mouseX);
     }
-    // private IEnumerator DecreaseSpeedAndDisableRunning()
-    // {
-    //     if (isMoving)
-    //     {
-    //         // 设置较大的加速度以骤减速度
-    //         float initialSpeed = velocity.magnitude;
-    //         float targetSpeed = moveSpeedOnAttack;
-    //         float acceleration = (targetSpeed - initialSpeed) / Time.deltaTime;
-    //
-    //         while (velocity.magnitude > targetSpeed)
-    //         {
-    //             // 计算减速的方向
-    //             Vector3 decelerationDirection = -velocity.normalized;
-    //             // 计算应用的减速度
-    //             Vector3 deceleration = decelerationDirection * (acceleration * Time.deltaTime);
-    //
-    //             // 更新速度
-    //             velocity += deceleration;
-    //
-    //             // 等待一帧
-    //             yield return null;
-    //         }
-    //
-    //         // 骤减速度完成后，将isRunning置为false
-    //         isMoving = false;
-    //     }
-    // }
-
-
-    private void checkClimbing()
+    
+    public void UserInput()
     {
-        // Jump
-        if (Input.GetKeyDown(KeyCode.Space) && controller.isGrounded && !isClimbing)
+        moveForceTimerCounter -= Time.deltaTime;
+    
+        if (moveForceTimerCounter <= 0)
         {
-            isJumping = true;
-            RaycastHit hit;
-            if (Physics.Raycast(transform.position, transform.forward, out hit, 1.0f) && hit.collider.CompareTag("Wall"))
+            moveForceTimerCounter += moveForceTimer;
+        
+            if (Input.GetKey(KeyCode.W))
             {
-                // 如果墙体检测到，进入爬墙状态
-                isClimbing = true;
-                moveDirection = Vector3.up * climbingSpeed;
+                rb.AddForce(transform.forward * forwardForce, ForceMode.Impulse);
+            }
+        
+            if (Input.GetKey(KeyCode.S))
+            {
+                rb.AddForce(transform.forward * (-forwardForce * 0.7f), ForceMode.Impulse);
+            }
+        
+            if (Input.GetKey(KeyCode.A))
+            {
+                rb.AddForce(transform.right * -forwardForce, ForceMode.Impulse);
+            }
+        
+            if (Input.GetKey(KeyCode.D))
+            {
+                rb.AddForce(transform.right * forwardForce, ForceMode.Impulse);
             }
         }
-        if (controller.isGrounded)
+    
+        if (Input.GetKeyDown(KeyCode.Mouse1))
         {
-            // 如果在地面上，重置爬墙状态和速度
-            isClimbing = false;
-            moveDirection = Vector3.zero;
-            
+            animator.SetTrigger("Cast");
         }
         
-
-        if (isClimbing)
+        if (Input.GetKeyDown(KeyCode.Space) && isGrounded && !isJumping) // 添加对是否已经跳跃的检查
         {
-            UIManager.ShowMessage1("开爬！");
-            // 如果在爬墙状态
-            moveDirection = new Vector3(0, climbingSpeed, 0);
-            controller.Move(moveDirection * Time.deltaTime);
-
-            // 检查是否达到最大爬升高度
-            if (transform.position.y - initialHeight >= maxClimbingHeight)
-            {
-                // 超过最大高度，退出爬墙状态，模拟下落
-                isClimbing = false;
-                // StartCoroutine(FallFromWall());
-            }
-        }
-
-        // 应用重力
-        if (!isClimbing)
-        {
-            moveDirection.y -= gravity * Time.deltaTime;
-            controller.Move(moveDirection * Time.deltaTime);
+            rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
+            animator.SetTrigger("Jump");
+            isJumping = true; // 标记已经跳跃
+            isGrounded = false;
         }
     }
 
+    
     private void checkInteract()
     {
         InSightDetect sightDetector = new InSightDetect();
@@ -293,24 +255,5 @@ public class PlayerController : MonoBehaviour
     private Collider[] TryToInteract()
     {
         return Physics.OverlapSphere(transform.position, MAX_ALLOWED_INTERACT_RANGE);
-    }
-    private void LateUpdate()
-    {
-        // Breathing shake
-        if (!isMoving)
-        {
-            breatheTimer += Time.deltaTime;
-            if (breatheTimer > breatheSpeed)
-            {
-                breatheOffset = Mathf.Lerp(-breatheShake, breatheShake, Mathf.PingPong(breatheTimer, 2 * breatheSpeed) / (2 * breatheSpeed));
-                breatheTimer -= breatheSpeed;
-            }
-
-            mycamera.transform.localPosition = new Vector3(Random.Range(-idleShake, idleShake), Random.Range(-idleShake, idleShake) + breatheOffset, 0);
-        }
-        else
-        {
-            mycamera.transform.localPosition = Vector3.zero;
-        }
     }
 }
