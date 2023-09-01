@@ -29,8 +29,9 @@ public class Pickable : MonoBehaviour
     {
         if (_isEffNotNull)
         {
-            _eff.AffectPlayer(player);
             used = true;
+            _eff.AffectPlayer(player);
+            
         }
 
         // 标记物体为销毁，Unity 会在下一帧销毁它

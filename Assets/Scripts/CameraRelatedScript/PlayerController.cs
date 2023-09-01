@@ -87,7 +87,7 @@ public class PlayerController : MonoBehaviour
         // swordTransform.transform.position = handPosition;
         
         // WASD movement
-        if(!isMoving) animator.SetBool("Standing",true);
+        animator.SetBool("Standing",!isMoving);
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
         moveDirection = transform.right * horizontal + transform.forward * vertical;
