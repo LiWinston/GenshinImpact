@@ -189,11 +189,6 @@ public class PlayerController : MonoBehaviour
                 rb.AddForce(transform.right * forwardForce, ForceMode.Impulse);
             }
         }
-    
-        if (Input.GetKeyDown(KeyCode.Mouse1))
-        {
-            animator.SetTrigger("Cast");
-        }
         
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded && !isJumping) // 添加对是否已经跳跃的检查
         {

@@ -18,12 +18,6 @@ public class RPGOriginalDevelopment_CharacterControl : MonoBehaviour
 {
     public Rigidbody playerRigidbody;
     
-    
-    public float mouseRotationSpeed = 2;
-    
-    public float cameraRollAngle = 0;
-    public float minCameraRollAngleLimit = -100, maxCameraRollAngleLimit = 100;
-    
     public bool isGrounded = true;
     public float airTime = 0;
     
