@@ -2314,7 +2314,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2109304087943144856, guid: d112f70de17f09144a8b338465365c25, type: 3}
       propertyPath: m_Name
-      value: Healthbar
+      value: UIHealthbar
       objectReference: {fileID: 0}
     - target: {fileID: 5880216390971246379, guid: d112f70de17f09144a8b338465365c25, type: 3}
       propertyPath: m_Pivot.x
@@ -2554,6 +2554,18 @@ PrefabInstance:
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 9161818274591105924, guid: cec21cde89db8ce41ae10caa4df44bd1, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9161818274591105924, guid: cec21cde89db8ce41ae10caa4df44bd1, type: 3}
+      propertyPath: currentEnergy
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 9161818274591105924, guid: cec21cde89db8ce41ae10caa4df44bd1, type: 3}
+      propertyPath: currentHealth
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 9161818274591105924, guid: cec21cde89db8ce41ae10caa4df44bd1, type: 3}
       propertyPath: energyBarObject
       value: 
       objectReference: {fileID: 20420620}
@@ -2588,7 +2600,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 96948458045277320, guid: dcce2823fc622a649bde34ee232443e8, type: 3}
       propertyPath: m_Name
-      value: Manabar
+      value: UIManabar
       objectReference: {fileID: 0}
     - target: {fileID: 746252934613050157, guid: dcce2823fc622a649bde34ee232443e8, type: 3}
       propertyPath: m_Pivot.x

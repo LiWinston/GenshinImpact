@@ -135,17 +135,15 @@ public class PlayerController : MonoBehaviour
         }
 
         
-        // if (Mathf.Abs(rb.velocity.y) < 0.01f)
-        // {
-        //     UIManager.ShowMessage1("着地了！" + rb.velocity.y);
-        //     isGrounded = true;
-        //     isJumping = false; // 重置跳跃标志
-        // }
-        // else
-        // {
-        //     UIManager.ShowMessage1("没着地！" + rb.velocity.y);
-        //     isGrounded = false;
-        // }
+        if (Mathf.Abs(rb.velocity.y) < 0.01f)
+        {
+            isGrounded = true;
+            isJumping = false; // 重置跳跃标志
+        }
+        else
+        {
+            isGrounded = false;
+        }
 
         
 
@@ -163,6 +161,14 @@ public class PlayerController : MonoBehaviour
     
     public void UserInput()
     {
+        if (Input.GetKeyDown(KeyCode.Space) && isGrounded && !isJumping) // 添加对是否已经跳跃的检查
+        {
+            rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
+            animator.SetTrigger("Jump");
+            isJumping = true; // 标记已经跳跃
+            isGrounded = false;
+        }
+        
         moveForceTimerCounter -= Time.deltaTime;
     
         if (moveForceTimerCounter <= 0)
@@ -188,14 +194,6 @@ public class PlayerController : MonoBehaviour
             {
                 rb.AddForce(transform.right * forwardForce, ForceMode.Impulse);
             }
-        }
-        
-        if (Input.GetKeyDown(KeyCode.Space) && isGrounded && !isJumping) // 添加对是否已经跳跃的检查
-        {
-            rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
-            animator.SetTrigger("Jump");
-            isJumping = true; // 标记已经跳跃
-            isGrounded = false;
         }
     }
 

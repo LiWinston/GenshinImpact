@@ -9,8 +9,8 @@ public class Health : MonoBehaviour
     [SerializeField]private float maxEnergy;
     [SerializeField]private float currentEnergy;
 
-    public GameObject healthBarObject;
-    public GameObject energyBarObject;
+    private GameObject healthBarObject;
+    private GameObject energyBarObject;
 
     private Image healthBar;
     private Image energyBar;
@@ -20,13 +20,16 @@ public class Health : MonoBehaviour
         get=>currentHealth;
         set =>currentHealth = Mathf.Clamp(value, 0f, maxHealth);// 在设置 CurrentHealth 时，确保值不超出最大生命值范围
     }
-    public float CurrentMana
+    public float CurrentEnergy
     {
         get=>currentEnergy;
         set =>currentEnergy = Mathf.Clamp(value, 0f, maxEnergy);// 在设置 CurrentHealth 时，确保值不超出最大生命值范围
     }
     private void Start()
     {
+        healthBarObject = GameObject.Find("UIHealthbar");
+        energyBarObject = GameObject.Find("UIManabar");
+        
         healthBar = healthBarObject.GetComponent<Image>();
         energyBar = energyBarObject.GetComponent<Image>();
     }
@@ -42,21 +45,21 @@ public class Health : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
-        currentHealth -= damage;
+        CurrentHealth -= damage;
     }
 
     public void Heal(float amount)
     {
-        currentHealth += amount;
+        CurrentHealth += amount;
     }
 
     public void ConsumeEnergy(float amount)
     {
-        currentEnergy -= amount;
+        CurrentEnergy -= amount;
     }
 
     public void RestoreEnergy(float amount)
     {
-        currentEnergy += amount;
+        CurrentEnergy += amount;
     }
 }
