@@ -36,7 +36,7 @@ public class SpellCast : MonoBehaviour
             // 检查是否成功获取了 Weapon 物体的引用
             if (spellingPartTransform != null)
             {
-                ParticleEffectManager.Instance.PlayParticleEffect("DamageUp", spellingPartTransform.gameObject, Quaternion.identity,
+                ParticleEffectManager.Instance.PlayParticleEffect("Spell", spellingPartTransform.gameObject, Quaternion.identity,
                     Color.white, Color.white, 2f);
             }
             else
