@@ -135,17 +135,17 @@ public class PlayerController : MonoBehaviour
         }
 
         
-        if (Mathf.Abs(rb.velocity.y) < 0.01f)
-        {
-            UIManager.ShowMessage1("着地了！" + rb.velocity.y);
-            isGrounded = true;
-            isJumping = false; // 重置跳跃标志
-        }
-        else
-        {
-            UIManager.ShowMessage1("没着地！" + rb.velocity.y);
-            isGrounded = false;
-        }
+        // if (Mathf.Abs(rb.velocity.y) < 0.01f)
+        // {
+        //     UIManager.ShowMessage1("着地了！" + rb.velocity.y);
+        //     isGrounded = true;
+        //     isJumping = false; // 重置跳跃标志
+        // }
+        // else
+        // {
+        //     UIManager.ShowMessage1("没着地！" + rb.velocity.y);
+        //     isGrounded = false;
+        // }
 
         
 

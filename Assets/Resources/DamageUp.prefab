@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 9575388}
   - component: {fileID: 114507477663273810}
   m_Layer: 0
-  m_Name: Spiral_02.4 Domain
+  m_Name: DamageUp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -121,7 +121,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 5
+      scalar: 2
       minScalar: 0.0001
       maxCurve:
         serializedVersion: 2
@@ -174,7 +174,7 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 5
+      scalar: 2
       minScalar: 0
       maxCurve:
         serializedVersion: 2

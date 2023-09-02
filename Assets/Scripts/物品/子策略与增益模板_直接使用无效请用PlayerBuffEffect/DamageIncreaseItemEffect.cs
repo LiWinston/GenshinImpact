@@ -1,4 +1,5 @@
 using System;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -16,6 +17,8 @@ namespace AttributeRelatedScript
             // 在这里实现增加伤害的逻辑
             player.GetComponent<Damage>().IncreaseDamage(effectValue);
             ShowEffectMessage(effectValue, player.GetComponent<Damage>().CurrentDamage);
+            ParticleEffectManager.Instance.PlayParticleEffect("DamageUp",player,quaternion.identity, 
+                Color.cyan,Color.green, 4f);
         }
     }
 }

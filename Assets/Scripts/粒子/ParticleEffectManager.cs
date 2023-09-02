@@ -36,7 +36,7 @@ public class ParticleEffectManager : MonoBehaviour
         }
     }
 
-    public void PlayParticleEffect(Vector3 position, Quaternion rotation, Color startColor,
+    public void PlayParticleEffect(GameObject player, Quaternion rotation, Color startColor,
         Color endColor, float duration = -1f)
     {
         Debug.LogWarning("using default Particle.");
@@ -44,16 +44,16 @@ public class ParticleEffectManager : MonoBehaviour
         {
             Debug.LogWarning("No default Particle.");
         }
-        PlayParticleEffect(particlePrefab,  position,  rotation,  startColor, endColor,  duration);
+        PlayParticleEffect(particlePrefab,  player,  rotation,  startColor, endColor,  duration);
     }
 
-    public void PlayParticleEffect(String particlePrefabFile, Vector3 position, Quaternion rotation, Color startColor,
+    public void PlayParticleEffect(String particlePrefabFile, GameObject player, Quaternion rotation, Color startColor,
         Color endColor, float duration = -1f)
     {
         GameObject particlePrefab = Resources.Load<GameObject>(particlePrefabFile);
-        PlayParticleEffect(particlePrefab, position, rotation, startColor, endColor, duration);
+        PlayParticleEffect(particlePrefab, player, rotation, startColor, endColor, duration);
     }
-    public void PlayParticleEffect(GameObject particlePrefab, Vector3 position, Quaternion rotation, Color startColor, Color endColor, float duration = -1f)
+    public void PlayParticleEffect(GameObject particlePrefab, GameObject player, Quaternion rotation, Color startColor, Color endColor, float duration = -1f)
     {
         
 
@@ -62,12 +62,12 @@ public class ParticleEffectManager : MonoBehaviour
         if (usePooling)
         {
             // 从对象池中获取特效对象
-            particleEffect = objectPooler.SpawnFromPool(particlePrefab.name, position, rotation);
+            particleEffect = objectPooler.SpawnFromPool(particlePrefab.name, player.transform.position, rotation);
         }
         else
         {
             // 直接实例化特效对象
-            particleEffect = Instantiate(particlePrefab, position, rotation);
+            particleEffect = Instantiate(particlePrefab, player.transform.position, rotation);
         }
 
         // 设置特效的持续时间
@@ -87,7 +87,7 @@ public class ParticleEffectManager : MonoBehaviour
         {
             particleRenderer.material.color = startColor;
         }
-
+        particleEffect.transform.SetParent(player.transform);
         // 添加淡入淡出效果
         StartCoroutine(FadeInAndOut(particleRenderer, particleEffect, duration, startColor, endColor));
     }

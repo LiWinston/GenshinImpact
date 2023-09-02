@@ -18,7 +18,7 @@ namespace AttributeRelatedScript
             ShowEffectMessage(effectValue, currentHealth);
 
             // 调用内部类处理特效
-            ParticleEffectManager.Instance.PlayParticleEffect("Spiral_02.1",player.transform.position,quaternion.identity, 
+            ParticleEffectManager.Instance.PlayParticleEffect("Heal",player,quaternion.identity, 
                 Color.cyan,Color.green, 2f);
         }
     }
