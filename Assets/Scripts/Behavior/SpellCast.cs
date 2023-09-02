@@ -37,7 +37,7 @@ public class SpellCast : MonoBehaviour
             if (spellingPartTransform != null)
             {
                 ParticleEffectManager.Instance.PlayParticleEffect("Spell", spellingPartTransform.gameObject, Quaternion.identity,
-                    Color.white, Color.white, 2f);
+                    Color.white, Color.white, 1f);
             }
             else
             {
