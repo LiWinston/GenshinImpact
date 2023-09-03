@@ -5,8 +5,8 @@ namespace AttributeRelatedScript
     public class Damage : MonoBehaviour
     {
         [SerializeField] private float damage = 8f;
-        [SerializeField] public static float attackAngle = 70f;
-        [SerializeField] public static float attackRange = 0.9f;
+        [SerializeField] internal float attackAngle = 70f;
+        [SerializeField] internal float attackRange = 0.9f;
         [SerializeField] public float attackCooldown = 1.0f; // 攻击冷却时间
         [SerializeField] public float HurricaneKickDamage = 8;
         [SerializeField] public float hurricaneKickKnockbackForce = 70;

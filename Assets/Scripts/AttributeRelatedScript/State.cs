@@ -16,9 +16,9 @@ public class State : MonoBehaviour
     private Image healthBar;
     private Image energyBar;
     
-    private Color fullHealthColor = Color.green;
-    private Color halfHealthColor = Color.yellow;
-    private Color lowHealthColor = Color.red;
+    private Color fullHealthColor = Color.red;
+    private Color halfHealthColor = Color.magenta;
+    private Color lowHealthColor = Color.black;
     private Color emptyHealthColor = new Color(0, 0, 0.5f, 1); // 黑红色
 
     private Color fullEnergyColor = new Color(0.5f, 0, 0.5f, 1); // 深紫色

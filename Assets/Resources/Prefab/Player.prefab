@@ -3543,7 +3543,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 
+  m_text: EXP 1
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 125cb55b44b24c4393181402bc6200e6, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 125cb55b44b24c4393181402bc6200e6, type: 2}
@@ -4196,9 +4196,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 5
   crouchSpeed: 5
-  mouseSensitivity: 80
-  forwardForce: 100
-  jumpForce: 300
+  mouseSensitivity: 100
+  forwardForce: 80
+  jumpForce: 800
   mycamera: {fileID: 691092138744490856}
   MAX_ALLOWED_INTERACT_RANGE: 3
   moveForceTimer: 0.05
@@ -4232,10 +4232,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc327f1ef722365468467861957eeb61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 100
-  currentHealth: 100
-  maxEnergy: 100
-  currentEnergy: 100
+  maxHealth: 200
+  currentHealth: 200
+  maxEnergy: 150
+  currentEnergy: 150
   currentExperience: 0
   damageReduction: 0
   maxLevel: 100

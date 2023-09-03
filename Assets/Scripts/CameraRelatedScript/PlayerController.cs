@@ -230,8 +230,8 @@ public class PlayerController : MonoBehaviour
         Vector3 targetDirection = transform.forward;
 
         // 设置攻击范围的半径（圆锥体的半径）
-        var attackAngle = Damage.attackAngle;
-        var attackRange = Damage.attackRange;
+        var attackAngle = damage.attackAngle;
+        var attackRange = damage.attackRange;
         float attackRadius = Mathf.Tan(Mathf.Deg2Rad * (attackAngle / 2f)) * attackRange;
 
         // 检测敌人
@@ -255,7 +255,7 @@ public class PlayerController : MonoBehaviour
                     HealthSystem healthSystem = enemyCollider.GetComponent<HealthSystemComponent>().GetHealthSystem();
                     if (healthSystem != null)
                     {
-                        UIManager.ShowMessage1("WODA!"+damage.CurrentDamage);
+                        UIManager.ShowMessage1("A "+damage.CurrentDamage+" Cut~");
                         healthSystem.Damage(damage.CurrentDamage); // 对敌人造成伤害
                     }
                 }
