@@ -120,6 +120,6 @@ public class MonsterBehaviour : MonoBehaviour
         float maxGameTime = 300f; // 五分钟共300秒
         float progress = Mathf.Clamp01(gameTime / maxGameTime); // 游戏时间进度（0到1之间）
         monsterLevel = Mathf.FloorToInt(progress * 10) + 1; // 从1到10逐渐增长
-        monsterExperience = monsterLevel * 10;
+        monsterExperience = (int)(monsterLevel * 1.4f);
     }
 }

@@ -1,3 +1,4 @@
+using UI;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -33,6 +34,7 @@ public class State : MonoBehaviour
     private int currentLevel = 1; // 初始等级为1
     private int[] experienceThresholds; // 存储升级所需经验值的数组
     [SerializeField] private float damageReduction;
+    [SerializeField] private int maxLevel = 100;
 
     public float CurrentHealth
     {
@@ -113,15 +115,20 @@ public class State : MonoBehaviour
     // 初始化升级所需经验值数组
     private void InitializeExperienceThresholds()
     {
-        // 在这里设置升级所需的经验值阈值
-        // 你可以根据需要自定义升级所需经验值
-        // 这里只是一个示例
-        experienceThresholds = new int[100];
-        for (int i = 0; i < 100; i++)
+        // 这里是一个示例，你可以根据需要进行调整
+        experienceThresholds = new int[maxLevel];
+    
+        // 例如，假设玩家从1级开始，每级所需经验值递增
+        int baseExperience = 100; // 初始等级所需经验值
+        int experienceIncrease = 250; // 每级经验值递增值
+
+        for (int level = 1; level <= maxLevel; level++)
         {
-            experienceThresholds[i] = i * 100; // 每级所需经验值递增
+            experienceThresholds[level - 1] = baseExperience;
+            baseExperience += experienceIncrease;
         }
     }
+
 
     private void Update()
     {
@@ -186,9 +193,24 @@ public class State : MonoBehaviour
         CurrentHealth += amount;
     }
 
-    public void ConsumeEnergy(float amount)
+    /// <summary>
+    /// ConsumeEnergy check
+    /// </summary>
+    /// <param name="amount"></param>
+    /// <returns>False => No energy for next spelling</returns>
+    public bool ConsumeEnergy(float amount)
     {
-        CurrentEnergy -= amount;
+        if (CurrentEnergy >= amount)
+        {
+            CurrentEnergy -= amount;
+            return true; 
+        }
+        else
+        {
+            
+            UIManager.ShowMessage1("Insufficient Energy!");
+            return false; 
+        }
     }
 
     public void RestoreEnergy(float amount)

@@ -40,25 +40,28 @@ public class SpellCast : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Mouse1))
         {
             animator.SetTrigger("Cast");
-
-            // 检查是否成功获取了 Weapon 物体的引用
-            if (spellingPartTransform != null)
-            {
-                ParticleEffectManager.Instance.PlayParticleEffect("Spell", spellingPartTransform.gameObject,
-                    Quaternion.identity,
-                    Color.white, Color.white, 1f);
-            }
-            else
-            {
-                Debug.LogError("无法播放特效，因为 Weapon Transform 未指定！");
-            }
             CastSpell();
         }
     }
 
     private void CastSpell()
     {
-        state.ConsumeEnergy(2);//TODO:更新此机制。
+        //TODO:更新此机制。
+        if (!state.ConsumeEnergy(2))
+        {
+            return;
+        };
+        // 检查是否成功获取了 Weapon 物体的引用
+        if (spellingPartTransform != null)
+        {
+            ParticleEffectManager.Instance.PlayParticleEffect("Spell", spellingPartTransform.gameObject,
+                Quaternion.identity,
+                Color.white, Color.white, 1f);
+        }
+        else
+        {
+            Debug.LogError("无法播放特效，因为 Weapon Transform 未指定！");
+        }
         // 获取玩家的位置
         Vector3 playerPosition = transform.position;
 
