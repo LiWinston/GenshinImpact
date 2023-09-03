@@ -50,8 +50,15 @@ namespace CodeMonkey.HealthSystemCM {
         /// Update Health Bar using the Image fillAmount based on the current Health Amount
         /// </summary>
         private void UpdateHealthBar() {
-            image.fillAmount = healthSystem.GetHealthNormalized();
+            float healthNormalized = healthSystem.GetHealthNormalized();
+            image.fillAmount = healthNormalized;
+
+            Color color = Color.Lerp(Color.red, Color.yellow, healthNormalized * 2);
+            color = Color.Lerp(color, Color.green, healthNormalized * 2 - 1);
+
+            image.color = color;
         }
+
 
         /// <summary>
         /// Clean up events when this Game Object is destroyed

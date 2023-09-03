@@ -40,9 +40,10 @@ public class ParticleEffectManager : MonoBehaviour
     public void PlayParticleEffect(string particlePrefabFile, GameObject player, Quaternion rotation, Color startColor,
         Color endColor, float duration = -1f)
     {
-        var particlePrefab = Resources.Load<GameObject>(particlePrefabFile);
-        PlayParticleEffect(particlePrefab, player, rotation, startColor, endColor, duration);
+        var myParticlePrefab = Resources.Load<GameObject>(particlePrefabFile);
+        PlayParticleEffect(myParticlePrefab, player, rotation, startColor, endColor, duration);
     }
+    // ReSharper disable Unity.PerformanceAnalysis
     public void PlayParticleEffect(GameObject particlePrefab, GameObject player, Quaternion rotation, Color startColor, Color endColor, float duration = -1f)
     {
         var particleEffect = Instantiate(particlePrefab, player.transform.position, rotation);
