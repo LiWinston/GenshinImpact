@@ -221,6 +221,8 @@ public class PlayerController : MonoBehaviour
     private void Attack()
     {
         animator.SetTrigger("AttackTrigger");
+        var sword = SpellCast.FindDeepChild(transform, "Scabbard");
+        ParticleEffectManager.Instance.PlayParticleEffect("Attack", sword.gameObject, Quaternion.identity,Color.white, Color.white);
         Vector3 characterPosition = transform.position;
 
         // 获取玩家的目标方向（这里假设目标方向是玩家前方）

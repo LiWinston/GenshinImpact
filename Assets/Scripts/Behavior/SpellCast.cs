@@ -99,7 +99,13 @@ public class SpellCast : MonoBehaviour
             }
         }
     }
-    private Transform FindDeepChild(Transform parent, string name)
+    /// <summary>
+    /// Utility function used to seek into a subclass for a Transform
+    /// </summary>
+    /// <param name="parent"></param>
+    /// <param name="name"></param>
+    /// <returns></returns>
+    public static Transform FindDeepChild(Transform parent, string name)
     {
         Transform result = parent.Find(name);
         if (result != null)
