@@ -15,11 +15,7 @@ E:/GitHub/project-1-infinitegame-studio
 -logFile
 Logs/AssetImportWorker0.log
 -srvPort
-<<<<<<< Updated upstream
-14205
-=======
-5972
->>>>>>> Stashed changes
+4014
 Successfully changed project path to: E:/GitHub/project-1-infinitegame-studio
 E:/GitHub/project-1-infinitegame-studio
 [UnityMemory] Configuration Parameters - Can be set up in boot.config
@@ -53,19 +49,11 @@ E:/GitHub/project-1-infinitegame-studio
     "memorysetup-temp-allocator-size-cloud-worker=32768"
     "memorysetup-temp-allocator-size-gi-baking-worker=262144"
     "memorysetup-temp-allocator-size-gfx=262144"
-<<<<<<< Updated upstream
-Player connection [58108] Host "[IP] 192.168.237.1 [Port] 0 [Flags] 2 [Guid] 1644550522 [EditorId] 1644550522 [Version] 1048832 [Id] WindowsEditor(7,YCL-PC) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" joined multi-casting on [225.0.0.222:54997]...
+Player connection [44364] Host "[IP] 10.8.8.1 [Port] 0 [Flags] 2 [Guid] 1337297140 [EditorId] 1337297140 [Version] 1048832 [Id] WindowsEditor(7,YCL-PC) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" joined multi-casting on [225.0.0.222:54997]...
 
-Player connection [58108] Host "[IP] 192.168.237.1 [Port] 0 [Flags] 2 [Guid] 1644550522 [EditorId] 1644550522 [Version] 1048832 [Id] WindowsEditor(7,YCL-PC) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" joined alternative multi-casting on [225.0.0.222:34997]...
+Player connection [44364] Host "[IP] 10.8.8.1 [Port] 0 [Flags] 2 [Guid] 1337297140 [EditorId] 1337297140 [Version] 1048832 [Id] WindowsEditor(7,YCL-PC) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" joined alternative multi-casting on [225.0.0.222:34997]...
 
-Refreshing native plugins compatible for Editor in 10.56 ms, found 3 plugins.
-=======
-Player connection [36604] Host "[IP] 192.168.237.1 [Port] 0 [Flags] 2 [Guid] 1757202012 [EditorId] 1757202012 [Version] 1048832 [Id] WindowsEditor(7,YCL-PC) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" joined multi-casting on [225.0.0.222:54997]...
-
-Player connection [36604] Host "[IP] 192.168.237.1 [Port] 0 [Flags] 2 [Guid] 1757202012 [EditorId] 1757202012 [Version] 1048832 [Id] WindowsEditor(7,YCL-PC) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" joined alternative multi-casting on [225.0.0.222:34997]...
-
-Refreshing native plugins compatible for Editor in 10.37 ms, found 3 plugins.
->>>>>>> Stashed changes
+Refreshing native plugins compatible for Editor in 12.11 ms, found 3 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Initialize engine version: 2022.3.5f1 (9674261d40ee)
 [Subsystems] Discovering subsystems at path C:/Program Files/Unity Hub/Unity 2022.3.5f1/Editor/Data/Resources/UnitySubsystems
@@ -81,83 +69,46 @@ Initialize mono
 Mono path[0] = 'C:/Program Files/Unity Hub/Unity 2022.3.5f1/Editor/Data/Managed'
 Mono path[1] = 'C:/Program Files/Unity Hub/Unity 2022.3.5f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-win32'
 Mono config path = 'C:/Program Files/Unity Hub/Unity 2022.3.5f1/Editor/Data/MonoBleedingEdge/etc'
-<<<<<<< Updated upstream
-Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56036
-=======
-Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56856
->>>>>>> Stashed changes
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56880
 Begin MonoManager ReloadAssembly
 Registering precompiled unity dll's ...
 Register platform support module: C:/Program Files/Unity Hub/Unity 2022.3.5f1/Editor/Data/PlaybackEngines/WebGLSupport/UnityEditor.WebGL.Extensions.dll
 Register platform support module: C:/Program Files/Unity Hub/Unity 2022.3.5f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
-<<<<<<< Updated upstream
-Registered in 0.009486 seconds.
-- Loaded All Assemblies, in  0.305 seconds
+Registered in 0.009108 seconds.
+- Loaded All Assemblies, in  0.330 seconds
 Native extension for WindowsStandalone target not found
 Native extension for WebGL target not found
 Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  0.240 seconds
-Domain Reload Profiling: 543ms
-	BeginReloadAssembly (76ms)
-=======
-Registered in 0.008749 seconds.
-- Loaded All Assemblies, in  0.306 seconds
-Native extension for WindowsStandalone target not found
-Native extension for WebGL target not found
-Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  0.273 seconds
-Domain Reload Profiling: 577ms
-	BeginReloadAssembly (79ms)
->>>>>>> Stashed changes
+- Finished resetting the current domain, in  0.271 seconds
+Domain Reload Profiling: 600ms
+	BeginReloadAssembly (81ms)
 		ExecutionOrderSort (0ms)
 		DisableScriptedObjects (0ms)
 		BackupInstance (0ms)
 		ReleaseScriptingObjects (0ms)
 		CreateAndSetChildDomain (1ms)
-<<<<<<< Updated upstream
-	RebuildCommonClasses (29ms)
+	RebuildCommonClasses (35ms)
 	RebuildNativeTypeToScriptingClass (9ms)
-	initialDomainReloadingComplete (56ms)
-	LoadAllAssembliesAndSetupDomain (132ms)
-		LoadAssemblies (74ms)
+	initialDomainReloadingComplete (55ms)
+	LoadAllAssembliesAndSetupDomain (147ms)
+		LoadAssemblies (79ms)
 		RebuildTransferFunctionScriptingTraits (0ms)
-		AnalyzeDomain (125ms)
-			TypeCache.Refresh (124ms)
-				TypeCache.ScanAssembly (114ms)
+		AnalyzeDomain (141ms)
+			TypeCache.Refresh (140ms)
+				TypeCache.ScanAssembly (128ms)
 			ScanForSourceGeneratedMonoScriptInfo (0ms)
-			ResolveRequiredComponents (0ms)
-	FinalizeReload (240ms)
+			ResolveRequiredComponents (1ms)
+	FinalizeReload (271ms)
 		ReleaseScriptCaches (0ms)
 		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (183ms)
-=======
-	RebuildCommonClasses (31ms)
-	RebuildNativeTypeToScriptingClass (10ms)
-	initialDomainReloadingComplete (58ms)
-	LoadAllAssembliesAndSetupDomain (126ms)
-		LoadAssemblies (77ms)
-		RebuildTransferFunctionScriptingTraits (0ms)
-		AnalyzeDomain (120ms)
-			TypeCache.Refresh (119ms)
-				TypeCache.ScanAssembly (109ms)
-			ScanForSourceGeneratedMonoScriptInfo (0ms)
-			ResolveRequiredComponents (0ms)
-	FinalizeReload (273ms)
-		ReleaseScriptCaches (0ms)
-		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (218ms)
->>>>>>> Stashed changes
+		SetupLoadedEditorAssemblies (208ms)
 			LogAssemblyErrors (0ms)
-			InitializePlatformSupportModulesInManaged (10ms)
-			SetLoadedEditorAssemblies (5ms)
+			InitializePlatformSupportModulesInManaged (11ms)
+			SetLoadedEditorAssemblies (7ms)
 			RefreshPlugins (0ms)
-			BeforeProcessingInitializeOnLoad (2ms)
-<<<<<<< Updated upstream
-			ProcessInitializeOnLoadAttributes (122ms)
-=======
-			ProcessInitializeOnLoadAttributes (157ms)
->>>>>>> Stashed changes
-			ProcessInitializeOnLoadMethodAttributes (43ms)
+			BeforeProcessingInitializeOnLoad (3ms)
+			ProcessInitializeOnLoadAttributes (139ms)
+			ProcessInitializeOnLoadMethodAttributes (48ms)
 			AfterProcessingInitializeOnLoad (0ms)
 			EditorAssembliesLoaded (0ms)
 		ExecutionOrderSort2 (0ms)
@@ -167,100 +118,132 @@ Worker process is ready to serve import requests
 Begin MonoManager ReloadAssembly
 Symbol file LoadedFromMemory doesn't match image E:\GitHub\project-1-infinitegame-studio\Library\PackageCache\com.unity.visualscripting@1.8.0\Editor\VisualScripting.Core\Dependencies\YamlDotNet\Unity.VisualScripting.YamlDotNet.dll
 Symbol file LoadedFromMemory doesn't match image E:\GitHub\project-1-infinitegame-studio\Library\PackageCache\com.unity.visualscripting@1.8.0\Editor\VisualScripting.Core\Dependencies\DotNetZip\Unity.VisualScripting.IonicZip.dll
-<<<<<<< Updated upstream
-- Loaded All Assemblies, in  0.839 seconds
-Refreshing native plugins compatible for Editor in 2.70 ms, found 3 plugins.
+- Loaded All Assemblies, in  0.862 seconds
+Refreshing native plugins compatible for Editor in 2.76 ms, found 3 plugins.
 Native extension for WindowsStandalone target not found
 Native extension for WebGL target not found
 Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  0.839 seconds
-Domain Reload Profiling: 1675ms
-	BeginReloadAssembly (119ms)
-=======
-- Loaded All Assemblies, in  0.826 seconds
-Refreshing native plugins compatible for Editor in 2.67 ms, found 3 plugins.
-Native extension for WindowsStandalone target not found
-Native extension for WebGL target not found
-Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  0.816 seconds
-Domain Reload Profiling: 1639ms
-	BeginReloadAssembly (128ms)
->>>>>>> Stashed changes
+- Finished resetting the current domain, in  0.858 seconds
+Domain Reload Profiling: 1717ms
+	BeginReloadAssembly (120ms)
 		ExecutionOrderSort (0ms)
 		DisableScriptedObjects (5ms)
 		BackupInstance (0ms)
 		ReleaseScriptingObjects (0ms)
-<<<<<<< Updated upstream
 		CreateAndSetChildDomain (20ms)
-	RebuildCommonClasses (28ms)
+	RebuildCommonClasses (29ms)
 	RebuildNativeTypeToScriptingClass (10ms)
-	initialDomainReloadingComplete (39ms)
-	LoadAllAssembliesAndSetupDomain (640ms)
-		LoadAssemblies (312ms)
+	initialDomainReloadingComplete (37ms)
+	LoadAllAssembliesAndSetupDomain (663ms)
+		LoadAssemblies (319ms)
 		RebuildTransferFunctionScriptingTraits (0ms)
-		AnalyzeDomain (381ms)
-			TypeCache.Refresh (342ms)
-				TypeCache.ScanAssembly (330ms)
+		AnalyzeDomain (399ms)
+			TypeCache.Refresh (360ms)
+				TypeCache.ScanAssembly (347ms)
 			ScanForSourceGeneratedMonoScriptInfo (27ms)
-			ResolveRequiredComponents (12ms)
-	FinalizeReload (839ms)
-		ReleaseScriptCaches (0ms)
-		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (633ms)
-=======
-		CreateAndSetChildDomain (22ms)
-	RebuildCommonClasses (33ms)
-	RebuildNativeTypeToScriptingClass (9ms)
-	initialDomainReloadingComplete (38ms)
-	LoadAllAssembliesAndSetupDomain (615ms)
-		LoadAssemblies (304ms)
-		RebuildTransferFunctionScriptingTraits (0ms)
-		AnalyzeDomain (369ms)
-			TypeCache.Refresh (324ms)
-				TypeCache.ScanAssembly (311ms)
-			ScanForSourceGeneratedMonoScriptInfo (34ms)
 			ResolveRequiredComponents (11ms)
-	FinalizeReload (816ms)
+	FinalizeReload (858ms)
 		ReleaseScriptCaches (0ms)
 		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (624ms)
->>>>>>> Stashed changes
+		SetupLoadedEditorAssemblies (653ms)
 			LogAssemblyErrors (0ms)
-			InitializePlatformSupportModulesInManaged (7ms)
+			InitializePlatformSupportModulesInManaged (9ms)
+			SetLoadedEditorAssemblies (7ms)
+			RefreshPlugins (0ms)
+			BeforeProcessingInitializeOnLoad (144ms)
+			ProcessInitializeOnLoadAttributes (450ms)
+			ProcessInitializeOnLoadMethodAttributes (33ms)
+			AfterProcessingInitializeOnLoad (10ms)
+			EditorAssembliesLoaded (0ms)
+		ExecutionOrderSort2 (0ms)
+		AwakeInstancesAfterBackupRestoration (7ms)
+Launched and connected shader compiler UnityShaderCompiler.exe after 0.04 seconds
+Refreshing native plugins compatible for Editor in 3.29 ms, found 3 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 7022 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 249 unused Assets / (14.7 MB). Loaded Objects now: 7356.
+Memory consumption went from 315.3 MB to 300.5 MB.
+Total: 5.057800 ms (FindLiveObjects: 0.437300 ms CreateObjectMapping: 0.449300 ms MarkObjects: 2.306600 ms  DeleteObjects: 1.863500 ms)
+
+AssetImportParameters requested are different than current active one (requested -> active):
+  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
+  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
+  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
+  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
+  custom:AudioImporter_EditorPlatform: d09bf68614088b80899f8185d706f6e7 -> 
+  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
+  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
+  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
+========================================================================
+Received Import Request.
+  Time since last request: 927754.464144 seconds.
+  path: Assets/Swordsman/Swordsman.unity
+  artifactKey: Guid(a604535dd51addb4c91e8de15928e7c5) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Swordsman/Swordsman.unity using Guid(a604535dd51addb4c91e8de15928e7c5) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '796696a1776058393f6903520ac603c2') in 0.001667 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 0
+========================================================================
+Received Import Request.
+  Time since last request: 7.478820 seconds.
+  path: Assets/StartScene.unity
+  artifactKey: Guid(86a6d7b9a1daf56439425bb038e4437f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/StartScene.unity using Guid(86a6d7b9a1daf56439425bb038e4437f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'ea1e7a92e7ee50cade0c8bb14e445672') in 0.000457 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 0
+========================================================================
+Received Prepare
+Begin MonoManager ReloadAssembly
+Symbol file LoadedFromMemory doesn't match image E:\GitHub\project-1-infinitegame-studio\Library\PackageCache\com.unity.visualscripting@1.8.0\Editor\VisualScripting.Core\Dependencies\YamlDotNet\Unity.VisualScripting.YamlDotNet.dll
+Symbol file LoadedFromMemory doesn't match image E:\GitHub\project-1-infinitegame-studio\Library\PackageCache\com.unity.visualscripting@1.8.0\Editor\VisualScripting.Core\Dependencies\DotNetZip\Unity.VisualScripting.IonicZip.dll
+- Loaded All Assemblies, in  0.850 seconds
+Refreshing native plugins compatible for Editor in 4.39 ms, found 3 plugins.
+Native extension for WindowsStandalone target not found
+Native extension for WebGL target not found
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in  1.553 seconds
+Domain Reload Profiling: 2400ms
+	BeginReloadAssembly (141ms)
+		ExecutionOrderSort (0ms)
+		DisableScriptedObjects (6ms)
+		BackupInstance (0ms)
+		ReleaseScriptingObjects (0ms)
+		CreateAndSetChildDomain (40ms)
+	RebuildCommonClasses (29ms)
+	RebuildNativeTypeToScriptingClass (10ms)
+	initialDomainReloadingComplete (33ms)
+	LoadAllAssembliesAndSetupDomain (632ms)
+		LoadAssemblies (325ms)
+		RebuildTransferFunctionScriptingTraits (0ms)
+		AnalyzeDomain (363ms)
+			TypeCache.Refresh (351ms)
+				TypeCache.ScanAssembly (341ms)
+			ScanForSourceGeneratedMonoScriptInfo (0ms)
+			ResolveRequiredComponents (12ms)
+	FinalizeReload (1554ms)
+		ReleaseScriptCaches (0ms)
+		RebuildScriptCaches (0ms)
+		SetupLoadedEditorAssemblies (747ms)
+			LogAssemblyErrors (0ms)
+			InitializePlatformSupportModulesInManaged (12ms)
 			SetLoadedEditorAssemblies (5ms)
 			RefreshPlugins (0ms)
-<<<<<<< Updated upstream
-			BeforeProcessingInitializeOnLoad (142ms)
-			ProcessInitializeOnLoadAttributes (436ms)
+			BeforeProcessingInitializeOnLoad (178ms)
+			ProcessInitializeOnLoadAttributes (510ms)
 			ProcessInitializeOnLoadMethodAttributes (33ms)
 			AfterProcessingInitializeOnLoad (9ms)
 			EditorAssembliesLoaded (0ms)
 		ExecutionOrderSort2 (0ms)
-		AwakeInstancesAfterBackupRestoration (6ms)
-Launched and connected shader compiler UnityShaderCompiler.exe after 0.03 seconds
-Refreshing native plugins compatible for Editor in 3.49 ms, found 3 plugins.
+		AwakeInstancesAfterBackupRestoration (7ms)
+Refreshing native plugins compatible for Editor in 3.74 ms, found 3 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 7022 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 249 unused Assets / (14.7 MB). Loaded Objects now: 7361.
-Memory consumption went from 315.8 MB to 301.0 MB.
-Total: 5.617800 ms (FindLiveObjects: 0.551000 ms CreateObjectMapping: 0.589500 ms MarkObjects: 2.580500 ms  DeleteObjects: 1.896000 ms)
-=======
-			BeforeProcessingInitializeOnLoad (139ms)
-			ProcessInitializeOnLoadAttributes (439ms)
-			ProcessInitializeOnLoadMethodAttributes (28ms)
-			AfterProcessingInitializeOnLoad (7ms)
-			EditorAssembliesLoaded (0ms)
-		ExecutionOrderSort2 (0ms)
-		AwakeInstancesAfterBackupRestoration (6ms)
-Launched and connected shader compiler UnityShaderCompiler.exe after 0.04 seconds
-Refreshing native plugins compatible for Editor in 2.94 ms, found 3 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 7025 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 249 unused Assets / (3.3 MB). Loaded Objects now: 7375.
-Memory consumption went from 303.1 MB to 299.8 MB.
-Total: 4.283400 ms (FindLiveObjects: 0.409800 ms CreateObjectMapping: 0.515900 ms MarkObjects: 2.554400 ms  DeleteObjects: 0.802500 ms)
->>>>>>> Stashed changes
+Unloading 6783 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 193 unused Assets / (14.7 MB). Loaded Objects now: 7371.
+Memory consumption went from 258.9 MB to 244.2 MB.
+Total: 6.109000 ms (FindLiveObjects: 0.496900 ms CreateObjectMapping: 0.614900 ms MarkObjects: 2.628900 ms  DeleteObjects: 2.367500 ms)
 
+Prepare: number of updated asset objects reloaded= 0
 AssetImportParameters requested are different than current active one (requested -> active):
   custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
   custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
@@ -270,666 +253,59 @@ AssetImportParameters requested are different than current active one (requested
   custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
   custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
   custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
-<<<<<<< Updated upstream
   custom:CustomObjectIndexerAttribute: a3ef5dd2817f97addfee359851a9dba5 -> 
   custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
   custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
 ========================================================================
-Received Import Request.
-  Time since last request: 895304.610511 seconds.
-  path: Assets/Swordsman/Texture/T_Hair_Albedo.tga
-  artifactKey: Guid(bd00fce913b291b49b27fd3346c61204) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Swordsman/Texture/T_Hair_Albedo.tga using Guid(bd00fce913b291b49b27fd3346c61204) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '822697f3d031c18e8e97470cfa9e8203') in 0.043683 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 2
-========================================================================
-Received Import Request.
-  Time since last request: 21.701872 seconds.
-  path: Assets/Swordsman/Texture/T_Armor_Albedo.tga
-  artifactKey: Guid(1e16fe545b7ec0f44a764b8cf8e13d45) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Swordsman/Texture/T_Armor_Albedo.tga using Guid(1e16fe545b7ec0f44a764b8cf8e13d45) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '841ed78945fa5499ac34a7a0f70c5e0d') in 0.032473 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 2
-========================================================================
-Received Import Request.
-  Time since last request: 0.636044 seconds.
-  path: Assets/Swordsman/Texture/T_Weapon_Normal.tga
-  artifactKey: Guid(00d7141c20217c1449cebac045944f30) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Swordsman/Texture/T_Weapon_Normal.tga using Guid(00d7141c20217c1449cebac045944f30) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '63a1ae97b2ac5ac69aab82fbd39bca7b') in 0.010254 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 2
-========================================================================
-Received Import Request.
-  Time since last request: 110.474071 seconds.
-  path: Assets/Swordsman/Texture/T_Armor_Normal 1.tga
-  artifactKey: Guid(7b225e4e9ddfd8d4ba36d77d5f401087) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Swordsman/Texture/T_Armor_Normal 1.tga using Guid(7b225e4e9ddfd8d4ba36d77d5f401087) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '7214c848df71c7d482dd257dfe45088f') in 0.011049 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 2
-========================================================================
-Received Import Request.
-  Time since last request: 0.697145 seconds.
-  path: Assets/Swordsman/Texture/T_Armor_Occlusion.tga
-  artifactKey: Guid(f1a6151a6bf87764ebfd89561776cad7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Swordsman/Texture/T_Armor_Occlusion.tga using Guid(f1a6151a6bf87764ebfd89561776cad7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '1ac34780301df07c5e14ef93b00f76e0') in 0.010104 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 2
-========================================================================
-Received Import Request.
-  Time since last request: 96.027590 seconds.
-  path: Assets/Swordsman/Texture/T_Weapon_Normal.tga
-  artifactKey: Guid(00d7141c20217c1449cebac045944f30) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Swordsman/Texture/T_Weapon_Normal.tga using Guid(00d7141c20217c1449cebac045944f30) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'e35ed8104f46a8cdb054cec31e54b7ff') in 0.018582 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 2
-========================================================================
-Received Import Request.
-  Time since last request: 13.491860 seconds.
-  path: Assets/Swordsman/Texture/T_Armor_Normal 1.tga
-  artifactKey: Guid(7b225e4e9ddfd8d4ba36d77d5f401087) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Swordsman/Texture/T_Armor_Normal 1.tga using Guid(7b225e4e9ddfd8d4ba36d77d5f401087) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '20d47ec0585f652f2cdf5fb3a4c628d0') in 0.021260 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 2
-========================================================================
-Received Import Request.
-  Time since last request: 0.820043 seconds.
-  path: Assets/Swordsman/Texture/T_Armor_Albedo.tga
-  artifactKey: Guid(1e16fe545b7ec0f44a764b8cf8e13d45) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Swordsman/Texture/T_Armor_Albedo.tga using Guid(1e16fe545b7ec0f44a764b8cf8e13d45) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '367514b44003a9ff4b1ee1c3e449b560') in 0.020804 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 2
-========================================================================
-Received Import Request.
-  Time since last request: 1.619732 seconds.
-  path: Assets/Swordsman/Texture/T_Armor_Metallic.tga
-  artifactKey: Guid(925e57eb611c927418e9a6077b2320a3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Swordsman/Texture/T_Armor_Metallic.tga using Guid(925e57eb611c927418e9a6077b2320a3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '0084adb8709b2761c50c375e8d179ab5') in 0.018997 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 2
-========================================================================
-Received Import Request.
-  Time since last request: 29.487075 seconds.
-  path: Assets/Swordsman/Texture/T_Hair_Normal.tga
-  artifactKey: Guid(87e143e847a8f3f45849637ceb06d800) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Swordsman/Texture/T_Hair_Normal.tga using Guid(87e143e847a8f3f45849637ceb06d800) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '9e23b7cebc94ac96872691c5830c1dea') in 0.015924 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 2
-========================================================================
-Received Import Request.
-  Time since last request: 0.017929 seconds.
-  path: Assets/Swordsman/Texture/T_Head_Metallic.tga
-  artifactKey: Guid(217cb8059b929094390138958951de30) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Swordsman/Texture/T_Head_Metallic.tga using Guid(217cb8059b929094390138958951de30) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '5ef76fe1d1e7cd4f2a7d6e258bf422bd') in 0.015143 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 2
-========================================================================
-Received Import Request.
-  Time since last request: 0.004064 seconds.
-  path: Assets/Swordsman/Texture/T_Head_Normal.tga
-  artifactKey: Guid(da69184d9bfff1b42948de59c54c9e50) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Swordsman/Texture/T_Head_Normal.tga using Guid(da69184d9bfff1b42948de59c54c9e50) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '3265d7cddf91f6d3e50d77e0d1359bea') in 0.015738 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 2
-========================================================================
-Received Import Request.
-  Time since last request: 0.012275 seconds.
-  path: Assets/Swordsman/Texture/T_Weapon_Occlusion.tga
-  artifactKey: Guid(ffa10d4b1433f2c42ac4b0f483527e3d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Swordsman/Texture/T_Weapon_Occlusion.tga using Guid(ffa10d4b1433f2c42ac4b0f483527e3d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'b094865be1e280801d1a4e59b2d20e6e') in 0.015167 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 2
-========================================================================
-Received Import Request.
-  Time since last request: 0.004933 seconds.
-  path: Assets/Swordsman/Texture/T_Head_Albedo.tga
-  artifactKey: Guid(cd5e4f59cd12dfe41a12906e155d5051) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Swordsman/Texture/T_Head_Albedo.tga using Guid(cd5e4f59cd12dfe41a12906e155d5051) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '0b8c2a8d4ae4b44868f45c15a1bea96f') in 0.018639 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 2
-========================================================================
-Received Import Request.
-  Time since last request: 0.010223 seconds.
-  path: Assets/Swordsman/Texture/T_Armor_Occlusion.tga
-  artifactKey: Guid(f1a6151a6bf87764ebfd89561776cad7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Swordsman/Texture/T_Armor_Occlusion.tga using Guid(f1a6151a6bf87764ebfd89561776cad7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '70c055264e50cd136c06f467d1ac5240') in 0.015568 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 2
-========================================================================
-Received Import Request.
-  Time since last request: 0.004613 seconds.
-  path: Assets/Swordsman/Texture/T_Hair_Albedo.tga
-  artifactKey: Guid(bd00fce913b291b49b27fd3346c61204) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Swordsman/Texture/T_Hair_Albedo.tga using Guid(bd00fce913b291b49b27fd3346c61204) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '89e2139a911cb9931c510995454a073b') in 0.014863 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 2
-========================================================================
-Received Import Request.
-  Time since last request: 0.004661 seconds.
-  path: Assets/Swordsman/Texture/T_Head_Occlusion.tga
-  artifactKey: Guid(848d42451b39ffb42a763b894377ea88) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Swordsman/Texture/T_Head_Occlusion.tga using Guid(848d42451b39ffb42a763b894377ea88) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '652b342d74121e92a13cb0f58c578824') in 0.015447 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 2
-========================================================================
-Received Import Request.
-  Time since last request: 0.022336 seconds.
-  path: Assets/Swordsman/Texture/T_Weapon_Metallic.tga
-  artifactKey: Guid(49b886ce2ed1d8d4a8815fa6695a4efe) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Swordsman/Texture/T_Weapon_Metallic.tga using Guid(49b886ce2ed1d8d4a8815fa6695a4efe) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '9dd83c18728b431da3d287a05452c751') in 0.021088 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 2
-========================================================================
-Received Import Request.
-  Time since last request: 0.018834 seconds.
-  path: Assets/Swordsman/Texture/T_Weapon_Albedo.tga
-  artifactKey: Guid(5a8829c1c31ed4246a2430c4deac8213) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Swordsman/Texture/T_Weapon_Albedo.tga using Guid(5a8829c1c31ed4246a2430c4deac8213) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '152d29cbb6039669edd508b6e41b0fcd') in 0.019566 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 2
-========================================================================
-=======
-  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
-  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
-========================================================================
->>>>>>> Stashed changes
 Received Prepare
 Begin MonoManager ReloadAssembly
 Symbol file LoadedFromMemory doesn't match image E:\GitHub\project-1-infinitegame-studio\Library\PackageCache\com.unity.visualscripting@1.8.0\Editor\VisualScripting.Core\Dependencies\YamlDotNet\Unity.VisualScripting.YamlDotNet.dll
 Symbol file LoadedFromMemory doesn't match image E:\GitHub\project-1-infinitegame-studio\Library\PackageCache\com.unity.visualscripting@1.8.0\Editor\VisualScripting.Core\Dependencies\DotNetZip\Unity.VisualScripting.IonicZip.dll
-<<<<<<< Updated upstream
-- Loaded All Assemblies, in  0.759 seconds
-Refreshing native plugins compatible for Editor in 2.74 ms, found 3 plugins.
-Native extension for WindowsStandalone target not found
-Native extension for WebGL target not found
-Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  1.372 seconds
-Domain Reload Profiling: 2127ms
-	BeginReloadAssembly (138ms)
-=======
-- Loaded All Assemblies, in  0.734 seconds
+- Loaded All Assemblies, in  0.737 seconds
 Refreshing native plugins compatible for Editor in 2.81 ms, found 3 plugins.
 Native extension for WindowsStandalone target not found
 Native extension for WebGL target not found
 Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  1.377 seconds
-Domain Reload Profiling: 2108ms
+- Finished resetting the current domain, in  1.347 seconds
+Domain Reload Profiling: 2081ms
 	BeginReloadAssembly (128ms)
->>>>>>> Stashed changes
 		ExecutionOrderSort (0ms)
 		DisableScriptedObjects (4ms)
 		BackupInstance (0ms)
 		ReleaseScriptingObjects (0ms)
-<<<<<<< Updated upstream
-		CreateAndSetChildDomain (46ms)
-	RebuildCommonClasses (28ms)
-	RebuildNativeTypeToScriptingClass (10ms)
-	initialDomainReloadingComplete (31ms)
-	LoadAllAssembliesAndSetupDomain (547ms)
-		LoadAssemblies (285ms)
-		RebuildTransferFunctionScriptingTraits (0ms)
-		AnalyzeDomain (313ms)
-			TypeCache.Refresh (301ms)
-				TypeCache.ScanAssembly (291ms)
-			ScanForSourceGeneratedMonoScriptInfo (0ms)
-			ResolveRequiredComponents (11ms)
-	FinalizeReload (1372ms)
-		ReleaseScriptCaches (0ms)
-		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (677ms)
-=======
 		CreateAndSetChildDomain (36ms)
-	RebuildCommonClasses (27ms)
+	RebuildCommonClasses (35ms)
 	RebuildNativeTypeToScriptingClass (10ms)
 	initialDomainReloadingComplete (26ms)
-	LoadAllAssembliesAndSetupDomain (540ms)
-		LoadAssemblies (281ms)
+	LoadAllAssembliesAndSetupDomain (535ms)
+		LoadAssemblies (283ms)
 		RebuildTransferFunctionScriptingTraits (0ms)
-		AnalyzeDomain (309ms)
-			TypeCache.Refresh (298ms)
-				TypeCache.ScanAssembly (289ms)
+		AnalyzeDomain (303ms)
+			TypeCache.Refresh (292ms)
+				TypeCache.ScanAssembly (283ms)
 			ScanForSourceGeneratedMonoScriptInfo (0ms)
-			ResolveRequiredComponents (11ms)
-	FinalizeReload (1377ms)
+			ResolveRequiredComponents (12ms)
+	FinalizeReload (1348ms)
 		ReleaseScriptCaches (0ms)
 		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (666ms)
->>>>>>> Stashed changes
-			LogAssemblyErrors (0ms)
-			InitializePlatformSupportModulesInManaged (9ms)
-			SetLoadedEditorAssemblies (5ms)
-			RefreshPlugins (0ms)
-<<<<<<< Updated upstream
-			BeforeProcessingInitializeOnLoad (154ms)
-			ProcessInitializeOnLoadAttributes (473ms)
-			ProcessInitializeOnLoadMethodAttributes (28ms)
-			AfterProcessingInitializeOnLoad (7ms)
-			EditorAssembliesLoaded (0ms)
-		ExecutionOrderSort2 (0ms)
-		AwakeInstancesAfterBackupRestoration (7ms)
-Refreshing native plugins compatible for Editor in 4.00 ms, found 3 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 6783 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 193 unused Assets / (14.7 MB). Loaded Objects now: 7380.
-Memory consumption went from 259.4 MB to 244.7 MB.
-Total: 5.723100 ms (FindLiveObjects: 0.405700 ms CreateObjectMapping: 0.513300 ms MarkObjects: 2.359600 ms  DeleteObjects: 2.443600 ms)
-=======
-			BeforeProcessingInitializeOnLoad (157ms)
-			ProcessInitializeOnLoadAttributes (459ms)
-			ProcessInitializeOnLoadMethodAttributes (29ms)
-			AfterProcessingInitializeOnLoad (8ms)
-			EditorAssembliesLoaded (0ms)
-		ExecutionOrderSort2 (0ms)
-		AwakeInstancesAfterBackupRestoration (7ms)
-Refreshing native plugins compatible for Editor in 4.19 ms, found 3 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 6785 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 193 unused Assets / (3.3 MB). Loaded Objects now: 7390.
-Memory consumption went from 246.0 MB to 242.7 MB.
-Total: 4.237100 ms (FindLiveObjects: 0.419000 ms CreateObjectMapping: 0.558700 ms MarkObjects: 2.335200 ms  DeleteObjects: 0.923400 ms)
->>>>>>> Stashed changes
-
-Prepare: number of updated asset objects reloaded= 0
-AssetImportParameters requested are different than current active one (requested -> active):
-  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
-  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
-  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
-  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
-  custom:AudioImporter_EditorPlatform: d09bf68614088b80899f8185d706f6e7 -> 
-  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
-  custom:CustomObjectIndexerAttribute: a3ef5dd2817f97addfee359851a9dba5 -> 
-  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
-  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
-========================================================================
-Received Import Request.
-<<<<<<< Updated upstream
-  Time since last request: 238.986026 seconds.
-  path: Assets/Swordsman/Texture/T_Hair_Normal.png
-  artifactKey: Guid(abe43f065841cfe4ca7e6bcedcca9597) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Swordsman/Texture/T_Hair_Normal.png using Guid(abe43f065841cfe4ca7e6bcedcca9597) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '82e172523f101965de0787f1d3877442') in 0.054630 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 2
-========================================================================
-Received Import Request.
-  Time since last request: 0.727896 seconds.
-  path: Assets/Swordsman/Texture/T_Armor_Occlusion.png
-  artifactKey: Guid(f7ad801fc8268c0448c110a10d201ffd) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Swordsman/Texture/T_Armor_Occlusion.png using Guid(f7ad801fc8268c0448c110a10d201ffd) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'e1ac66f99a646b4f5988594d349b49f6') in 0.009898 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 2
-========================================================================
-Received Import Request.
-  Time since last request: 0.678681 seconds.
-  path: Assets/Swordsman/Texture/T_Armor_Normal 1.png
-  artifactKey: Guid(1e10f3dd6803e95418d7ece20d4da2c9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Swordsman/Texture/T_Armor_Normal 1.png using Guid(1e10f3dd6803e95418d7ece20d4da2c9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '0891769e4e6020e364c1929fa9b26b6c') in 0.010471 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 2
-========================================================================
-Received Import Request.
-  Time since last request: 0.729474 seconds.
-  path: Assets/Swordsman/Texture/T_Armor_Albedo.png
-  artifactKey: Guid(d1c4ee1b93a743340b804f97ab4d28ae) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Swordsman/Texture/T_Armor_Albedo.png using Guid(d1c4ee1b93a743340b804f97ab4d28ae) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'ef80270e2da57c9bf3ad5b299ddeabe1') in 0.010832 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 2
-=======
-  Time since last request: 883439.890158 seconds.
-  path: Assets/StartScene.unity
-  artifactKey: Guid(86a6d7b9a1daf56439425bb038e4437f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/StartScene.unity using Guid(86a6d7b9a1daf56439425bb038e4437f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '215a7f213c3f1ec33ff4f73c97c91a5d') in 0.001931 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 0
-========================================================================
-Received Import Request.
-  Time since last request: 211.215953 seconds.
-  path: Assets/Resources/药丸 (2).prefab
-  artifactKey: Guid(e893fca8a7594c643a6e16caf14847dd) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Resources/药丸 (2).prefab using Guid(e893fca8a7594c643a6e16caf14847dd) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '2967eb061709cfed89c8b31c4b951928') in 0.079192 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 12
-========================================================================
-Received Import Request.
-  Time since last request: 1.827760 seconds.
-  path: Assets/Resources/sk_monster_4.prefab
-  artifactKey: Guid(529e77d9fc9d3974783baf3c82b9324d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Resources/sk_monster_4.prefab using Guid(529e77d9fc9d3974783baf3c82b9324d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '8e35deb40ba536c05cfa8e213b7c75df') in 0.118312 seconds
-Internal: There are remaining Allocations on the JobTempAlloc. This is a leak, and will impact performance
-To Debug, run app with -diag-job-temp-memory-leak-validation cmd line argument. This will output the callstacks of the leaked allocations.
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 185
-========================================================================
-Received Import Request.
-  Time since last request: 0.387059 seconds.
-  path: Assets/Resources/Spell.prefab
-  artifactKey: Guid(418d05dd1ba242746b90b54a02e9c786) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Resources/Spell.prefab using Guid(418d05dd1ba242746b90b54a02e9c786) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '0c1f5c5b39cd9f3f8db55683bc733728') in 0.010493 seconds
-Internal: There are remaining Allocations on the JobTempAlloc. This is a leak, and will impact performance
-To Debug, run app with -diag-job-temp-memory-leak-validation cmd line argument. This will output the callstacks of the leaked allocations.
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 25
-========================================================================
-Received Import Request.
-  Time since last request: 2.204282 seconds.
-  path: Assets/Resources/药丸.prefab
-  artifactKey: Guid(3e4a4c3cce1efaa4b9de16b46daa7b5d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Resources/药丸.prefab using Guid(3e4a4c3cce1efaa4b9de16b46daa7b5d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '7bed6928731b502d27a44f0842916605') in 0.004752 seconds
-Internal: There are remaining Allocations on the JobTempAlloc. This is a leak, and will impact performance
-To Debug, run app with -diag-job-temp-memory-leak-validation cmd line argument. This will output the callstacks of the leaked allocations.
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 12
->>>>>>> Stashed changes
-========================================================================
-Received Prepare
-Begin MonoManager ReloadAssembly
-Symbol file LoadedFromMemory doesn't match image E:\GitHub\project-1-infinitegame-studio\Library\PackageCache\com.unity.visualscripting@1.8.0\Editor\VisualScripting.Core\Dependencies\YamlDotNet\Unity.VisualScripting.YamlDotNet.dll
-Symbol file LoadedFromMemory doesn't match image E:\GitHub\project-1-infinitegame-studio\Library\PackageCache\com.unity.visualscripting@1.8.0\Editor\VisualScripting.Core\Dependencies\DotNetZip\Unity.VisualScripting.IonicZip.dll
-<<<<<<< Updated upstream
-- Loaded All Assemblies, in  0.807 seconds
-Refreshing native plugins compatible for Editor in 3.52 ms, found 3 plugins.
-Native extension for WindowsStandalone target not found
-Native extension for WebGL target not found
-Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  1.390 seconds
-Domain Reload Profiling: 2194ms
-	BeginReloadAssembly (147ms)
-=======
-- Loaded All Assemblies, in  0.822 seconds
-Refreshing native plugins compatible for Editor in 2.68 ms, found 3 plugins.
-Native extension for WindowsStandalone target not found
-Native extension for WebGL target not found
-Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  1.428 seconds
-Domain Reload Profiling: 2246ms
-	BeginReloadAssembly (154ms)
-		ExecutionOrderSort (0ms)
-		DisableScriptedObjects (4ms)
-		BackupInstance (0ms)
-		ReleaseScriptingObjects (0ms)
-		CreateAndSetChildDomain (45ms)
-	RebuildCommonClasses (31ms)
-	RebuildNativeTypeToScriptingClass (10ms)
-	initialDomainReloadingComplete (29ms)
-	LoadAllAssembliesAndSetupDomain (593ms)
-		LoadAssemblies (329ms)
-		RebuildTransferFunctionScriptingTraits (0ms)
-		AnalyzeDomain (333ms)
-			TypeCache.Refresh (321ms)
-				TypeCache.ScanAssembly (309ms)
-			ScanForSourceGeneratedMonoScriptInfo (0ms)
-			ResolveRequiredComponents (11ms)
-	FinalizeReload (1428ms)
-		ReleaseScriptCaches (0ms)
-		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (684ms)
+		SetupLoadedEditorAssemblies (668ms)
 			LogAssemblyErrors (0ms)
 			InitializePlatformSupportModulesInManaged (8ms)
 			SetLoadedEditorAssemblies (5ms)
 			RefreshPlugins (0ms)
-			BeforeProcessingInitializeOnLoad (162ms)
-			ProcessInitializeOnLoadAttributes (472ms)
-			ProcessInitializeOnLoadMethodAttributes (29ms)
-			AfterProcessingInitializeOnLoad (8ms)
-			EditorAssembliesLoaded (0ms)
-		ExecutionOrderSort2 (0ms)
-		AwakeInstancesAfterBackupRestoration (7ms)
-Refreshing native plugins compatible for Editor in 3.78 ms, found 3 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 6785 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 194 unused Assets / (3.3 MB). Loaded Objects now: 7416.
-Memory consumption went from 252.0 MB to 248.7 MB.
-Total: 4.555600 ms (FindLiveObjects: 0.566800 ms CreateObjectMapping: 0.522300 ms MarkObjects: 2.642600 ms  DeleteObjects: 0.823000 ms)
-
-Prepare: number of updated asset objects reloaded= 0
-AssetImportParameters requested are different than current active one (requested -> active):
-  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
-  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
-  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
-  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
-  custom:AudioImporter_EditorPlatform: d09bf68614088b80899f8185d706f6e7 -> 
-  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
-  custom:CustomObjectIndexerAttribute: a3ef5dd2817f97addfee359851a9dba5 -> 
-  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
-  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
-========================================================================
-Received Import Request.
-  Time since last request: 34.308703 seconds.
-  path: Assets/Resources/sk_monster_4.prefab
-  artifactKey: Guid(529e77d9fc9d3974783baf3c82b9324d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Resources/sk_monster_4.prefab using Guid(529e77d9fc9d3974783baf3c82b9324d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '500b2bc842f265cf3c812609b445c258') in 0.034255 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 164
-========================================================================
-Received Import Request.
-  Time since last request: 77.159958 seconds.
-  path: Assets/Resources/DamageUp.prefab
-  artifactKey: Guid(315b8e9c38dd6f84a838c4fcd41871a5) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Resources/DamageUp.prefab using Guid(315b8e9c38dd6f84a838c4fcd41871a5) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '17de099184aef484367beee4044c3186') in 0.032362 seconds
-Internal: There are remaining Allocations on the JobTempAlloc. This is a leak, and will impact performance
-To Debug, run app with -diag-job-temp-memory-leak-validation cmd line argument. This will output the callstacks of the leaked allocations.
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 41
-========================================================================
-Received Import Request.
-  Time since last request: 0.679827 seconds.
-  path: Assets/Resources/MagicSupply.prefab
-  artifactKey: Guid(450cd2666e9b869478d5d97b5e62b799) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Resources/MagicSupply.prefab using Guid(450cd2666e9b869478d5d97b5e62b799) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '0158aa0258a0d2d8b4997d7289ace72e') in 0.006498 seconds
-Internal: There are remaining Allocations on the JobTempAlloc. This is a leak, and will impact performance
-To Debug, run app with -diag-job-temp-memory-leak-validation cmd line argument. This will output the callstacks of the leaked allocations.
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 20
-========================================================================
-Received Import Request.
-  Time since last request: 12.571846 seconds.
-  path: Assets/Monster_4/prefabs
-  artifactKey: Guid(52d3043de4c2e9344a77f4b6d46e3117) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Monster_4/prefabs using Guid(52d3043de4c2e9344a77f4b6d46e3117) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'a01ce69b3d2329cdae41fad8c374fc04') in 0.000507 seconds
-Internal: There are remaining Allocations on the JobTempAlloc. This is a leak, and will impact performance
-To Debug, run app with -diag-job-temp-memory-leak-validation cmd line argument. This will output the callstacks of the leaked allocations.
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 0
-========================================================================
-Received Import Request.
-  Time since last request: 0.819593 seconds.
-  path: Assets/Monster_4/prefabs/sk_monster_4.prefab
-  artifactKey: Guid(9108149b2610790459d0672a7788c571) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Monster_4/prefabs/sk_monster_4.prefab using Guid(9108149b2610790459d0672a7788c571) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '916700b49e7c746c9ea881237d8aaec7') in 0.029327 seconds
-Internal: There are remaining Allocations on the JobTempAlloc. This is a leak, and will impact performance
-To Debug, run app with -diag-job-temp-memory-leak-validation cmd line argument. This will output the callstacks of the leaked allocations.
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 180
-========================================================================
-Received Import Request.
-  Time since last request: 479.768609 seconds.
-  path: Assets/Kevin Iglesias/Giant Animations
-  artifactKey: Guid(6941c5587f79fce4f86a73d12b087439) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Kevin Iglesias/Giant Animations using Guid(6941c5587f79fce4f86a73d12b087439) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '8ddf6465b9cc81723b49d4d78a649248') in 0.000853 seconds
-Internal: There are remaining Allocations on the JobTempAlloc. This is a leak, and will impact performance
-To Debug, run app with -diag-job-temp-memory-leak-validation cmd line argument. This will output the callstacks of the leaked allocations.
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 0
-========================================================================
-Received Import Request.
-  Time since last request: 2.054345 seconds.
-  path: Assets/Kevin Iglesias/Giant Animations/Giant Animations - Example Scene.unity
-  artifactKey: Guid(5033d45d93d3d1f4083d665043627f6f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Kevin Iglesias/Giant Animations/Giant Animations - Example Scene.unity using Guid(5033d45d93d3d1f4083d665043627f6f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'ce08c1aef5ae4a1589e7cb8b12217197') in 0.000455 seconds
-Internal: There are remaining Allocations on the JobTempAlloc. This is a leak, and will impact performance
-To Debug, run app with -diag-job-temp-memory-leak-validation cmd line argument. This will output the callstacks of the leaked allocations.
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 0
-========================================================================
-Received Import Request.
-  Time since last request: 2.015190 seconds.
-  path: Assets/Kevin Iglesias/Giant Animations/Materials
-  artifactKey: Guid(bc418eab0781d31489ae4288d8c4feaa) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Kevin Iglesias/Giant Animations/Materials using Guid(bc418eab0781d31489ae4288d8c4feaa) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '66c7cfcfc9a3cfa3d57be5cbea02b650') in 0.000434 seconds
-Internal: There are remaining Allocations on the JobTempAlloc. This is a leak, and will impact performance
-To Debug, run app with -diag-job-temp-memory-leak-validation cmd line argument. This will output the callstacks of the leaked allocations.
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 0
-========================================================================
-Received Import Request.
-  Time since last request: 0.818068 seconds.
-  path: Assets/Kevin Iglesias/Giant Animations/Prefabs
-  artifactKey: Guid(32901ccc60c1951448dbb76ccd41cf6b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Kevin Iglesias/Giant Animations/Prefabs using Guid(32901ccc60c1951448dbb76ccd41cf6b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '17062c60e1f176447288fb2d0f00c4f7') in 0.000398 seconds
-Internal: There are remaining Allocations on the JobTempAlloc. This is a leak, and will impact performance
-To Debug, run app with -diag-job-temp-memory-leak-validation cmd line argument. This will output the callstacks of the leaked allocations.
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 0
-========================================================================
-Received Import Request.
-  Time since last request: 10.409900 seconds.
-  path: Assets/Kevin Iglesias/Giant Animations/AnimatorControllers/Giant@Damages.controller
-  artifactKey: Guid(08d825eb7aeab5a4db18e5776dbade8d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Kevin Iglesias/Giant Animations/AnimatorControllers/Giant@Damages.controller using Guid(08d825eb7aeab5a4db18e5776dbade8d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'c72a113bba3d154bf843e711b67a6555') in 0.001769 seconds
-Internal: There are remaining Allocations on the JobTempAlloc. This is a leak, and will impact performance
-To Debug, run app with -diag-job-temp-memory-leak-validation cmd line argument. This will output the callstacks of the leaked allocations.
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 5
-========================================================================
-Received Import Request.
-  Time since last request: 1.752159 seconds.
-  path: Assets/Kevin Iglesias/Giant Animations/AnimatorControllers/Giant@Attacks.controller
-  artifactKey: Guid(b13cac861fa860c41b71361b14ec28c8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Kevin Iglesias/Giant Animations/AnimatorControllers/Giant@Attacks.controller using Guid(b13cac861fa860c41b71361b14ec28c8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '36fe4e8a5daf028db03e4676260d451f') in 0.001477 seconds
-Internal: There are remaining Allocations on the JobTempAlloc. This is a leak, and will impact performance
-To Debug, run app with -diag-job-temp-memory-leak-validation cmd line argument. This will output the callstacks of the leaked allocations.
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 5
-========================================================================
-Received Import Request.
-  Time since last request: 1.790730 seconds.
-  path: Assets/Kevin Iglesias/Giant Animations/Animations/Giant@Idle01.fbx
-  artifactKey: Guid(fa0a845703afc5d4ca54de97fee2b135) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Kevin Iglesias/Giant Animations/Animations/Giant@Idle01.fbx using Guid(fa0a845703afc5d4ca54de97fee2b135) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'f10687d491603d7cb7935292d0dc8e4d') in 0.005479 seconds
-Internal: There are remaining Allocations on the JobTempAlloc. This is a leak, and will impact performance
-To Debug, run app with -diag-job-temp-memory-leak-validation cmd line argument. This will output the callstacks of the leaked allocations.
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 129
-========================================================================
-Received Import Request.
-  Time since last request: 3.392609 seconds.
-  path: Assets/Kevin Iglesias/Giant Animations/Animations/Combat
-  artifactKey: Guid(964c8e73a1cb4bf47b88a539c04468a6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Kevin Iglesias/Giant Animations/Animations/Combat using Guid(964c8e73a1cb4bf47b88a539c04468a6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '19f43b7d7a064d7915472a155baf6e6b') in 0.000388 seconds
-Internal: There are remaining Allocations on the JobTempAlloc. This is a leak, and will impact performance
-To Debug, run app with -diag-job-temp-memory-leak-validation cmd line argument. This will output the callstacks of the leaked allocations.
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 0
-========================================================================
-Received Import Request.
-  Time since last request: 0.773759 seconds.
-  path: Assets/Kevin Iglesias/Giant Animations/Animations/Movement
-  artifactKey: Guid(159c9c29f50ddc5439ca695248aa1355) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Kevin Iglesias/Giant Animations/Animations/Movement using Guid(159c9c29f50ddc5439ca695248aa1355) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'f5d539ce8b5ef09a53f9d8595d180a80') in 0.000393 seconds
-Internal: There are remaining Allocations on the JobTempAlloc. This is a leak, and will impact performance
-To Debug, run app with -diag-job-temp-memory-leak-validation cmd line argument. This will output the callstacks of the leaked allocations.
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 0
-========================================================================
-Received Import Request.
-  Time since last request: 0.775850 seconds.
-  path: Assets/Kevin Iglesias/Giant Animations/Animations/Movement/Giant@Run01.fbx
-  artifactKey: Guid(63f73fc2ade375f4e927f9c11223a594) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Kevin Iglesias/Giant Animations/Animations/Movement/Giant@Run01.fbx using Guid(63f73fc2ade375f4e927f9c11223a594) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'df586d775c5672d7ab24cc252e6c202c') in 0.003734 seconds
-Internal: There are remaining Allocations on the JobTempAlloc. This is a leak, and will impact performance
-To Debug, run app with -diag-job-temp-memory-leak-validation cmd line argument. This will output the callstacks of the leaked allocations.
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 129
-========================================================================
-Received Prepare
-Begin MonoManager ReloadAssembly
-Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 14)
-Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 14)
-Symbol file LoadedFromMemory doesn't match image E:\GitHub\project-1-infinitegame-studio\Library\PackageCache\com.unity.visualscripting@1.8.0\Editor\VisualScripting.Core\Dependencies\YamlDotNet\Unity.VisualScripting.YamlDotNet.dll
-Symbol file LoadedFromMemory doesn't match image E:\GitHub\project-1-infinitegame-studio\Library\PackageCache\com.unity.visualscripting@1.8.0\Editor\VisualScripting.Core\Dependencies\DotNetZip\Unity.VisualScripting.IonicZip.dll
-- Loaded All Assemblies, in  0.805 seconds
-Refreshing native plugins compatible for Editor in 2.70 ms, found 3 plugins.
-Native extension for WindowsStandalone target not found
-Native extension for WebGL target not found
-Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  2.162 seconds
-Domain Reload Profiling: 2964ms
-	BeginReloadAssembly (135ms)
->>>>>>> Stashed changes
-		ExecutionOrderSort (0ms)
-		DisableScriptedObjects (4ms)
-		BackupInstance (0ms)
-		ReleaseScriptingObjects (0ms)
-		CreateAndSetChildDomain (39ms)
-<<<<<<< Updated upstream
-	RebuildCommonClasses (28ms)
-	RebuildNativeTypeToScriptingClass (11ms)
-	initialDomainReloadingComplete (30ms)
-	LoadAllAssembliesAndSetupDomain (588ms)
-		LoadAssemblies (304ms)
-		RebuildTransferFunctionScriptingTraits (0ms)
-		AnalyzeDomain (352ms)
-			TypeCache.Refresh (336ms)
-				TypeCache.ScanAssembly (324ms)
-			ScanForSourceGeneratedMonoScriptInfo (0ms)
-			ResolveRequiredComponents (15ms)
-	FinalizeReload (1391ms)
-		ReleaseScriptCaches (0ms)
-		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (677ms)
-			LogAssemblyErrors (0ms)
-			InitializePlatformSupportModulesInManaged (9ms)
-			SetLoadedEditorAssemblies (4ms)
-			RefreshPlugins (0ms)
-			BeforeProcessingInitializeOnLoad (161ms)
-			ProcessInitializeOnLoadAttributes (462ms)
-			ProcessInitializeOnLoadMethodAttributes (31ms)
-			AfterProcessingInitializeOnLoad (8ms)
-			EditorAssembliesLoaded (0ms)
-		ExecutionOrderSort2 (0ms)
-		AwakeInstancesAfterBackupRestoration (7ms)
-Refreshing native plugins compatible for Editor in 4.04 ms, found 3 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 6783 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 193 unused Assets / (14.7 MB). Loaded Objects now: 7395.
-Memory consumption went from 259.4 MB to 244.7 MB.
-Total: 6.653600 ms (FindLiveObjects: 0.460600 ms CreateObjectMapping: 0.559200 ms MarkObjects: 3.427300 ms  DeleteObjects: 2.205900 ms)
-=======
-	RebuildCommonClasses (27ms)
-	RebuildNativeTypeToScriptingClass (10ms)
-	initialDomainReloadingComplete (29ms)
-	LoadAllAssembliesAndSetupDomain (601ms)
-		LoadAssemblies (320ms)
-		RebuildTransferFunctionScriptingTraits (0ms)
-		AnalyzeDomain (334ms)
-			TypeCache.Refresh (323ms)
-				TypeCache.ScanAssembly (310ms)
-			ScanForSourceGeneratedMonoScriptInfo (0ms)
-			ResolveRequiredComponents (11ms)
-	FinalizeReload (2162ms)
-		ReleaseScriptCaches (0ms)
-		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (674ms)
-			LogAssemblyErrors (0ms)
-			InitializePlatformSupportModulesInManaged (9ms)
-			SetLoadedEditorAssemblies (5ms)
-			RefreshPlugins (0ms)
-			BeforeProcessingInitializeOnLoad (159ms)
-			ProcessInitializeOnLoadAttributes (463ms)
-			ProcessInitializeOnLoadMethodAttributes (30ms)
+			BeforeProcessingInitializeOnLoad (164ms)
+			ProcessInitializeOnLoadAttributes (454ms)
+			ProcessInitializeOnLoadMethodAttributes (27ms)
 			AfterProcessingInitializeOnLoad (9ms)
 			EditorAssembliesLoaded (0ms)
 		ExecutionOrderSort2 (0ms)
 		AwakeInstancesAfterBackupRestoration (7ms)
-Refreshing native plugins compatible for Editor in 4.01 ms, found 3 plugins.
+Refreshing native plugins compatible for Editor in 3.91 ms, found 3 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 6785 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 194 unused Assets / (3.3 MB). Loaded Objects now: 7431.
-Memory consumption went from 252.1 MB to 248.8 MB.
-Total: 4.979500 ms (FindLiveObjects: 0.391100 ms CreateObjectMapping: 0.583200 ms MarkObjects: 3.043300 ms  DeleteObjects: 0.961200 ms)
->>>>>>> Stashed changes
+Unloading 6783 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 193 unused Assets / (14.7 MB). Loaded Objects now: 7386.
+Memory consumption went from 258.9 MB to 244.2 MB.
+Total: 6.819200 ms (FindLiveObjects: 0.698700 ms CreateObjectMapping: 0.658600 ms MarkObjects: 2.967100 ms  DeleteObjects: 2.494000 ms)
 
 Prepare: number of updated asset objects reloaded= 0
 AssetImportParameters requested are different than current active one (requested -> active):
@@ -944,166 +320,171 @@ AssetImportParameters requested are different than current active one (requested
   custom:CustomObjectIndexerAttribute: a3ef5dd2817f97addfee359851a9dba5 -> 
   custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
   custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
-<<<<<<< Updated upstream
+========================================================================
+Received Prepare
+Begin MonoManager ReloadAssembly
+Symbol file LoadedFromMemory doesn't match image E:\GitHub\project-1-infinitegame-studio\Library\PackageCache\com.unity.visualscripting@1.8.0\Editor\VisualScripting.Core\Dependencies\YamlDotNet\Unity.VisualScripting.YamlDotNet.dll
+Symbol file LoadedFromMemory doesn't match image E:\GitHub\project-1-infinitegame-studio\Library\PackageCache\com.unity.visualscripting@1.8.0\Editor\VisualScripting.Core\Dependencies\DotNetZip\Unity.VisualScripting.IonicZip.dll
+- Loaded All Assemblies, in  0.742 seconds
+Refreshing native plugins compatible for Editor in 2.76 ms, found 3 plugins.
+Native extension for WindowsStandalone target not found
+Native extension for WebGL target not found
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in  1.368 seconds
+Domain Reload Profiling: 2107ms
+	BeginReloadAssembly (144ms)
+		ExecutionOrderSort (0ms)
+		DisableScriptedObjects (6ms)
+		BackupInstance (0ms)
+		ReleaseScriptingObjects (0ms)
+		CreateAndSetChildDomain (40ms)
+	RebuildCommonClasses (28ms)
+	RebuildNativeTypeToScriptingClass (10ms)
+	initialDomainReloadingComplete (26ms)
+	LoadAllAssembliesAndSetupDomain (530ms)
+		LoadAssemblies (283ms)
+		RebuildTransferFunctionScriptingTraits (0ms)
+		AnalyzeDomain (305ms)
+			TypeCache.Refresh (293ms)
+				TypeCache.ScanAssembly (284ms)
+			ScanForSourceGeneratedMonoScriptInfo (0ms)
+			ResolveRequiredComponents (11ms)
+	FinalizeReload (1368ms)
+		ReleaseScriptCaches (0ms)
+		RebuildScriptCaches (0ms)
+		SetupLoadedEditorAssemblies (670ms)
+			LogAssemblyErrors (0ms)
+			InitializePlatformSupportModulesInManaged (8ms)
+			SetLoadedEditorAssemblies (5ms)
+			RefreshPlugins (0ms)
+			BeforeProcessingInitializeOnLoad (166ms)
+			ProcessInitializeOnLoadAttributes (453ms)
+			ProcessInitializeOnLoadMethodAttributes (29ms)
+			AfterProcessingInitializeOnLoad (8ms)
+			EditorAssembliesLoaded (0ms)
+		ExecutionOrderSort2 (0ms)
+		AwakeInstancesAfterBackupRestoration (8ms)
+Refreshing native plugins compatible for Editor in 4.04 ms, found 3 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 6783 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 193 unused Assets / (14.7 MB). Loaded Objects now: 7401.
+Memory consumption went from 258.9 MB to 244.2 MB.
+Total: 5.847300 ms (FindLiveObjects: 0.485600 ms CreateObjectMapping: 0.567300 ms MarkObjects: 2.902300 ms  DeleteObjects: 1.891100 ms)
+
+Prepare: number of updated asset objects reloaded= 0
+AssetImportParameters requested are different than current active one (requested -> active):
+  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
+  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
+  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
+  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
+  custom:AudioImporter_EditorPlatform: d09bf68614088b80899f8185d706f6e7 -> 
+  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
+  custom:CustomObjectIndexerAttribute: a3ef5dd2817f97addfee359851a9dba5 -> 
+  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
+  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
+========================================================================
+Received Prepare
+Begin MonoManager ReloadAssembly
+Symbol file LoadedFromMemory doesn't match image E:\GitHub\project-1-infinitegame-studio\Library\PackageCache\com.unity.visualscripting@1.8.0\Editor\VisualScripting.Core\Dependencies\YamlDotNet\Unity.VisualScripting.YamlDotNet.dll
+Symbol file LoadedFromMemory doesn't match image E:\GitHub\project-1-infinitegame-studio\Library\PackageCache\com.unity.visualscripting@1.8.0\Editor\VisualScripting.Core\Dependencies\DotNetZip\Unity.VisualScripting.IonicZip.dll
+- Loaded All Assemblies, in  0.739 seconds
+Refreshing native plugins compatible for Editor in 3.51 ms, found 3 plugins.
+Native extension for WindowsStandalone target not found
+Native extension for WebGL target not found
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in  1.372 seconds
+Domain Reload Profiling: 2109ms
+	BeginReloadAssembly (132ms)
+		ExecutionOrderSort (0ms)
+		DisableScriptedObjects (4ms)
+		BackupInstance (0ms)
+		ReleaseScriptingObjects (0ms)
+		CreateAndSetChildDomain (34ms)
+	RebuildCommonClasses (27ms)
+	RebuildNativeTypeToScriptingClass (11ms)
+	initialDomainReloadingComplete (32ms)
+	LoadAllAssembliesAndSetupDomain (534ms)
+		LoadAssemblies (289ms)
+		RebuildTransferFunctionScriptingTraits (0ms)
+		AnalyzeDomain (302ms)
+			TypeCache.Refresh (291ms)
+				TypeCache.ScanAssembly (281ms)
+			ScanForSourceGeneratedMonoScriptInfo (0ms)
+			ResolveRequiredComponents (11ms)
+	FinalizeReload (1373ms)
+		ReleaseScriptCaches (0ms)
+		RebuildScriptCaches (0ms)
+		SetupLoadedEditorAssemblies (675ms)
+			LogAssemblyErrors (0ms)
+			InitializePlatformSupportModulesInManaged (8ms)
+			SetLoadedEditorAssemblies (4ms)
+			RefreshPlugins (0ms)
+			BeforeProcessingInitializeOnLoad (164ms)
+			ProcessInitializeOnLoadAttributes (462ms)
+			ProcessInitializeOnLoadMethodAttributes (28ms)
+			AfterProcessingInitializeOnLoad (9ms)
+			EditorAssembliesLoaded (0ms)
+		ExecutionOrderSort2 (0ms)
+		AwakeInstancesAfterBackupRestoration (7ms)
+Refreshing native plugins compatible for Editor in 4.83 ms, found 3 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 6783 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 193 unused Assets / (14.7 MB). Loaded Objects now: 7416.
+Memory consumption went from 258.9 MB to 244.2 MB.
+Total: 7.950800 ms (FindLiveObjects: 0.464500 ms CreateObjectMapping: 0.675200 ms MarkObjects: 4.130400 ms  DeleteObjects: 2.679800 ms)
+
+Prepare: number of updated asset objects reloaded= 0
+AssetImportParameters requested are different than current active one (requested -> active):
+  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
+  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
+  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
+  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
+  custom:AudioImporter_EditorPlatform: d09bf68614088b80899f8185d706f6e7 -> 
+  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
+  custom:CustomObjectIndexerAttribute: a3ef5dd2817f97addfee359851a9dba5 -> 
+  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
+  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
 ========================================================================
 Received Import Request.
-  Time since last request: 58.596009 seconds.
-  path: Assets/Swordsman/Texture/T_Head_Albedo.png
-  artifactKey: Guid(2920d90d0b0830649bef10b0daaffdb0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Swordsman/Texture/T_Head_Albedo.png using Guid(2920d90d0b0830649bef10b0daaffdb0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'b88404834d3a10320dbbc4540ec492d0') in 0.046728 seconds
+  Time since last request: 832.204560 seconds.
+  path: Assets/Monster_4/prefabs/sk_monster_4.prefab
+  artifactKey: Guid(9108149b2610790459d0672a7788c571) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Monster_4/prefabs/sk_monster_4.prefab using Guid(9108149b2610790459d0672a7788c571) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '1ef67bcbc02f95f89c030d386fef650f') in 0.468031 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 180
+========================================================================
+Received Import Request.
+  Time since last request: 7.211301 seconds.
+  path: Assets/Monster_4/textures/t_body_Base_color.png
+  artifactKey: Guid(4e2ef67772c59434ab790e330a9917ce) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Monster_4/textures/t_body_Base_color.png using Guid(4e2ef67772c59434ab790e330a9917ce) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'c8aa398a5d2baceaaf04355d42499d37') in 0.013789 seconds
 Number of updated asset objects reloaded before import = 0
 Number of asset objects unloaded after import = 2
 ========================================================================
 Received Import Request.
-  Time since last request: 1.511086 seconds.
-  path: Assets/Swordsman/Texture/T_Armor_Metallic.png
-  artifactKey: Guid(3f0968e2edbfcd44e8eed164dc17818b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Swordsman/Texture/T_Armor_Metallic.png using Guid(3f0968e2edbfcd44e8eed164dc17818b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '9715d8c2b9905ba2c80291aa5e1bec0b') in 0.010339 seconds
+  Time since last request: 1.462119 seconds.
+  path: Assets/Monster_4/textures/t_body_Emissive.png
+  artifactKey: Guid(e39ca0623fbc0f24695efd5184b38c24) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Monster_4/textures/t_body_Emissive.png using Guid(e39ca0623fbc0f24695efd5184b38c24) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '2ad3d9b6b0d9f66a27cdb9878e890574') in 0.009910 seconds
 Number of updated asset objects reloaded before import = 0
 Number of asset objects unloaded after import = 2
 ========================================================================
 Received Import Request.
-  Time since last request: 1.060301 seconds.
-  path: Assets/Swordsman/Texture/T_Head_Occlusion.png
-  artifactKey: Guid(e3d88dcb378787d49825c81c3bb60309) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Swordsman/Texture/T_Head_Occlusion.png using Guid(e3d88dcb378787d49825c81c3bb60309) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '83ddbc1b36a01f2e2055c9f839030971') in 0.010155 seconds
+  Time since last request: 0.705287 seconds.
+  path: Assets/Monster_4/textures/t_body_ao.png
+  artifactKey: Guid(f8bf11f477e2b8542b1f77ee9e4981a1) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Monster_4/textures/t_body_ao.png using Guid(f8bf11f477e2b8542b1f77ee9e4981a1) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '4215a10bdb2f2996ed266d727ef8d2d3') in 0.010749 seconds
 Number of updated asset objects reloaded before import = 0
 Number of asset objects unloaded after import = 2
 ========================================================================
 Received Import Request.
-  Time since last request: 205.503897 seconds.
-  path: Assets/Swordsman/Texture/T_Head_Normal.png
-  artifactKey: Guid(086578d0e6a2dd543856ef91ae5bd7a7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Swordsman/Texture/T_Head_Normal.png using Guid(086578d0e6a2dd543856ef91ae5bd7a7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '1b2dccb96d6a5f6eaa5d73b1c64bd2c2') in 0.009778 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 2
-========================================================================
-Received Import Request.
-  Time since last request: 10.953689 seconds.
-  path: Assets/Swordsman/Texture1111
-  artifactKey: Guid(e8366bc45b2b6374a9d7f4e818b04398) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Swordsman/Texture1111 using Guid(e8366bc45b2b6374a9d7f4e818b04398) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'fe79229584db728de143fbae3aaad7dd') in 0.000447 seconds
+  Time since last request: 161.774647 seconds.
+  path: Assets/Monster_4/textures
+  artifactKey: Guid(d1e67944e1af09241aa41dc6e9128d79) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Monster_4/textures using Guid(d1e67944e1af09241aa41dc6e9128d79) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '91188c0f470af7a893082442dd022138') in 0.000447 seconds
 Number of updated asset objects reloaded before import = 0
 Number of asset objects unloaded after import = 0
-========================================================================
-Received Import Request.
-  Time since last request: 5.711788 seconds.
-  path: Assets/Swordsman/Texture1
-  artifactKey: Guid(a5c6de789264bb64b8d7058f44b1c584) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Swordsman/Texture1 using Guid(a5c6de789264bb64b8d7058f44b1c584) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '597f267ced2ddd4582941fa80263f6cc') in 0.000393 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 0
-========================================================================
-Received Import Request.
-  Time since last request: 78.686143 seconds.
-  path: Assets/Swordsman/Texture_Terrain/NewLayer.terrainlayer
-  artifactKey: Guid(a2a698883f6f8fb4383873e18f2d6266) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Swordsman/Texture_Terrain/NewLayer.terrainlayer using Guid(a2a698883f6f8fb4383873e18f2d6266) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'f35aa1ee88509638b2481ba03dcad559') in 0.037859 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 2
-========================================================================
-Received Import Request.
-  Time since last request: 11.197059 seconds.
-  path: Assets/Swordsman/Texture/T_Hair_Albedo.tga
-  artifactKey: Guid(bd00fce913b291b49b27fd3346c61204) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Swordsman/Texture/T_Hair_Albedo.tga using Guid(bd00fce913b291b49b27fd3346c61204) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '37f1b496e4370186cbf8296980b13d02') in 0.010726 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 2
-========================================================================
-Received Import Request.
-  Time since last request: 0.701913 seconds.
-  path: Assets/Swordsman/Texture/T_Head_Albedo.tga
-  artifactKey: Guid(cd5e4f59cd12dfe41a12906e155d5051) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Swordsman/Texture/T_Head_Albedo.tga using Guid(cd5e4f59cd12dfe41a12906e155d5051) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '86f5edef4016df7f4064a872a99c32d1') in 0.013265 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 2
-========================================================================
-Received Import Request.
-  Time since last request: 1.382426 seconds.
-  path: Assets/Swordsman/Texture/T_Head_Occlusion.tga
-  artifactKey: Guid(848d42451b39ffb42a763b894377ea88) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Swordsman/Texture/T_Head_Occlusion.tga using Guid(848d42451b39ffb42a763b894377ea88) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '641b959ae638d85ff211b08d8b727b47') in 0.010792 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 2
-========================================================================
-Received Import Request.
-  Time since last request: 0.573367 seconds.
-  path: Assets/Swordsman/Texture/T_Weapon_Metallic.tga
-  artifactKey: Guid(49b886ce2ed1d8d4a8815fa6695a4efe) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Swordsman/Texture/T_Weapon_Metallic.tga using Guid(49b886ce2ed1d8d4a8815fa6695a4efe) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '8532625c7be1ccf7daa3594f7a777501') in 0.011174 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 2
-========================================================================
-Received Import Request.
-  Time since last request: 0.482465 seconds.
-  path: Assets/Swordsman/Texture/T_Armor_Occlusion.tga
-  artifactKey: Guid(f1a6151a6bf87764ebfd89561776cad7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Swordsman/Texture/T_Armor_Occlusion.tga using Guid(f1a6151a6bf87764ebfd89561776cad7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '89c2badd72c8587b55875bcbf809630d') in 0.027062 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 2
-========================================================================
-Received Import Request.
-  Time since last request: 0.535582 seconds.
-  path: Assets/Swordsman/Texture/T_Hair_Normal.tga
-  artifactKey: Guid(87e143e847a8f3f45849637ceb06d800) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Swordsman/Texture/T_Hair_Normal.tga using Guid(87e143e847a8f3f45849637ceb06d800) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'b1e8f448af0ed838c2a8daf86f0c9ffb') in 0.017292 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 2
-========================================================================
-Received Import Request.
-  Time since last request: 1.214946 seconds.
-  path: Assets/Swordsman/Texture/T_Armor_Metallic.tga
-  artifactKey: Guid(925e57eb611c927418e9a6077b2320a3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Swordsman/Texture/T_Armor_Metallic.tga using Guid(925e57eb611c927418e9a6077b2320a3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'a48a5f50907d7873fb2571f8cf7b8d22') in 0.032592 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 2
-========================================================================
-Received Import Request.
-  Time since last request: 0.516788 seconds.
-  path: Assets/Swordsman/Texture/T_Armor_Normal 1.tga
-  artifactKey: Guid(7b225e4e9ddfd8d4ba36d77d5f401087) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Swordsman/Texture/T_Armor_Normal 1.tga using Guid(7b225e4e9ddfd8d4ba36d77d5f401087) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '94e09e03e2fd86a40d1de26735abce26') in 0.024569 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 2
-========================================================================
-Received Import Request.
-  Time since last request: 0.833835 seconds.
-  path: Assets/Swordsman/Texture/T_Head_Normal.tga
-  artifactKey: Guid(da69184d9bfff1b42948de59c54c9e50) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Swordsman/Texture/T_Head_Normal.tga using Guid(da69184d9bfff1b42948de59c54c9e50) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '0d6a2cefb1f0be7b27e22e4713739476') in 0.011086 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 2
-========================================================================
-Received Import Request.
-  Time since last request: 0.374918 seconds.
-  path: Assets/Swordsman/Texture/T_Weapon_Albedo.tga
-  artifactKey: Guid(5a8829c1c31ed4246a2430c4deac8213) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Swordsman/Texture/T_Weapon_Albedo.tga using Guid(5a8829c1c31ed4246a2430c4deac8213) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'c347bd7aabddf8a74ecea496540918b7') in 0.012621 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 2
-========================================================================
-Received Import Request.
-  Time since last request: 0.376834 seconds.
-  path: Assets/Swordsman/Texture/T_Weapon_Normal.tga
-  artifactKey: Guid(00d7141c20217c1449cebac045944f30) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Swordsman/Texture/T_Weapon_Normal.tga using Guid(00d7141c20217c1449cebac045944f30) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '61bf142d496be14453f2186eed86dbb4') in 0.012483 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 2
-========================================================================
-Received Import Request.
-  Time since last request: 0.386113 seconds.
-  path: Assets/Swordsman/Texture/T_Head_Metallic.tga
-  artifactKey: Guid(217cb8059b929094390138958951de30) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Swordsman/Texture/T_Head_Metallic.tga using Guid(217cb8059b929094390138958951de30) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'a1cbe6559800a7addd06011510083cff') in 0.011211 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 2
-========================================================================
-Received Import Request.
-  Time since last request: 4.719472 seconds.
-  path: Assets/Swordsman/Texture/T_Armor_Albedo.tga
-  artifactKey: Guid(1e16fe545b7ec0f44a764b8cf8e13d45) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Swordsman/Texture/T_Armor_Albedo.tga using Guid(1e16fe545b7ec0f44a764b8cf8e13d45) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '0b40c4ec20d8f006c79b08f6b51d6d17') in 0.018359 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 2
-=======
->>>>>>> Stashed changes

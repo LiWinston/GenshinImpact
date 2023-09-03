@@ -151,9 +151,11 @@ Controls follow the format of a traditional first-person perspective action game
 
 | keys               | movement          |
 | ------------------ | ------------------ |
-| right-click (mouse)| normal attack      |
+| Light-click (mouse)| normal attack      |
+| Right-click (mouse)| magic Spelling      |
 | E                  | picking up items or interacting with the environment |
-| Q                  | ability            |
+| V                  | Hurricane Kick      |
+| Q                  | Ult skill            |
 
 </center>
 
