@@ -3565,12 +3565,12 @@ MonoBehaviour:
   m_spriteAsset: {fileID: 0}
   m_tintAllSprites: 0
   m_StyleSheet: {fileID: 0}
-  m_TextStyleHashCode: 93368250
+  m_TextStyleHashCode: -1183493901
   m_overrideHtmlColors: 0
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 72
+  m_fontSize: 18
   m_fontSizeBase: 12
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -3627,7 +3627,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbc71e1898b0bd8439037768042f7b89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  invert: 0
+  invert: 1
 --- !u!1 &775389920666790288
 GameObject:
   m_ObjectHideFlags: 0
@@ -4238,6 +4238,7 @@ MonoBehaviour:
   currentEnergy: 100
   currentExperience: 0
   damageReduction: 0
+  maxLevel: 100
 --- !u!54 &3360135653076135481
 Rigidbody:
   m_ObjectHideFlags: 0
