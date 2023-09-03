@@ -1,9 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using AttributeRelatedScript;
 using CameraView;
+using CodeMonkey.HealthSystemCM;
 using UI;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.Timeline;
 using UnityEngine.UIElements;
 using Cursor = UnityEngine.Cursor;
 using Random = UnityEngine.Random;
@@ -31,8 +34,8 @@ public class PlayerController : MonoBehaviour
     
     private Vector3 moveDirection;
 
-    private float breatheTimer = 0f;
-    private float breatheOffset = 0f;
+    
+    private float lastAttackTime = 0f; // 上一次攻击的时间
     
     [SerializeField]private Camera mycamera;
     
@@ -52,12 +55,13 @@ public class PlayerController : MonoBehaviour
 
     // private Vector3 originalScale;
     private Vector3 originalPosition;
-    [SerializeField] private float MAX_ALLOWED_INTERACT_RANGE = 5;
+    [SerializeField] private float MAX_ALLOWED_INTERACT_RANGE = 3;
     private bool isGrounded;
     public float moveForceTimer = 0.05f;
     public float moveForceTimerCounter = 0.05f;
-    [SerializeField] private GameObject handBoneTransform;
+    
     [SerializeField] private GameObject swordTransform;
+    private Damage damage;
 
     private void Start()
     {
@@ -76,6 +80,7 @@ public class PlayerController : MonoBehaviour
         
         Cursor.lockState = CursorLockMode.Locked;
         originalPosition = transform.position;
+        damage = GetComponent<Damage>();
     }
 
     private void Update()
@@ -106,11 +111,16 @@ public class PlayerController : MonoBehaviour
         UserInput();
         
         
-        
-        if (Input.GetMouseButtonDown(0)) // 检测左键点击事件
+    
+    
+        // 检测攻击输入，并确保攻击冷却时间已过
+        if (Input.GetMouseButtonDown(0) && Time.time - lastAttackTime >= damage.attackCooldown)
         {
-            
             animator.SetTrigger("AttackTrigger");
+            Attack();
+        
+            // 更新上一次攻击时间
+            lastAttackTime = Time.time;
         }
         
         // checkClimbing();
@@ -158,7 +168,50 @@ public class PlayerController : MonoBehaviour
         mycamera.transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
         transform.Rotate(Vector3.up * mouseX);
     }
-    
+
+    private void Attack()
+    {
+        animator.SetTrigger("AttackTrigger");
+        Vector3 characterPosition = transform.position;
+
+        // 获取玩家的目标方向（这里假设目标方向是玩家前方）
+        Vector3 targetDirection = transform.forward;
+
+        // 设置攻击范围的半径（圆锥体的半径）
+        var attackAngle = Damage.attackAngle;
+        var attackRange = Damage.attackRange;
+        float attackRadius = Mathf.Tan(Mathf.Deg2Rad * (attackAngle / 2f)) * attackRange;
+
+        // 检测敌人
+        Collider[] enemies = Physics.OverlapSphere(characterPosition, attackRange);
+        foreach (Collider enemyCollider in enemies)
+        {
+            // 检查是否敌人
+            if (enemyCollider.CompareTag("Enemy"))
+            {
+                // 计算主角到敌人的向量
+                Vector3 enemyPosition = enemyCollider.transform.position;
+                Vector3 direction = enemyPosition - characterPosition;
+
+                // 计算主角和敌人之间的角度
+                float angle = Vector3.Angle(targetDirection, direction);
+
+                // 检查角度是否在攻击角度范围内
+                if (angle <= attackAngle / 2f)
+                {
+                    // 检查是否有 HealthSystem 组件
+                    HealthSystem healthSystem = enemyCollider.GetComponent<HealthSystemComponent>().GetHealthSystem();
+                    if (healthSystem != null)
+                    {
+                        UIManager.ShowMessage1("WODA!");
+                        healthSystem.Damage(damage.CurrentDamage); // 对敌人造成伤害
+                    }
+                }
+            }
+        }
+    }
+
+
     public void UserInput()
     {
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded && !isJumping) // 添加对是否已经跳跃的检查
