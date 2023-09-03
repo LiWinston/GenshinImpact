@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8129678829146430486}
   - component: {fileID: 8129678829147397846}
   - component: {fileID: 166434769933145702}
+  - component: {fileID: -7470749713087012185}
   m_Layer: 0
   m_Name: Pref_Stairs_Railing_Decoration_Landing
   m_TagString: Untagged
@@ -105,3 +106,30 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.39999986, y: 0.21501195, z: 0.20105016}
   m_Center: {x: -0.00000011920929, y: 1.0853093, z: 0.0005456209}
+--- !u!54 &-7470749713087012185
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8129678829149650966}
+  serializedVersion: 4
+  m_Mass: 999
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
