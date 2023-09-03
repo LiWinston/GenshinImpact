@@ -27,6 +27,8 @@ public class State : MonoBehaviour
     private bool isHealthUIUpdated = false;
     private bool isEnergyUIUpdated = false;
 
+    public delegate void LevelChangedEventHandler(int newLevel);
+    public event LevelChangedEventHandler OnLevelChanged;
     [SerializeField] private int currentExperience;
     private int currentLevel = 1; // 初始等级为1
     private int[] experienceThresholds; // 存储升级所需经验值的数组
@@ -239,6 +241,10 @@ public class State : MonoBehaviour
         // 在这里更新伤害减免比例，根据你的需求
         // 这里只是一个示例
         damageReduction = currentLevel * 0.05f; // 每级增加 5%
+        if (OnLevelChanged != null)
+        {
+            OnLevelChanged(currentLevel);
+        }
         // 将新的伤害减免比例应用到角色或其他逻辑
     }
 }
