@@ -47,7 +47,7 @@ namespace UI
         {
             // 查找场景内所有名称为 "ExpText" 的对象
             TextMeshPro[] expTextObjects = Resources.FindObjectsOfTypeAll<TextMeshPro>();
-            if(expTextObjects.Length == 0){ShowMessage1("No txterPro");}
+            // if(expTextObjects.Length == 0){ShowMessage1("No txterPro");}
 
             foreach (TextMeshPro textMesh in expTextObjects)
             {

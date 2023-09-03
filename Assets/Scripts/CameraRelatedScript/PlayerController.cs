@@ -180,11 +180,11 @@ public class PlayerController : MonoBehaviour
     
         if (hitEnemies.Length == 0)
         {
-            UI.UIManager.ShowMessage2("No one to kick");
+            UI.UIManager.ShowMessage2("What are you kicking?");
         }
         else
         {
-            UI.UIManager.ShowMessage2(hitEnemies.Length + " enemies to kick");
+            UI.UIManager.ShowMessage2("Lets KICK!");
         }
 
         foreach (Collider cld in hitEnemies)
@@ -205,7 +205,7 @@ public class PlayerController : MonoBehaviour
                 {
                     // 对敌人造成伤害
                     enemyHealth.Damage(damage.HurricaneKickDamage);
-                    UI.UIManager.ShowMessage2("开踢！");
+                    UI.UIManager.ShowMessage2("What a Hurricane Kick!");
                     // 添加击退效果，施加力到敌人身上
                     Rigidbody enemyRigidbody = cld.GetComponent<Rigidbody>();
                     if (enemyRigidbody != null)
@@ -220,6 +220,7 @@ public class PlayerController : MonoBehaviour
 
     private void Attack()
     {
+        UI.UIManager.ShowMessage2("Taste My Sword !!!(While a little stupid)");
         animator.SetTrigger("AttackTrigger");
         var sword = SpellCast.FindDeepChild(transform, "Scabbard");
         ParticleEffectManager.Instance.PlayParticleEffect("Attack", sword.gameObject, Quaternion.identity,Color.white, Color.white);
