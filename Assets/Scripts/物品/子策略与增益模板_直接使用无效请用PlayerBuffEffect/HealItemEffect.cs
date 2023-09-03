@@ -13,9 +13,16 @@ namespace AttributeRelatedScript
         public override void ApplyEffect(GameObject player)
         {
             // 在这里实现恢复生命值的逻辑
-            player.GetComponent<Health>().Heal(effectValue); // 使用字段来指定恢复的生命值数量
-            float currentHealth = player.GetComponent<Health>().CurrentHealth; // 获取玩家当前的生命值
-            ShowEffectMessage(effectValue, currentHealth);
+            player.GetComponent<State>().Heal(effectValue); // 使用字段来指定恢复的生命值数量
+            float currentHealth = player.GetComponent<State>().CurrentHealth; // 获取玩家当前的生命值
+            if (!player.GetComponent<State>().IsFullHealth())
+            {
+                ShowEffectMessage(effectValue, currentHealth);
+            }
+            else
+            {
+                UI.UIManager.ShowMessage1("Health is Full!");
+            }
 
             // 调用内部类处理特效
             ParticleEffectManager.Instance.PlayParticleEffect("Heal",player,quaternion.identity, 

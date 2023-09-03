@@ -65,77 +65,8 @@ public class RPGOriginalDevelopment_MonsterBlueprint : MonoBehaviour
             return damageMultiplier;
         }
     }
+    
 
-    public void AddSpeedEffect(float speedEffect)
-    {
-        buffsDebuffs.Add(new BuffDebuff("SlowDebuff", -speedEffect));
-    }
-
-    public void AddAttackEffect(float attackEffect)
-    {
-        buffsDebuffs.Add(new BuffDebuff("AttackDebuff", -attackEffect));
-    }
-
-    public void AddEffect(BuffDebuff effect)
-    {
-        buffsDebuffs.Add(new BuffDebuff(effect));
-    }
-
-    public BodyRegion[] allBodyRegions;
-
-    public void Attack()
-    {
-        if (targetPlayer)
-        {
-            targetPlayer.TakeDamage(Random.Range(minAttackPower, maxAttackPower) * actualDamageMultiplier);
-        }
-    }
-
-    public void Die()
-    {
-        animatorController.enabled = false;
-
-        foreach (BodyRegion bodyRegion in allBodyRegions)
-        {
-            bodyRegion.regionCollider.gameObject.AddComponent<CharacterJoint>();
-        }
-
-        foreach (BodyRegion bodyRegion in allBodyRegions)
-        {
-            Rigidbody[] parentRigidbodies = bodyRegion.regionCollider.GetComponentsInParent<Rigidbody>();
-
-            if (parentRigidbodies.Length >= 2)
-            {
-                bodyRegion.regionCollider.gameObject.GetComponent<CharacterJoint>().connectedBody = parentRigidbodies[1];
-            }
-        }
-    }
-
-    public void ReceiveDamage(float damageValue, Collider bodyRegionCollider)
-    {
-        float damageMultiplier = 1;
-
-        foreach (BodyRegion bodyRegion in allBodyRegions)
-        {
-            if (bodyRegion.regionCollider == bodyRegionCollider)
-            {
-                damageMultiplier = bodyRegion.ReceiveDamage(damageValue);
-            }
-        }
-
-        currentHealth -= damageValue * damageMultiplier;
-        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
-
-        if (currentHealth <= 0)
-        {
-            if (!isDead)
-            {
-                Die();
-            }
-
-            isDead = true;
-        }
-    }
 
     public List<BuffDebuff> buffsDebuffs;
 

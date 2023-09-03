@@ -10,7 +10,7 @@ public class ParticleEffectManager : MonoBehaviour
     [Header("Settings")]
     public float defaultDuration = 1.5f;
     public bool autoDestroy = true; // 控制特效是否自动销毁
-    public bool usePooling = true; // 使用对象池来管理特效
+    public bool usePooling = false; // 使用对象池来管理特效
 
     private ObjectPooler objectPooler; // 如果使用对象池，需要一个对象池管理器
 
