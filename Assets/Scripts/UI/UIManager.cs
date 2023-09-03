@@ -36,8 +36,8 @@ namespace UI
         
         public static void ShowMessage2(string message)
         {
-            Messager UIMessage_1MSG = FindUIMessage1();
-            UIMessage_1MSG.ShowMessage(message);
+            Messager UIMessage_2MSG = FindUIMessage2();
+            UIMessage_2MSG.ShowMessage(message);
         }
     }
 }

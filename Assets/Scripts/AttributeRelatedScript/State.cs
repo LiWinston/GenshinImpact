@@ -4,10 +4,10 @@ using UnityEngine.UI;
 public class State : MonoBehaviour
 {
     [SerializeField] private float maxHealth;
-    private float currentHealth;
+    [SerializeField] private float currentHealth;
 
     [SerializeField] private float maxEnergy;
-    private float currentEnergy;
+    [SerializeField] private float currentEnergy;
 
     private GameObject healthBarObject;
     private GameObject energyBarObject;

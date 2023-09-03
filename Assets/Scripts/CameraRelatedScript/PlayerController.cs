@@ -187,27 +187,27 @@ public class PlayerController : MonoBehaviour
             UI.UIManager.ShowMessage2(hitEnemies.Length + " enemies to kick");
         }
 
-        foreach (Collider enemy in hitEnemies)
+        foreach (Collider cld in hitEnemies)
         {
             // 检查是否敌人
-            if (enemy.CompareTag("Enemy"))
+            if (cld.CompareTag("Enemy"))
             {
                 // 获取敌人的位置
-                Vector3 enemyPosition = enemy.transform.position;
+                Vector3 enemyPosition = cld.transform.position;
 
                 // 计算击退方向
                 Vector3 knockbackDirection = (enemyPosition - playerPosition).normalized;
 
                 // 获取敌人的 HealthSystem 组件
-                HealthSystem enemyHealth = enemy.GetComponent<HealthSystemComponent>().GetHealthSystem();
+                HealthSystem enemyHealth = cld.GetComponent<HealthSystemComponent>().GetHealthSystem();
 
                 if (enemyHealth != null)
                 {
                     // 对敌人造成伤害
                     enemyHealth.Damage(damage.HurricaneKickDamage);
-
+                    UI.UIManager.ShowMessage2("开踢！");
                     // 添加击退效果，施加力到敌人身上
-                    Rigidbody enemyRigidbody = enemy.GetComponent<Rigidbody>();
+                    Rigidbody enemyRigidbody = cld.GetComponent<Rigidbody>();
                     if (enemyRigidbody != null)
                     {
                         enemyRigidbody.AddForce(knockbackDirection * damage.hurricaneKickKnockbackForce, ForceMode.VelocityChange);

@@ -8,7 +8,7 @@ namespace UI
     public class Messager : MonoBehaviour
     {
         public Text messageText;
-        public float displayDuration = 2f;
+        public float displayDuration = 1f;
         public float fadeDuration = 0.5f;
 
         private Queue<string> messageQueue = new Queue<string>();

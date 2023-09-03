@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using CodeMonkey.HealthSystemCM;
+using UI;
 using UnityEngine;
 
 public class MonsterBehaviour : MonoBehaviour
@@ -18,11 +19,32 @@ public class MonsterBehaviour : MonoBehaviour
     [SerializeField] private float minAttackPower = 1;
     [SerializeField] private float maxAttackPower = 3;
 
-    void Start()
+    private void Start()
     {
-        rb = GetComponent<Rigidbody>(); // 获取怪物的刚体组件
-        health = GetComponent<HealthSystemComponent>().GetHealthSystem();
+        
+        targetPlayer = FindObjectOfType<PlayerController>();
+        if (targetPlayer == null)
+        {
+            Debug.LogWarning("PlayerController not found on parent or in the scene.");
+        }
+
+        // 在父空对象及其所有子对象中查找 Rigidbody
+        rb = GetComponentInChildren<Rigidbody>();
+        if (rb != null)
+        {
+            // UIManager.ShowMessage2("MST 内部 Rigidbody找到.");
+        }
+
+        // 获取 HealthSystemComponent，并从中获取 HealthSystem
+        HealthSystemComponent healthSystemComponent = GetComponent<HealthSystemComponent>();
+        if (healthSystemComponent != null)
+        {
+            health = healthSystemComponent.GetHealthSystem();
+            // UIManager.ShowMessage2("health 已找到.");
+        }
     }
+
+
 
     void Update()
     {
@@ -38,36 +60,32 @@ public class MonsterBehaviour : MonoBehaviour
         // Decrease the attack cooldown timer
         attackCooldownTimer -= Time.deltaTime;
 
-        if (!targetPlayer)
-        {
-            targetPlayer = FindObjectOfType<PlayerController>();//查找场景中第一个具有指定类型的组件的对象
-        }
-        else
-        {
-            float distanceTemp = Vector3.Distance(transform.position, targetPlayer.transform.position);
+        float distanceTemp = Vector3.Distance(transform.position, targetPlayer.transform.position);
 
-            if (distanceTemp <= chaseDistance)
+        if (distanceTemp <= chaseDistance)
+        {
+            var directionToPly = targetPlayer.transform.position - transform.position;
+            directionToPly.y = 0;
+            directionToPly.Normalize();
+            transform.forward = directionToPly;
+
+            if (distanceTemp > attackDistance)
             {
-                transform.forward = targetPlayer.transform.position - transform.position;
-
-                if (distanceTemp > attackDistance)
+                // Check if the move force cooldown has expired
+                if (moveForceTimerCounter <= 0)
                 {
-                    // Check if the move force cooldown has expired
-                    if (moveForceTimerCounter <= 0)
-                    {
-                        rb.AddForce(transform.forward * mstForwardForce, ForceMode.Impulse);
-                        // Reset the move force cooldown timer
-                        moveForceTimerCounter = moveForceCooldownInterval;
-                    }
+                    rb.AddForce(transform.forward * mstForwardForce, ForceMode.Impulse);
+                    // Reset the move force cooldown timer
+                    moveForceTimerCounter = moveForceCooldownInterval;
                 }
+            }
 
-                // Check if the attack cooldown has expired
-                if (targetPlayer && distanceTemp < attackDistance && attackCooldownTimer <= 0)
-                {
-                    Attack();
-                    // Reset the attack cooldown timer
-                    attackCooldownTimer = attackCooldownInterval;
-                }
+            // Check if the attack cooldown has expired
+            if (targetPlayer && distanceTemp < attackDistance && attackCooldownTimer <= 0)
+            {
+                Attack();
+                // Reset the attack cooldown timer
+                attackCooldownTimer = attackCooldownInterval;
             }
         }
     }

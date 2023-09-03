@@ -8427,7 +8427,6 @@ MonoBehaviour:
   MAX_ALLOWED_INTERACT_RANGE: 3
   moveForceTimer: 0.05
   moveForceTimerCounter: 0.05
-  handBoneTransform: {fileID: 8506722193903518000}
   swordTransform: {fileID: 968812801248245147}
 --- !u!114 &8076033956615855486
 MonoBehaviour:
@@ -8461,8 +8460,6 @@ MonoBehaviour:
   currentHealth: 70
   maxEnergy: 100
   currentEnergy: 80
-  healthBarObject: {fileID: 0}
-  energyBarObject: {fileID: 0}
 --- !u!54 &8863568469940102513
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -8502,7 +8499,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df38e3e055fb4a2a9880d0325be3ada9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 10
+  damage: 6
+  attackCooldown: 1
+  HurricaneKickDamage: 8
+  hurricaneKickKnockbackForce: 70
+  hurricaneKickRange: 1.2
 --- !u!195 &8260887133207171594
 NavMeshAgent:
   m_ObjectHideFlags: 0

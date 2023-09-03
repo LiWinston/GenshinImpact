@@ -4,7 +4,7 @@ namespace AttributeRelatedScript
 {
     public class Damage : MonoBehaviour
     {
-        public float damage = 10f;
+        [SerializeField] private float damage = 8f;
         [SerializeField] public static float attackAngle = 70f;
         [SerializeField] public static float attackRange = 0.9f;
         [SerializeField] public float attackCooldown = 1.0f; // 攻击冷却时间
