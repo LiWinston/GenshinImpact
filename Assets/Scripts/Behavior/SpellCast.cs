@@ -11,10 +11,12 @@ public class SpellCast : MonoBehaviour
     [SerializeField] private Transform spellingPartTransform; // 序列化字段，用于拖放 Weapon 物体
     [SerializeField] private float spellRange = 1.6f;
     private Damage damage;
+    private State state;
 
 
     void Start()
     {
+        state = GetComponent<State>();
         damage = GetComponent<Damage>();
         if (spellingPartTransform == null)
         {
@@ -56,6 +58,7 @@ public class SpellCast : MonoBehaviour
 
     private void CastSpell()
     {
+        state.ConsumeEnergy(2);//TODO:更新此机制。
         // 获取玩家的位置
         Vector3 playerPosition = transform.position;
 

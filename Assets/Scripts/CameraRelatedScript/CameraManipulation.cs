@@ -8,7 +8,7 @@ namespace CameraRelatedScript
         [SerializeField]
         private Transform attachedCamera;
         
-        [SerializeField]GameObject 眼部;
+        [SerializeField]GameObject viewPoint;
 
         // private PlayerController playerController; // Automatically get the PlayerController component
         [SerializeField] private float forwardOffset;
@@ -16,7 +16,7 @@ namespace CameraRelatedScript
 
         private void Start()
         {
-            if (眼部 == null)
+            if (viewPoint == null)
             {
                 Debug.LogError("眼部 not found!");
             }
@@ -30,7 +30,7 @@ namespace CameraRelatedScript
 
         private void LateUpdate()
         {
-            Vector3 newPosition = 眼部.transform.position; // Use the eye position as the base position
+            Vector3 newPosition = viewPoint.transform.position; // Use the eye position as the base position
             
             
             // Optionally, you can add an offset forward and/or upward

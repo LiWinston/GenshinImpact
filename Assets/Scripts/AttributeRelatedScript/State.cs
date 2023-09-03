@@ -14,6 +14,18 @@ public class State : MonoBehaviour
 
     private Image healthBar;
     private Image energyBar;
+    
+    private Color fullHealthColor = Color.green;
+    private Color halfHealthColor = Color.yellow;
+    private Color lowHealthColor = Color.red;
+    private Color emptyHealthColor = new Color(0, 0, 0.5f, 1); // 黑红色
+
+    private Color fullEnergyColor = new Color(0.5f, 0, 0.5f, 1); // 深紫色
+    private Color halfEnergyColor = Color.blue;
+    private Color emptyEnergyColor = Color.white;
+
+    private bool isHealthUIUpdated = false;
+    private bool isEnergyUIUpdated = false;
 
     public float CurrentHealth
     {
@@ -36,7 +48,7 @@ public class State : MonoBehaviour
             if (value != currentEnergy) // 仅当值发生变化时更新UI
             {
                 currentEnergy = Mathf.Clamp(value, 0f, maxEnergy);
-                UpdateEnergyUI();
+                isEnergyUIUpdated = true;
             }
         }
     }
@@ -88,16 +100,57 @@ public class State : MonoBehaviour
         UpdateEnergyUI();
     }
 
+    private void Update()
+    {
+        // 只有在需要更新时才执行UI更新
+        if (isHealthUIUpdated)
+        {
+            UpdateHealthUI();
+            isHealthUIUpdated = false;
+        }
+
+        if (isEnergyUIUpdated)
+        {
+            UpdateEnergyUI();
+            isEnergyUIUpdated = false;
+        }
+    }
     // 更新生命值UI
     private void UpdateHealthUI()
     {
-        healthBar.fillAmount = GetNormalizedHealth();
+        float healthNormalized = GetNormalizedHealth();
+        healthBar.fillAmount = healthNormalized;
+
+        if (healthNormalized >= 0.5f)
+        {
+            healthBar.color = Color.Lerp(halfHealthColor, fullHealthColor, (healthNormalized - 0.5f) * 2);
+        }
+        else
+        {
+            healthBar.color = Color.Lerp(lowHealthColor, halfHealthColor, healthNormalized * 2);
+        }
+
+        if (Mathf.Approximately(healthNormalized, 0f))
+        {
+            healthBar.color = emptyHealthColor;
+        }
     }
 
     // 更新能量值UI
+    // 更新能量值UI
     private void UpdateEnergyUI()
     {
-        energyBar.fillAmount = GetNormalizedEnergy();
+        float energyNormalized = GetNormalizedEnergy();
+        energyBar.fillAmount = energyNormalized;
+
+        if (energyNormalized >= 0.5f)
+        {
+            energyBar.color = Color.Lerp(halfEnergyColor, fullEnergyColor, (energyNormalized - 0.5f) * 2);
+        }
+        else
+        {
+            energyBar.color = Color.Lerp(emptyEnergyColor, halfEnergyColor, energyNormalized * 2);
+        }
     }
 
     public void TakeDamage(float damage)
