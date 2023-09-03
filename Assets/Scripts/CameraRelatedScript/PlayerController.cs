@@ -1,9 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using AttributeRelatedScript;
 using CameraView;
+using CodeMonkey.HealthSystemCM;
 using UI;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.Timeline;
 using UnityEngine.UIElements;
 using Cursor = UnityEngine.Cursor;
 using Random = UnityEngine.Random;
@@ -31,8 +34,8 @@ public class PlayerController : MonoBehaviour
     
     private Vector3 moveDirection;
 
-    private float breatheTimer = 0f;
-    private float breatheOffset = 0f;
+    
+    private float lastAttackTime = 0f; // 上一次攻击的时间
     
     [SerializeField]private Camera mycamera;
     
@@ -52,12 +55,13 @@ public class PlayerController : MonoBehaviour
 
     // private Vector3 originalScale;
     private Vector3 originalPosition;
-    [SerializeField] private float MAX_ALLOWED_INTERACT_RANGE = 5;
+    [SerializeField] private float MAX_ALLOWED_INTERACT_RANGE = 3;
     private bool isGrounded;
     public float moveForceTimer = 0.05f;
     public float moveForceTimerCounter = 0.05f;
-    [SerializeField] private GameObject handBoneTransform;
+    
     [SerializeField] private GameObject swordTransform;
+    private Damage damage;
 
     private void Start()
     {
@@ -76,6 +80,7 @@ public class PlayerController : MonoBehaviour
         
         Cursor.lockState = CursorLockMode.Locked;
         originalPosition = transform.position;
+        damage = GetComponent<Damage>();
     }
 
     private void Update()
@@ -106,11 +111,16 @@ public class PlayerController : MonoBehaviour
         UserInput();
         
         
-        
-        if (Input.GetMouseButtonDown(0)) // 检测左键点击事件
+    
+    
+        // 检测攻击输入，并确保攻击冷却时间已过
+        if (Input.GetMouseButtonDown(0) && Time.time - lastAttackTime >= damage.attackCooldown)
         {
-            
             animator.SetTrigger("AttackTrigger");
+            Attack();
+        
+            // 更新上一次攻击时间
+            lastAttackTime = Time.time;
         }
         
         // checkClimbing();
@@ -120,6 +130,7 @@ public class PlayerController : MonoBehaviour
         {
             animator.SetTrigger("HurricaneKickTrigger");
             rb.velocity = Vector3.zero;
+            HurricaneKick();
         }
         
         // Crouch
@@ -158,7 +169,101 @@ public class PlayerController : MonoBehaviour
         mycamera.transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
         transform.Rotate(Vector3.up * mouseX);
     }
+
+    private void HurricaneKick()
+    {
+        // 获取玩家的位置
+        Vector3 playerPosition = transform.position;
+
+        // 检测在旋风踢范围内的敌人
+        Collider[] hitEnemies = Physics.OverlapSphere(playerPosition, damage.hurricaneKickRange);
     
+        if (hitEnemies.Length == 0)
+        {
+            UI.UIManager.ShowMessage2("What are you kicking?");
+        }
+        else
+        {
+            UI.UIManager.ShowMessage2("Lets KICK!");
+        }
+
+        foreach (Collider cld in hitEnemies)
+        {
+            // 检查是否敌人
+            if (cld.CompareTag("Enemy"))
+            {
+                // 获取敌人的位置
+                Vector3 enemyPosition = cld.transform.position;
+
+                // 计算击退方向
+                Vector3 knockbackDirection = (enemyPosition - playerPosition).normalized;
+
+                // 获取敌人的 HealthSystem 组件
+                HealthSystem enemyHealth = cld.GetComponent<HealthSystemComponent>().GetHealthSystem();
+
+                if (enemyHealth != null)
+                {
+                    // 对敌人造成伤害
+                    enemyHealth.Damage(damage.HurricaneKickDamage);
+                    UI.UIManager.ShowMessage2("What a Hurricane Kick!");
+                    // 添加击退效果，施加力到敌人身上
+                    Rigidbody enemyRigidbody = cld.GetComponent<Rigidbody>();
+                    if (enemyRigidbody != null)
+                    {
+                        enemyRigidbody.AddForce(knockbackDirection * damage.hurricaneKickKnockbackForce, ForceMode.VelocityChange);
+                    }
+                }
+            }
+        }
+    } 
+
+
+    private void Attack()
+    {
+        UI.UIManager.ShowMessage2("Taste My Sword !!!(While a little stupid)");
+        animator.SetTrigger("AttackTrigger");
+        var sword = SpellCast.FindDeepChild(transform, "Scabbard");
+        ParticleEffectManager.Instance.PlayParticleEffect("Attack", sword.gameObject, Quaternion.identity,Color.white, Color.white);
+        Vector3 characterPosition = transform.position;
+
+        // 获取玩家的目标方向（这里假设目标方向是玩家前方）
+        Vector3 targetDirection = transform.forward;
+
+        // 设置攻击范围的半径（圆锥体的半径）
+        var attackAngle = damage.attackAngle;
+        var attackRange = damage.attackRange;
+        float attackRadius = Mathf.Tan(Mathf.Deg2Rad * (attackAngle / 2f)) * attackRange;
+
+        // 检测敌人
+        Collider[] enemies = Physics.OverlapSphere(characterPosition, attackRange);
+        foreach (Collider enemyCollider in enemies)
+        {
+            // 检查是否敌人
+            if (enemyCollider.CompareTag("Enemy"))
+            {
+                // 计算主角到敌人的向量
+                Vector3 enemyPosition = enemyCollider.transform.position;
+                Vector3 direction = enemyPosition - characterPosition;
+
+                // 计算主角和敌人之间的角度
+                float angle = Vector3.Angle(targetDirection, direction);
+
+                // 检查角度是否在攻击角度范围内
+                if (angle <= attackAngle / 2f)
+                {
+                    // 检查是否有 HealthSystem 组件
+                    HealthSystem healthSystem = enemyCollider.GetComponent<HealthSystemComponent>().GetHealthSystem();
+                    if (healthSystem != null)
+                    {
+                        UIManager.ShowMessage1("A "+damage.CurrentDamage+" Cut~");
+                        healthSystem.Damage(damage.CurrentDamage); // 对敌人造成伤害
+                    }
+                }
+            }
+        }
+    }
+
+
     public void UserInput()
     {
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded && !isJumping) // 添加对是否已经跳跃的检查
