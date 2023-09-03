@@ -10,7 +10,7 @@ public class ParticleEffectManager : MonoBehaviour
     [Header("Settings")]
     public float defaultDuration = 1.5f;
     public bool autoDestroy = true; // 控制特效是否自动销毁
-    public bool usePooling = false; // 使用对象池来管理特效
+    
 
     private ObjectPooler objectPooler; // 如果使用对象池，需要一个对象池管理器
 
@@ -23,16 +23,6 @@ public class ParticleEffectManager : MonoBehaviour
         else
         {
             Destroy(gameObject);
-        }
-
-        if (usePooling)
-        {
-            objectPooler = GetComponent<ObjectPooler>();
-            if (objectPooler == null)
-            {
-                Debug.LogWarning("Object Pooler component not found on ParticleEffectManager. Disabling pooling.");
-                usePooling = false;
-            }
         }
     }
 
@@ -47,28 +37,15 @@ public class ParticleEffectManager : MonoBehaviour
         PlayParticleEffect(particlePrefab,  player,  rotation,  startColor, endColor,  duration);
     }
 
-    public void PlayParticleEffect(String particlePrefabFile, GameObject player, Quaternion rotation, Color startColor,
+    public void PlayParticleEffect(string particlePrefabFile, GameObject player, Quaternion rotation, Color startColor,
         Color endColor, float duration = -1f)
     {
-        GameObject particlePrefab = Resources.Load<GameObject>(particlePrefabFile);
+        var particlePrefab = Resources.Load<GameObject>(particlePrefabFile);
         PlayParticleEffect(particlePrefab, player, rotation, startColor, endColor, duration);
     }
     public void PlayParticleEffect(GameObject particlePrefab, GameObject player, Quaternion rotation, Color startColor, Color endColor, float duration = -1f)
     {
-        
-
-        GameObject particleEffect;
-
-        if (usePooling)
-        {
-            // 从对象池中获取特效对象
-            particleEffect = objectPooler.SpawnFromPool(particlePrefab.name, player.transform.position, rotation);
-        }
-        else
-        {
-            // 直接实例化特效对象
-            particleEffect = Instantiate(particlePrefab, player.transform.position, rotation);
-        }
+        var particleEffect = Instantiate(particlePrefab, player.transform.position, rotation);
 
         // 设置特效的持续时间
         if (duration < 0f)
@@ -106,14 +83,8 @@ public class ParticleEffectManager : MonoBehaviour
         // 淡出
         if (autoDestroy)
         {
-            if (usePooling)
-            {
-                objectPooler.ReturnToPool("ParticleEffects",effectObject);
-            }
-            else
-            {
-                Destroy(effectObject);
-            }
+            objectPooler.ReturnToPool("ParticleEffects",effectObject);
+            Destroy(effectObject);        
         }
     }
 }

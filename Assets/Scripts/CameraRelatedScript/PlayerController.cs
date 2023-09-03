@@ -130,6 +130,7 @@ public class PlayerController : MonoBehaviour
         {
             animator.SetTrigger("HurricaneKickTrigger");
             rb.velocity = Vector3.zero;
+            HurricaneKick();
         }
         
         // Crouch
@@ -169,6 +170,54 @@ public class PlayerController : MonoBehaviour
         transform.Rotate(Vector3.up * mouseX);
     }
 
+    private void HurricaneKick()
+    {
+        // 获取玩家的位置
+        Vector3 playerPosition = transform.position;
+
+        // 检测在旋风踢范围内的敌人
+        Collider[] hitEnemies = Physics.OverlapSphere(playerPosition, damage.hurricaneKickRange);
+    
+        if (hitEnemies.Length == 0)
+        {
+            UI.UIManager.ShowMessage2("No one to kick");
+        }
+        else
+        {
+            UI.UIManager.ShowMessage2(hitEnemies.Length + " enemies to kick");
+        }
+
+        foreach (Collider enemy in hitEnemies)
+        {
+            // 检查是否敌人
+            if (enemy.CompareTag("Enemy"))
+            {
+                // 获取敌人的位置
+                Vector3 enemyPosition = enemy.transform.position;
+
+                // 计算击退方向
+                Vector3 knockbackDirection = (enemyPosition - playerPosition).normalized;
+
+                // 获取敌人的 HealthSystem 组件
+                HealthSystem enemyHealth = enemy.GetComponent<HealthSystemComponent>().GetHealthSystem();
+
+                if (enemyHealth != null)
+                {
+                    // 对敌人造成伤害
+                    enemyHealth.Damage(damage.HurricaneKickDamage);
+
+                    // 添加击退效果，施加力到敌人身上
+                    Rigidbody enemyRigidbody = enemy.GetComponent<Rigidbody>();
+                    if (enemyRigidbody != null)
+                    {
+                        enemyRigidbody.AddForce(knockbackDirection * damage.hurricaneKickKnockbackForce, ForceMode.VelocityChange);
+                    }
+                }
+            }
+        }
+    } 
+
+
     private void Attack()
     {
         animator.SetTrigger("AttackTrigger");
@@ -203,7 +252,7 @@ public class PlayerController : MonoBehaviour
                     HealthSystem healthSystem = enemyCollider.GetComponent<HealthSystemComponent>().GetHealthSystem();
                     if (healthSystem != null)
                     {
-                        UIManager.ShowMessage1("WODA!");
+                        UIManager.ShowMessage1("WODA!"+damage.CurrentDamage);
                         healthSystem.Damage(damage.CurrentDamage); // 对敌人造成伤害
                     }
                 }
