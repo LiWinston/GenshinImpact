@@ -27,6 +27,11 @@ public class State : MonoBehaviour
     private bool isHealthUIUpdated = false;
     private bool isEnergyUIUpdated = false;
 
+    [SerializeField] private int currentExperience;
+    private int currentLevel = 1; // 初始等级为1
+    private int[] experienceThresholds; // 存储升级所需经验值的数组
+    [SerializeField] private float damageReduction;
+
     public float CurrentHealth
     {
         get => currentHealth;
@@ -98,6 +103,22 @@ public class State : MonoBehaviour
         // 初始时更新UI
         UpdateHealthUI();
         UpdateEnergyUI();
+        
+        currentExperience = 0;
+        InitializeExperienceThresholds();
+    }
+
+    // 初始化升级所需经验值数组
+    private void InitializeExperienceThresholds()
+    {
+        // 在这里设置升级所需的经验值阈值
+        // 你可以根据需要自定义升级所需经验值
+        // 这里只是一个示例
+        experienceThresholds = new int[100];
+        for (int i = 0; i < 100; i++)
+        {
+            experienceThresholds[i] = i * 100; // 每级所需经验值递增
+        }
     }
 
     private void Update()
@@ -155,7 +176,7 @@ public class State : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
-        CurrentHealth -= damage;
+        CurrentHealth -= damage * (1 - damageReduction);
     }
 
     public void Heal(float amount)
@@ -171,5 +192,53 @@ public class State : MonoBehaviour
     public void RestoreEnergy(float amount)
     {
         CurrentEnergy += amount;
+    }
+    
+    // 获取当前等级
+    public int GetCurrentLevel()
+    {
+        return currentLevel;
+    }
+
+    // 获取当前经验值
+    public int GetCurrentExperience()
+    {
+        return currentExperience;
+    }
+
+    // 增加经验值并检查是否升级
+    public void AddExperience(int experience)
+    {
+        currentExperience += experience;
+
+        // 检查是否升级
+        int previousLevel = currentLevel;
+        for (int i = 0; i < experienceThresholds.Length; i++)
+        {
+            if (currentExperience >= experienceThresholds[i])
+            {
+                currentLevel = i + 1;
+            }
+            else
+            {
+                break;
+            }
+        }
+
+        // 如果升级了，执行相应的升级操作
+        if (currentLevel > previousLevel)
+        {
+            // 在这里执行升级后的操作，例如增加伤害减免比例
+            UpdateDamageReduction();
+        }
+    }
+
+    // 更新伤害减免比例
+    private void UpdateDamageReduction()
+    {
+        // 在这里更新伤害减免比例，根据你的需求
+        // 这里只是一个示例
+        damageReduction = currentLevel * 0.05f; // 每级增加 5%
+        // 将新的伤害减免比例应用到角色或其他逻辑
     }
 }

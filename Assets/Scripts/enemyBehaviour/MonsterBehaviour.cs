@@ -18,6 +18,10 @@ public class MonsterBehaviour : MonoBehaviour
     [SerializeField] private float moveForceCooldownInterval = 0.05f;
     [SerializeField] private float minAttackPower = 1;
     [SerializeField] private float maxAttackPower = 3;
+    
+    private float gameTime = 0;
+    private int monsterLevel;
+    private int monsterExperience;
 
     private void Start()
     {
@@ -42,21 +46,27 @@ public class MonsterBehaviour : MonoBehaviour
             health = healthSystemComponent.GetHealthSystem();
             // UIManager.ShowMessage2("health 已找到.");
         }
+        // 初始化怪物经验值和等级
+        InitializeMonsterLevel();
     }
 
 
 
-    void Update()
+     void Update()
     {
+        gameTime += Time.deltaTime;
+        
         if (health.IsDead())
         {
+            targetPlayer.GetComponent<State>().AddExperience(this.monsterExperience);
+            UIManager.ShowExp("EXP " + this.monsterExperience);
             StartCoroutine(nameof(PlayDeathEffects));
             return;
         }
 
         // Decrease the move force cooldown timer
         moveForceTimerCounter -= Time.deltaTime;
-    
+
         // Decrease the attack cooldown timer
         attackCooldownTimer -= Time.deltaTime;
 
@@ -103,7 +113,13 @@ public class MonsterBehaviour : MonoBehaviour
         Destroy(this.gameObject);
     }
 
-
-
-    
+    //TODO:逻辑待更新。
+    private void InitializeMonsterLevel()
+    {
+        // 计算怪物等级，使其在五分钟内逐渐增长到最大等级（例如，最大等级为10）
+        float maxGameTime = 300f; // 五分钟共300秒
+        float progress = Mathf.Clamp01(gameTime / maxGameTime); // 游戏时间进度（0到1之间）
+        monsterLevel = Mathf.FloorToInt(progress * 10) + 1; // 从1到10逐渐增长
+        monsterExperience = monsterLevel * 10;
+    }
 }
