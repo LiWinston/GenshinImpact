@@ -35,15 +35,12 @@ public class PlayerController : MonoBehaviour
     private Vector3 moveDirection;
 
     
-    private float lastAttackTime = 0f; // 上一次攻击的时间
+    private float lastAttackTime = 0f; 
     
     [SerializeField]private Camera mycamera;
     
-    private Animator animator;/// <summary>
-                              /// important
-                              /// </summary>
-
-    // [SerializeField] private float moveSpeedOnAttack = 0.0f; // 设置攻击时的移动速度
+    private Animator animator;
+    
 
     private float xRotation = 0f;
 
@@ -67,15 +64,19 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         moveDirection = Vector3.zero;
-        var childTransform = transform.Find("Model"); 
-        if (childTransform != null)
+        var model = transform.Find("Model"); 
+        if (model != null)
         {
-            animator = childTransform.GetComponent<Animator>();
+            animator = model.GetComponent<Animator>();
+        }
+        else
+        {
+            Debug.LogError("Didnt Find 'model'!");
         }
 
         if (animator == null)
         {
-            Debug.LogError("找不到Animator组件！");
+            Debug.LogError("Didnt Find animator!");
         }
         
         Cursor.lockState = CursorLockMode.Locked;
@@ -112,18 +113,15 @@ public class PlayerController : MonoBehaviour
         
         
     
-    
-        // 检测攻击输入，并确保攻击冷却时间已过
+        
         if (Input.GetMouseButtonDown(0) && Time.time - lastAttackTime >= damage.attackCooldown)
         {
             animator.SetTrigger("AttackTrigger");
             Attack();
-        
-            // 更新上一次攻击时间
+            
             lastAttackTime = Time.time;
         }
         
-        // checkClimbing();
         checkInteract();
         
         if (Input.GetKeyDown(KeyCode.V)) 
@@ -149,7 +147,7 @@ public class PlayerController : MonoBehaviour
         if (Mathf.Abs(rb.velocity.y) < 0.01f)
         {
             isGrounded = true;
-            isJumping = false; // 重置跳跃标志
+            isJumping = false; // reset
         }
         else
         {
@@ -172,10 +170,9 @@ public class PlayerController : MonoBehaviour
 
     private void HurricaneKick()
     {
-        // 获取玩家的位置
+        
         Vector3 playerPosition = transform.position;
-
-        // 检测在旋风踢范围内的敌人
+        
         Collider[] hitEnemies = Physics.OverlapSphere(playerPosition, damage.hurricaneKickRange);
     
         if (hitEnemies.Length == 0)
@@ -189,24 +186,18 @@ public class PlayerController : MonoBehaviour
 
         foreach (Collider cld in hitEnemies)
         {
-            // 检查是否敌人
             if (cld.CompareTag("Enemy"))
             {
-                // 获取敌人的位置
                 Vector3 enemyPosition = cld.transform.position;
-
-                // 计算击退方向
+                
                 Vector3 knockbackDirection = (enemyPosition - playerPosition).normalized;
-
-                // 获取敌人的 HealthSystem 组件
+                
                 HealthSystem enemyHealth = cld.GetComponent<HealthSystemComponent>().GetHealthSystem();
 
                 if (enemyHealth != null)
                 {
-                    // 对敌人造成伤害
                     enemyHealth.Damage(damage.HurricaneKickDamage);
                     UI.UIManager.ShowMessage2("What a Hurricane Kick!");
-                    // 添加击退效果，施加力到敌人身上
                     Rigidbody enemyRigidbody = cld.GetComponent<Rigidbody>();
                     if (enemyRigidbody != null)
                     {
@@ -225,38 +216,35 @@ public class PlayerController : MonoBehaviour
         var sword = SpellCast.FindDeepChild(transform, "Scabbard");
         ParticleEffectManager.Instance.PlayParticleEffect("Attack", sword.gameObject, Quaternion.identity,Color.white, Color.white);
         Vector3 characterPosition = transform.position;
-
-        // 获取玩家的目标方向（这里假设目标方向是玩家前方）
+        
         Vector3 targetDirection = transform.forward;
-
-        // 设置攻击范围的半径（圆锥体的半径）
+        
         var attackAngle = damage.attackAngle;
         var attackRange = damage.attackRange;
         float attackRadius = Mathf.Tan(Mathf.Deg2Rad * (attackAngle / 2f)) * attackRange;
-
-        // 检测敌人
+        
         Collider[] enemies = Physics.OverlapSphere(characterPosition, attackRange);
         foreach (Collider enemyCollider in enemies)
         {
-            // 检查是否敌人
+            // Check if enemy
             if (enemyCollider.CompareTag("Enemy"))
             {
-                // 计算主角到敌人的向量
+                // Calculate the vector of the main character to the enemy
                 Vector3 enemyPosition = enemyCollider.transform.position;
                 Vector3 direction = enemyPosition - characterPosition;
 
-                // 计算主角和敌人之间的角度
+                // Calculate the angle between the protagonist and the enemy
                 float angle = Vector3.Angle(targetDirection, direction);
 
-                // 检查角度是否在攻击角度范围内
+                // Check if the angle is within the attack angle range
                 if (angle <= attackAngle / 2f)
                 {
-                    // 检查是否有 HealthSystem 组件
+                    // Check for HealthSystem components
                     HealthSystem healthSystem = enemyCollider.GetComponent<HealthSystemComponent>().GetHealthSystem();
                     if (healthSystem != null)
                     {
                         UIManager.ShowMessage1("A "+damage.CurrentDamage+" Cut~");
-                        healthSystem.Damage(damage.CurrentDamage); // 对敌人造成伤害
+                        healthSystem.Damage(damage.CurrentDamage); // Inflict damage on enemies
                     }
                 }
             }
@@ -266,11 +254,11 @@ public class PlayerController : MonoBehaviour
 
     public void UserInput()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && isGrounded && !isJumping) // 添加对是否已经跳跃的检查
+        if (Input.GetKeyDown(KeyCode.Space) && isGrounded && !isJumping) // Add a check to see if a jump has been made
         {
             rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
             animator.SetTrigger("Jump");
-            isJumping = true; // 标记已经跳跃
+            isJumping = true;
             isGrounded = false;
         }
         

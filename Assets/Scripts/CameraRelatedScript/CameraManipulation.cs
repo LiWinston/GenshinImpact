@@ -18,7 +18,7 @@ namespace CameraRelatedScript
         {
             if (viewPoint == null)
             {
-                Debug.LogError("眼部 not found!");
+                Debug.LogError("viewPoint not found!");
             }
             
             // playerController = GetComponent<PlayerController>();

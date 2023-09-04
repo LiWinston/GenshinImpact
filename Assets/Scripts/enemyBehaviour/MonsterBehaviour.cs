@@ -25,14 +25,14 @@ public class MonsterBehaviour : MonoBehaviour
 
     private void Start()
     {
-        
-        targetPlayer = FindObjectOfType<PlayerController>();
+        targetPlayer = GameObject.Find("Player").GetComponent<PlayerController>();
+
         if (targetPlayer == null)
         {
-            Debug.LogWarning("PlayerController not found on parent or in the scene.");
+            Debug.LogWarning("No GameObject with the name 'Player' found in the scene.");
         }
 
-        // 在父空对象及其所有子对象中查找 Rigidbody
+        // 在子对象中查找 Rigidbody
         rb = GetComponentInChildren<Rigidbody>();
         if (rb != null)
         {
