@@ -10,8 +10,8 @@ public class MonsterBehaviour : MonoBehaviour
     private Rigidbody rb; // 引用怪物的刚体组件
     [SerializeField]private float attackDistance = 0.7f;
     private HealthSystem health;
-    [SerializeField] private float chaseDistance = 10;
-    [SerializeField] private float mstForwardForce = 40;
+    [SerializeField] private float chaseDistance = 15;
+    [SerializeField] private float mstForwardForce = 200;
     private float attackCooldownTimer;
     [SerializeField] private float attackCooldownInterval = 2f;
     private float moveForceTimerCounter;
@@ -52,7 +52,7 @@ public class MonsterBehaviour : MonoBehaviour
 
 
 
-     void Update()
+     void FixedUpdate()
     {
         gameTime += Time.deltaTime;
         
@@ -82,9 +82,19 @@ public class MonsterBehaviour : MonoBehaviour
             if (distanceTemp > attackDistance)
             {
                 // Check if the move force cooldown has expired
-                if (moveForceTimerCounter <= 0)
+                // if (moveForceTimerCounter <= 0)
+                // {
+                //     if (rb.velocity.magnitude < MaxMstSpeed)
+                //     {
+                //         
+                //         rb.AddForce(transform.forward * mstForwardForce, ForceMode.Force);
+                //         // Reset the move force cooldown timer
+                //         moveForceTimerCounter = moveForceCooldownInterval;
+                //     }
+                // }
+                if (rb.velocity.magnitude < MaxMstSpeed)
                 {
-                    rb.AddForce(transform.forward * mstForwardForce, ForceMode.Impulse);
+                    rb.AddForce(transform.forward * mstForwardForce, ForceMode.Force);
                     // Reset the move force cooldown timer
                     moveForceTimerCounter = moveForceCooldownInterval;
                 }
@@ -99,9 +109,11 @@ public class MonsterBehaviour : MonoBehaviour
             }
         }
     }
-    
 
-    private void Attack()
+     private const float MaxMstSpeed = 2f;
+
+
+     private void Attack()
     {
         targetPlayer.GetComponent<State>().TakeDamage(Random.Range(minAttackPower, maxAttackPower));
     }
