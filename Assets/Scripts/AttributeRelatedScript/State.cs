@@ -4,37 +4,50 @@ using UnityEngine.UI;
 
 public class State : MonoBehaviour
 {
+    [Header("Health")]
     [SerializeField] private float maxHealth;
     [SerializeField] private float currentHealth;
-
-    [SerializeField] private float maxEnergy;
-    [SerializeField] private float currentEnergy;
-
-    private GameObject healthBarObject;
-    private GameObject energyBarObject;
-
     private Image healthBar;
-    private Image energyBar;
-    
+    private GameObject healthBarObject;
     private Color fullHealthColor = Color.red;
     private Color halfHealthColor = Color.magenta;
     private Color lowHealthColor = Color.black;
     private Color emptyHealthColor = new Color(0, 0, 0.5f, 1); // 黑红色
 
+    [Header("Energy")]
+    [SerializeField] private float maxEnergy;
+    [SerializeField] private float currentEnergy;
+    private Image energyBar;
+    private GameObject energyBarObject;
     private Color fullEnergyColor = new Color(0.5f, 0, 0.5f, 1); // 深紫色
     private Color halfEnergyColor = Color.blue;
     private Color emptyEnergyColor = Color.white;
 
+    [Header("UI Flags")]
     private bool isHealthUIUpdated = false;
     private bool isEnergyUIUpdated = false;
 
-    public delegate void LevelChangedEventHandler(int newLevel);
-    public event LevelChangedEventHandler OnLevelChanged;
+    [Header("Level and Experience")]
     [SerializeField] private int currentExperience;
-    private int currentLevel = 1; // 初始等级为1
-    private int[] experienceThresholds; // 存储升级所需经验值的数组
     [SerializeField] private float damageReduction;
     [SerializeField] private int maxLevel = 100;
+    public delegate void LevelChangedEventHandler(int newLevel);
+    public event LevelChangedEventHandler OnLevelChanged;
+    private int currentLevel = 1; 
+    private int[] experienceThresholds; // 存储升级所需经验值的数组
+    
+    [Header("CombatJudge")]
+    private bool isInCombat = false;
+    private float combatEndTime = 0f;
+    [SerializeField]private float combatCooldownDuration = 2f;//脱战延时
+    
+    [Header("Regeneration Rates")]
+    [SerializeField] private float healthRegenerationRate = 0.005f;
+    [SerializeField] private float energyRegenerationRate = 0.008f;
+    [SerializeField] private float healthRegenAddition = 0.1f;
+    [SerializeField] private float energyRegenAddition = 0.2f;
+    private float regenerationTimer;
+
 
     public float CurrentHealth
     {
@@ -144,6 +157,24 @@ public class State : MonoBehaviour
             UpdateEnergyUI();
             isEnergyUIUpdated = false;
         }
+
+        // CheckInCombat();
+        // if(!isInCombat) RegenerateHealthAndEnergy();
+        CheckInCombat();
+        if (!isInCombat)
+        {
+            // 更新回复计时器
+            regenerationTimer += Time.deltaTime;
+
+            // 当计时器超过一秒时进行回复
+            if (regenerationTimer >= 1.0f)
+            {
+                RegenerateHealthAndEnergy();
+                // 重置计时器
+                regenerationTimer = 0f;
+            }
+        }
+        
     }
     // 更新生命值UI
     private void UpdateHealthUI()
@@ -186,6 +217,9 @@ public class State : MonoBehaviour
     public void TakeDamage(float damage)
     {
         CurrentHealth -= damage * (1 - damageReduction);
+
+        isInCombat = true;
+        combatEndTime = Time.time + combatCooldownDuration;
     }
 
     public void Heal(float amount)
@@ -268,5 +302,18 @@ public class State : MonoBehaviour
             OnLevelChanged(currentLevel);
         }
         // 将新的伤害减免比例应用到角色或其他逻辑
+    }
+    
+    private void CheckInCombat()
+    {
+        // Check if the player has taken damage recently
+        isInCombat = Time.time < combatEndTime; // Player is considered in combat
+    }
+    
+    private void RegenerateHealthAndEnergy()
+    {
+            // Regenerate health and energy based on regeneration rates and current level
+           Heal(maxHealth * healthRegenerationRate * (1.0f + (currentLevel - 1) * healthRegenAddition));
+            RestoreEnergy(maxEnergy * energyRegenerationRate * (1.0f + (currentLevel - 1) * energyRegenAddition));
     }
 }
