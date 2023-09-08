@@ -90,7 +90,7 @@ public class PlayerController : MonoBehaviour
     private void Update()
 
     {
-        if (Mathf.Abs(rb.velocity.y) < 0.01f)
+        if (Mathf.Abs(rb.velocity.y) < 0.1f)
         {
             isGrounded = true;
             isJumping = false; // reset

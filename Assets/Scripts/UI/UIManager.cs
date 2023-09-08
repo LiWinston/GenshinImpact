@@ -12,7 +12,7 @@ namespace UI
         private static UIManager instance; // 单例引用器
         private StreamMessager UIMessage_1MSG;
         private StreamMessager UIMessage_2MSG;
-        
+
         // 获取单例实例的静态属性
         public static UIManager Instance
         {
@@ -28,9 +28,11 @@ namespace UI
                         instance = obj.AddComponent<UIManager>();
                     }
                 }
+
                 return instance;
             }
         }
+
         private static StreamMessager FindUIMessage1()
         {
             StreamMessager UIMessage_1MSG = GameObject.Find("UIMessage_1")?.GetComponent<StreamMessager>();
@@ -42,6 +44,7 @@ namespace UI
 
             return UIMessage_1MSG;
         }
+
         private static StreamMessager FindUIMessage2()
         {
             StreamMessager UIMessage_2MSG = GameObject.Find("UIMessage_2")?.GetComponent<StreamMessager>();
@@ -53,6 +56,7 @@ namespace UI
 
             return UIMessage_2MSG;
         }
+
         private void Awake()
         {
             // 确保只有一个实例存在，如果已经存在实例，则销毁新的实例
@@ -66,6 +70,7 @@ namespace UI
                 Destroy(gameObject);
             }
         }
+
         private void Start()
         {
             UIMessage_1MSG = FindUIMessage1();
@@ -83,16 +88,12 @@ namespace UI
                 UIMessage_1MSG = FindUIMessage1();
                 UIMessage_1MSG.ShowMessage(message);
             }
-            
-        }
-        
-        
-        public void ShowMessage2(string message)
-        {
-            
-            UIMessage_2MSG.ShowMessage(message);
         }
 
-        
+
+        public void ShowMessage2(string message)
+        {
+            UIMessage_2MSG.ShowMessage(message);
+        }
     }
 }

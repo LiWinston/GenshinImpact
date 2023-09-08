@@ -600,8 +600,8 @@ SkinnedMeshRenderer:
   m_BlendShapeWeights: []
   m_RootBone: {fileID: 609790550762391024}
   m_AABB:
-    m_Center: {x: -0.0048980266, y: 3.3552747, z: 0.0064886212}
-    m_Extent: {x: 0.18135658, y: 0.36505795, z: 0.2752093}
+    m_Center: {x: NaN, y: NaN, z: NaN}
+    m_Extent: {x: NaN, y: NaN, z: NaN}
   m_DirtyAABB: 0
 --- !u!183 &287326465926681030
 Cloth:
@@ -3455,6 +3455,7 @@ GameObject:
   - component: {fileID: 8758968572824027494}
   - component: {fileID: 2007897275112994830}
   - component: {fileID: 2944923949687073834}
+  - component: {fileID: 1980264982740591841}
   m_Layer: 0
   m_Name: ExpText
   m_TagString: Untagged
@@ -3628,6 +3629,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   invert: 1
+--- !u!114 &1980264982740591841
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 652878872917320646}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 444876d7843284dbfb75afc5b209b85b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  messageText: {fileID: 0}
+  displayDuration: 0.7
+  fadeDuration: 0.3
 --- !u!1 &775389920666790288
 GameObject:
   m_ObjectHideFlags: 0
@@ -4150,10 +4166,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7406021605194356953}
+  - component: {fileID: 3360135653076135481}
   - component: {fileID: 6844506482609387575}
   - component: {fileID: 9011349587138179888}
   - component: {fileID: 4204505828502385112}
-  - component: {fileID: 3360135653076135481}
   - component: {fileID: 94393281984951438}
   - component: {fileID: 1630489552670241335}
   - component: {fileID: 6507685321940979291}
@@ -4183,6 +4199,33 @@ Transform:
   - {fileID: 5563600741737875437}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!54 &3360135653076135481
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1678239912745874840}
+  serializedVersion: 4
+  m_Mass: 100
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 112
+  m_CollisionDetection: 0
 --- !u!114 &6844506482609387575
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4198,7 +4241,7 @@ MonoBehaviour:
   moveSpeed: 5
   crouchSpeed: 5
   mouseSensitivity: 100
-  forwardForce: 2000
+  forwardForce: 4000
   backwardRate: 0.9
   jumpForce: 450
   mycamera: {fileID: 691092138744490856}
@@ -4206,7 +4249,7 @@ MonoBehaviour:
   moveForceTimer: 0.05
   moveForceTimerCounter: 0.05
   swordTransform: {fileID: 5097444318403744172}
-  rotationFriction: 4000
+  rotationFriction: 200
 --- !u!114 &9011349587138179888
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4247,33 +4290,6 @@ MonoBehaviour:
   energyRegenerationRate: 0.008
   healthRegenAddition: 0.1
   energyRegenAddition: 0.2
---- !u!54 &3360135653076135481
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1678239912745874840}
-  serializedVersion: 4
-  m_Mass: 100
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 112
-  m_CollisionDetection: 0
 --- !u!114 &94393281984951438
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5574,8 +5590,8 @@ SkinnedMeshRenderer:
   m_BlendShapeWeights: []
   m_RootBone: {fileID: 7262139694900034131}
   m_AABB:
-    m_Center: {x: -0.00000024509328, y: -0.009657858, z: -0.0013308525}
-    m_Extent: {x: 0.0062235435, y: 0.006077051, z: 0.0042698695}
+    m_Center: {x: NaN, y: NaN, z: NaN}
+    m_Extent: {x: NaN, y: NaN, z: NaN}
   m_DirtyAABB: 0
 --- !u!183 &2125531041181446976
 Cloth:
