@@ -20,7 +20,7 @@ namespace AttributeRelatedScript
         public float CurrentDamage
         {
             get=>damage;
-            set =>damage = value;// 在设置 CurrentHealth 时，确保值不超出最大生命值范围
+            set =>damage = value;
         }
     }
 }

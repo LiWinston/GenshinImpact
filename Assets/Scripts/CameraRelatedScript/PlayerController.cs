@@ -27,6 +27,7 @@ public class PlayerController : MonoBehaviour
     private bool isJumping = false;
     private bool isCrouching = false;
     public float forwardForce = 100;
+    public float backwardRate = 0.9f;
     public float jumpForce = 800;
     
     
@@ -50,7 +51,6 @@ public class PlayerController : MonoBehaviour
         set { isCrouching = value; }
     }
 
-    // private Vector3 originalScale;
     private Vector3 originalPosition;
     [SerializeField] private float MAX_ALLOWED_INTERACT_RANGE = 3;
     private bool isGrounded;
@@ -59,6 +59,8 @@ public class PlayerController : MonoBehaviour
     
     [SerializeField] private GameObject swordTransform;
     private Damage damage;
+    private float speed_Ratio_Attack = 0.2f;
+    
 
     private void Start()
     {
@@ -122,7 +124,7 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.V)) 
         {
             animator.SetTrigger("HurricaneKickTrigger");
-            rb.velocity = Vector3.zero;
+        
             HurricaneKick();
         }
         
@@ -153,9 +155,8 @@ public class PlayerController : MonoBehaviour
 
     private void HurricaneKick()
     {
-        
+        rb.velocity = Vector3.zero;
         Vector3 playerPosition = transform.position;
-        
         Collider[] hitEnemies = Physics.OverlapSphere(playerPosition, damage.hurricaneKickRange);
     
         if (hitEnemies.Length == 0)
@@ -194,6 +195,7 @@ public class PlayerController : MonoBehaviour
 
     private void Attack()
     {
+        rb.velocity *= speed_Ratio_Attack;
         UI.UIManager.ShowMessage2("Taste My Sword !!!(While a little stupid)");
         animator.SetTrigger("AttackTrigger");
         var sword = SpellCast.FindDeepChild(transform, "Scabbard");
@@ -239,10 +241,21 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space) ) // Add a check to see if a jump has been made
         {
-            rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
-            animator.SetTrigger("Jump");
-            isJumping = true;
-            isGrounded = false;
+            if(isGrounded){
+                if(isJumping) return;
+                if(!isMoving){
+                    rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
+                    animator.SetTrigger("Jump");
+                    isJumping = true;
+                    isGrounded = false;
+                }else if(isMoving){
+                    rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
+                    animator.SetTrigger("RunningJump");
+                    isJumping = true;
+                    isGrounded = false;
+                }
+            }
+            
         }
         
         moveForceTimerCounter -= Time.deltaTime;
@@ -253,22 +266,22 @@ public class PlayerController : MonoBehaviour
         
             if (Input.GetKey(KeyCode.W))
             {
-                rb.AddForce(transform.forward * forwardForce, ForceMode.Impulse);
+                rb.AddForce(transform.forward * forwardForce, ForceMode.Force);
             }
         
             if (Input.GetKey(KeyCode.S))
             {
-                rb.AddForce(transform.forward * (-forwardForce * 0.7f), ForceMode.Impulse);
+                rb.AddForce(transform.forward * (-forwardForce * backwardRate), ForceMode.Force);
             }
         
             if (Input.GetKey(KeyCode.A))
             {
-                rb.AddForce(transform.right * -forwardForce, ForceMode.Impulse);
+                rb.AddForce(transform.right * -forwardForce, ForceMode.Force);
             }
         
             if (Input.GetKey(KeyCode.D))
             {
-                rb.AddForce(transform.right * forwardForce, ForceMode.Impulse);
+                rb.AddForce(transform.right * forwardForce, ForceMode.Force);
             }
         }
     }
