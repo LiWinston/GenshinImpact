@@ -19,6 +19,8 @@ public class MonsterBehaviour : MonoBehaviour
     [SerializeField] private float minAttackPower = 1;
     [SerializeField] private float maxAttackPower = 3;
     
+     public float rotationSpeed = 0.000000001f; // 调整旋转速度
+     
     private float gameTime = 0;
     private int monsterLevel;
     private int monsterExperience;
@@ -77,21 +79,14 @@ public class MonsterBehaviour : MonoBehaviour
             var directionToPly = targetPlayer.transform.position - transform.position;
             directionToPly.y = 0;
             directionToPly.Normalize();
-            transform.forward = directionToPly;
 
+            // 计算旋转到朝向玩家所需的旋转角度
+            Quaternion targetRotation = Quaternion.LookRotation(directionToPly);
+
+            // 插值旋转
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime);
             if (distanceTemp > attackDistance)
             {
-                // Check if the move force cooldown has expired
-                // if (moveForceTimerCounter <= 0)
-                // {
-                //     if (rb.velocity.magnitude < MaxMstSpeed)
-                //     {
-                //         
-                //         rb.AddForce(transform.forward * mstForwardForce, ForceMode.Force);
-                //         // Reset the move force cooldown timer
-                //         moveForceTimerCounter = moveForceCooldownInterval;
-                //     }
-                // }
                 if (rb.velocity.magnitude < MaxMstSpeed)
                 {
                     rb.AddForce(transform.forward * mstForwardForce, ForceMode.Force);

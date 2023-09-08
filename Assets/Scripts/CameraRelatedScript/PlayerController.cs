@@ -60,7 +60,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject swordTransform;
     private Damage damage;
     private float speed_Ratio_Attack = 0.2f;
-    
+    public float rotationFriction = 4000f; // 调整旋转摩擦力的大小
 
     private void Start()
     {
@@ -186,7 +186,14 @@ public class PlayerController : MonoBehaviour
                     if (enemyRigidbody != null)
                     {
                         enemyRigidbody.AddForce(knockbackDirection * damage.hurricaneKickKnockbackForce, ForceMode.VelocityChange);
-                    }
+                        // 计算随机切向方向（左或右）
+                        Vector3 randomTangentDirection = Quaternion.Euler(0, Random.Range(-90f, 90f), 0) * knockbackDirection;
+
+                        // 计算旋转摩擦力，不依赖于当前角速度
+                        Vector3 rotationFrictionForce = randomTangentDirection * rotationFriction;
+
+                        // 将旋转摩擦力施加到切向方向
+                        enemyRigidbody.AddTorque(rotationFrictionForce * Random.Range(0.5f, 1.5f), ForceMode.Impulse);                    }
                 }
             }
         }
