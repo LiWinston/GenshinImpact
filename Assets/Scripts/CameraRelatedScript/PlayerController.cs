@@ -87,32 +87,27 @@ public class PlayerController : MonoBehaviour
     private void Update()
 
     {
-        // Vector3 handPosition = handBoneTransform.transform.position;
-        //
-        // // 设置剑的位置为手部骨骼的位置
-        // swordTransform.transform.position = handPosition;
-        
-        // WASD movement
-        animator.SetBool("Standing",!isMoving);
-        float horizontal = Input.GetAxis("Horizontal");
-        float vertical = Input.GetAxis("Vertical");
-        moveDirection = transform.right * horizontal + transform.forward * vertical;
-
-        if (math.abs(rb.velocity.x) + math.abs(rb.velocity.z) > 0.01f)
+        if (Mathf.Abs(rb.velocity.y) < 0.01f)
         {
-            isMoving = true;
-            animator.SetBool("isMoving",isMoving);
+            isGrounded = true;
+            isJumping = false; // reset
         }
         else
         {
-            isMoving = false;
-            animator.SetBool("isMoving",isMoving);
+            isGrounded = false;
         }
+        animator.SetBool("isGrounded",isGrounded);
         
+        isMoving = math.abs(rb.velocity.x) + math.abs(rb.velocity.z) > 0.01f;
+
+        animator.SetBool("Standing",!isMoving);
+        animator.SetBool("isMoving",isMoving);
+
+        float horizontal = Input.GetAxis("Horizontal");
+        float vertical = Input.GetAxis("Vertical");
+        moveDirection = transform.right * horizontal + transform.forward * vertical;
         UserInput();
         
-        
-    
         
         if (Input.GetMouseButtonDown(0) && Time.time - lastAttackTime >= damage.attackCooldown)
         {
@@ -142,18 +137,6 @@ public class PlayerController : MonoBehaviour
         {
             isCrouching = false;
         }
-
-        
-        if (Mathf.Abs(rb.velocity.y) < 0.01f)
-        {
-            isGrounded = true;
-            isJumping = false; // reset
-        }
-        else
-        {
-            isGrounded = false;
-        }
-
         
 
         // Crouch
@@ -254,7 +237,7 @@ public class PlayerController : MonoBehaviour
 
     public void UserInput()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && isGrounded && !isJumping) // Add a check to see if a jump has been made
+        if (Input.GetKeyDown(KeyCode.Space) ) // Add a check to see if a jump has been made
         {
             rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
             animator.SetTrigger("Jump");
