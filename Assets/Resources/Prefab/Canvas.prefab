@@ -103,6 +103,7 @@ GameObject:
   - component: {fileID: 1802900111752510376}
   - component: {fileID: 6754958246221644200}
   - component: {fileID: 7999635261580117454}
+  - component: {fileID: 1138519640280943759}
   m_Layer: 5
   m_Name: UIMessage_2
   m_TagString: Untagged
@@ -186,6 +187,21 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: 
+--- !u!114 &1138519640280943759
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 537542058017982845}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 444876d7843284dbfb75afc5b209b85b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  messageText: {fileID: 0}
+  displayDuration: 0.7
+  fadeDuration: 0.3
 --- !u!1 &1307872209363911648
 GameObject:
   m_ObjectHideFlags: 0
@@ -198,6 +214,7 @@ GameObject:
   - component: {fileID: 4698691983547829641}
   - component: {fileID: 4774368111420498027}
   - component: {fileID: 7079952356991909991}
+  - component: {fileID: 4189560212898346979}
   m_Layer: 5
   m_Name: UIMessage_1
   m_TagString: Untagged
@@ -281,6 +298,21 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: 
+--- !u!114 &4189560212898346979
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1307872209363911648}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 444876d7843284dbfb75afc5b209b85b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  messageText: {fileID: 0}
+  displayDuration: 0.7
+  fadeDuration: 0.3
 --- !u!1 &4165843450169669717
 GameObject:
   m_ObjectHideFlags: 0
