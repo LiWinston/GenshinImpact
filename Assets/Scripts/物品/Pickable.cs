@@ -14,7 +14,7 @@ public class Pickable : MonoBehaviour
     {
         _eff = GetComponent<PlayerBuffEffect>();
         player = GameObject.Find("Player");
-        if(player == null) UIManager.ShowMessage1("NO Player found!");
+        if(player == null) UIManager.Instance.ShowMessage1("NO Player found!");
 
         // 在 Start 中初始化 _isEffNotNull
         _isEffNotNull = _eff != null;

@@ -21,7 +21,7 @@ namespace AttributeRelatedScript
         {
             string message = string.Format(effectMessage, effectValue, currentValue);
             Console.WriteLine(effectMessage);
-            UI.UIManager.ShowMessage1(message);
+            UI.UIManager.Instance.ShowMessage1(message);
         }
     }
 }

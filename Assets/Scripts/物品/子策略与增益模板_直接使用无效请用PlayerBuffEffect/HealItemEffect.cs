@@ -21,7 +21,7 @@ namespace AttributeRelatedScript
             }
             else
             {
-                UI.UIManager.ShowMessage1("Health is Full!");
+                UI.UIManager.Instance.ShowMessage1("Health is Full!");
             }
 
             // 调用内部类处理特效

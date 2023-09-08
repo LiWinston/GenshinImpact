@@ -242,7 +242,7 @@ public class State : MonoBehaviour
         else
         {
             
-            UIManager.ShowMessage1("Insufficient Energy!");
+            UIManager.Instance.ShowMessage1("Insufficient Energy!");
             return false; 
         }
     }

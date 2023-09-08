@@ -61,7 +61,7 @@ public class MonsterBehaviour : MonoBehaviour
         if (health.IsDead())
         {
             targetPlayer.GetComponent<State>().AddExperience(this.monsterExperience);
-            UIManager.ShowExp("EXP " + this.monsterExperience);
+            targetPlayer.showExp("EXP " + this.monsterExperience);
             StartCoroutine(nameof(PlayDeathEffects));
             return;
         }

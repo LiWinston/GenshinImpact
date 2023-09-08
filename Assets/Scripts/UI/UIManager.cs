@@ -1,12 +1,36 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace UI
 {
-    public static class UIManager
+    public class UIManager : MonoBehaviour
     {
+        private static UIManager instance; // 单例引用器
+        private Messager UIMessage_1MSG;
+        private Messager UIMessage_2MSG;
+        
+        // 获取单例实例的静态属性
+        public static UIManager Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = FindObjectOfType<UIManager>(); // 查找已存在的实例
+                    if (instance == null)
+                    {
+                        // 如果没有现有实例，创建一个新的GameObject并附加UIManager组件
+                        GameObject obj = new GameObject("UIManager");
+                        instance = obj.AddComponent<UIManager>();
+                    }
+                }
+                return instance;
+            }
+        }
         private static Messager FindUIMessage1()
         {
             Messager UIMessage_1MSG = GameObject.Find("UIMessage_1")?.GetComponent<Messager>();
@@ -29,63 +53,101 @@ namespace UI
 
             return UIMessage_2MSG;
         }
-
-        public static void ShowMessage1(string message)
+        private void Awake()
         {
-            Messager UIMessage_1MSG = FindUIMessage1();
+            // 确保只有一个实例存在，如果已经存在实例，则销毁新的实例
+            if (instance == null)
+            {
+                instance = this;
+                DontDestroyOnLoad(gameObject); // 保留实例在场景之间的切换中
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
+        }
+        private void Start()
+        {
+            UIMessage_1MSG = FindUIMessage1();
+            UIMessage_2MSG = FindUIMessage2();
+        }
+
+        public void ShowMessage1(string message)
+        {
+            
             UIMessage_1MSG.ShowMessage(message);
         }
         
         
-        public static void ShowMessage2(string message)
+        public void ShowMessage2(string message)
         {
-            Messager UIMessage_2MSG = FindUIMessage2();
+            
             UIMessage_2MSG.ShowMessage(message);
         }
 
-        public static void ShowExp(string expText)
+        
+    }
+    
+    
+    
+    public class Messager : MonoBehaviour
+    {
+        public Text messageText;
+        public float displayDuration = 0.7f;
+        public float fadeDuration = 0.3f;
+
+        private Queue<string> messageQueue = new Queue<string>();
+        private bool isDisplayingMessage = false;
+
+        private void Start()
         {
-            // 查找场景内所有名称为 "ExpText" 的对象
-            TextMeshPro[] expTextObjects = Resources.FindObjectsOfTypeAll<TextMeshPro>();
-            // if(expTextObjects.Length == 0){ShowMessage1("No txterPro");}
+            messageText.enabled = false;
+        }
 
-            foreach (TextMeshPro textMesh in expTextObjects)
+        private void Update()
+        {
+            if (!isDisplayingMessage && messageQueue.Count > 0)
             {
-                if (textMesh != null)
-                {
-                    textMesh.text = expText;
-                    textMesh.alpha = 1f; // 设置初始透明度为1，完全可见
-                    textMesh.gameObject.SetActive(true);
-
-                    // 启动协程来淡出经验值显示
-                    MonoBehaviour monoBehaviour = textMesh.gameObject.GetComponent<MonoBehaviour>();
-                    monoBehaviour.StartCoroutine(FadeOutExpText(textMesh));
-                }
-                else
-                {
-                    Debug.LogError("TextMeshPro component not found on an ExpText GameObject.");
-                }
+                string nextMessage = messageQueue.Dequeue();
+                StartCoroutine(DisplayMessage(nextMessage));
             }
         }
 
-        private static IEnumerator FadeOutExpText(TextMeshPro textMesh, float time = 0.8f, float fadeTime = 0.5f)
+        public void ShowMessage(string message)
         {
-            // 延迟一段时间以便观察经验值文本
-            yield return new WaitForSeconds(time);
+            messageQueue.Enqueue(message);
+        }
 
-            float fadeDuration = fadeTime;
-            float startAlpha = textMesh.alpha;
-            float currentTime = 0f;
+        private IEnumerator DisplayMessage(string message)
+        {
+            isDisplayingMessage = true;
+            messageText.text = message;
+            messageText.enabled = true;
 
-            while (currentTime < fadeDuration)
+            float elapsedTime = 0f;
+            while (elapsedTime < fadeDuration)
             {
-                currentTime += Time.deltaTime;
-                float newAlpha = Mathf.Lerp(startAlpha, 0f, currentTime / fadeDuration);
-                textMesh.alpha = newAlpha;
+                float alpha = Mathf.Lerp(0f, 1f, elapsedTime / fadeDuration);
+                messageText.color = new Color(messageText.color.r, messageText.color.g, messageText.color.b, alpha);
+                elapsedTime += Time.deltaTime;
                 yield return null;
             }
 
-            textMesh.gameObject.SetActive(false);
+            yield return new WaitForSeconds(displayDuration);
+
+            elapsedTime = 0f;
+            while (elapsedTime < fadeDuration)
+            {
+                float alpha = Mathf.Lerp(1f, 0f, elapsedTime / fadeDuration);
+                messageText.color = new Color(messageText.color.r, messageText.color.g, messageText.color.b, alpha);
+                elapsedTime += Time.deltaTime;
+                yield return null;
+            }
+
+            messageText.enabled = false;
+            messageText.color = new Color(messageText.color.r, messageText.color.g, messageText.color.b, 1f);
+
+            isDisplayingMessage = false;
         }
     }
 }

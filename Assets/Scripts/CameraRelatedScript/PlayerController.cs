@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using AttributeRelatedScript;
 using CameraView;
 using CodeMonkey.HealthSystemCM;
+using TMPro;
 using UI;
 using Unity.Mathematics;
 using UnityEngine;
@@ -158,15 +159,8 @@ public class PlayerController : MonoBehaviour
         rb.velocity = Vector3.zero;
         Vector3 playerPosition = transform.position;
         Collider[] hitEnemies = Physics.OverlapSphere(playerPosition, damage.hurricaneKickRange);
-    
-        if (hitEnemies.Length == 0)
-        {
-            UI.UIManager.ShowMessage2("What are you kicking?");
-        }
-        else
-        {
-            UI.UIManager.ShowMessage2("Lets KICK!");
-        }
+
+        UIManager.Instance.ShowMessage2(hitEnemies.Length == 0 ? "What are you kicking?" : "Lets KICK!");
 
         foreach (Collider cld in hitEnemies)
         {
@@ -181,7 +175,7 @@ public class PlayerController : MonoBehaviour
                 if (enemyHealth != null)
                 {
                     enemyHealth.Damage(damage.HurricaneKickDamage);
-                    UI.UIManager.ShowMessage2("What a Hurricane Kick!");
+                    UI.UIManager.Instance.ShowMessage2("What a Hurricane Kick!");
                     Rigidbody enemyRigidbody = cld.GetComponent<Rigidbody>();
                     if (enemyRigidbody != null)
                     {
@@ -203,7 +197,7 @@ public class PlayerController : MonoBehaviour
     private void Attack()
     {
         rb.velocity *= speed_Ratio_Attack;
-        UI.UIManager.ShowMessage2("Taste My Sword !!!(While a little stupid)");
+        UI.UIManager.Instance.ShowMessage2("Taste My Sword !!!(While a little stupid)");
         animator.SetTrigger("AttackTrigger");
         var sword = SpellCast.FindDeepChild(transform, "Scabbard");
         ParticleEffectManager.Instance.PlayParticleEffect("Attack", sword.gameObject, Quaternion.identity,Color.white, Color.white);
@@ -235,7 +229,7 @@ public class PlayerController : MonoBehaviour
                     HealthSystem healthSystem = enemyCollider.GetComponent<HealthSystemComponent>().GetHealthSystem();
                     if (healthSystem != null)
                     {
-                        UIManager.ShowMessage1("A "+damage.CurrentDamage+" Cut~");
+                        UIManager.Instance.ShowMessage1("A "+damage.CurrentDamage+" Cut~");
                         healthSystem.Damage(damage.CurrentDamage); // Inflict damage on enemies
                     }
                 }
@@ -336,7 +330,7 @@ public class PlayerController : MonoBehaviour
 
         if (!hasPickable)
         {
-            UIManager.ShowMessage1("Noooooooooooooooooo way!");
+            UIManager.Instance.ShowMessage1("Noooooooooooooooooo way!");
         }
     }
 
@@ -344,5 +338,51 @@ public class PlayerController : MonoBehaviour
     private Collider[] TryToInteract()
     {
         return Physics.OverlapSphere(transform.position, MAX_ALLOWED_INTERACT_RANGE);
+    }
+
+    
+    public void showExp(string expText)
+    {
+        // 查找场景内所有名称为 "ExpText" 的对象
+        TextMeshPro[] expTextObjects = Resources.FindObjectsOfTypeAll<TextMeshPro>();
+        // if(expTextObjects.Length == 0){ShowMessage1("No txterPro");}
+
+        foreach (TextMeshPro textMesh in expTextObjects)
+        {
+            if (textMesh != null)
+            {
+                textMesh.text = expText;
+                textMesh.alpha = 1f; // 设置初始透明度为1，完全可见
+                textMesh.gameObject.SetActive(true);
+
+                // 启动协程来淡出经验值显示
+                MonoBehaviour monoBehaviour = textMesh.gameObject.GetComponent<MonoBehaviour>();
+                monoBehaviour.StartCoroutine(FadeOutExpText(textMesh));
+            }
+            else
+            {
+                Debug.LogError("TextMeshPro component not found on an ExpText GameObject.");
+            }
+        }
+    }
+
+    private static IEnumerator FadeOutExpText(TextMeshPro textMesh, float time = 0.8f, float fadeTime = 0.5f)
+    {
+        // 延迟一段时间以便观察经验值文本
+        yield return new WaitForSeconds(time);
+
+        float fadeDuration = fadeTime;
+        float startAlpha = textMesh.alpha;
+        float currentTime = 0f;
+
+        while (currentTime < fadeDuration)
+        {
+            currentTime += Time.deltaTime;
+            float newAlpha = Mathf.Lerp(startAlpha, 0f, currentTime / fadeDuration);
+            textMesh.alpha = newAlpha;
+            yield return null;
+        }
+
+        textMesh.gameObject.SetActive(false);
     }
 }
