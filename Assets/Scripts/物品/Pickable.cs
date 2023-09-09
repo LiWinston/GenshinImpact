@@ -33,10 +33,10 @@ public class Pickable : MonoBehaviour
         }
 
         // 检测玩家是否在视野内
-        showAlert = InSightDetector.IsInLineOfSight(player, this);
+        // showAlert = InSightDetector.IsInLineOfSight(player, this);
 
         // 根据条件显示警告
-        if (isPlayerInSight && Vector3.Distance(transform.position, player.transform.position) <= alertDis)
+        if (Vector3.Distance(transform.position, player.transform.position) <= alertDis)
         {
             showAlert = true;
             player.GetComponent<PlayerController>().showExp("EEE");
