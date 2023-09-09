@@ -171,20 +171,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetPlayer: {fileID: 0}
-  animatorController: {fileID: 0}
+  animator: {fileID: 0}
+  mstForwardForce: 200
+  attackCooldownInterval: 2
+  moveForceCooldownInterval: 0.05
+  minAttackPower: 11
+  maxAttackPower: 22
+  rotationSpeed: 0.000000001
+  aimDistance: 15
   chaseDistance: 10
+  stalkMstSpeed: 1
+  MaxMstSpeed: 2
+  stalkAccRatio: 0.8
   attackDistance: 1.5
-  originalMoveSpeed: 0.8
-  actualSpeedMultiplier: 0
-  actualDamageMultiplier: 0
-  lastFramePosition: {x: 0, y: 0, z: 0}
-  maxHealth: 100
-  currentHealth: 100
-  isDead: 0
-  maxAttackPower: 0
-  minAttackPower: 0
-  allBodyRegions: []
-  buffsDebuffs: []
 --- !u!195 &3233922365591628871
 NavMeshAgent:
   m_ObjectHideFlags: 0

@@ -3,30 +3,42 @@ using System.Collections.Generic;
 using CodeMonkey.HealthSystemCM;
 using UI;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class MonsterBehaviour : MonoBehaviour
 {
     public PlayerController targetPlayer;
-    private Rigidbody rb; // 引用怪物的刚体组件
-    [SerializeField]private float attackDistance = 0.7f;
+    private Rigidbody rb;
+    public Animator animator;
     private HealthSystem health;
-    [SerializeField] private float chaseDistance = 15;
     [SerializeField] private float mstForwardForce = 200;
     private float attackCooldownTimer;
     [SerializeField] private float attackCooldownInterval = 2f;
     private float moveForceTimerCounter;
     [SerializeField] private float moveForceCooldownInterval = 0.05f;
-    [SerializeField] private float minAttackPower = 1;
-    [SerializeField] private float maxAttackPower = 3;
+    [SerializeField] private float minAttackPower = 5;
+    [SerializeField] private float maxAttackPower = 10;
     
      public float rotationSpeed = 0.000000001f; // 调整旋转速度
      
     private float gameTime = 0;
     private int monsterLevel;
     private int monsterExperience;
+    [SerializeField] private float aimDistance = 15;
+    [SerializeField] private float chaseDistance = 8f;
+    [SerializeField] private float stalkMstSpeed = 1f;
+    [SerializeField] private float MaxMstSpeed = 2f;
+    [SerializeField] private float stalkAccRatio = 0.8f;
+    [SerializeField] private float attackDistance = 1.5f;
+    private bool isMoving;
 
     private void Start()
     {
+        animator = GetComponentInChildren<Animator>();
+        if (targetPlayer == null)
+        {
+            Debug.LogWarning("No Animator Compoment found.");
+        }
         targetPlayer = GameObject.Find("Player").GetComponent<PlayerController>();
 
         if (targetPlayer == null)
@@ -66,51 +78,61 @@ public class MonsterBehaviour : MonoBehaviour
             return;
         }
 
+        isMoving = rb.velocity.magnitude > 0.1f;
+        animator.SetBool("isMoving", isMoving);
+
         // Decrease the move force cooldown timer
         moveForceTimerCounter -= Time.deltaTime;
 
         // Decrease the attack cooldown timer
         attackCooldownTimer -= Time.deltaTime;
 
-        float distanceTemp = Vector3.Distance(transform.position, targetPlayer.transform.position);
+        float curDistance = Vector3.Distance(transform.position, targetPlayer.transform.position);
 
-        if (distanceTemp <= chaseDistance)
+        if (curDistance <= aimDistance && curDistance > attackDistance)
         {
+            animator.SetBool("Near",false);
+            
             var directionToPly = targetPlayer.transform.position - transform.position;
             directionToPly.y = 0;
             directionToPly.Normalize();
-
-            // 计算旋转到朝向玩家所需的旋转角度
             Quaternion targetRotation = Quaternion.LookRotation(directionToPly);
-
-            // 插值旋转
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime);
-            if (distanceTemp > attackDistance)
+            
+            if (curDistance > chaseDistance)
+            {
+                if (rb.velocity.magnitude < stalkMstSpeed)
+                {
+                    rb.AddForce(transform.forward * (stalkAccRatio * mstForwardForce), ForceMode.Force);
+                    moveForceTimerCounter = moveForceCooldownInterval;
+                }
+            }
+            else if (curDistance <= chaseDistance)
             {
                 if (rb.velocity.magnitude < MaxMstSpeed)
                 {
                     rb.AddForce(transform.forward * mstForwardForce, ForceMode.Force);
-                    // Reset the move force cooldown timer
                     moveForceTimerCounter = moveForceCooldownInterval;
                 }
             }
-
-            // Check if the attack cooldown has expired
-            if (targetPlayer && distanceTemp < attackDistance && attackCooldownTimer <= 0)
-            {
-                Attack();
-                // Reset the attack cooldown timer
-                attackCooldownTimer = attackCooldownInterval;
-            }
+        }
+        else if (targetPlayer && curDistance < attackDistance && attackCooldownTimer <= 0)
+        {
+            Attack();
+            attackCooldownTimer = attackCooldownInterval;
+        }
+        else
+        {
+            animator.SetBool("Near",false);
         }
     }
-
-     private const float MaxMstSpeed = 2f;
 
 
      private void Attack()
     {
-        targetPlayer.GetComponent<State>().TakeDamage(Random.Range(minAttackPower, maxAttackPower));
+        UIManager.Instance.ShowMessage1("揍你！");
+        animator.SetTrigger("AttackTrigger");
+        targetPlayer.TakeDamage(Random.Range(minAttackPower, maxAttackPower));
     }
 
     private IEnumerator PlayDeathEffects()
