@@ -294,10 +294,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1630489552670241335, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
-      propertyPath: attackCooldown
-      value: 0.5
-      objectReference: {fileID: 0}
     - target: {fileID: 1678239912745874840, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
       propertyPath: m_Name
       value: Player
@@ -358,6 +354,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1138519640280943759, guid: ce3bf6b633c8262489e4650ed639e16a, type: 3}
+      propertyPath: messageContainer
+      value: 
+      objectReference: {fileID: 2109200991}
+    - target: {fileID: 4189560212898346979, guid: ce3bf6b633c8262489e4650ed639e16a, type: 3}
+      propertyPath: messageContainer
+      value: 
+      objectReference: {fileID: 990436150}
     - target: {fileID: 6129935228159087508, guid: ce3bf6b633c8262489e4650ed639e16a, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -447,6 +451,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ce3bf6b633c8262489e4650ed639e16a, type: 3}
+--- !u!224 &990436150 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 1567428797770188006, guid: ce3bf6b633c8262489e4650ed639e16a, type: 3}
+  m_PrefabInstance: {fileID: 622825724}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1812197837
 GameObject:
   m_ObjectHideFlags: 0
@@ -473,7 +482,7 @@ MeshCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1812197837}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 883aed14a3192114caf4fb1742f18d44, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -508,7 +517,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 7f1a01d22f40d3146b66a9113e3f7171, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -553,6 +562,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!224 &2109200991 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 3972838488994430191, guid: ce3bf6b633c8262489e4650ed639e16a, type: 3}
+  m_PrefabInstance: {fileID: 622825724}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

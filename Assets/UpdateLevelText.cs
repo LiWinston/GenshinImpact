@@ -1,3 +1,4 @@
+using UI;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -37,8 +38,9 @@ public class UpdateLevelText : MonoBehaviour
         // Update the Text component's text with the new level
         if (levelText != null)
         {
-            levelText.text = "Level: " + newLevel;
+            levelText.text = newLevel.ToString();
         }
+        UIManager.Instance.ShowMessage2("LEVEL UP TO " + newLevel + "!");
     }
 
     private void OnDestroy()

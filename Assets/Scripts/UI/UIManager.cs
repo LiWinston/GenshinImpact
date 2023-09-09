@@ -83,17 +83,15 @@ namespace UI
             {
                 UIMessage_1MSG.ShowMessage(message);
             }
-            else
-            {
-                UIMessage_1MSG = FindUIMessage1();
-                UIMessage_1MSG.ShowMessage(message);
-            }
         }
 
 
         public void ShowMessage2(string message)
         {
-            UIMessage_2MSG.ShowMessage(message);
+            if (UIMessage_2MSG)
+            {
+                UIMessage_2MSG.ShowMessage(message);
+            }
         }
     }
 }

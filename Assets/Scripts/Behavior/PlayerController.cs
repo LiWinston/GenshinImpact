@@ -160,7 +160,7 @@ public class PlayerController : MonoBehaviour
         Vector3 playerPosition = transform.position;
         Collider[] hitEnemies = Physics.OverlapSphere(playerPosition, damage.hurricaneKickRange);
 
-        UIManager.Instance.ShowMessage2(hitEnemies.Length == 0 ? "What are you kicking?" : "Lets KICK!");
+        // UIManager.Instance.ShowMessage2(hitEnemies.Length == 0 ? "What are you kicking?" : "Lets KICK!");
 
         foreach (Collider cld in hitEnemies)
         {
@@ -175,7 +175,7 @@ public class PlayerController : MonoBehaviour
                 if (enemyHealth != null)
                 {
                     enemyHealth.Damage(damage.HurricaneKickDamage);
-                    UI.UIManager.Instance.ShowMessage2("What a Hurricane Kick!");
+                    // UI.UIManager.Instance.ShowMessage2("What a Hurricane Kick!");
                     Rigidbody enemyRigidbody = cld.GetComponent<Rigidbody>();
                     if (enemyRigidbody != null)
                     {
