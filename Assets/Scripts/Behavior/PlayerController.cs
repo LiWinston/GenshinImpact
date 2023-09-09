@@ -16,6 +16,7 @@ using Random = UnityEngine.Random;
 public class PlayerController : MonoBehaviour
 {
     private Rigidbody rb;
+    [SerializeField]Transform viewPoint;
     
     [Header("Movement Settings")]
     public float moveSpeed = 5f;
@@ -81,6 +82,11 @@ public class PlayerController : MonoBehaviour
             Debug.LogError("Didnt Find 'model'!");
         }
 
+        viewPoint = SpellCast.FindDeepChild(transform, "root");//调一下得了 不粘贴过来了
+        if (viewPoint == null)
+        {
+            Debug.LogError("viewPoint not found!");
+        }
         if (animator == null)
         {
             Debug.LogError("Didnt Find animator!");
@@ -299,7 +305,7 @@ public class PlayerController : MonoBehaviour
     
     private void checkInteract()
     {
-        InSightDetect sightDetector = new InSightDetect();
+        InSightDetector sightDetector = new InSightDetector();
         var hasPickable = false;
         // Check Around
         var nearColliders = TryToInteract();
@@ -327,13 +333,14 @@ public class PlayerController : MonoBehaviour
 
             foreach (var (pickable, distance) in pickableList)
             {
-                if ((distance < pickable.pickupRange) && sightDetector.IsInLineOfSight(pickable))
+                // if ((distance < pickable.pickupRange) && sightDetector.IsInLineOfSight(viewPoint,pickable))  //the ray tracer detect always obstacle the picking, 先关了
+                if ((distance < pickable.pickupRange))
                 {
                     // transform.LookAt(pickable.transform);
                     
                     //TODO:动画播完在触发Pick()
                     rb.velocity = Vector3.zero;
-                    StartCoroutine(pick(pickable));
+                    StartCoroutine(GoPick(pickable));
                     
                     hasPickable = true;
                     break;
@@ -348,7 +355,7 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    private IEnumerator pick(Pickable pickable)
+    private IEnumerator GoPick(Pickable pickable)
     {
         // 获取目标方向
         Vector3 targetDirection = pickable.transform.position - transform.position;
@@ -358,7 +365,7 @@ public class PlayerController : MonoBehaviour
         Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
 
         // 设置最大旋转角度
-        float maxRotationAngle = 90f; // 调整最大旋转角度
+        float maxRotationAngle = 360f; // 调整最大旋转角度
 
         // 触发"Picking"动画
         animator.SetTrigger("Picking");
