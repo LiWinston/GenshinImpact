@@ -12,6 +12,7 @@ using UnityEngine.UIElements;
 using Cursor = UnityEngine.Cursor;
 using Random = UnityEngine.Random;
 
+
 public class PlayerController : MonoBehaviour
 {
     private Rigidbody rb;
@@ -62,9 +63,12 @@ public class PlayerController : MonoBehaviour
     private Damage damage;
     private float speed_Ratio_Attack = 0.2f;
     public float rotationFriction = 4000f; // 调整旋转摩擦力的大小
+    private State state;
 
     private void Start()
     {
+        state = GetComponent<State>();
+        damage = GetComponent<Damage>();
         rb = GetComponent<Rigidbody>();
         moveDirection = Vector3.zero;
         var model = transform.Find("Model"); 
@@ -84,7 +88,7 @@ public class PlayerController : MonoBehaviour
         
         Cursor.lockState = CursorLockMode.Locked;
         originalPosition = transform.position;
-        damage = GetComponent<Damage>();
+        if (Camera.main != null) Camera.main.transform.rotation = Quaternion.identity; // 正前方
     }
 
     private void Update()
@@ -172,6 +176,7 @@ public class PlayerController : MonoBehaviour
                 
                 HealthSystem enemyHealth = cld.GetComponent<HealthSystemComponent>().GetHealthSystem();
 
+                cld.GetComponentInChildren<Animator>().SetTrigger("HurricaneKickTrigger");
                 if (enemyHealth != null)
                 {
                     enemyHealth.Damage(damage.HurricaneKickDamage);
@@ -384,5 +389,10 @@ public class PlayerController : MonoBehaviour
         }
 
         textMesh.gameObject.SetActive(false);
+    }
+
+    public void TakeDamage(float dmg)
+    {
+        state.TakeDamage(dmg);
     }
 }

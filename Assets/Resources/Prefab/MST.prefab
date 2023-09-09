@@ -317,14 +317,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetPlayer: {fileID: 0}
-  attackDistance: 0.7
-  chaseDistance: 20
+  animator: {fileID: 0}
   mstForwardForce: 3000
   attackCooldownInterval: 2
   moveForceCooldownInterval: 0.05
   minAttackPower: 1
   maxAttackPower: 3
   rotationSpeed: 2
+  aimDistance: 15
+  chaseDistance: 20
+  stalkMstSpeed: 1
+  MaxMstSpeed: 2
+  stalkAccRatio: 0.8
+  attackDistance: 0.7
 --- !u!54 &1928511585271000626
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1374,11 +1379,11 @@ Animator:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3779376138837907370}
   m_Enabled: 1
-  m_Avatar: {fileID: 0}
+  m_Avatar: {fileID: 9000000, guid: 2eb6dad61b9a7c14ea919f20f000c136, type: 3}
   m_Controller: {fileID: 9100000, guid: 5e3444c22b12ed14396d80b2be34d1d6, type: 2}
   m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_UpdateMode: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_WarningMessage: 
