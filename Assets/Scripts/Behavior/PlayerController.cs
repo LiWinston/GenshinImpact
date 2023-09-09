@@ -123,8 +123,12 @@ public class PlayerController : MonoBehaviour
             
             lastAttackTime = Time.time;
         }
-        
-        checkInteract();
+
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            // StartCoroutine("checkInteract");
+            checkInteract();
+        }
         
         if (Input.GetKeyDown(KeyCode.V)) 
         {
@@ -296,7 +300,6 @@ public class PlayerController : MonoBehaviour
     private void checkInteract()
     {
         InSightDetect sightDetector = new InSightDetect();
-        if (!Input.GetKeyDown(KeyCode.E)) return;
         var hasPickable = false;
         // Check Around
         var nearColliders = TryToInteract();
@@ -326,7 +329,12 @@ public class PlayerController : MonoBehaviour
             {
                 if ((distance < pickable.pickupRange) && sightDetector.IsInLineOfSight(pickable))
                 {
-                    pickable.Pick();
+                    // transform.LookAt(pickable.transform);
+                    
+                    //TODO:动画播完在触发Pick()
+                    rb.velocity = Vector3.zero;
+                    StartCoroutine(pick(pickable));
+                    
                     hasPickable = true;
                     break;
                 }
@@ -340,6 +348,46 @@ public class PlayerController : MonoBehaviour
     }
 
 
+    private IEnumerator pick(Pickable pickable)
+    {
+        // 获取目标方向
+        Vector3 targetDirection = pickable.transform.position - transform.position;
+        targetDirection.y = 0f; // 将Y轴分量置零，以确保只在水平面上旋转
+
+        // 计算旋转角度
+        Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
+
+        // 设置最大旋转角度
+        float maxRotationAngle = 90f; // 调整最大旋转角度
+
+        // 触发"Picking"动画
+        animator.SetTrigger("Picking");
+
+        // 获取动画的长度
+        AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+        float animationLength = stateInfo.length;
+
+        // 旋转到目标方向
+        while (Quaternion.Angle(transform.rotation, targetRotation) > 0.1f)
+        {
+            // 计算旋转步长
+            float step = maxRotationAngle * Time.deltaTime;
+
+            // 使用RotateTowards旋转
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, step);
+        
+            yield return null;
+        }
+
+        // 等待动画播放完毕
+        yield return new WaitForSeconds(animationLength);
+
+        // 执行捡取操作
+        pickable.Pick();
+    }
+
+
+    
     private Collider[] TryToInteract()
     {
         return Physics.OverlapSphere(transform.position, MAX_ALLOWED_INTERACT_RANGE);
@@ -393,6 +441,7 @@ public class PlayerController : MonoBehaviour
 
     public void TakeDamage(float dmg)
     {
+        animator.SetTrigger("Hurt");
         state.TakeDamage(dmg);
     }
 }

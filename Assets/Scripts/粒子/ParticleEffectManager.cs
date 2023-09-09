@@ -77,7 +77,7 @@ public class ParticleEffectManager : MonoBehaviour
         while (Time.time < startTime + duration)
         {
             float t = (Time.time - startTime) / duration;
-            renderer.material.color = Color.Lerp(startColor, endColor, t);
+            // renderer.material.color = Color.Lerp(startColor, endColor, t);
             yield return null;
         }
 
