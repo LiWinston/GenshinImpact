@@ -264,7 +264,7 @@ public class State : MonoBehaviour
     public void CheatLevelUp()
     {
         if(currentLevel < maxLevel) currentLevel ++;
-        LevelUp();
+        LevelUpAction();
     }
 
     // 获取当前经验值
@@ -276,6 +276,7 @@ public class State : MonoBehaviour
     // 增加经验值并检查是否升级
     public void AddExperience(int experience)
     {
+        if(GetComponent<PlayerController>().cheatMode) return;
         currentExperience += experience;
 
         // 检查是否升级
@@ -296,21 +297,20 @@ public class State : MonoBehaviour
         if (currentLevel > previousLevel)
         {
             // 在这里执行升级后的操作，例如增加伤害减免比例
-            LevelUp();
+            LevelUpAction();
         }
     }
 
     // 更新伤害减免比例
-    private void LevelUp()
+    private void LevelUpAction()
     {
         // 在这里更新伤害减免比例，根据你的需求
-        // 这里只是一个示例
         damageReduction = currentLevel * 0.05f; // 每级增加 5%
         if (OnLevelChanged != null)
         {
             OnLevelChanged(currentLevel);
         }
-        // 将新的伤害减免比例应用到角色或其他逻辑
+        // 将新的伤害减免比例应用到角色
     }
     
     private void CheckInCombat()

@@ -48,6 +48,8 @@ public class PlayerController : MonoBehaviour
 
     private float xRotation = 0f;
 
+    private bool isNextAttackCritical = false;
+
     public bool IsCrouching
     {
         get { return isCrouching; }
@@ -66,10 +68,12 @@ public class PlayerController : MonoBehaviour
     public float rotationFriction = 4000f; // 调整旋转摩擦力的大小
     private State state;
     [SerializeField] private Transform sword;
-    private bool cheatMode = false;
+    internal bool cheatMode = false;
+    private CriticalHitCurve _criticalHitCurve;
 
     private void Start()
     {
+        _criticalHitCurve = GetComponent<CriticalHitCurve>();
         state = GetComponent<State>();
         damage = GetComponent<Damage>();
         rb = GetComponent<Rigidbody>();
@@ -253,18 +257,6 @@ public class PlayerController : MonoBehaviour
         }
     }
     */
-    float midpoint = 50.0f;   // S型曲线的中点
-    float steepness = 0.2f;  // S型曲线的陡峭度
-    float maxCriticalHitChance = 0.6f; // 最大暴击概率限制
-
-    float CalculateCriticalHitChance(int playerLevel)
-    {
-        // 使用Sigmoid函数计算暴击概率
-        float criticalHitChance = 1 / (1 + Mathf.Exp(-steepness * (playerLevel - midpoint)));
-    
-        // 限制在最大值
-        return Mathf.Min(criticalHitChance, maxCriticalHitChance);
-    }
 
 
 
@@ -275,17 +267,19 @@ public class PlayerController : MonoBehaviour
         {
             rb.velocity *= speed_Ratio_Attack;
             
-            float criticalHitChance = CalculateCriticalHitChance(state.GetCurrentLevel());
+            float criticalHitChance = _criticalHitCurve.CalculateCriticalHitChance(state.GetCurrentLevel());
 
             var randomValue = Random.Range(0.0f, 1.0f);
             if (randomValue <= criticalHitChance)
             {
                 // 触发暴击攻击
+                isNextAttackCritical = true;
                 animator.SetTrigger("AttackTrigger2");
             }
             else
             {
                 // 触发普通攻击
+                isNextAttackCritical = false;
                 animator.SetTrigger("AttackTrigger1");
             }
 
@@ -509,5 +503,10 @@ public class PlayerController : MonoBehaviour
     {
         animator.SetTrigger("Hurt");
         state.TakeDamage(dmg);
+    }
+
+    public float GetDamage()
+    {
+        return (isNextAttackCritical ? damage.criticalDmgRate * damage.CurrentDamage : damage.CurrentDamage);
     }
 }

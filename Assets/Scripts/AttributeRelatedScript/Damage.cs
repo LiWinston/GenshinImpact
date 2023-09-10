@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace AttributeRelatedScript
 {
@@ -11,6 +12,7 @@ namespace AttributeRelatedScript
         [SerializeField] public float HurricaneKickDamage = 8;
         [SerializeField] public float hurricaneKickKnockbackForce = 70;
         [SerializeField] public float hurricaneKickRange = 1.2f;
+        [SerializeField] internal float criticalDmgRate = 4f;
 
         public void IncreaseDamage(float idmg)
         {

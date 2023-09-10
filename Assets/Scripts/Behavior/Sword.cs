@@ -10,18 +10,13 @@ using Object = UnityEngine.Object;
 // 剑的脚本
 public class Sword : MonoBehaviour
 {
-    private GameObject player;
-    private Damage damage;
+    private PlayerController pCtrl;
     private void Start()
     {
-        player = GameObject.Find("Player");
-        if (player == null)
+        pCtrl = GameObject.Find("Player").GetComponent<PlayerController>();
+        if (pCtrl == null)
         {
-            Debug.LogError("Player for sword not Found!");
-        }
-        else
-        {
-            damage = player.GetComponent<Damage>();
+            Debug.LogError("Player ctrler for sword not Found!");
         }
     }
 
@@ -34,13 +29,10 @@ public class Sword : MonoBehaviour
             HealthSystem healthSystem = enemyCollider.GetComponent<HealthSystemComponent>().GetHealthSystem();
             if (healthSystem != null)
             {
-                var dmg = damage.CurrentDamage;
-                if (!player.GetComponent<State>().IsInCombat())
-                {
-                    dmg *= 2;
-                }
+                
+                var dmg = pCtrl.GetDamage();
                 UIManager.Instance.ShowMessage1("A "+ dmg +" Cut~");
-                healthSystem.Damage(damage.CurrentDamage); // Inflict damage on enemies
+                healthSystem.Damage(dmg); // Inflict damage on enemies
             }
         }
     }

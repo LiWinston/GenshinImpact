@@ -130,7 +130,7 @@ public class MonsterBehaviour : MonoBehaviour
 
      private void Attack()
     {
-        UIManager.Instance.ShowMessage1("揍你！");
+        // UIManager.Instance.ShowMessage1("揍你！");
         animator.SetTrigger("AttackTrigger");
         targetPlayer.TakeDamage(Random.Range(minAttackPower, maxAttackPower));
     }
