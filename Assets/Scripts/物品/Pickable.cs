@@ -11,9 +11,11 @@ public class Pickable : MonoBehaviour
     private GameObject player;
     private bool isPlayerInSight = false; // 玩家是否在视野内
     private bool showAlert = false; // 是否显示警告
+    // private rotation _rotation;
 
     private void Start()
     {
+        // _rotation = GetComponent<rotation>();
         _eff = GetComponent<PlayerBuffEffect>();
         player = GameObject.Find("Player");
         if (player == null)
@@ -54,6 +56,8 @@ public class Pickable : MonoBehaviour
             used = true;
             _eff.AffectPlayer(player);
         }
+
+        // _rotation.clickOff();
 
         // 标记物体为销毁，Unity 会在下一帧销毁它
     }

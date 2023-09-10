@@ -15,7 +15,8 @@ namespace AttributeRelatedScript
             player.GetComponent<State>().RestoreEnergy(effectValue);
             float currentmana = player.GetComponent<State>().CurrentEnergy; // 获取玩家当前的生命值
             ShowEffectMessage(effectValue, currentmana);
-            ParticleEffectManager.Instance.PlayParticleEffect("MagicSupply",player,quaternion.identity, 
+            var pos = SpellCast.FindDeepChild(player.transform, "root");
+            ParticleEffectManager.Instance.PlayParticleEffect("MagicSupply",pos.gameObject,quaternion.identity, 
                 Color.cyan,Color.green, 2f);
         }
     }
