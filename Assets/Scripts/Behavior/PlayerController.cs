@@ -208,14 +208,26 @@ public class PlayerController : MonoBehaviour
         }
     } 
 
-
+    /// <summary>
+    /// delegate attack detection to the collider and script of sword itself
+    /// </summary>
     private void Attack()
+    {
+        rb.velocity *= speed_Ratio_Attack;
+        animator.SetTrigger("AttackTrigger");
+    }
+    
+    /// <summary>
+    /// /abandoned Attack function using range detect and angle limiting
+    /// </summary>
+    /*
+    private void Attack_Backup()
     {
         rb.velocity *= speed_Ratio_Attack;
         UI.UIManager.Instance.ShowMessage2("Taste My Sword !!!(While a little stupid)");
         animator.SetTrigger("AttackTrigger");
-        var sword = SpellCast.FindDeepChild(transform, "Scabbard");
-        ParticleEffectManager.Instance.PlayParticleEffect("Attack", sword.gameObject, Quaternion.identity,Color.white, Color.white);
+        // var sword = SpellCast.FindDeepChild(transform, "Scabbard");
+        // ParticleEffectManager.Instance.PlayParticleEffect("Attack", sword.gameObject, Quaternion.identity,Color.white, Color.white);
         Vector3 characterPosition = transform.position;
         
         Vector3 targetDirection = transform.forward;
@@ -251,6 +263,7 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
+    */
 
 
     public void UserInput()
