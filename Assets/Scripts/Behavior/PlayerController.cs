@@ -65,6 +65,8 @@ public class PlayerController : MonoBehaviour
     private float speed_Ratio_Attack = 0.2f;
     public float rotationFriction = 4000f; // 调整旋转摩擦力的大小
     private State state;
+    [SerializeField] private Transform sword;
+    private bool cheatMode = false;
 
     private void Start()
     {
@@ -83,6 +85,7 @@ public class PlayerController : MonoBehaviour
         }
 
         viewPoint = SpellCast.FindDeepChild(transform, "root");//调一下得了 不粘贴过来了
+        sword = SpellCast.FindDeepChild(transform, "blade");
         if (viewPoint == null)
         {
             Debug.LogError("viewPoint not found!");
@@ -119,16 +122,9 @@ public class PlayerController : MonoBehaviour
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
         moveDirection = transform.right * horizontal + transform.forward * vertical;
+        
         UserInput();
         
-        
-        if (Input.GetMouseButtonDown(0) && Time.time - lastAttackTime >= damage.attackCooldown)
-        {
-            animator.SetTrigger("AttackTrigger");
-            Attack();
-            
-            lastAttackTime = Time.time;
-        }
 
         if (Input.GetKeyDown(KeyCode.E))
         {
@@ -208,14 +204,7 @@ public class PlayerController : MonoBehaviour
         }
     } 
 
-    /// <summary>
-    /// delegate attack detection to the collider and script of sword itself
-    /// </summary>
-    private void Attack()
-    {
-        rb.velocity *= speed_Ratio_Attack;
-        animator.SetTrigger("AttackTrigger");
-    }
+ 
     
     /// <summary>
     /// /abandoned Attack function using range detect and angle limiting
@@ -264,10 +253,44 @@ public class PlayerController : MonoBehaviour
         }
     }
     */
+    float midpoint = 50.0f;   // S型曲线的中点
+    float steepness = 0.2f;  // S型曲线的陡峭度
+    float maxCriticalHitChance = 0.6f; // 最大暴击概率限制
+
+    float CalculateCriticalHitChance(int playerLevel)
+    {
+        // 使用Sigmoid函数计算暴击概率
+        float criticalHitChance = 1 / (1 + Mathf.Exp(-steepness * (playerLevel - midpoint)));
+    
+        // 限制在最大值
+        return Mathf.Min(criticalHitChance, maxCriticalHitChance);
+    }
+
+
 
 
     public void UserInput()
     {
+        if (Input.GetMouseButtonDown(0) && Time.time - lastAttackTime >= damage.attackCooldown)
+        {
+            rb.velocity *= speed_Ratio_Attack;
+            
+            float criticalHitChance = CalculateCriticalHitChance(state.GetCurrentLevel());
+
+            var randomValue = Random.Range(0.0f, 1.0f);
+            if (randomValue <= criticalHitChance)
+            {
+                // 触发暴击攻击
+                animator.SetTrigger("AttackTrigger2");
+            }
+            else
+            {
+                // 触发普通攻击
+                animator.SetTrigger("AttackTrigger1");
+            }
+
+            lastAttackTime = Time.time;
+        }
         if (Input.GetKeyDown(KeyCode.Space) ) // Add a check to see if a jump has been made
         {
             if(isGrounded){
@@ -286,6 +309,29 @@ public class PlayerController : MonoBehaviour
             }
             
         }
+
+        if (Input.GetKeyDown(KeyCode.Delete))
+        {
+            if (cheatMode == false)
+            {
+                showExp("CHEAT MODE ON");
+                cheatMode = true;
+            }
+            else
+            {
+                showExp("CHEAT MODE OFF");
+                cheatMode = false;
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            if (cheatMode)
+            {
+                state.CheatLevelUp();
+            }
+        }
+        
         
         moveForceTimerCounter -= Time.deltaTime;
     

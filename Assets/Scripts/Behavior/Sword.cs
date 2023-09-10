@@ -34,7 +34,12 @@ public class Sword : MonoBehaviour
             HealthSystem healthSystem = enemyCollider.GetComponent<HealthSystemComponent>().GetHealthSystem();
             if (healthSystem != null)
             {
-                UIManager.Instance.ShowMessage1("A "+damage.CurrentDamage+" Cut~");
+                var dmg = damage.CurrentDamage;
+                if (!player.GetComponent<State>().IsInCombat())
+                {
+                    dmg *= 2;
+                }
+                UIManager.Instance.ShowMessage1("A "+ dmg +" Cut~");
                 healthSystem.Damage(damage.CurrentDamage); // Inflict damage on enemies
             }
         }

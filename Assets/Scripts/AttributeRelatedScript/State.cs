@@ -49,6 +49,10 @@ public class State : MonoBehaviour
     private float regenerationTimer;
 
 
+    public bool IsInCombat()
+    {
+        return isInCombat;
+    }
     public float CurrentHealth
     {
         get => currentHealth;
@@ -257,6 +261,11 @@ public class State : MonoBehaviour
     {
         return currentLevel;
     }
+    public void CheatLevelUp()
+    {
+        if(currentLevel < maxLevel) currentLevel ++;
+        LevelUp();
+    }
 
     // 获取当前经验值
     public int GetCurrentExperience()
@@ -287,12 +296,12 @@ public class State : MonoBehaviour
         if (currentLevel > previousLevel)
         {
             // 在这里执行升级后的操作，例如增加伤害减免比例
-            UpdateDamageReduction();
+            LevelUp();
         }
     }
 
     // 更新伤害减免比例
-    private void UpdateDamageReduction()
+    private void LevelUp()
     {
         // 在这里更新伤害减免比例，根据你的需求
         // 这里只是一个示例
