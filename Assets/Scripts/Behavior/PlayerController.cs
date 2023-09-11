@@ -378,7 +378,7 @@ public class PlayerController : MonoBehaviour
 
     private void checkInteract()
     {
-        InSightDetector sightDetector = new InSightDetector();
+        // InSightDetector sightDetector = new InSightDetector();
         var hasPickable = false;
         // Check Around
         var nearColliders = TryToInteract();

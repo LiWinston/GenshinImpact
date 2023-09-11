@@ -41,7 +41,7 @@ public class Pickable : MonoBehaviour
         if (Vector3.Distance(transform.position, player.transform.position) <= alertDis)
         {
             showAlert = true;
-            player.GetComponent<PlayerController>().showExp("EEE");
+            // player.GetComponent<PlayerController>().showExp("EEE");
         }
         else
         {
