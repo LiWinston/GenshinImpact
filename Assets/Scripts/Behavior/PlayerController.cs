@@ -367,6 +367,7 @@ public class PlayerController : MonoBehaviour
     private IEnumerator CriticalAttack()
     {
         isNextAttackCritical = true;
+        
         animator.SetTrigger("AttackTrigger2");
         animator.SetBool("isAttacking",true);
         AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
@@ -477,8 +478,8 @@ public class PlayerController : MonoBehaviour
     public void showExp(string expText)
     {
         // 查找场景内所有名称为 "ExpText" 的对象
-        // TextMeshPro[] expTextObjects = Resources.FindObjectsOfTypeAll<TextMeshPro>();
-        TextMeshPro[] expTextObjects = GetComponentsInChildren<TextMeshPro>();
+        TextMeshPro[] expTextObjects = Resources.FindObjectsOfTypeAll<TextMeshPro>();
+        // TextMeshPro[] expTextObjects = GetComponentsInChildren<TextMeshPro>();
         // if(expTextObjects.Length == 0){ShowMessage1("No txterPro");}
 
         foreach (TextMeshPro textMesh in expTextObjects)
