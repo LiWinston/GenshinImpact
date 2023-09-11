@@ -31,21 +31,22 @@ public class MonsterBehaviour : MonoBehaviour
     [SerializeField] private float stalkAccRatio = 0.8f;
     [SerializeField] private float attackDistance = 1.5f;
     private bool isMoving;
+    private State _state;
 
     private void Start()
     {
-        animator = GetComponentInChildren<Animator>();
-        if (targetPlayer == null)
-        {
-            Debug.LogWarning("No Animator Compoment found.");
-        }
         targetPlayer = GameObject.Find("Player").GetComponent<PlayerController>();
 
         if (targetPlayer == null)
         {
             Debug.LogWarning("No GameObject with the name 'Player' found in the scene.");
         }
-
+        _state = targetPlayer.GetComponent<State>();
+        animator = GetComponentInChildren<Animator>();
+        if (targetPlayer == null)
+        {
+            Debug.LogWarning("No Animator Compoment found.");
+        }
         // 在子对象中查找 Rigidbody
         rb = GetComponentInChildren<Rigidbody>();
         if (rb != null)
@@ -62,6 +63,7 @@ public class MonsterBehaviour : MonoBehaviour
         }
         // 初始化怪物经验值和等级
         InitializeMonsterLevel();
+        
     }
 
 
@@ -72,7 +74,7 @@ public class MonsterBehaviour : MonoBehaviour
         
         if (health.IsDead())
         {
-            targetPlayer.GetComponent<State>().AddExperience(this.monsterExperience);
+            _state.AddExperience(this.monsterExperience);
             targetPlayer.showExp("EXP " + this.monsterExperience);
             StartCoroutine(nameof(PlayDeathEffects));
             return;

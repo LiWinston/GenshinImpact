@@ -84,7 +84,7 @@ public class ParticleEffectManager : MonoBehaviour
         // 淡出
         if (autoDestroy)
         {
-            objectPooler.ReturnToPool("ParticleEffects",effectObject);
+            // objectPooler.ReturnToPool("ParticleEffects",effectObject);
             Destroy(effectObject);        
         }
     }

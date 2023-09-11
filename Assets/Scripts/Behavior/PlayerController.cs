@@ -477,7 +477,8 @@ public class PlayerController : MonoBehaviour
     public void showExp(string expText)
     {
         // 查找场景内所有名称为 "ExpText" 的对象
-        TextMeshPro[] expTextObjects = Resources.FindObjectsOfTypeAll<TextMeshPro>();
+        // TextMeshPro[] expTextObjects = Resources.FindObjectsOfTypeAll<TextMeshPro>();
+        TextMeshPro[] expTextObjects = GetComponentsInChildren<TextMeshPro>();
         // if(expTextObjects.Length == 0){ShowMessage1("No txterPro");}
 
         foreach (TextMeshPro textMesh in expTextObjects)
@@ -489,8 +490,9 @@ public class PlayerController : MonoBehaviour
                 textMesh.gameObject.SetActive(true);
 
                 // 启动协程来淡出经验值显示
-                MonoBehaviour monoBehaviour = textMesh.gameObject.GetComponent<MonoBehaviour>();
-                monoBehaviour.StartCoroutine(FadeOutExpText(textMesh));
+                // MonoBehaviour monoBehaviour = textMesh.gameObject.GetComponent<MonoBehaviour>();
+                // monoBehaviour.StartCoroutine(FadeOutExpText(textMesh));
+                StartCoroutine(FadeOutExpText(textMesh));
             }
             else
             {

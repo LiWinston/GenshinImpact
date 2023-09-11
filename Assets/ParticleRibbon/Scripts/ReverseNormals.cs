@@ -26,6 +26,6 @@
                  }
              }        
              
-             this.GetComponent<MeshCollider>().sharedMesh = filter.mesh;
+             // this.GetComponent<MeshCollider>().sharedMesh = filter.mesh;
          }
      }
