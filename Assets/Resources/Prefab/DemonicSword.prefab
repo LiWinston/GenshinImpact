@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7941714610460800065}
   - component: {fileID: 6678155884564182685}
-  - component: {fileID: 1594354986758327470}
   m_Layer: 0
   m_Name: DemonicSword
   m_TagString: Untagged
@@ -62,30 +61,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!145 &1594354986758327470
-SpringJoint:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1852686255027487260}
-  m_ConnectedBody: {fileID: 0}
-  m_ConnectedArticulationBody: {fileID: 0}
-  m_Anchor: {x: 0, y: 0, z: 0}
-  m_AutoConfigureConnectedAnchor: 0
-  m_ConnectedAnchor: {x: 0, y: 0, z: 0}
-  serializedVersion: 2
-  m_Spring: 10
-  m_Damper: 0.2
-  m_MinDistance: 0
-  m_MaxDistance: 0
-  m_Tolerance: 0.025
-  m_BreakForce: Infinity
-  m_BreakTorque: Infinity
-  m_EnableCollision: 1
-  m_EnablePreprocessing: 1
-  m_MassScale: 1
-  m_ConnectedMassScale: 20
 --- !u!1 &1968006560218205223
 GameObject:
   m_ObjectHideFlags: 0
@@ -250,6 +225,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d31433fae05f52d41b7f55fe2703714d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  swordCollider: {fileID: 3098988509900941146}
 --- !u!1 &4675421213837608110
 GameObject:
   m_ObjectHideFlags: 0

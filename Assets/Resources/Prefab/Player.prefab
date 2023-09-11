@@ -3992,6 +3992,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7406021605194356953}
   - component: {fileID: 3360135653076135481}
+  - component: {fileID: 5614921957825579036}
   - component: {fileID: 6844506482609387575}
   - component: {fileID: 9011349587138179888}
   - component: {fileID: 4204505828502385112}
@@ -4051,6 +4052,37 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!114 &5614921957825579036
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1678239912745874840}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8958e99c0ecfa3f43b447da29d73f136, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  curvePoints:
+  - level: 1
+    chance: 0.05
+  - level: 10
+    chance: 0.2
+  - level: 20
+    chance: 0.3
+  - level: 30
+    chance: 0.4
+  - level: 40
+    chance: 0.48
+  - level: 50
+    chance: 0.55
+  - level: 80
+    chance: 0.6
+  - level: 90
+    chance: 0.64
+  - level: 100
+    chance: 0.75
 --- !u!114 &6844506482609387575
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4076,6 +4108,7 @@ MonoBehaviour:
   moveForceTimerCounter: 0.08
   swordTransform: {fileID: 0}
   rotationFriction: 200
+  sword: {fileID: 0}
 --- !u!114 &9011349587138179888
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4143,12 +4176,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 8
-  attackAngle: 80
-  attackRange: 0.9
-  attackCooldown: 0.5
+  attackAngle: 0
+  attackRange: 0
+  attackCooldown: 0.8
   HurricaneKickDamage: 8
   hurricaneKickKnockbackForce: 20
   hurricaneKickRange: 1.2
+  criticalDmgRate: 4
 --- !u!195 &6507685321940979291
 NavMeshAgent:
   m_ObjectHideFlags: 0

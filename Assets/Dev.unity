@@ -302,18 +302,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1630489552670241335, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
-      propertyPath: attackAngle
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1630489552670241335, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
-      propertyPath: attackRange
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1630489552670241335, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
-      propertyPath: attackCooldown
-      value: 0.8
-      objectReference: {fileID: 0}
     - target: {fileID: 1678239912745874840, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
       propertyPath: m_Name
       value: Player
@@ -362,9 +350,6 @@ PrefabInstance:
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 1678239912745874840, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
-      insertIndex: 2
-      addedObject: {fileID: 1014925710}
     - targetCorrespondingSourceObject: {fileID: 652878872917320646, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
       insertIndex: -1
       addedObject: {fileID: 0}
@@ -466,42 +451,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ce3bf6b633c8262489e4650ed639e16a, type: 3}
---- !u!1 &1014925700 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1678239912745874840, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
-  m_PrefabInstance: {fileID: 407572610}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1014925710
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1014925700}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8958e99c0ecfa3f43b447da29d73f136, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  curvePoints:
-  - level: 1
-    chance: 0.05
-  - level: 10
-    chance: 0.2
-  - level: 20
-    chance: 0.3
-  - level: 30
-    chance: 0.4
-  - level: 40
-    chance: 0.48
-  - level: 50
-    chance: 0.55
-  - level: 80
-    chance: 0.6
-  - level: 90
-    chance: 0.64
-  - level: 100
-    chance: 0.75
 --- !u!1 &1797269149
 GameObject:
   m_ObjectHideFlags: 0

@@ -273,14 +273,12 @@ public class PlayerController : MonoBehaviour
             if (randomValue <= criticalHitChance)
             {
                 // 触发暴击攻击
-                isNextAttackCritical = true;
-                animator.SetTrigger("AttackTrigger2");
+                StartCoroutine(CriticalAttack());
             }
             else
             {
                 // 触发普通攻击
-                isNextAttackCritical = false;
-                animator.SetTrigger("AttackTrigger1");
+                StartCoroutine(NormalAttack());
             }
 
             lastAttackTime = Time.time;
@@ -355,7 +353,29 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    
+    private IEnumerator NormalAttack()
+    {
+        isNextAttackCritical = false;
+        animator.SetTrigger("AttackTrigger1");
+        animator.SetBool("isAttacking",true);
+        AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+        float animationLength = stateInfo.length;
+        yield return new WaitForSeconds(animationLength);
+        animator.SetBool("isAttacking",false);
+    }
+
+    private IEnumerator CriticalAttack()
+    {
+        isNextAttackCritical = true;
+        animator.SetTrigger("AttackTrigger2");
+        animator.SetBool("isAttacking",true);
+        AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+        float animationLength = stateInfo.length;
+        yield return new WaitForSeconds(animationLength);
+        animator.SetBool("isAttacking",false);
+    }
+
+
     private void checkInteract()
     {
         InSightDetector sightDetector = new InSightDetector();
@@ -508,5 +528,10 @@ public class PlayerController : MonoBehaviour
     public float GetDamage()
     {
         return (isNextAttackCritical ? damage.criticalDmgRate * damage.CurrentDamage : damage.CurrentDamage);
+    }
+
+    public Animator GetAnimator()
+    {
+        return animator;
     }
 }

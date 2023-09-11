@@ -11,6 +11,8 @@ using Object = UnityEngine.Object;
 public class Sword : MonoBehaviour
 {
     private PlayerController pCtrl;
+    private Animator animator;
+    [SerializeField]private BoxCollider swordCollider;
     private void Start()
     {
         pCtrl = GameObject.Find("Player").GetComponent<PlayerController>();
@@ -18,6 +20,15 @@ public class Sword : MonoBehaviour
         {
             Debug.LogError("Player ctrler for sword not Found!");
         }
+
+        animator = pCtrl.GetAnimator();
+        if (!swordCollider) swordCollider = GetComponent<BoxCollider>();
+        swordCollider.enabled = true; // 还是有点问题
+    }
+
+    private void Update()
+    {
+        // swordCollider.enabled = animator.GetBool("isAttacking");
     }
 
     private void OnTriggerEnter(Collider enemyCollider)
