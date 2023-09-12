@@ -1,3 +1,4 @@
+using System;
 using UI;
 using UnityEngine;
 using UnityEngine.UI;
@@ -58,6 +59,7 @@ public class State : MonoBehaviour
     [SerializeField] public float hurricaneKickKnockbackForce = 70;
     [SerializeField] public float hurricaneKickRange = 1.2f;
     [SerializeField] internal float criticalDmgRate = 4f;
+    internal float attackSpeedRate;
 
     public bool IsInCombat()
     {
@@ -277,7 +279,7 @@ public class State : MonoBehaviour
     }
     public void CheatLevelUp()
     {
-        if(currentLevel < maxLevel) currentLevel += 10;
+        if(currentLevel < maxLevel) currentLevel += 1;
         LevelUpAction();
     }
 
@@ -352,13 +354,14 @@ public class State : MonoBehaviour
         if (currentLevel <= maxLevel)
         {
             attackCooldown = _AttcooldownCurve.CalculateAttackCooldown(currentLevel);
-            var attackSpeedRate = _AttcooldownCurve.curvePoints[0].cooldown / attackCooldown;
+            attackSpeedRate = _AttcooldownCurve.curvePoints[0].cooldown / attackCooldown;
             //通知player controller更新动画时间参数
             PlayerController playerController = GetComponent<PlayerController>();
             if (playerController != null)
             {
                 playerController.UpdateAttackAnimationTime(attackSpeedRate);
             }
+            Debug.Log(currentLevel + "级攻速" + attackCooldown +"秒，动画倍速 " + attackSpeedRate);
         }
     }
     public float CurrentDamage

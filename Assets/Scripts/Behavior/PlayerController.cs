@@ -34,7 +34,7 @@ public class PlayerController : MonoBehaviour
     public float jumpForce = 800;
     
     
-    private bool isClimbing = false;
+    // private bool isClimbing = false;
     
     private Vector3 moveDirection;
 
@@ -267,6 +267,7 @@ public class PlayerController : MonoBehaviour
             rb.velocity *= speed_Ratio_Attack;
             
             float criticalHitChance = _criticalHitCurve.CalculateCriticalHitChance(state.GetCurrentLevel());
+            Debug.Log(state.GetCurrentLevel() + "级暴击率" + criticalHitChance*100 +"%");
 
             var randomValue = Random.Range(0.0f, 1.0f);
             if (randomValue <= criticalHitChance)

@@ -23,7 +23,7 @@ public class AttackCooldownCurve : MonoBehaviour
             return 1.0f;
         }
 
-        float cooldown = 1.0f;
+        float cooldown = curvePoints[0].cooldown;
 
         for (int i = 0; i < curvePoints.Count; i++)
         {
@@ -45,6 +45,6 @@ public class AttackCooldownCurve : MonoBehaviour
             }
         }
 
-        return Mathf.Clamp(cooldown, 0.1f, 0.4f); // 控制攻击间隔在0.1到0.4之间
+        return Mathf.Clamp(cooldown, 0.4f, 1.2f); 
     }
 }

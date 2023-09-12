@@ -9,7 +9,7 @@ public class Pickable : MonoBehaviour
     private PlayerBuffEffect _eff;
     private bool _isEffNotNull;
     private GameObject player;
-    private bool isPlayerInSight = false; // 玩家是否在视野内
+    // private bool isPlayerInSight = false; // 玩家是否在视野内
     private bool showAlert = false; // 是否显示警告
     // private rotation _rotation;
 
@@ -38,15 +38,15 @@ public class Pickable : MonoBehaviour
         // showAlert = InSightDetector.IsInLineOfSight(player, this);
 
         // 根据条件显示警告
-        if (Vector3.Distance(transform.position, player.transform.position) <= alertDis)
-        {
-            showAlert = true;
-            // player.GetComponent<PlayerController>().showExp("EEE");
-        }
-        else
-        {
-            showAlert = false;
-        }
+        // if (Vector3.Distance(transform.position, player.transform.position) <= alertDis)
+        // {
+        //     showAlert = true;
+        //     // player.GetComponent<PlayerController>().showExp("EEE");
+        // }
+        // else
+        // {
+        //     showAlert = false;
+        // }
     }
 
     public void Pick()
