@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 3393586056539502145}
   - component: {fileID: 3393586056540468353}
   - component: {fileID: 8242206925787929946}
+  - component: {fileID: 1603811015976010170}
+  - component: {fileID: 9092443716506544503}
   m_Layer: 0
   m_Name: Pref_Wall_Door_Opening
   m_TagString: Untagged
@@ -105,3 +107,45 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.3, y: 0.7, z: 3}
   m_Center: {x: 0, y: 2.73, z: 0}
+--- !u!65 &1603811015976010170
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3393586056542726721}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.3, y: 2.4, z: 0.8}
+  m_Center: {x: 0, y: 1.2, z: 1.1}
+--- !u!65 &9092443716506544503
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3393586056542726721}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.3, y: 2.4, z: 0.8}
+  m_Center: {x: 0, y: 1.2, z: -1.1}
