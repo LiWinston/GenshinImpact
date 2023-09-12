@@ -25,7 +25,7 @@ public class MonsterBehaviour : MonoBehaviour
      public float rotationSpeed = 0.000000001f; // 调整旋转速度
      
     // private float gameTime = Time.time;
-    private int monsterLevel;
+    private float monsterLevel;
     private int monsterExperience;
     [SerializeField] private float aimDistance = 15;
     [SerializeField] private float chaseDistance = 8f;
@@ -149,7 +149,7 @@ public class MonsterBehaviour : MonoBehaviour
     {
         // UIManager.Instance.ShowMessage1("揍你！");
         animator.SetTrigger("AttackTrigger");
-        targetPlayer.TakeDamage(monsterLevel * Random.Range(minAttackPower, maxAttackPower));
+        targetPlayer.TakeDamage(monsterLevel/20 * Random.Range(minAttackPower, maxAttackPower));
     }
 
     private IEnumerator PlayDeathEffects()
@@ -165,9 +165,9 @@ public class MonsterBehaviour : MonoBehaviour
         // 计算怪物等级，使其在五分钟内逐渐增长到最大等级
         float maxGameTime = 400f; // 300秒
         float progress = Mathf.Clamp01(Time.time / maxGameTime); // 游戏时间进度（0到1之间）
-        monsterLevel = Mathf.FloorToInt(progress * 100) + 1; // 从1到100逐渐增长
-        monsterExperience = Mathf.FloorToInt(monsterLevel * 1.4f);
-        health.SetHealthMax(monsterLevel * 4 +100, true);
+        monsterLevel = progress * 100 + 1; // 从1到100逐渐增长
+        monsterExperience = Mathf.FloorToInt(monsterLevel * 1.2f);
+        health.SetHealthMax(monsterLevel * 100 +100, true);
     }
     
     public IEnumerator ApplyFreezeEffect(float duration)

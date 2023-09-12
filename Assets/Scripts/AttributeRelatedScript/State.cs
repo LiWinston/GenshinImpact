@@ -155,19 +155,19 @@ public class State : MonoBehaviour
     // 初始化升级所需经验值数组
     private void InitializeExperienceThresholds()
     {
-        // 这里是一个示例，你可以根据需要进行调整
         experienceThresholds = new int[maxLevel];
-    
-        // 例如，假设玩家从1级开始，每级所需经验值递增
         int baseExperience = 100; // 初始等级所需经验值
-        int experienceIncrease = 250; // 每级经验值递增值
+        experienceThresholds[0] = baseExperience;
+        float experienceGrowthFactor = 1.25f; // 经验值增长因子
 
-        for (int level = 1; level <= maxLevel; level++)
+        for (int level = 2; level <= maxLevel; level++)
         {
-            experienceThresholds[level - 1] = baseExperience;
-            baseExperience += experienceIncrease;
+            experienceThresholds[level - 1] = Mathf.FloorToInt(experienceThresholds[level - 2] + baseExperience);
+            baseExperience = Mathf.FloorToInt(baseExperience * experienceGrowthFactor);
         }
     }
+
+
 
 
     private void Update()
