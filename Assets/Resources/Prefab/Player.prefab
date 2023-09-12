@@ -216,7 +216,6 @@ GameObject:
   - component: {fileID: 9011349587138179888}
   - component: {fileID: 4204505828502385112}
   - component: {fileID: 94393281984951438}
-  - component: {fileID: 1630489552670241335}
   - component: {fileID: 6507685321940979291}
   - component: {fileID: 4527048075143176695}
   m_Layer: 0
@@ -368,6 +367,14 @@ MonoBehaviour:
   energyRegenerationRate: 0.008
   healthRegenAddition: 0.1
   energyRegenAddition: 0.2
+  damage: 8
+  attackAngle: 70
+  attackRange: 0.9
+  attackCooldown: 0
+  HurricaneKickDamage: 8
+  hurricaneKickKnockbackForce: 70
+  hurricaneKickRange: 1.2
+  criticalDmgRate: 4
 --- !u!114 &94393281984951438
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -382,26 +389,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spellingPartTransform: {fileID: 5496938358071925957}
   spellRange: 1.6
---- !u!114 &1630489552670241335
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1678239912745874840}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: df38e3e055fb4a2a9880d0325be3ada9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damage: 8
-  attackAngle: 0
-  attackRange: 0
-  attackCooldown: 0.8
-  HurricaneKickDamage: 8
-  hurricaneKickKnockbackForce: 20
-  hurricaneKickRange: 1.2
-  criticalDmgRate: 4
 --- !u!195 &6507685321940979291
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -539,6 +526,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7406021605194356953}
     m_Modifications:
+    - target: {fileID: 4061112373666353820, guid: 2e1919b3058a29a40ab972890a296978, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.88
+      objectReference: {fileID: 0}
+    - target: {fileID: 4061112373666353820, guid: 2e1919b3058a29a40ab972890a296978, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.9606056
+      objectReference: {fileID: 0}
+    - target: {fileID: 4061112373666353820, guid: 2e1919b3058a29a40ab972890a296978, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.6953562
+      objectReference: {fileID: 0}
+    - target: {fileID: 4061112373666353820, guid: 2e1919b3058a29a40ab972890a296978, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5848477473061255142, guid: 2e1919b3058a29a40ab972890a296978, type: 3}
       propertyPath: m_Name
       value: Model

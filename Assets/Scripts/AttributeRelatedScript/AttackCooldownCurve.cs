@@ -8,7 +8,9 @@ public class AttackCooldownCurvePoint
     public int level;
     public float cooldown;
 }
-
+/// <summary>
+/// Want to update cd preperly? 此处必须从一级开始填。其余无所谓。一级要作为分子求动画加速
+/// </summary>
 public class AttackCooldownCurve : MonoBehaviour
 {
     public List<AttackCooldownCurvePoint> curvePoints = new List<AttackCooldownCurvePoint>();

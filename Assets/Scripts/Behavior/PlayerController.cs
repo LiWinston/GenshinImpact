@@ -100,6 +100,7 @@ public class PlayerController : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         originalPosition = transform.position;
         if (Camera.main != null) Camera.main.transform.rotation = Quaternion.identity; // 正前方
+        animator.SetFloat("AttSpeedMult",1f);
     }
 
     private void Update()
@@ -534,5 +535,10 @@ public class PlayerController : MonoBehaviour
     public Animator GetAnimator()
     {
         return animator;
+    }
+
+    public void UpdateAttackAnimationTime(float attackSpeedRate)
+    {
+        animator.SetFloat("AttSpeedMult",attackSpeedRate);
     }
 }

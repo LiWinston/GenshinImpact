@@ -140,6 +140,7 @@ public class State : MonoBehaviour
 
         _AttcooldownCurve = GetComponent<AttackCooldownCurve>();
         if(!_AttcooldownCurve) Debug.LogError("AttackCooldownCurve NotFound");
+        UpdateAttackCooldown();
     }
 
     // 初始化升级所需经验值数组
@@ -351,6 +352,13 @@ public class State : MonoBehaviour
         if (currentLevel <= maxLevel)
         {
             attackCooldown = _AttcooldownCurve.CalculateAttackCooldown(currentLevel);
+            var attackSpeedRate = _AttcooldownCurve.curvePoints[0].cooldown / attackCooldown;
+            //通知player controller更新动画时间参数
+            PlayerController playerController = GetComponent<PlayerController>();
+            if (playerController != null)
+            {
+                playerController.UpdateAttackAnimationTime(attackSpeedRate);
+            }
         }
     }
     public float CurrentDamage
