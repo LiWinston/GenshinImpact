@@ -63,7 +63,6 @@ public class PlayerController : MonoBehaviour
     public float moveForceTimerCounter = 0.05f;
     
     [SerializeField] private GameObject swordTransform;
-    private Damage damage;
     private float speed_Ratio_Attack = 0.2f;
     public float rotationFriction = 4000f; // 调整旋转摩擦力的大小
     private State state;
@@ -75,7 +74,6 @@ public class PlayerController : MonoBehaviour
     {
         _criticalHitCurve = GetComponent<CriticalHitCurve>();
         state = GetComponent<State>();
-        damage = GetComponent<Damage>();
         rb = GetComponent<Rigidbody>();
         moveDirection = Vector3.zero;
         var model = transform.Find("Model"); 
@@ -172,7 +170,7 @@ public class PlayerController : MonoBehaviour
     {
         rb.velocity = Vector3.zero;
         Vector3 playerPosition = transform.position;
-        Collider[] hitEnemies = Physics.OverlapSphere(playerPosition, damage.hurricaneKickRange);
+        Collider[] hitEnemies = Physics.OverlapSphere(playerPosition, state.hurricaneKickRange);
 
         // UIManager.Instance.ShowMessage2(hitEnemies.Length == 0 ? "What are you kicking?" : "Lets KICK!");
 
@@ -189,12 +187,12 @@ public class PlayerController : MonoBehaviour
                 cld.GetComponentInChildren<Animator>().SetTrigger("HurricaneKickTrigger");
                 if (enemyHealth != null)
                 {
-                    enemyHealth.Damage(damage.HurricaneKickDamage);
+                    enemyHealth.Damage(state.HurricaneKickDamage);
                     // UI.UIManager.Instance.ShowMessage2("What a Hurricane Kick!");
                     Rigidbody enemyRigidbody = cld.GetComponent<Rigidbody>();
                     if (enemyRigidbody != null)
                     {
-                        enemyRigidbody.AddForce(knockbackDirection * damage.hurricaneKickKnockbackForce, ForceMode.VelocityChange);
+                        enemyRigidbody.AddForce(knockbackDirection * state.hurricaneKickKnockbackForce, ForceMode.VelocityChange);
                         // 计算随机切向方向（左或右）
                         Vector3 randomTangentDirection = Quaternion.Euler(0, Random.Range(-90f, 90f), 0) * knockbackDirection;
 
@@ -263,7 +261,7 @@ public class PlayerController : MonoBehaviour
 
     public void UserInput()
     {
-        if (Input.GetMouseButtonDown(0) && Time.time - lastAttackTime >= damage.attackCooldown)
+        if (Input.GetMouseButtonDown(0) && Time.time - lastAttackTime >= state.attackCooldown)
         {
             rb.velocity *= speed_Ratio_Attack;
             
@@ -530,7 +528,7 @@ public class PlayerController : MonoBehaviour
 
     public float GetDamage()
     {
-        return (isNextAttackCritical ? damage.criticalDmgRate * damage.CurrentDamage : damage.CurrentDamage);
+        return (isNextAttackCritical ? state.criticalDmgRate * state.CurrentDamage : state.CurrentDamage);
     }
 
     public Animator GetAnimator()

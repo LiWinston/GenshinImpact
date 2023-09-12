@@ -48,6 +48,16 @@ public class State : MonoBehaviour
     [SerializeField] private float energyRegenAddition = 0.2f;
     private float regenerationTimer;
 
+    [Header("Damage")] 
+    private AttackCooldownCurve _AttcooldownCurve;
+    [SerializeField] private float damage = 8f;
+    [SerializeField] internal float attackAngle = 70f;
+    [SerializeField] internal float attackRange = 0.9f;
+    [SerializeField] public float attackCooldown = 1.0f; // 攻击冷却时间
+    [SerializeField] public float HurricaneKickDamage = 8;
+    [SerializeField] public float hurricaneKickKnockbackForce = 70;
+    [SerializeField] public float hurricaneKickRange = 1.2f;
+    [SerializeField] internal float criticalDmgRate = 4f;
 
     public bool IsInCombat()
     {
@@ -127,6 +137,9 @@ public class State : MonoBehaviour
         
         currentExperience = 0;
         InitializeExperienceThresholds();
+
+        _AttcooldownCurve = GetComponent<AttackCooldownCurve>();
+        if(!_AttcooldownCurve) Debug.LogError("AttackCooldownCurve NotFound");
     }
 
     // 初始化升级所需经验值数组
@@ -304,7 +317,7 @@ public class State : MonoBehaviour
     // 更新伤害减免比例
     private void LevelUpAction()
     {
-        // 在这里更新伤害减免比例，根据你的需求
+        UpdateAttackCooldown();
         damageReduction = currentLevel * 0.05f; // 每级增加 5%
         if (OnLevelChanged != null)
         {
@@ -324,5 +337,25 @@ public class State : MonoBehaviour
             // Regenerate health and energy based on regeneration rates and current level
            Heal(maxHealth * healthRegenerationRate * (1.0f + (currentLevel - 1) * healthRegenAddition));
             RestoreEnergy(maxEnergy * energyRegenerationRate * (1.0f + (currentLevel - 1) * energyRegenAddition));
+    }
+    
+    
+    public void IncreaseDamage(float idmg)
+    {
+        damage += idmg;
+            
+    }
+
+    public void UpdateAttackCooldown()
+    {
+        if (currentLevel <= maxLevel)
+        {
+            attackCooldown = _AttcooldownCurve.CalculateAttackCooldown(currentLevel);
+        }
+    }
+    public float CurrentDamage
+    {
+        get=>damage;
+        set =>damage = value;
     }
 }
