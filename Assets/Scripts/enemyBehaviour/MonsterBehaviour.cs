@@ -167,10 +167,10 @@ public class MonsterBehaviour : MonoBehaviour
         float progress = Mathf.Clamp01(Time.time / maxGameTime); // 游戏时间进度（0到1之间）
         monsterLevel = progress * 100 + 1; // 从1到100逐渐增长
         monsterExperience = Mathf.FloorToInt(monsterLevel * 1.2f);
-        health.SetHealthMax(monsterLevel * 100 +100, true);
+        health.SetHealthMax(monsterLevel * 20 + 60, true);
     }
     
-    public IEnumerator ApplyFreezeEffect(float duration)
+    public IEnumerator ApplyFreezeEffect(float duration = 2f)
     {
         if (!isFrozen)
         {

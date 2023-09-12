@@ -101,7 +101,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: EXP 1
+  m_text: EXP 17
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 125cb55b44b24c4393181402bc6200e6, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 125cb55b44b24c4393181402bc6200e6, type: 2}
@@ -396,6 +396,7 @@ MonoBehaviour:
   healthRegenAddition: 0.05
   energyRegenAddition: 0.12
   damage: 8
+  addDamageOnUpdate: 2
   HurricaneKickDamage: 8
   hurricaneKickKnockbackForce: 70
   hurricaneKickRange: 1.2
@@ -562,6 +563,34 @@ PrefabInstance:
     - target: {fileID: 4061112373666353820, guid: 2e1919b3058a29a40ab972890a296978, type: 3}
       propertyPath: m_LocalScale.z
       value: 1.6953562
+      objectReference: {fileID: 0}
+    - target: {fileID: 4061112373666353820, guid: 2e1919b3058a29a40ab972890a296978, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.77259237
+      objectReference: {fileID: 0}
+    - target: {fileID: 4061112373666353820, guid: 2e1919b3058a29a40ab972890a296978, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.14501502
+      objectReference: {fileID: 0}
+    - target: {fileID: 4061112373666353820, guid: 2e1919b3058a29a40ab972890a296978, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.23481517
+      objectReference: {fileID: 0}
+    - target: {fileID: 4061112373666353820, guid: 2e1919b3058a29a40ab972890a296978, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.5717811
+      objectReference: {fileID: 0}
+    - target: {fileID: 4061112373666353820, guid: 2e1919b3058a29a40ab972890a296978, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 2.548
+      objectReference: {fileID: 0}
+    - target: {fileID: 4061112373666353820, guid: 2e1919b3058a29a40ab972890a296978, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 31.951
+      objectReference: {fileID: 0}
+    - target: {fileID: 4061112373666353820, guid: 2e1919b3058a29a40ab972890a296978, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: -72.279
       objectReference: {fileID: 0}
     - target: {fileID: 4061112373666353820, guid: 2e1919b3058a29a40ab972890a296978, type: 3}
       propertyPath: m_ConstrainProportionsScale
