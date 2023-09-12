@@ -6,8 +6,8 @@ using UnityEngine.UI;
 public class StreamMessager : MonoBehaviour
 {
     public Text messageText;
-    public float displayDuration = 0.7f;
-    public float fadeDuration = 0.3f;
+    public float displayDuration = 0.2f;
+    public float fadeDuration = 0.1f;
 
     private Queue<string> messageQueue = new Queue<string>();
     private bool isDisplayingMessage = false;
