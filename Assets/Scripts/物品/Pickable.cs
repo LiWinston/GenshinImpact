@@ -10,7 +10,7 @@ public class Pickable : MonoBehaviour
     private bool _isEffNotNull;
     private GameObject player;
     // private bool isPlayerInSight = false; // 玩家是否在视野内
-    private bool showAlert = false; // 是否显示警告
+    // private bool showAlert = false; // 是否显示警告
     // private rotation _rotation;
 
     private void Start()

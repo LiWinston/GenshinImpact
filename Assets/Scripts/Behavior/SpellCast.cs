@@ -52,7 +52,7 @@ public class SpellCast : MonoBehaviour
     private void CastSpell()
     {
         //TODO:更新此机制。
-        if (!state.ConsumeEnergy(2))
+        if (!state.ConsumeEnergy(state.CurrentDamage))
         {
             return;
         };
@@ -113,8 +113,8 @@ public class SpellCast : MonoBehaviour
     
     private void CastUlt()
     {
-        //TODO:更新此机制。
-        if (!state.ConsumeEnergy(10))
+        //TODO:更新此机制: 冰冻特效
+        if (!state.ConsumeEnergy(state.CurrentDamage * 1.5f))
         {
             return;
         };
@@ -146,8 +146,9 @@ public class SpellCast : MonoBehaviour
                 if (enemyHealth != null)
                 {
                     // 对敌人造成伤害
-                    enemyHealth.Damage(state.CurrentDamage * 4);
-
+                    enemyHealth.Damage(state.CurrentDamage * 2);
+                    enemy.attachedRigidbody.velocity = Vector3.zero;
+                    StartCoroutine(enemy.GetComponent<MonsterBehaviour>().ApplyFreezeEffect(1 + state.GetCurrentLevel() * 0.2f / 10f));
                     // 播放特效
                     if (spellingPartTransform != null)
                     {

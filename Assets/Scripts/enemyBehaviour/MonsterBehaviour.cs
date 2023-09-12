@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using CodeMonkey.HealthSystemCM;
 using UI;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
@@ -23,7 +24,7 @@ public class MonsterBehaviour : MonoBehaviour
     
      public float rotationSpeed = 0.000000001f; // 调整旋转速度
      
-    private float gameTime = 0;
+    // private float gameTime = Time.time;
     private int monsterLevel;
     private int monsterExperience;
     [SerializeField] private float aimDistance = 15;
@@ -36,6 +37,12 @@ public class MonsterBehaviour : MonoBehaviour
     private State _state;
     private float curDistance;
 
+    [InspectorLabel("Freeze")]
+    private bool isFrozen = false; // 表示怪物是否处于冰冻状态
+    private float originalMoveForce;
+    private float originalAttackCooldownInterval;
+    private float originalMaxMstSpeed;
+    
     private void Start()
     {
         targetPlayer = GameObject.Find("Player").GetComponent<PlayerController>();
@@ -65,6 +72,10 @@ public class MonsterBehaviour : MonoBehaviour
             // UIManager.ShowMessage2("health 已找到.");
         }
         // 初始化怪物经验值和等级
+        originalMoveForce = mstForwardForce;
+        originalAttackCooldownInterval = attackCooldownInterval;
+        originalMaxMstSpeed = MaxMstSpeed;
+        // 初始化怪物经验值和等级
         InitializeMonsterLevel();
         
     }
@@ -72,8 +83,6 @@ public class MonsterBehaviour : MonoBehaviour
 
     private void Update()
     {
-        gameTime += Time.deltaTime;
-        
         if (health.IsDead())
         {
             _state.AddExperience(this.monsterExperience);
@@ -153,10 +162,32 @@ public class MonsterBehaviour : MonoBehaviour
     //TODO:逻辑待更新。
     private void InitializeMonsterLevel()
     {
-        // 计算怪物等级，使其在五分钟内逐渐增长到最大等级（例如，最大等级为10）
-        float maxGameTime = 300f; // 五分钟共300秒
-        float progress = Mathf.Clamp01(gameTime / maxGameTime); // 游戏时间进度（0到1之间）
-        monsterLevel = Mathf.FloorToInt(progress * 10) + 1; // 从1到10逐渐增长
-        monsterExperience = (int)(monsterLevel * 1.4f);
+        // 计算怪物等级，使其在五分钟内逐渐增长到最大等级
+        float maxGameTime = 400f; // 300秒
+        float progress = Mathf.Clamp01(Time.time / maxGameTime); // 游戏时间进度（0到1之间）
+        monsterLevel = Mathf.FloorToInt(progress * 100) + 1; // 从1到100逐渐增长
+        monsterExperience = Mathf.FloorToInt(monsterLevel * 1.4f);
+        health.SetHealthMax(monsterLevel * 4 +100, true);
+    }
+    
+    public IEnumerator ApplyFreezeEffect(float duration)
+    {
+        if (!isFrozen)
+        {
+            isFrozen = true;
+            rb.velocity *= 0.1f;
+            // 减小加速推力和增加攻击间隔
+            mstForwardForce *= 0.6f; // 降低至60%
+            attackCooldownInterval *= 2f; // 增加至200%
+            MaxMstSpeed *= 0.36f;
+            // 等待冰冻效果持续时间
+            yield return new WaitForSeconds(duration);
+
+            // 恢复原始推力和攻击间隔
+            mstForwardForce = originalMoveForce;
+            attackCooldownInterval = originalAttackCooldownInterval;
+            MaxMstSpeed = originalMaxMstSpeed;
+            isFrozen = false;
+        }
     }
 }

@@ -10,6 +10,7 @@ public class State : MonoBehaviour
     [SerializeField] private float maxHealth;
     [SerializeField] private float currentHealth;
     [SerializeField] private float addHealthOnUpdate;
+    [SerializeField] private float addMaxHealthOnUpdate;
     private Image healthBar;
     private GameObject healthBarObject;
     private Color fullHealthColor = Color.red;
@@ -21,6 +22,7 @@ public class State : MonoBehaviour
     [SerializeField] private float maxEnergy;
     [SerializeField] private float currentEnergy;
     [SerializeField] private float addEnergyOnUpdate;
+    [SerializeField] private float addMaxEnergyOnUpdate;
     private Image energyBar;
     private GameObject energyBarObject;
     private Color fullEnergyColor = new Color(0.5f, 0, 0.5f, 1); // 深紫色
@@ -33,7 +35,7 @@ public class State : MonoBehaviour
 
     [Header("Level and Experience")]
     [SerializeField] private int currentExperience;
-    [SerializeField] private float damageReduction;
+    [SerializeField] private float damageReduction = 0.005f;
     [SerializeField] private int maxLevel = 100;
     public delegate void LevelChangedEventHandler(int newLevel);
     public event LevelChangedEventHandler OnLevelChanged;
@@ -43,7 +45,7 @@ public class State : MonoBehaviour
     [Header("CombatJudge")]
     private bool isInCombat = false;
     private float combatEndTime = 0f;
-    [SerializeField]private float combatCooldownDuration = 2f;//脱战延时
+    [SerializeField]private float combatCooldownDuration = 1.8f;//脱战延时
     
     [Header("Regeneration Rates")]
     [SerializeField] private float healthRegenerationRate = 0.005f;
@@ -54,6 +56,7 @@ public class State : MonoBehaviour
 
     [Header("Damage")]
     [SerializeField] private float damage = 8f;
+    [SerializeField] private float addDamageOnUpdate = 2;
     // [SerializeField] internal float attackAngle = 70f;
     // [SerializeField] internal float attackRange = 0.9f;
     [SerializeField] public float HurricaneKickDamage = 8;
@@ -265,7 +268,6 @@ public class State : MonoBehaviour
         }
         else
         {
-            
             UIManager.Instance.ShowMessage1("Insufficient Energy!");
             return false; 
         }
@@ -324,8 +326,11 @@ public class State : MonoBehaviour
     // 更新伤害减免比例
     private void LevelUpAction()
     {
-        maxHealth += addHealthOnUpdate;
-        maxEnergy += addEnergyOnUpdate;
+        maxHealth += addMaxHealthOnUpdate;
+        maxEnergy += addMaxEnergyOnUpdate;
+        CurrentHealth += addHealthOnUpdate;
+        CurrentEnergy += addEnergyOnUpdate;
+        CurrentDamage += addDamageOnUpdate;
         UpdateAttackCooldown();
         damageReduction = currentLevel * 0.005f; // 每级增加 5%
         if (OnLevelChanged != null)
