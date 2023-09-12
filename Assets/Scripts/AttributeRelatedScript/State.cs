@@ -3,11 +3,13 @@ using UI;
 using UnityEngine;
 using UnityEngine.UI;
 
+
 public class State : MonoBehaviour
 {
     [Header("Health")]
     [SerializeField] private float maxHealth;
     [SerializeField] private float currentHealth;
+    [SerializeField] private float addHealthOnUpdate;
     private Image healthBar;
     private GameObject healthBarObject;
     private Color fullHealthColor = Color.red;
@@ -18,6 +20,7 @@ public class State : MonoBehaviour
     [Header("Energy")]
     [SerializeField] private float maxEnergy;
     [SerializeField] private float currentEnergy;
+    [SerializeField] private float addEnergyOnUpdate;
     private Image energyBar;
     private GameObject energyBarObject;
     private Color fullEnergyColor = new Color(0.5f, 0, 0.5f, 1); // 深紫色
@@ -25,8 +28,8 @@ public class State : MonoBehaviour
     private Color emptyEnergyColor = Color.white;
 
     [Header("UI Flags")]
-    private bool isHealthUIUpdated = false;
-    private bool isEnergyUIUpdated = false;
+    private bool isHealthUpdated;
+    private bool isEnergyUpdated;
 
     [Header("Level and Experience")]
     [SerializeField] private int currentExperience;
@@ -45,21 +48,22 @@ public class State : MonoBehaviour
     [Header("Regeneration Rates")]
     [SerializeField] private float healthRegenerationRate = 0.005f;
     [SerializeField] private float energyRegenerationRate = 0.008f;
-    [SerializeField] private float healthRegenAddition = 0.1f;
-    [SerializeField] private float energyRegenAddition = 0.2f;
+    [SerializeField] private float healthRegenAddition = 0.02f;
+    [SerializeField] private float energyRegenAddition = 0.08f;
     private float regenerationTimer;
 
-    [Header("Damage")] 
-    private AttackCooldownCurve _AttcooldownCurve;
+    [Header("Damage")]
     [SerializeField] private float damage = 8f;
-    [SerializeField] internal float attackAngle = 70f;
-    [SerializeField] internal float attackRange = 0.9f;
-    [SerializeField] public float attackCooldown; // 攻击冷却时间
+    // [SerializeField] internal float attackAngle = 70f;
+    // [SerializeField] internal float attackRange = 0.9f;
     [SerializeField] public float HurricaneKickDamage = 8;
     [SerializeField] public float hurricaneKickKnockbackForce = 70;
     [SerializeField] public float hurricaneKickRange = 1.2f;
     [SerializeField] internal float criticalDmgRate = 4f;
+    private AttackCooldownCurve _AttcooldownCurve;
     internal float attackSpeedRate;
+    
+
 
     public bool IsInCombat()
     {
@@ -73,7 +77,7 @@ public class State : MonoBehaviour
             if (value != currentHealth) // 仅当值发生变化时更新UI
             {
                 currentHealth = Mathf.Clamp(value, 0f, maxHealth);
-                UpdateHealthUI();
+                isHealthUpdated = true;
             }
         }
     }
@@ -86,7 +90,7 @@ public class State : MonoBehaviour
             if (value != currentEnergy) // 仅当值发生变化时更新UI
             {
                 currentEnergy = Mathf.Clamp(value, 0f, maxEnergy);
-                isEnergyUIUpdated = true;
+                isEnergyUpdated = true;
             }
         }
     }
@@ -166,16 +170,16 @@ public class State : MonoBehaviour
     private void Update()
     {
         // 只有在需要更新时才执行UI更新
-        if (isHealthUIUpdated)
+        if (isHealthUpdated)
         {
             UpdateHealthUI();
-            isHealthUIUpdated = false;
+            isHealthUpdated = false;
         }
 
-        if (isEnergyUIUpdated)
+        if (isEnergyUpdated)
         {
             UpdateEnergyUI();
-            isEnergyUIUpdated = false;
+            isEnergyUpdated = false;
         }
 
         // CheckInCombat();
@@ -320,8 +324,10 @@ public class State : MonoBehaviour
     // 更新伤害减免比例
     private void LevelUpAction()
     {
+        maxHealth += addHealthOnUpdate;
+        maxEnergy += addEnergyOnUpdate;
         UpdateAttackCooldown();
-        damageReduction = currentLevel * 0.05f; // 每级增加 5%
+        damageReduction = currentLevel * 0.005f; // 每级增加 5%
         if (OnLevelChanged != null)
         {
             OnLevelChanged(currentLevel);
@@ -353,15 +359,15 @@ public class State : MonoBehaviour
     {
         if (currentLevel <= maxLevel)
         {
-            attackCooldown = _AttcooldownCurve.CalculateAttackCooldown(currentLevel);
-            attackSpeedRate = _AttcooldownCurve.curvePoints[0].cooldown / attackCooldown;
+            AttackCooldown = _AttcooldownCurve.CalculateAttackCooldown(currentLevel);
+            attackSpeedRate = _AttcooldownCurve.curvePoints[0].cooldown / AttackCooldown;
             //通知player controller更新动画时间参数
             PlayerController playerController = GetComponent<PlayerController>();
             if (playerController != null)
             {
                 playerController.UpdateAttackAnimationTime(attackSpeedRate);
             }
-            Debug.Log(currentLevel + "级攻速" + attackCooldown +"秒，动画倍速 " + attackSpeedRate);
+            Debug.Log(currentLevel + "级攻速" + AttackCooldown +"秒，动画倍速 " + attackSpeedRate);
         }
     }
     public float CurrentDamage
@@ -369,4 +375,6 @@ public class State : MonoBehaviour
         get=>damage;
         set =>damage = value;
     }
+
+    public float AttackCooldown { get; set; }
 }

@@ -11,6 +11,7 @@ using UnityEngine.Timeline;
 using UnityEngine.UIElements;
 using Cursor = UnityEngine.Cursor;
 using Random = UnityEngine.Random;
+using UnityEngine.SceneManagement;
 
 
 public class PlayerController : MonoBehaviour
@@ -262,7 +263,7 @@ public class PlayerController : MonoBehaviour
 
     public void UserInput()
     {
-        if (Input.GetMouseButtonDown(0) && Time.time - lastAttackTime >= state.attackCooldown)
+        if (Input.GetMouseButtonDown(0) && Time.time - lastAttackTime >= state.AttackCooldown)
         {
             rb.velocity *= speed_Ratio_Attack;
             
@@ -526,6 +527,7 @@ public class PlayerController : MonoBehaviour
     {
         animator.SetTrigger("Hurt");
         state.TakeDamage(dmg);
+        if(state.IsEmptyHealth())  SceneManager.LoadScene("LoseScene"); 
     }
 
     public float GetDamage()

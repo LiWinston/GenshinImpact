@@ -1,9 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using CodeMonkey.HealthSystemCM;
 using UI;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Random = UnityEngine.Random;
 
 public class MonsterBehaviour : MonoBehaviour
 {
@@ -32,6 +34,7 @@ public class MonsterBehaviour : MonoBehaviour
     [SerializeField] private float attackDistance = 1.5f;
     private bool isMoving;
     private State _state;
+    private float curDistance;
 
     private void Start()
     {
@@ -67,8 +70,7 @@ public class MonsterBehaviour : MonoBehaviour
     }
 
 
-
-     void FixedUpdate()
+    private void Update()
     {
         gameTime += Time.deltaTime;
         
@@ -79,7 +81,7 @@ public class MonsterBehaviour : MonoBehaviour
             StartCoroutine(nameof(PlayDeathEffects));
             return;
         }
-
+        
         isMoving = rb.velocity.magnitude > 0.1f;
         animator.SetBool("isMoving", isMoving);
 
@@ -89,18 +91,9 @@ public class MonsterBehaviour : MonoBehaviour
         // Decrease the attack cooldown timer
         attackCooldownTimer -= Time.deltaTime;
 
-        float curDistance = Vector3.Distance(transform.position, targetPlayer.transform.position);
-
+        curDistance = Vector3.Distance(transform.position, targetPlayer.transform.position);
         if (curDistance <= aimDistance && curDistance > attackDistance)
         {
-            animator.SetBool("Near",false);
-            
-            var directionToPly = targetPlayer.transform.position - transform.position;
-            directionToPly.y = 0;
-            directionToPly.Normalize();
-            Quaternion targetRotation = Quaternion.LookRotation(directionToPly);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime);
-            
             if (curDistance > chaseDistance)
             {
                 if (rb.velocity.magnitude < stalkMstSpeed)
@@ -129,12 +122,25 @@ public class MonsterBehaviour : MonoBehaviour
         }
     }
 
-
+    void FixedUpdate()
+    {
+        if (curDistance <= aimDistance)
+        {
+            animator.SetBool("Near",false);
+            
+            var directionToPly = targetPlayer.transform.position - transform.position;
+            directionToPly.y = 0;
+            directionToPly.Normalize();
+            Quaternion targetRotation = Quaternion.LookRotation(directionToPly);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime);
+        }
+    }
+    
      private void Attack()
     {
         // UIManager.Instance.ShowMessage1("揍你！");
         animator.SetTrigger("AttackTrigger");
-        targetPlayer.TakeDamage(Random.Range(minAttackPower, maxAttackPower));
+        targetPlayer.TakeDamage(monsterLevel * Random.Range(minAttackPower, maxAttackPower));
     }
 
     private IEnumerator PlayDeathEffects()
