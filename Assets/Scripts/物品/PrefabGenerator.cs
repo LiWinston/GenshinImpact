@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Pool;
 
 [System.Serializable]
 public class PrefabGenerator : MonoBehaviour
@@ -12,8 +13,8 @@ public class PrefabGenerator : MonoBehaviour
 
     private float spawnTimer = 0f;
     private float spawnInterval;
-    
     private Vector3 targetPosition;
+    // Private ObjectPool<GameObject> pool;
 
     private void Start()
     {
