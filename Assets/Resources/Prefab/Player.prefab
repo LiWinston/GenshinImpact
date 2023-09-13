@@ -101,7 +101,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: EXP 6
+  m_text: EXP 2
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 125cb55b44b24c4393181402bc6200e6, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 125cb55b44b24c4393181402bc6200e6, type: 2}
@@ -236,7 +236,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 5.055, y: 0.219, z: 5.899}
-  m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
+  m_LocalScale: {x: 0.4, y: 0.4, z: 0.4}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1301686439504549740}
@@ -342,8 +342,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attachedCamera: {fileID: 7217335187192229172}
   viewPoint: {fileID: 5496938358229847246}
-  forwardOffset: -1.1
-  upwardOffset: 0.2
+  forwardOffset: -2
+  upwardOffset: 0.24
 --- !u!114 &3090013106338420035
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -591,10 +591,6 @@ PrefabInstance:
     - target: {fileID: 4061112373666353820, guid: 2e1919b3058a29a40ab972890a296978, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: -72.279
-      objectReference: {fileID: 0}
-    - target: {fileID: 4061112373666353820, guid: 2e1919b3058a29a40ab972890a296978, type: 3}
-      propertyPath: m_ConstrainProportionsScale
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5848477473061255142, guid: 2e1919b3058a29a40ab972890a296978, type: 3}
       propertyPath: m_Name
