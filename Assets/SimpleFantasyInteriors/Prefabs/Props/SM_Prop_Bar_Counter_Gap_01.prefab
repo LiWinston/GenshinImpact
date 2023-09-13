@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 416236}
   - component: {fileID: 3337448}
   - component: {fileID: 2328260}
+  - component: {fileID: -7863883226660583340}
   m_Layer: 0
   m_Name: SM_Prop_Bar_Counter_Gap_01
   m_TagString: Untagged
@@ -84,6 +85,28 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &-7863883226660583340
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 103782}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4300000, guid: b573d3c00be4bbc48b309b2e5deba2a5, type: 3}
 --- !u!1 &193576
 GameObject:
   m_ObjectHideFlags: 0
