@@ -1,11 +1,10 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using CodeMonkey.HealthSystemCM;
-using UI;
 using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Serialization;
+using UnityEngine.Pool;
+using UnityEngine.Rendering;
 using Random = UnityEngine.Random;
 
 public class MonsterBehaviour : MonoBehaviour
@@ -43,6 +42,13 @@ public class MonsterBehaviour : MonoBehaviour
     private float originalAttackCooldownInterval;
     private float originalMaxMstSpeed;
     
+    //[][][][][][][][]
+    public UnityEngine.Pool.ObjectPool<GameObject> pool;
+    
+    public void SetPool(UnityEngine.Pool.ObjectPool<GameObject> pool)
+    {
+        this.pool = pool;
+    }
     private void Start()
     {
         targetPlayer = GameObject.Find("Player").GetComponent<PlayerController>();

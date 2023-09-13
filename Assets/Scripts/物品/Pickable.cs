@@ -13,6 +13,12 @@ public class Pickable : MonoBehaviour
     // private bool showAlert = false; // 是否显示警告
     // private rotation _rotation;
 
+    public UnityEngine.Pool.ObjectPool<GameObject> pool;
+    
+    public void SetPool(UnityEngine.Pool.ObjectPool<GameObject> pool)
+    {
+        this.pool = pool;
+    }
     private void Start()
     {
         // _rotation = GetComponent<rotation>();
@@ -31,7 +37,7 @@ public class Pickable : MonoBehaviour
     {
         if (used)
         {
-            Destroy(gameObject);
+            pool.Release(gameObject);
         }
 
         // 检测玩家是否在视野内
