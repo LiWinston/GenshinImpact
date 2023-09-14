@@ -20,9 +20,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField]Transform viewPoint;
     
     [Header("Movement Settings")]
-    public float moveSpeed = 5f;
-
-    public float crouchSpeed = 2f;
+    public float crouchForceRate = 0.95f;
+    [SerializeField] private float MaxCrouchPlySpeed = 1f;
+    [SerializeField] private float MaxPlySpeed = 2f;
     
     [Header("Mouse Look Settings")]
     public float mouseSensitivity = 100f;
@@ -327,31 +327,43 @@ public class PlayerController : MonoBehaviour
         
         
         moveForceTimerCounter -= Time.deltaTime;
-    
-        if (moveForceTimerCounter <= 0)
+
+        if (!(moveForceTimerCounter <= 0))
         {
-            moveForceTimerCounter += moveForceTimer;
-        
-            if (Input.GetKey(KeyCode.W))
-            {
-                rb.AddForce(transform.forward * forwardForce, ForceMode.Force);
-            }
-        
-            if (Input.GetKey(KeyCode.S))
-            {
-                rb.AddForce(transform.forward * (-forwardForce * backwardRate), ForceMode.Force);
-            }
-        
-            if (Input.GetKey(KeyCode.A))
-            {
-                rb.AddForce(transform.right * -forwardForce, ForceMode.Force);
-            }
-        
-            if (Input.GetKey(KeyCode.D))
-            {
-                rb.AddForce(transform.right * forwardForce, ForceMode.Force);
-            }
+            return;
         }
+
+        moveForceTimerCounter += moveForceTimer;
+        var f = isCrouching ? crouchForceRate * forwardForce : forwardForce;
+        
+        Vector3 moveDirection = Vector3.zero;
+        if (Input.GetKey(KeyCode.W))
+        {
+            moveDirection += transform.forward;
+        }
+        if (Input.GetKey(KeyCode.S))
+        {
+            moveDirection -= transform.forward * backwardRate; // 向后移动的力减小
+        }
+        if (Input.GetKey(KeyCode.A))
+        {
+            moveDirection -= transform.right;
+        }
+        if (Input.GetKey(KeyCode.D))
+        {
+            moveDirection += transform.right;
+        }
+        
+        if (moveDirection.magnitude > 1f)
+        {
+            moveDirection.Normalize();
+        }
+        
+        rb.AddForce(moveDirection * f, ForceMode.Force);
+        
+        float maxSpeed = isCrouching ? MaxCrouchPlySpeed : MaxPlySpeed;
+        rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxSpeed);
+
     }
 
     private IEnumerator NormalAttack()
