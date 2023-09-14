@@ -1,7 +1,7 @@
 using CameraView;
 using UnityEngine;
 
-public class Pickable : MonoBehaviour
+public class Pickable : MonoBehaviour, IPoolable
 {
     public float pickupRange = 3.0f;
     public float alertDis = 2.0f; // 警告距离
@@ -19,6 +19,19 @@ public class Pickable : MonoBehaviour
     {
         this.pool = pool;
     }
+
+    public void actionOnGet()
+    {
+        
+    }
+
+    public void actionOnRelease()
+    {
+        //TODO: implement Package Sys
+        // if (_isEffNotNull) player.GetComponent<Package>().addToPackage(this.gameObject);
+    }
+
+
     private void Start()
     {
         // _rotation = GetComponent<rotation>();
