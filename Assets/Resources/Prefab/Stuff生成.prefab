@@ -42,7 +42,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3030407638572315631}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1ff91e88964860146bbbd0b2fb35a77b, type: 3}
   m_Name: 
@@ -52,7 +52,12 @@ MonoBehaviour:
   minSpawnInterval: 4
   spawnHeight: 0
   accelerationRate: 0.1
-  maxExistTime: 60
+  maxExistTime: 30
+  defaultCapacity: 40
+  maxCapacity: 100
+  countAll: 0
+  countActive: 0
+  countInactive: 0
 --- !u!114 &99203076808414306
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -71,6 +76,11 @@ MonoBehaviour:
   spawnHeight: 1
   accelerationRate: 0.1
   maxExistTime: 10
+  defaultCapacity: 20
+  maxCapacity: 50
+  countAll: 0
+  countActive: 0
+  countInactive: 0
 --- !u!114 &7250126472735157602
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -89,6 +99,11 @@ MonoBehaviour:
   spawnHeight: 1
   accelerationRate: 0.1
   maxExistTime: 10
+  defaultCapacity: 30
+  maxCapacity: 60
+  countAll: 0
+  countActive: 0
+  countInactive: 0
 --- !u!114 &804094611814960037
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -107,3 +122,8 @@ MonoBehaviour:
   spawnHeight: 1
   accelerationRate: 0.1
   maxExistTime: 10
+  defaultCapacity: 25
+  maxCapacity: 50
+  countAll: 0
+  countActive: 0
+  countInactive: 0

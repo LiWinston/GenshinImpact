@@ -1,6 +1,7 @@
 ﻿//Originally provided by Code Monkey in the Unity asset store, refactored by Yongchun Li 
 //to add smooth transition coroutines and gradient color representation.
 
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
@@ -32,6 +33,12 @@ namespace CodeMonkey.HealthSystemCM {
             UpdateHealthBarInstantly();
 
             healthSystem.OnHealthChanged += HealthSystem_OnHealthChanged;
+            this.healthSystem.OnSetFull += HealthSystem_OnSetFull;
+        }
+
+        private void HealthSystem_OnSetFull(object sender, EventArgs e)
+        {
+            UpdateHealthBarInstantly();
         }
 
         private void HealthSystem_OnHealthChanged(object sender, System.EventArgs e) {

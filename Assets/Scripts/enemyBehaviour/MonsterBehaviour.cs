@@ -1,14 +1,13 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using CodeMonkey.HealthSystemCM;
-using UI;
 using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Serialization;
+using UnityEngine.Pool;
+using UnityEngine.Rendering;
 using Random = UnityEngine.Random;
 
-public class MonsterBehaviour : MonoBehaviour
+public class MonsterBehaviour : MonoBehaviour, IPoolable
 {
     public PlayerController targetPlayer;
     private Rigidbody rb;
@@ -43,6 +42,24 @@ public class MonsterBehaviour : MonoBehaviour
     private float originalAttackCooldownInterval;
     private float originalMaxMstSpeed;
     
+    //[][][][][][][][]
+    public UnityEngine.Pool.ObjectPool<GameObject> pool;
+    
+    public void SetPool(UnityEngine.Pool.ObjectPool<GameObject> pool)
+    {
+        this.pool = pool;
+    }
+
+    public void actionOnGet()
+    {
+        InitializeMonsterLevel();
+        health.SetHealthMax(monsterLevel * 100 +100, true);
+    }
+
+    public void actionOnRelease()
+    {
+    }
+
     private void Start()
     {
         targetPlayer = GameObject.Find("Player").GetComponent<PlayerController>();
@@ -156,7 +173,8 @@ public class MonsterBehaviour : MonoBehaviour
     {
         ParticleEffectManager.Instance.PlayParticleEffect("MonsterDie", this.gameObject, Quaternion.identity, Color.red, Color.black, 1.2f);
         yield return new WaitForSeconds(1.2f);
-        Destroy(this.gameObject);
+        // Destroy(this.gameObject);
+        pool.Release(this.gameObject);
     }
 
     //TODO:逻辑待更新。
