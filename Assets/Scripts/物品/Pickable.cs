@@ -1,7 +1,7 @@
 using CameraView;
 using UnityEngine;
 
-public class Pickable : MonoBehaviour
+public class Pickable : MonoBehaviour, IPoolable
 {
     public float pickupRange = 3.0f;
     public float alertDis = 2.0f; // 警告距离
@@ -12,6 +12,25 @@ public class Pickable : MonoBehaviour
     // private bool isPlayerInSight = false; // 玩家是否在视野内
     // private bool showAlert = false; // 是否显示警告
     // private rotation _rotation;
+
+    public UnityEngine.Pool.ObjectPool<GameObject> pool;
+    
+    public void SetPool(UnityEngine.Pool.ObjectPool<GameObject> pool)
+    {
+        this.pool = pool;
+    }
+
+    public void actionOnGet()
+    {
+        
+    }
+
+    public void actionOnRelease()
+    {
+        //TODO: implement Package Sys
+        // if (_isEffNotNull) player.GetComponent<Package>().addToPackage(this.gameObject);
+    }
+
 
     private void Start()
     {
@@ -31,7 +50,7 @@ public class Pickable : MonoBehaviour
     {
         if (used)
         {
-            Destroy(gameObject);
+            pool.Release(gameObject);
         }
 
         // 检测玩家是否在视野内

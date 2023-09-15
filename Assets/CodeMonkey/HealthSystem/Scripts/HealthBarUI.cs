@@ -1,23 +1,22 @@
-﻿using UnityEngine;
+﻿//Originally provided by Code Monkey in the Unity asset store, refactored by Yongchun Li 
+//to add smooth transition coroutines and gradient color representation.
+
+using System;
+using System.Collections;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace CodeMonkey.HealthSystemCM {
 
-    /// <summary>
-    /// Simple UI Health Bar, sets the Image fillAmount based on the linked HealthSystem
-    /// Check the Demo scene for a usage example
-    /// </summary>
     public class HealthBarUI : MonoBehaviour {
 
-        [Tooltip("Optional; Either assign a reference in the Editor (that implements IGetHealthSystem) or manually call SetHealthSystem()")]
         [SerializeField] private GameObject getHealthSystemGameObject;
-
-        [Tooltip("Image to show the Health Bar, should be set as Fill, the script modifies fillAmount")]
         [SerializeField] private Image image;
-
+        [SerializeField] private float fillSpeed = 2f; // 调整这个值以控制填充速度
 
         private HealthSystem healthSystem;
-
+        private float targetFillAmount;
+        private Coroutine changeFillCoroutine;
 
         private void Start() {
             if (HealthSystem.TryGetHealthSystem(getHealthSystemGameObject, out HealthSystem healthSystem)) {
@@ -25,48 +24,58 @@ namespace CodeMonkey.HealthSystemCM {
             }
         }
 
-        /// <summary>
-        /// Set the Health System for this Health Bar
-        /// </summary>
         public void SetHealthSystem(HealthSystem healthSystem) {
             if (this.healthSystem != null) {
                 this.healthSystem.OnHealthChanged -= HealthSystem_OnHealthChanged;
             }
             this.healthSystem = healthSystem;
 
-            UpdateHealthBar();
+            UpdateHealthBarInstantly();
 
             healthSystem.OnHealthChanged += HealthSystem_OnHealthChanged;
+            this.healthSystem.OnSetFull += HealthSystem_OnSetFull;
         }
 
-        /// <summary>
-        /// Event fired from the Health System when Health Amount changes, update Health Bar
-        /// </summary>
+        private void HealthSystem_OnSetFull(object sender, EventArgs e)
+        {
+            UpdateHealthBarInstantly();
+        }
+
         private void HealthSystem_OnHealthChanged(object sender, System.EventArgs e) {
-            UpdateHealthBar();
+            // 当血量变化时，设置目标填充值
+            targetFillAmount = healthSystem.GetHealthNormalized();
+            // 如果之前有正在进行的缓动效果，停止它
+            if (changeFillCoroutine != null) {
+                StopCoroutine(changeFillCoroutine);
+            }
+            // 启动新的缓动效果
+            changeFillCoroutine = StartCoroutine(ChangeFillSmoothly());
         }
 
-        /// <summary>
-        /// Update Health Bar using the Image fillAmount based on the current Health Amount
-        /// </summary>
-        private void UpdateHealthBar() {
+        private void UpdateHealthBarInstantly() {
             float healthNormalized = healthSystem.GetHealthNormalized();
             image.fillAmount = healthNormalized;
+            image.color = Color.Lerp(Color.red, Color.yellow, healthNormalized * 2);
+            image.color = Color.Lerp(image.color, Color.green, healthNormalized * 2 - 1);
+        }
 
-            Color color = Color.Lerp(Color.red, Color.yellow, healthNormalized * 2);
-            color = Color.Lerp(color, Color.green, healthNormalized * 2 - 1);
+        private IEnumerator ChangeFillSmoothly() {
+            while (image.fillAmount != targetFillAmount) {
+                image.fillAmount = Mathf.Lerp(image.fillAmount, targetFillAmount, Time.deltaTime * fillSpeed);
+                
+                float healthNormalized = image.fillAmount;
+                Color color = Color.Lerp(Color.red, Color.yellow, healthNormalized * 2);
+                color = Color.Lerp(color, Color.green, healthNormalized * 2 - 1);
+                image.color = color;
 
-            image.color = color;
+                yield return null;
+            }
+            changeFillCoroutine = null;
         }
 
 
-        /// <summary>
-        /// Clean up events when this Game Object is destroyed
-        /// </summary>
         private void OnDestroy() {
             healthSystem.OnHealthChanged -= HealthSystem_OnHealthChanged;
         }
-
     }
-
 }

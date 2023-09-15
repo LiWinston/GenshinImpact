@@ -42,6 +42,9 @@ namespace CodeMonkey.HealthSystemCM {
             healthSystem.OnHealthMaxChanged += (object sender, System.EventArgs e) => {
                 AddLog("OnHealthMaxChanged");
             };
+            healthSystem.OnSetFull += (object sender, System.EventArgs e) => {
+                AddLog("OnSetFull");
+            };
         }
 
         private void AddLog(string logString) {

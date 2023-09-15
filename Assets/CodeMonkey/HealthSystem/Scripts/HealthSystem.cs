@@ -24,6 +24,7 @@ namespace CodeMonkey.HealthSystemCM {
 
         public event EventHandler OnHealthChanged;
         public event EventHandler OnHealthMaxChanged;
+        public event EventHandler OnSetFull;
         public event EventHandler OnDamaged;
         public event EventHandler OnHealed;
         public event EventHandler OnDead;
@@ -116,7 +117,11 @@ namespace CodeMonkey.HealthSystemCM {
         /// </summary>
         public void SetHealthMax(float healthMax, bool fullHealth) {
             this.healthMax = healthMax;
-            if (fullHealth) health = healthMax;
+            if (fullHealth)
+            {//yongchunLi
+                health = healthMax;
+                OnSetFull?.Invoke(this, EventArgs.Empty);
+            }
             OnHealthMaxChanged?.Invoke(this, EventArgs.Empty);
             OnHealthChanged?.Invoke(this, EventArgs.Empty);
         }
