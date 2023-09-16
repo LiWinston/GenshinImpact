@@ -268,22 +268,14 @@ public class PlayerController : MonoBehaviour
             rb.velocity *= speed_Ratio_Attack;
             
             float criticalHitChance = _criticalHitCurve.CalculateCriticalHitChance(state.GetCurrentLevel());
-            Debug.Log(state.GetCurrentLevel() + "级暴击率" + criticalHitChance*100 +"%");
+            // Debug.Log(state.GetCurrentLevel() + "级暴击率" + criticalHitChance*100 +"%");
 
             var randomValue = Random.Range(0.0f, 1.0f);
-            if (randomValue <= criticalHitChance)
-            {
-                // 触发暴击攻击
-                StartCoroutine(CriticalAttack());
-            }
-            else
-            {
-                // 触发普通攻击
-                StartCoroutine(NormalAttack());
-            }
-
+            isNextAttackCritical = randomValue <= criticalHitChance;
+            StartCoroutine(isNextAttackCritical ? CriticalAttack() : NormalAttack());
             lastAttackTime = Time.time;
         }
+        
         if (Input.GetKeyDown(KeyCode.Space) ) // Add a check to see if a jump has been made
         {
             if(isGrounded){
@@ -368,7 +360,6 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator NormalAttack()
     {
-        isNextAttackCritical = false;
         animator.SetTrigger("AttackTrigger1");
         animator.SetBool("isAttacking",true);
         AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
@@ -379,8 +370,6 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator CriticalAttack()
     {
-        isNextAttackCritical = true;
-        
         animator.SetTrigger("AttackTrigger2");
         animator.SetBool("isAttacking",true);
         AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);

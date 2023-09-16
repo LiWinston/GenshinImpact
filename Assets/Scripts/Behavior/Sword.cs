@@ -20,19 +20,21 @@ public class Sword : MonoBehaviour
         {
             Debug.LogError("Player ctrler for sword not Found!");
         }
-
+        
         animator = pCtrl.GetAnimator();
         if (!swordCollider) swordCollider = GetComponent<BoxCollider>();
         swordCollider.enabled = true; // 还是有点问题
     }
 
+    
     private void Update()
     {
-        // swordCollider.enabled = animator.GetBool("isAttacking");
+        if(!animator) animator = pCtrl.GetAnimator();
     }
 
     private void OnTriggerEnter(Collider enemyCollider)
     {
+        if(!animator.GetBool("isAttacking")) return;
         if (enemyCollider.CompareTag("Enemy"))
         {
             // 剑碰到敌人时执行的操作
