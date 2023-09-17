@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using AttributeRelatedScript;
@@ -50,6 +51,8 @@ public class PlayerController : MonoBehaviour
     private float xRotation = 0f;
 
     private bool isNextAttackCritical = false;
+    public delegate void OnAttackEndedHandler();
+    public event OnAttackEndedHandler OnAttackEnded;
 
     public bool IsCrouching
     {
@@ -64,7 +67,7 @@ public class PlayerController : MonoBehaviour
     public float moveForceTimerCounter = 0.05f;
     
     [SerializeField] private GameObject swordTransform;
-    private float speed_Ratio_Attack = 0.2f;
+    private float speed_Ratio_Attack = 0.1f;
     public float rotationFriction = 4000f; // 调整旋转摩擦力的大小
     private State state;
     [SerializeField] private Transform sword;
@@ -316,6 +319,14 @@ public class PlayerController : MonoBehaviour
                 state.CheatLevelUp();
             }
         }
+        if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.K))
+        {
+            if (cheatMode)
+            {
+                // 如果作弊模式开启，对玩家造成最大生命值的伤害
+                state.TakeDamage(999999999f);
+            }
+        }
         
         
         moveForceTimerCounter -= Time.deltaTime;
@@ -361,22 +372,33 @@ public class PlayerController : MonoBehaviour
     private IEnumerator NormalAttack()
     {
         animator.SetTrigger("AttackTrigger1");
-        animator.SetBool("isAttacking",true);
-        AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
-        float animationLength = stateInfo.length;
-        yield return new WaitForSeconds(animationLength);
-        animator.SetBool("isAttacking",false);
+        animator.SetBool("isAttacking", true);
+        // yield return null; // Wait for one frame to let animation begin
+        // yield return null; // Wait for another frame to ensure animation state is updated
+
+        // AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+        // float animationLength = stateInfo.length;
+        // yield return new WaitForSeconds(animationLength);
+        yield return new WaitForSeconds(0.75f * 1.25f / state.attackSpeedRate); //这是一个土狗解决方案
+    
+        // animator.SetBool("isAttacking", false);
+        EndAttack();
     }
 
     private IEnumerator CriticalAttack()
     {
         animator.SetTrigger("AttackTrigger2");
-        animator.SetBool("isAttacking",true);
-        AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
-        float animationLength = stateInfo.length;
-        yield return new WaitForSeconds(animationLength);
-        animator.SetBool("isAttacking",false);
+        animator.SetBool("isAttacking", true);
+        // yield return null; // Wait for one frame to let animation begin
+        // yield return null; // Wait for another frame to ensure animation state is updated
+        //
+        // AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+        // float animationLength = stateInfo.length;
+        yield return new WaitForSeconds(0.875f / (0.75f * state.attackSpeedRate)); //这是一个土狗解决方案
+        
+        EndAttack();
     }
+
 
 
     private void checkInteract()
@@ -528,7 +550,17 @@ public class PlayerController : MonoBehaviour
     {
         animator.SetTrigger("Hurt");
         state.TakeDamage(dmg);
-        if(state.IsEmptyHealth())  SceneManager.LoadScene("LoseScene"); 
+        if (state.IsEmptyHealth())
+        {
+            StartCoroutine(GameOver());
+        }
+    }
+
+    private IEnumerator GameOver()
+    {
+        animator.Play("Flying Back Death");
+        yield return new WaitForSeconds(3.1f);
+        SceneManager.LoadScene("LoseScene"); 
     }
 
     public float GetDamage()
@@ -536,6 +568,13 @@ public class PlayerController : MonoBehaviour
         return (isNextAttackCritical ? state.criticalDmgRate * state.CurrentDamage : state.CurrentDamage);
     }
 
+    public void EndAttack()
+    {
+        // 触发结束攻击事件
+        
+        OnAttackEnded();
+    }
+    
     public Animator GetAnimator()
     {
         return animator;

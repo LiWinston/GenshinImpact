@@ -243,8 +243,14 @@ public class State : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
-        CurrentHealth -= damage * (1 - damageReduction);
-
+        if (damage <= maxHealth)
+        {
+            CurrentHealth -= damage * (1 - damageReduction);
+        }
+        else
+        {
+            CurrentHealth = 0f;
+        }
         isInCombat = true;
         combatEndTime = Time.time + combatCooldownDuration;
     }

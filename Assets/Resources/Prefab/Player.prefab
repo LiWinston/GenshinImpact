@@ -101,7 +101,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: EXP 47
+  m_text: EXP 26
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 125cb55b44b24c4393181402bc6200e6, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 125cb55b44b24c4393181402bc6200e6, type: 2}
@@ -316,8 +316,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   viewPoint: {fileID: 5496938358229847245}
   crouchForceRate: 0.95
-  MaxCrouchPlySpeed: 1
-  MaxPlySpeed: 2
+  MaxCrouchPlySpeed: 2.7
+  MaxPlySpeed: 6
   mouseSensitivity: 100
   forwardForce: 4000
   backwardRate: 0.9
@@ -344,7 +344,7 @@ MonoBehaviour:
   attachedCamera: {fileID: 7217335187192229172}
   viewPoint: {fileID: 5496938358229847246}
   forwardOffset: -2
-  upwardOffset: 0.24
+  upwardOffset: 0.4
 --- !u!114 &3090013106338420035
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -359,8 +359,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   curvePoints:
   - level: 1
-    cooldown: 1.2
-  - level: 20
+    cooldown: 1.05
+  - level: 15
     cooldown: 0.8
   - level: 30
     cooldown: 0.7
@@ -396,12 +396,12 @@ MonoBehaviour:
   energyRegenerationRate: 0.008
   healthRegenAddition: 0.05
   energyRegenAddition: 0.12
-  damage: 8
-  addDamageOnUpdate: 2
-  HurricaneKickDamage: 8
-  hurricaneKickKnockbackForce: 70
-  hurricaneKickRange: 1.2
-  criticalDmgRate: 4
+  damage: 45
+  addDamageOnUpdate: 20
+  HurricaneKickDamage: 12
+  hurricaneKickKnockbackForce: 30
+  hurricaneKickRange: 1.5
+  criticalDmgRate: 8
 --- !u!114 &94393281984951438
 MonoBehaviour:
   m_ObjectHideFlags: 0
