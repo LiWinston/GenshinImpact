@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour
     public float crouchForceRate = 0.95f;
     [SerializeField] private float MaxCrouchPlySpeed = 1f;
     [SerializeField] private float MaxPlySpeed = 2f;
+    [SerializeField] private float sprintSpeedRate = 1.5f;
     
     [Header("Mouse Look Settings")]
     public float mouseSensitivity = 100f;
@@ -69,6 +70,16 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform sword;
     internal bool cheatMode = false;
     private CriticalHitCurve _criticalHitCurve;
+    private static readonly int AttSpeedMult = Animator.StringToHash("AttSpeedMult");
+    private static readonly int IsGrounded = Animator.StringToHash("isGrounded");
+    private static readonly int Standing = Animator.StringToHash("Standing");
+    private static readonly int IsMoving = Animator.StringToHash("isMoving");
+    private static readonly int BeginCrouch = Animator.StringToHash("BeginCrouch");
+    private static readonly int Crouching = Animator.StringToHash("isCrouching");
+    private static readonly int Jump = Animator.StringToHash("Jump");
+    private static readonly int RunningJump = Animator.StringToHash("RunningJump");
+    private static readonly int IsAttacking = Animator.StringToHash("isAttacking");
+    
 
     private void Start()
     {
@@ -115,15 +126,15 @@ public class PlayerController : MonoBehaviour
         {
             isGrounded = false;
         }
-        animator.SetBool("isGrounded",isGrounded);
+        animator.SetBool(IsGrounded,isGrounded);
         
         isMoving = math.abs(rb.velocity.x) + math.abs(rb.velocity.z) > 0.01f;
 
-        animator.SetBool("Standing",!isMoving);
-        animator.SetBool("isMoving",isMoving);
+        animator.SetBool(Standing,!isMoving);
+        animator.SetBool(IsMoving,isMoving);
 
-        float horizontal = Input.GetAxis("Horizontal");
-        float vertical = Input.GetAxis("Vertical");
+        var horizontal = Input.GetAxis("Horizontal");
+        var vertical = Input.GetAxis("Vertical");
         moveDirection = transform.right * horizontal + transform.forward * vertical;
         
         UserInput();
@@ -145,7 +156,7 @@ public class PlayerController : MonoBehaviour
         // Crouch
         if (Input.GetKeyDown(KeyCode.LeftControl))
         {
-            animator.SetTrigger("BeginCrouch");
+            animator.SetTrigger(BeginCrouch);
             isCrouching = true;
         }
         
@@ -156,7 +167,7 @@ public class PlayerController : MonoBehaviour
         
 
         // Crouch
-        animator.SetBool("isCrouching",isCrouching);
+        animator.SetBool(Crouching,isCrouching);
         
         // Mouse look
         float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
@@ -281,12 +292,12 @@ public class PlayerController : MonoBehaviour
                 if(isJumping) return;
                 if(!isMoving){
                     rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
-                    animator.SetTrigger("Jump");
+                    animator.SetTrigger(Jump);
                     isJumping = true;
                     isGrounded = false;
                 }else if(isMoving){
                     rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
-                    animator.SetTrigger("RunningJump");
+                    animator.SetTrigger(RunningJump);
                     isJumping = true;
                     isGrounded = false;
                 }
@@ -323,26 +334,16 @@ public class PlayerController : MonoBehaviour
                 state.TakeDamage(999999999f);
             }
         }
-        
-        
-        moveForceTimerCounter -= Time.deltaTime;
 
-        if (!(moveForceTimerCounter <= 0))
-        {
-            return;
-        }
-
-        moveForceTimerCounter += moveForceTimer;
-        var f = isCrouching ? crouchForceRate * forwardForce : forwardForce;
-        
         Vector3 moveDirection = Vector3.zero;
+
         if (Input.GetKey(KeyCode.W))
         {
             moveDirection += transform.forward;
         }
         if (Input.GetKey(KeyCode.S))
         {
-            moveDirection -= transform.forward * backwardRate; // 向后移动的力减小
+            moveDirection -= transform.forward * backwardRate;
         }
         if (Input.GetKey(KeyCode.A))
         {
@@ -352,23 +353,40 @@ public class PlayerController : MonoBehaviour
         {
             moveDirection += transform.right;
         }
-        
+
         if (moveDirection.magnitude > 1f)
         {
             moveDirection.Normalize();
         }
-        
-        rb.AddForce(moveDirection * f, ForceMode.Force);
-        
-        float maxSpeed = isCrouching ? MaxCrouchPlySpeed : MaxPlySpeed;
-        rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxSpeed);
 
+        if (!Input.GetKey(KeyCode.LeftShift))
+        {
+            // 您的现有移动逻辑
+            moveForceTimerCounter -= Time.deltaTime;
+            if (!(moveForceTimerCounter <= 0))
+            {
+                return;
+            }
+            moveForceTimerCounter += moveForceTimer;
+            var f = isCrouching ? crouchForceRate * forwardForce : forwardForce;
+
+            rb.AddForce(moveDirection * f, ForceMode.Force);
+
+            float maxSpeed = isCrouching ? MaxCrouchPlySpeed : MaxPlySpeed;
+            rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxSpeed);
+        }
+        else
+        {
+            // 冲刺逻辑
+            float sprintSpeed = sprintSpeedRate * (isCrouching ? MaxCrouchPlySpeed : MaxPlySpeed);
+            rb.velocity = moveDirection * sprintSpeed;
+        }
     }
 
     private IEnumerator PerformAttack(string attackTrigger, float attackDuration)
     {
         animator.SetTrigger(attackTrigger);
-        animator.SetBool("isAttacking", true);
+        animator.SetBool(IsAttacking, true);
 
         yield return new WaitForSeconds(attackDuration);
 
@@ -569,6 +587,6 @@ public class PlayerController : MonoBehaviour
 
     public void UpdateAttackAnimationTime(float attackSpeedRate)
     {
-        animator.SetFloat("AttSpeedMult",attackSpeedRate);
+        animator.SetFloat(AttSpeedMult,attackSpeedRate);
     }
 }

@@ -101,7 +101,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: EXP 26
+  m_text: EXP 16
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 125cb55b44b24c4393181402bc6200e6, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 125cb55b44b24c4393181402bc6200e6, type: 2}
@@ -318,8 +318,9 @@ MonoBehaviour:
   crouchForceRate: 0.95
   MaxCrouchPlySpeed: 2.7
   MaxPlySpeed: 6
+  sprintSpeedRate: 1.5
   mouseSensitivity: 100
-  forwardForce: 4000
+  forwardForce: 6000
   backwardRate: 0.9
   jumpForce: 450
   mycamera: {fileID: 691092138744490856}
