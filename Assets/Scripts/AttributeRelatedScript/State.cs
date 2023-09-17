@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using UI;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 
@@ -69,8 +70,8 @@ public class State : MonoBehaviour
     [SerializeField] private float energyRegenAddition = 0.08f;
     private float regenerationTimer;
 
-    [Header("Damage")] [SerializeField] private float damage = 8f;
-
+    [Header("Damage")] 
+    [SerializeField] private float curDamage = 8f;
     [SerializeField] private float addDamageOnUpdate = 2;
     // [SerializeField] internal float attackAngle = 70f;
     // [SerializeField] internal float attackRange = 0.9f;
@@ -82,13 +83,13 @@ public class State : MonoBehaviour
     internal float attackSpeedRate;
 
     [Header("ZenMode(Recover)")] 
+    [SerializeField]private float zenModeP2EConversionEfficiency = 0.6f; // 禅模式下的体力转化率
     private bool isCrouchingCooldown; // 用于记录下蹲后的冷却状态
     private float _shakeBeforeZenMode = 1.5f; // 下蹲冷却时长施法前摇
     private bool isInZenMode; // 是否处于禅模式
     private float zenModeHealthModifier = 1.35f; // 禅模式下的生命值修改器
     private float zenModeHealthRegenModifier = 1.5f; // 禅模式下的生命值恢复速度修改器
     private float zenModeP2EConversionSpeed; // 禅模式下的体力转化率
-    [SerializeField]private float zenModeP2EConversionEfficiency = 0.6f; // 禅模式下的体力转化率
     private float temporaryHealthRegenRate; // 临时的生命值恢复速度
     private PlayerController plyctl;
 
@@ -338,18 +339,13 @@ public class State : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
-        if (damage <= maxHealth)
-        {
-            CurrentHealth -= damage * (1 - damageReduction);
-        }
-        else
-        {
-            CurrentHealth = 0f;
-        }
+        var actualDamage = isInZenMode ? damage * (1 - damageReduction) : damage * 1.5f;
+        CurrentHealth -= actualDamage <= maxHealth ? actualDamage : CurrentHealth; //vulnerable during zenMode
 
         isInCombat = true;
         combatEndTime = Time.time + combatCooldownDuration;
     }
+
 
     public void Heal(float amount)
     {
@@ -484,7 +480,7 @@ public class State : MonoBehaviour
 
     public void IncreaseDamage(float idmg)
     {
-        damage += idmg;
+        curDamage += idmg;
     }
 
     public void UpdateAttackCooldown()
@@ -506,8 +502,8 @@ public class State : MonoBehaviour
 
     public float CurrentDamage
     {
-        get => damage;
-        set => damage = value;
+        get => curDamage;
+        set => curDamage = value;
     }
 
     public float AttackCooldown { get; set; }
@@ -516,18 +512,24 @@ public class State : MonoBehaviour
     {
         // 等待一秒，模拟下蹲后进入禅模式
         yield return new WaitForSeconds(_shakeBeforeZenMode);
+
         // 计算禅模式下的体力转化速率，根据玩家等级
-        zenModeP2EConversionSpeed = currentLevel / 100f;
+        const float maxConversionSpeed = 0.8f; // 最大的转化速度，即满级时的速度
+        const float minConversionSpeed = 0.10f; // 起始时的速度，你可以根据需要调整
+        const float levelRange = 100f; // 等级范围，即从1级到100级
+        zenModeP2EConversionSpeed = minConversionSpeed + (maxConversionSpeed - minConversionSpeed) *
+            Mathf.Log(1f + currentLevel) / Mathf.Log(1f + levelRange);
 
         // 保存当前的生命值恢复速度，以便禅模式结束后还原
         temporaryHealthRegenRate = healthRegenerationRate;
 
         // 修改生命值恢复速度
         healthRegenerationRate *= zenModeHealthRegenModifier;
-        
+
         // 开始消耗体力并恢复能量
         StartCoroutine(ConsumeEnergyAndRestoreEnergy());
     }
+
 
     private void ExitZenMode()
     {
