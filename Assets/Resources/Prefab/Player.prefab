@@ -101,7 +101,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: EXP 16
+  m_text: CHEAT MODE ON
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 125cb55b44b24c4393181402bc6200e6, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 125cb55b44b24c4393181402bc6200e6, type: 2}
@@ -392,6 +392,7 @@ MonoBehaviour:
   currentExperience: 0
   damageReduction: 0
   maxLevel: 100
+  UpdEffectTransform: {fileID: 5496938358676511541}
   combatCooldownDuration: 2
   healthRegenerationRate: 0.005
   energyRegenerationRate: 0.008
@@ -594,6 +595,54 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -72.279
       objectReference: {fileID: 0}
+    - target: {fileID: 5848477471615711940, guid: 2e1919b3058a29a40ab972890a296978, type: 3}
+      propertyPath: m_AABB.m_Center.x
+      value: -0.00002357876
+      objectReference: {fileID: 0}
+    - target: {fileID: 5848477471615711940, guid: 2e1919b3058a29a40ab972890a296978, type: 3}
+      propertyPath: m_AABB.m_Center.y
+      value: -0.0098092705
+      objectReference: {fileID: 0}
+    - target: {fileID: 5848477471615711940, guid: 2e1919b3058a29a40ab972890a296978, type: 3}
+      propertyPath: m_AABB.m_Center.z
+      value: -0.0012202016
+      objectReference: {fileID: 0}
+    - target: {fileID: 5848477471615711940, guid: 2e1919b3058a29a40ab972890a296978, type: 3}
+      propertyPath: m_AABB.m_Extent.x
+      value: 0.0063153603
+      objectReference: {fileID: 0}
+    - target: {fileID: 5848477471615711940, guid: 2e1919b3058a29a40ab972890a296978, type: 3}
+      propertyPath: m_AABB.m_Extent.y
+      value: 0.0061823297
+      objectReference: {fileID: 0}
+    - target: {fileID: 5848477471615711940, guid: 2e1919b3058a29a40ab972890a296978, type: 3}
+      propertyPath: m_AABB.m_Extent.z
+      value: 0.0041592186
+      objectReference: {fileID: 0}
+    - target: {fileID: 5848477472335387676, guid: 2e1919b3058a29a40ab972890a296978, type: 3}
+      propertyPath: m_AABB.m_Center.x
+      value: -0.008372128
+      objectReference: {fileID: 0}
+    - target: {fileID: 5848477472335387676, guid: 2e1919b3058a29a40ab972890a296978, type: 3}
+      propertyPath: m_AABB.m_Center.y
+      value: 3.3431838
+      objectReference: {fileID: 0}
+    - target: {fileID: 5848477472335387676, guid: 2e1919b3058a29a40ab972890a296978, type: 3}
+      propertyPath: m_AABB.m_Center.z
+      value: -0.0004621148
+      objectReference: {fileID: 0}
+    - target: {fileID: 5848477472335387676, guid: 2e1919b3058a29a40ab972890a296978, type: 3}
+      propertyPath: m_AABB.m_Extent.x
+      value: 0.18146324
+      objectReference: {fileID: 0}
+    - target: {fileID: 5848477472335387676, guid: 2e1919b3058a29a40ab972890a296978, type: 3}
+      propertyPath: m_AABB.m_Extent.y
+      value: 0.37536502
+      objectReference: {fileID: 0}
+    - target: {fileID: 5848477472335387676, guid: 2e1919b3058a29a40ab972890a296978, type: 3}
+      propertyPath: m_AABB.m_Extent.z
+      value: 0.26743057
+      objectReference: {fileID: 0}
     - target: {fileID: 5848477473061255142, guid: 2e1919b3058a29a40ab972890a296978, type: 3}
       propertyPath: m_Name
       value: Model
@@ -656,6 +705,11 @@ Transform:
 --- !u!1 &5496938358229847246 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5848477471252036729, guid: 2e1919b3058a29a40ab972890a296978, type: 3}
+  m_PrefabInstance: {fileID: 2116967897113325751}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &5496938358676511541 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5848477472101346178, guid: 2e1919b3058a29a40ab972890a296978, type: 3}
   m_PrefabInstance: {fileID: 2116967897113325751}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &5496938359645849437 stripped

@@ -41,6 +41,7 @@ public class State : MonoBehaviour
     public event LevelChangedEventHandler OnLevelChanged;
     private int currentLevel = 1; 
     private int[] experienceThresholds; // 存储升级所需经验值的数组
+    [SerializeField] private Transform UpdEffectTransform;
     
     [Header("CombatJudge")]
     private bool isInCombat = false;
@@ -150,6 +151,7 @@ public class State : MonoBehaviour
         _AttcooldownCurve = GetComponent<AttackCooldownCurve>();
         if(!_AttcooldownCurve) Debug.LogError("AttackCooldownCurve NotFound");
         UpdateAttackCooldown();
+        if(!UpdEffectTransform) UpdEffectTransform = SpellCast.FindDeepChild(transform, "spine_01");
     }
 
     // 初始化升级所需经验值数组
@@ -332,11 +334,15 @@ public class State : MonoBehaviour
     // 更新伤害减免比例
     private void LevelUpAction()
     {
-        maxHealth += addMaxHealthOnUpdate;
-        maxEnergy += addMaxEnergyOnUpdate;
-        CurrentHealth += addHealthOnUpdate;
-        CurrentEnergy += addEnergyOnUpdate;
         CurrentDamage += addDamageOnUpdate;
+        maxHealth += addMaxHealthOnUpdate;
+        // maxEnergy += addMaxEnergyOnUpdate;
+        maxEnergy += CurrentDamage;
+        CurrentHealth += addHealthOnUpdate;
+        // CurrentEnergy += addEnergyOnUpdate;
+        CurrentEnergy += CurrentDamage;
+        ParticleEffectManager.Instance.PlayParticleEffect("UpLevel", UpdEffectTransform.gameObject, Quaternion.identity, 
+            Color.clear, Color.clear, 3f);
         UpdateAttackCooldown();
         damageReduction = currentLevel * 0.005f; // 每级增加 5%
         if (OnLevelChanged != null)
