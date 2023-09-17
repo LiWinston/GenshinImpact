@@ -18,8 +18,12 @@ public class MonsterBehaviour : MonoBehaviour, IPoolable
     [SerializeField] private float attackCooldownInterval = 2f;
     private float moveForceTimerCounter;
     [SerializeField] private float moveForceCooldownInterval = 0.05f;
+    private float obstacleDetectionTimer = 0f;
+    public float obstacleDetectionInterval = 3f; // 检测间隔，每隔3秒检测一次
+    
     [SerializeField] private float minAttackPower = 5;
     [SerializeField] private float maxAttackPower = 10;
+    
     
      public float rotationSpeed = 0.000000001f; // 调整旋转速度
      
@@ -130,6 +134,20 @@ public class MonsterBehaviour : MonoBehaviour, IPoolable
             }
             else if (curDistance <= chaseDistance)
             {
+                obstacleDetectionTimer -= Time.deltaTime;
+
+                isMoving = rb.velocity.magnitude > 0.1f;
+                animator.SetBool("isMoving", isMoving);
+
+                // 如果计时器小于等于0，进行障碍物检测
+                if (obstacleDetectionTimer <= 0f)
+                {
+                    // 在此处进行障碍物检测逻辑，包括尝试跳跃和避免障碍物的移动逻辑
+                    ObstacleHandle();
+
+                    // 重置计时器
+                    obstacleDetectionTimer = obstacleDetectionInterval;
+                }
                 if (rb.velocity.magnitude < MaxMstSpeed)
                 {
                     rb.AddForce(transform.forward * mstForwardForce, ForceMode.Force);
@@ -147,6 +165,18 @@ public class MonsterBehaviour : MonoBehaviour, IPoolable
             animator.SetBool("Near",false);
         }
     }
+
+    private void ObstacleHandle()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, transform.forward, out hit, 0.4f))
+        {
+            // 如果检测到障碍物，施加向上的力以跳跃
+            rb.AddForce(Vector3.up * 1000, ForceMode.Impulse); // 添加跳跃力
+            rb.AddForce(transform.forward * mstForwardForce, ForceMode.Impulse); // 添加向前的力
+        }
+    }
+
 
     void FixedUpdate()
     {

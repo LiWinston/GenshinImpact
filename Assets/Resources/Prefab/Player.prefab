@@ -101,7 +101,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: EXP 121
+  m_text: EXP 8
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 125cb55b44b24c4393181402bc6200e6, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 125cb55b44b24c4393181402bc6200e6, type: 2}
@@ -217,7 +217,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1961631992508790801
 Transform:
   m_ObjectHideFlags: 0
@@ -350,7 +350,7 @@ GameObject:
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
-  m_Icon: {fileID: -1412012063857583412, guid: 0000000000000000d000000000000000, type: 0}
+  m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -528,15 +528,15 @@ MonoBehaviour:
   combatCooldownDuration: 2
   healthRegenerationRate: 0.005
   energyRegenerationRate: 0.008
-  healthRegenAddition: 0.05
-  energyRegenAddition: 0.12
-  curDamage: 8
-  addDamageOnUpdate: 20
-  HurricaneKickDamage: 12
+  healthRegenAddition: 0.02
+  energyRegenAddition: 0.07
+  curDamage: 60
+  addDamageOnUpdate: 35
+  HurricaneKickDamage: 70
   hurricaneKickKnockbackForce: 30
-  hurricaneKickRange: 1.5
+  hurricaneKickRange: 1.8
   criticalDmgRate: 8
-  zenModeP2EConversionEfficiency: 0.6
+  zenModeP2EConversionEfficiency: 0.5
 --- !u!114 &94393281984951438
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -751,6 +751,22 @@ PrefabInstance:
     - target: {fileID: 5848477471615711940, guid: 2e1919b3058a29a40ab972890a296978, type: 3}
       propertyPath: m_AABB.m_Extent.z
       value: 0.0041592186
+      objectReference: {fileID: 0}
+    - target: {fileID: 5848477471783444967, guid: 2e1919b3058a29a40ab972890a296978, type: 3}
+      propertyPath: m_Height
+      value: 0.9484169
+      objectReference: {fileID: 0}
+    - target: {fileID: 5848477471783444967, guid: 2e1919b3058a29a40ab972890a296978, type: 3}
+      propertyPath: m_Radius
+      value: 0.43809554
+      objectReference: {fileID: 0}
+    - target: {fileID: 5848477471783444967, guid: 2e1919b3058a29a40ab972890a296978, type: 3}
+      propertyPath: m_Center.x
+      value: -0.061904415
+      objectReference: {fileID: 0}
+    - target: {fileID: 5848477471783444967, guid: 2e1919b3058a29a40ab972890a296978, type: 3}
+      propertyPath: m_Center.y
+      value: 0.5541719
       objectReference: {fileID: 0}
     - target: {fileID: 5848477472335387676, guid: 2e1919b3058a29a40ab972890a296978, type: 3}
       propertyPath: m_AABB.m_Center.x

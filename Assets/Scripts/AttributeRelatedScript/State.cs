@@ -92,6 +92,8 @@ public class State : MonoBehaviour
     private float zenModeP2EConversionSpeed; // 禅模式下的体力转化率
     private float temporaryHealthRegenRate; // 临时的生命值恢复速度
     private PlayerController plyctl;
+    public delegate void ExitZenModeEventHandler();
+    public static event ExitZenModeEventHandler OnExitZenMode;
 
 
     public bool IsInCombat()
@@ -214,6 +216,7 @@ public class State : MonoBehaviour
         if (!_AttcooldownCurve) Debug.LogError("AttackCooldownCurve NotFound");
         UpdateAttackCooldown();
         if (!UpdEffectTransform) UpdEffectTransform = SpellCast.FindDeepChild(transform, "spine_01");
+        // if(0 !=_shakeBeforeZenMode) GetComponentInChildren<Animator>().SetFloat("_shakeBeforeZenMode",_shakeBeforeZenMode);
     }
 
     // 初始化升级所需经验值数组
@@ -542,12 +545,18 @@ public class State : MonoBehaviour
 
         // 重置下蹲冷却状态
         isCrouchingCooldown = false;
+        
+        OnExitZenMode?.Invoke();//粒子系统停播
     }
 
     private IEnumerator P2EConvert_ZenMode()
     {
+        StartCoroutine(ParticleEffectManager.Instance.PlayParticleEffectUntilEndCoroutine("Zen",
+            UpdEffectTransform.gameObject, Quaternion.identity, Color.clear, Color.cyan, ExitZenMode));
         while (isInZenMode)
         {
+            // ParticleEffectManager.Instance.PlayParticleEffectUntilEnd("Zen", UpdEffectTransform.gameObject, 
+            //     Quaternion.identity, Color.clear, Color.cyan, ExitZenMode);
             if (IsFullEnergy())
             {
                 // 如果能量已满，显示提示信息
