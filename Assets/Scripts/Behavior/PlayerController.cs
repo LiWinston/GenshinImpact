@@ -184,35 +184,39 @@ public class PlayerController : MonoBehaviour
         Vector3 playerPosition = transform.position;
         Collider[] hitEnemies = Physics.OverlapSphere(playerPosition, state.hurricaneKickRange);
 
-        // UIManager.Instance.ShowMessage2(hitEnemies.Length == 0 ? "What are you kicking?" : "Lets KICK!");
-
-        foreach (Collider cld in hitEnemies)
+        if (hitEnemies.Length != 0)
         {
-            if (cld.CompareTag("Enemy"))
+            if (state.ConsumePower(12.5f))
             {
-                Vector3 enemyPosition = cld.transform.position;
-                
-                Vector3 knockbackDirection = (enemyPosition - playerPosition).normalized;
-                
-                HealthSystem enemyHealth = cld.GetComponent<HealthSystemComponent>().GetHealthSystem();
-
-                cld.GetComponentInChildren<Animator>().SetTrigger("HurricaneKickTrigger");
-                if (enemyHealth != null)
+                foreach (Collider cld in hitEnemies)
                 {
-                    enemyHealth.Damage(state.HurricaneKickDamage);
-                    // UI.UIManager.Instance.ShowMessage2("What a Hurricane Kick!");
-                    Rigidbody enemyRigidbody = cld.GetComponent<Rigidbody>();
-                    if (enemyRigidbody != null)
+                    if (cld.CompareTag("Enemy"))
                     {
-                        enemyRigidbody.AddForce(knockbackDirection * state.hurricaneKickKnockbackForce, ForceMode.VelocityChange);
-                        // 计算随机切向方向（左或右）
-                        Vector3 randomTangentDirection = Quaternion.Euler(0, Random.Range(-90f, 90f), 0) * knockbackDirection;
+                        Vector3 enemyPosition = cld.transform.position;
+                
+                        Vector3 knockbackDirection = (enemyPosition - playerPosition).normalized;
+                
+                        HealthSystem enemyHealth = cld.GetComponent<HealthSystemComponent>().GetHealthSystem();
 
-                        // 计算旋转摩擦力，不依赖于当前角速度
-                        Vector3 rotationFrictionForce = randomTangentDirection * rotationFriction;
+                        cld.GetComponentInChildren<Animator>().SetTrigger("HurricaneKickTrigger");
+                        if (enemyHealth != null)
+                        {
+                            enemyHealth.Damage(state.HurricaneKickDamage);
+                            // UI.UIManager.Instance.ShowMessage2("What a Hurricane Kick!");
+                            Rigidbody enemyRigidbody = cld.GetComponent<Rigidbody>();
+                            if (enemyRigidbody != null)
+                            {
+                                enemyRigidbody.AddForce(knockbackDirection * state.hurricaneKickKnockbackForce, ForceMode.VelocityChange);
+                                // 计算随机切向方向（左或右）
+                                Vector3 randomTangentDirection = Quaternion.Euler(0, Random.Range(-90f, 90f), 0) * knockbackDirection;
 
-                        // 将旋转摩擦力施加到切向方向
-                        enemyRigidbody.AddTorque(rotationFrictionForce * Random.Range(0.5f, 1.5f), ForceMode.Impulse);                    }
+                                // 计算旋转摩擦力，不依赖于当前角速度
+                                Vector3 rotationFrictionForce = randomTangentDirection * rotationFriction;
+
+                                // 将旋转摩擦力施加到切向方向
+                                enemyRigidbody.AddTorque(rotationFrictionForce * Random.Range(0.5f, 1.5f), ForceMode.Impulse);                    }
+                        }
+                    }
                 }
             }
         }
@@ -371,15 +375,19 @@ public class PlayerController : MonoBehaviour
             var f = isCrouching ? crouchForceRate * forwardForce : forwardForce;
 
             rb.AddForce(moveDirection * f, ForceMode.Force);
-
             float maxSpeed = isCrouching ? MaxCrouchPlySpeed : MaxPlySpeed;
             rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxSpeed);
         }
         else
         {
-            // 冲刺逻辑
-            float sprintSpeed = sprintSpeedRate * (isCrouching ? MaxCrouchPlySpeed : MaxPlySpeed);
-            rb.velocity = moveDirection * sprintSpeed;
+            if (Vector3.zero != moveDirection)
+            {
+                if(state.ConsumePower(4 * Time.deltaTime))
+                {
+                    float sprintSpeed = sprintSpeedRate * (isCrouching ? MaxCrouchPlySpeed : MaxPlySpeed);
+                    rb.velocity = moveDirection * sprintSpeed;
+                }
+            }
         }
     }
 
@@ -395,14 +403,20 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator NormalAttack()
     {
-        float attackDuration = 0.75f * 1.25f / state.attackSpeedRate;
-        yield return PerformAttack("AttackTrigger1", attackDuration);
+        if(state.ConsumePower(2f))
+        {
+            float attackDuration = 0.75f * 1.25f / state.attackSpeedRate;
+            yield return PerformAttack("AttackTrigger1", attackDuration);
+        }
     }
 
     private IEnumerator CriticalAttack()
     {
-        float attackDuration = 0.875f / (0.75f * state.attackSpeedRate);
-        yield return PerformAttack("AttackTrigger2", attackDuration);
+        if (state.ConsumePower(8f))
+        {
+            float attackDuration = 0.875f / (0.75f * state.attackSpeedRate);
+            yield return PerformAttack("AttackTrigger2", attackDuration);
+        }
     }
 
 

@@ -53,10 +53,10 @@ public class Sword : MonoBehaviour
         }
     }
 
-    // 当攻击结束时清空哈希表
+    // 当攻击结束时清空哈希表 Clear the hash table & SetBool False when the attack is over
     private void HandleAttackEnded()
     {
-        UIManager.Instance.ShowMessage2("End了");
+        // UIManager.Instance.ShowMessage2("End了"); //END ATTACK SYMBOL
         animator.SetBool("isAttacking", false);
         hitEnemies.Clear();
     }

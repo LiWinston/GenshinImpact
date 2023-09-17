@@ -326,16 +326,14 @@ public class State : MonoBehaviour
     {
         float powerNormalized = GetNormalizedPower();
         powerBar.fillAmount = powerNormalized;
-
-        if (Mathf.Approximately(powerNormalized, 1.0f))
-        {
-            powerBar.color = fullPowerColor;
-        }
-        else
-        {
-            powerBar.color = emptyPowerColor;
-        }
+        // 定义一个接近于1的阈值
+        float fullPowerThreshold = 0.99f;
+        powerBar.gameObject.SetActive(powerNormalized <= fullPowerThreshold);
+        powerBar.color = Color.Lerp(emptyPowerColor, fullPowerColor, powerNormalized);
+       
     }
+
+
 
     public void TakeDamage(float damage)
     {
@@ -391,7 +389,7 @@ public class State : MonoBehaviour
         }
         else
         {
-            UIManager.Instance.ShowMessage1("Insufficient Power!");
+            UIManager.Instance.ShowMessage1("Insufficient Stamina, ESCAPE BATTLE!");
             return false;
         }
     }
@@ -448,10 +446,10 @@ public class State : MonoBehaviour
         CurrentDamage += addDamageOnUpdate;
         maxHealth += addMaxHealthOnUpdate;
         // maxEnergy += addMaxEnergyOnUpdate;
-        maxEnergy += CurrentDamage;
+        maxEnergy += CurrentDamage * 3;
         CurrentHealth += addHealthOnUpdate;
         // CurrentEnergy += addEnergyOnUpdate;
-        CurrentEnergy += CurrentDamage;
+        CurrentEnergy += CurrentDamage * 2.5f;
         ParticleEffectManager.Instance.PlayParticleEffect("UpLevel", UpdEffectTransform.gameObject, Quaternion.identity,
             Color.clear, Color.clear, 3f);
         UpdateAttackCooldown();
@@ -527,7 +525,7 @@ public class State : MonoBehaviour
         healthRegenerationRate *= zenModeHealthRegenModifier;
 
         // 开始消耗体力并恢复能量
-        StartCoroutine(ConsumeEnergyAndRestoreEnergy());
+        StartCoroutine(P2EConvert_ZenMode());
     }
 
 
@@ -546,28 +544,29 @@ public class State : MonoBehaviour
         isCrouchingCooldown = false;
     }
 
-    private IEnumerator ConsumeEnergyAndRestoreEnergy()
+    private IEnumerator P2EConvert_ZenMode()
     {
-        if (IsFullEnergy())
+        while (isInZenMode)
         {
-            // 如果能量已满，显示提示信息
-            UIManager.Instance.ShowMessage1("Full Energy!");
-        }
-        else
-        {
-            while (isInZenMode)
+            if (IsFullEnergy())
             {
-                // 消耗体力，根据体力转化率
-                float deltaPowerPercent = zenModeP2EConversionSpeed * Time.deltaTime;
-                if (ConsumePower(deltaPowerPercent * maxPower))
-                {
-                    // 如果成功消耗体力，就恢复相应比例的能量
-                    float energyToRestore = deltaPowerPercent * zenModeP2EConversionEfficiency * maxEnergy;
-                    RestoreEnergy(energyToRestore);
-                }
-                // 每帧等待
+                // 如果能量已满，显示提示信息
+                UIManager.Instance.ShowMessage1("Full Energy!");
                 yield return null;
+                continue; // 能量已满，不需要继续处理
             }
+
+            // 消耗体力，根据体力转化率
+            float deltaPowerPercent = zenModeP2EConversionSpeed * Time.deltaTime;
+            if (ConsumePower(deltaPowerPercent * maxPower))
+            {
+                // 如果成功消耗体力，就恢复相应比例的能量
+                float energyToRestore = deltaPowerPercent * zenModeP2EConversionEfficiency * maxEnergy;
+                RestoreEnergy(energyToRestore);
+            }
+            // 每帧等待
+            yield return null;
         }
     }
+
 }
