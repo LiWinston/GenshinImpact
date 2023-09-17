@@ -1,15 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using AttributeRelatedScript;
-using CameraView;
 using CodeMonkey.HealthSystemCM;
 using TMPro;
 using UI;
 using Unity.Mathematics;
 using UnityEngine;
-using UnityEngine.Timeline;
-using UnityEngine.UIElements;
 using Cursor = UnityEngine.Cursor;
 using Random = UnityEngine.Random;
 using UnityEngine.SceneManagement;
@@ -369,35 +365,28 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    private IEnumerator PerformAttack(string attackTrigger, float attackDuration)
+    {
+        animator.SetTrigger(attackTrigger);
+        animator.SetBool("isAttacking", true);
+
+        yield return new WaitForSeconds(attackDuration);
+
+        EndAttack();
+    }
+
     private IEnumerator NormalAttack()
     {
-        animator.SetTrigger("AttackTrigger1");
-        animator.SetBool("isAttacking", true);
-        // yield return null; // Wait for one frame to let animation begin
-        // yield return null; // Wait for another frame to ensure animation state is updated
-
-        // AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
-        // float animationLength = stateInfo.length;
-        // yield return new WaitForSeconds(animationLength);
-        yield return new WaitForSeconds(0.75f * 1.25f / state.attackSpeedRate); //这是一个土狗解决方案
-    
-        // animator.SetBool("isAttacking", false);
-        EndAttack();
+        float attackDuration = 0.75f * 1.25f / state.attackSpeedRate;
+        yield return PerformAttack("AttackTrigger1", attackDuration);
     }
 
     private IEnumerator CriticalAttack()
     {
-        animator.SetTrigger("AttackTrigger2");
-        animator.SetBool("isAttacking", true);
-        // yield return null; // Wait for one frame to let animation begin
-        // yield return null; // Wait for another frame to ensure animation state is updated
-        //
-        // AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
-        // float animationLength = stateInfo.length;
-        yield return new WaitForSeconds(0.875f / (0.75f * state.attackSpeedRate)); //这是一个土狗解决方案
-        
-        EndAttack();
+        float attackDuration = 0.875f / (0.75f * state.attackSpeedRate);
+        yield return PerformAttack("AttackTrigger2", attackDuration);
     }
+
 
 
 
@@ -570,8 +559,6 @@ public class PlayerController : MonoBehaviour
 
     public void EndAttack()
     {
-        // 触发结束攻击事件
-        
         OnAttackEnded();
     }
     
