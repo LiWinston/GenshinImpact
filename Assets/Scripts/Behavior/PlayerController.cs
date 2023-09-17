@@ -25,9 +25,9 @@ public class PlayerController : MonoBehaviour
     [Header("Mouse Look Settings")]
     public float mouseSensitivity = 100f;
 
-    private bool isMoving = false;
+    internal bool isMoving = false;
     private bool isJumping = false;
-    private bool isCrouching = false;
+    internal bool isCrouching = false;
     public float forwardForce = 100;
     public float backwardRate = 0.9f;
     public float jumpForce = 800;

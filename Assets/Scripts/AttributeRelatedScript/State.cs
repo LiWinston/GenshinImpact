@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UI;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,7 +7,7 @@ using UnityEngine.UI;
 
 public class State : MonoBehaviour
 {
-    [Header("Health")]
+    [Header("Health")] 
     [SerializeField] private float maxHealth;
     [SerializeField] private float currentHealth;
     [SerializeField] private float addHealthOnUpdate;
@@ -18,7 +19,7 @@ public class State : MonoBehaviour
     private Color lowHealthColor = Color.black;
     private Color emptyHealthColor = new Color(0, 0, 0.5f, 1); // 黑红色
 
-    [Header("Energy")]
+    [Header("Energy")] 
     [SerializeField] private float maxEnergy;
     [SerializeField] private float currentEnergy;
     [SerializeField] private float addEnergyOnUpdate;
@@ -29,34 +30,47 @@ public class State : MonoBehaviour
     private Color halfEnergyColor = Color.blue;
     private Color emptyEnergyColor = Color.white;
 
-    [Header("UI Flags")]
-    private bool isHealthUpdated;
-    private bool isEnergyUpdated;
+    [Header("Power")] 
+    [SerializeField] private float maxPower = 100;
+    [SerializeField] private float currentPower = 100;
+    [SerializeField] private float powerRegenerationRate = 0.05f; // 每秒恢复5%
+    private Image powerBar;
+    private GameObject powerBarObject;
+    private Color fullPowerColor = Color.green;
+    private Color emptyPowerColor = Color.gray;
 
-    [Header("Level and Experience")]
-    [SerializeField] private int currentExperience;
+    [Header("UI Flags")] 
+    private bool isHealthUpdated = true;
+    private bool isEnergyUpdated = true;
+    private bool isPowerUpdated = true;
+
+    [Header("Level and Experience")] 
+    [SerializeField]private int currentExperience;
     [SerializeField] private float damageReduction = 0.005f;
     [SerializeField] private int maxLevel = 100;
+
     public delegate void LevelChangedEventHandler(int newLevel);
+
     public event LevelChangedEventHandler OnLevelChanged;
-    private int currentLevel = 1; 
+    private int currentLevel = 1;
     private int[] experienceThresholds; // 存储升级所需经验值的数组
     [SerializeField] private Transform UpdEffectTransform;
-    
-    [Header("CombatJudge")]
+
+    [Header("CombatJudge")] 
+    [SerializeField] private float combatCooldownDuration = 1.8f; //脱战延时
     private bool isInCombat = false;
     private float combatEndTime = 0f;
-    [SerializeField]private float combatCooldownDuration = 1.8f;//脱战延时
     
-    [Header("Regeneration Rates")]
+
+    [Header("Regeneration Rates")] 
     [SerializeField] private float healthRegenerationRate = 0.005f;
     [SerializeField] private float energyRegenerationRate = 0.008f;
     [SerializeField] private float healthRegenAddition = 0.02f;
     [SerializeField] private float energyRegenAddition = 0.08f;
     private float regenerationTimer;
 
-    [Header("Damage")]
-    [SerializeField] private float damage = 8f;
+    [Header("Damage")] [SerializeField] private float damage = 8f;
+
     [SerializeField] private float addDamageOnUpdate = 2;
     // [SerializeField] internal float attackAngle = 70f;
     // [SerializeField] internal float attackRange = 0.9f;
@@ -66,13 +80,24 @@ public class State : MonoBehaviour
     [SerializeField] internal float criticalDmgRate = 4f;
     private AttackCooldownCurve _AttcooldownCurve;
     internal float attackSpeedRate;
-    
+
+    [Header("ZenMode(Recover)")] 
+    private bool isCrouchingCooldown; // 用于记录下蹲后的冷却状态
+    private float _shakeBeforeZenMode = 1.5f; // 下蹲冷却时长施法前摇
+    private bool isInZenMode; // 是否处于禅模式
+    private float zenModeHealthModifier = 1.35f; // 禅模式下的生命值修改器
+    private float zenModeHealthRegenModifier = 1.5f; // 禅模式下的生命值恢复速度修改器
+    private float zenModeP2EConversionSpeed; // 禅模式下的体力转化率
+    [SerializeField]private float zenModeP2EConversionEfficiency = 0.6f; // 禅模式下的体力转化率
+    private float temporaryHealthRegenRate; // 临时的生命值恢复速度
+    private PlayerController plyctl;
 
 
     public bool IsInCombat()
     {
         return isInCombat;
     }
+
     public float CurrentHealth
     {
         get => currentHealth;
@@ -133,25 +158,61 @@ public class State : MonoBehaviour
         return Mathf.Approximately(currentEnergy, 0f);
     }
 
+    public float GetNormalizedPower()
+    {
+        return currentPower / maxPower;
+    }
+
+// 新增方法检查是否体力已满
+    public bool IsFullPower()
+    {
+        return Mathf.Approximately(currentPower, maxPower);
+    }
+
+// 新增方法检查是否体力为空
+    public bool IsEmptyPower()
+    {
+        return Mathf.Approximately(currentPower, 0f);
+    }
+
+    public float CurrentPower
+    {
+        get => currentPower;
+        set
+        {
+            if (value != currentPower)
+            {
+                currentPower = Mathf.Clamp(value, 0f, maxPower);
+                isPowerUpdated = true;
+            }
+        }
+    }
+
+
     private void Start()
     {
+        plyctl = GetComponent<PlayerController>();
         healthBarObject = GameObject.Find("UIHealthbar");
         energyBarObject = GameObject.Find("UIManabar");
+        powerBarObject = GameObject.Find("UIPowerbar");
+
 
         healthBar = healthBarObject.GetComponent<Image>();
         energyBar = energyBarObject.GetComponent<Image>();
+        powerBar = powerBarObject.GetComponent<Image>();
 
         // 初始时更新UI
         UpdateHealthUI();
         UpdateEnergyUI();
-        
+        UpdatePowerUI();
+
         currentExperience = 0;
         InitializeExperienceThresholds();
 
         _AttcooldownCurve = GetComponent<AttackCooldownCurve>();
-        if(!_AttcooldownCurve) Debug.LogError("AttackCooldownCurve NotFound");
+        if (!_AttcooldownCurve) Debug.LogError("AttackCooldownCurve NotFound");
         UpdateAttackCooldown();
-        if(!UpdEffectTransform) UpdEffectTransform = SpellCast.FindDeepChild(transform, "spine_01");
+        if (!UpdEffectTransform) UpdEffectTransform = SpellCast.FindDeepChild(transform, "spine_01");
     }
 
     // 初始化升级所需经验值数组
@@ -170,8 +231,6 @@ public class State : MonoBehaviour
     }
 
 
-
-
     private void Update()
     {
         // 只有在需要更新时才执行UI更新
@@ -185,6 +244,12 @@ public class State : MonoBehaviour
         {
             UpdateEnergyUI();
             isEnergyUpdated = false;
+        }
+
+        if (isPowerUpdated)
+        {
+            UpdatePowerUI();
+            isPowerUpdated = false;
         }
 
         // CheckInCombat();
@@ -203,8 +268,22 @@ public class State : MonoBehaviour
                 regenerationTimer = 0f;
             }
         }
-        
+
+        if (plyctl.isCrouching && !plyctl.isMoving)//蹲且不走
+        {
+            if (!isCrouchingCooldown && !isInZenMode)//
+            {
+                isInZenMode = true;
+                isCrouchingCooldown = true;
+                StartCoroutine(EnterZenMode());// 若见诸相非相，即见如来
+            }
+        }
+        else
+        {
+            if(isInZenMode) ExitZenMode();
+        }
     }
+
     // 更新生命值UI
     private void UpdateHealthUI()
     {
@@ -226,8 +305,7 @@ public class State : MonoBehaviour
         }
     }
 
-    // 更新能量值UI
-    // 更新能量值UI
+
     private void UpdateEnergyUI()
     {
         float energyNormalized = GetNormalizedEnergy();
@@ -243,6 +321,21 @@ public class State : MonoBehaviour
         }
     }
 
+    private void UpdatePowerUI()
+    {
+        float powerNormalized = GetNormalizedPower();
+        powerBar.fillAmount = powerNormalized;
+
+        if (Mathf.Approximately(powerNormalized, 1.0f))
+        {
+            powerBar.color = fullPowerColor;
+        }
+        else
+        {
+            powerBar.color = emptyPowerColor;
+        }
+    }
+
     public void TakeDamage(float damage)
     {
         if (damage <= maxHealth)
@@ -253,6 +346,7 @@ public class State : MonoBehaviour
         {
             CurrentHealth = 0f;
         }
+
         isInCombat = true;
         combatEndTime = Time.time + combatCooldownDuration;
     }
@@ -272,12 +366,12 @@ public class State : MonoBehaviour
         if (CurrentEnergy >= amount)
         {
             CurrentEnergy -= amount;
-            return true; 
+            return true;
         }
         else
         {
             UIManager.Instance.ShowMessage1("Insufficient Energy!");
-            return false; 
+            return false;
         }
     }
 
@@ -285,15 +379,36 @@ public class State : MonoBehaviour
     {
         CurrentEnergy += amount;
     }
-    
+
+    public void RestorePower(float amount)
+    {
+        CurrentPower += amount;
+    }
+
+// 新增方法用于消耗Power
+    public bool ConsumePower(float amount)
+    {
+        if (CurrentPower >= amount)
+        {
+            CurrentPower -= amount;
+            return true;
+        }
+        else
+        {
+            UIManager.Instance.ShowMessage1("Insufficient Power!");
+            return false;
+        }
+    }
+
     // 获取当前等级
     public int GetCurrentLevel()
     {
         return currentLevel;
     }
+
     public void CheatLevelUp()
     {
-        if(currentLevel < maxLevel) currentLevel += 1;
+        if (currentLevel < maxLevel) currentLevel += 1;
         LevelUpAction();
     }
 
@@ -306,7 +421,7 @@ public class State : MonoBehaviour
     // 增加经验值并检查是否升级
     public void AddExperience(int experience)
     {
-        if(GetComponent<PlayerController>().cheatMode) return;
+        if (GetComponent<PlayerController>().cheatMode) return;
         currentExperience += experience;
 
         // 检查是否升级
@@ -341,7 +456,7 @@ public class State : MonoBehaviour
         CurrentHealth += addHealthOnUpdate;
         // CurrentEnergy += addEnergyOnUpdate;
         CurrentEnergy += CurrentDamage;
-        ParticleEffectManager.Instance.PlayParticleEffect("UpLevel", UpdEffectTransform.gameObject, Quaternion.identity, 
+        ParticleEffectManager.Instance.PlayParticleEffect("UpLevel", UpdEffectTransform.gameObject, Quaternion.identity,
             Color.clear, Color.clear, 3f);
         UpdateAttackCooldown();
         damageReduction = currentLevel * 0.005f; // 每级增加 5%
@@ -351,25 +466,25 @@ public class State : MonoBehaviour
         }
         // 将新的伤害减免比例应用到角色
     }
-    
+
     private void CheckInCombat()
     {
         // Check if the player has taken damage recently
         isInCombat = Time.time < combatEndTime; // Player is considered in combat
     }
-    
+
     private void RegenerateHealthAndEnergy()
     {
-            // Regenerate health and energy based on regeneration rates and current level
-           Heal(maxHealth * healthRegenerationRate * (1.0f + (currentLevel - 1) * healthRegenAddition));
-            RestoreEnergy(maxEnergy * energyRegenerationRate * (1.0f + (currentLevel - 1) * energyRegenAddition));
+        // Regenerate health and energy based on regeneration rates and current level
+        Heal(maxHealth * healthRegenerationRate * (1.0f + (currentLevel - 1) * healthRegenAddition));
+        RestoreEnergy(maxEnergy * energyRegenerationRate * (1.0f + (currentLevel - 1) * energyRegenAddition));
+        RestorePower(maxPower * powerRegenerationRate);
     }
-    
-    
+
+
     public void IncreaseDamage(float idmg)
     {
         damage += idmg;
-            
     }
 
     public void UpdateAttackCooldown()
@@ -384,14 +499,73 @@ public class State : MonoBehaviour
             {
                 playerController.UpdateAttackAnimationTime(attackSpeedRate);
             }
-            Debug.Log(currentLevel + "级攻速" + AttackCooldown +"秒，动画倍速 " + attackSpeedRate);
+
+            Debug.Log(currentLevel + "级攻速" + AttackCooldown + "秒，动画倍速 " + attackSpeedRate);
         }
     }
+
     public float CurrentDamage
     {
-        get=>damage;
-        set =>damage = value;
+        get => damage;
+        set => damage = value;
     }
 
     public float AttackCooldown { get; set; }
+
+    private IEnumerator EnterZenMode()
+    {
+        // 等待一秒，模拟下蹲后进入禅模式
+        yield return new WaitForSeconds(_shakeBeforeZenMode);
+        // 计算禅模式下的体力转化速率，根据玩家等级
+        zenModeP2EConversionSpeed = currentLevel / 100f;
+
+        // 保存当前的生命值恢复速度，以便禅模式结束后还原
+        temporaryHealthRegenRate = healthRegenerationRate;
+
+        // 修改生命值恢复速度
+        healthRegenerationRate *= zenModeHealthRegenModifier;
+        
+        // 开始消耗体力并恢复能量
+        StartCoroutine(ConsumeEnergyAndRestoreEnergy());
+    }
+
+    private void ExitZenMode()
+    {
+        // 退出禅模式
+        isInZenMode = false;
+
+        // 还原生命值恢复速度
+        healthRegenerationRate = temporaryHealthRegenRate;
+
+        // 重置体力转化率
+        zenModeP2EConversionSpeed = 0f;
+
+        // 重置下蹲冷却状态
+        isCrouchingCooldown = false;
+    }
+
+    private IEnumerator ConsumeEnergyAndRestoreEnergy()
+    {
+        if (IsFullEnergy())
+        {
+            // 如果能量已满，显示提示信息
+            UIManager.Instance.ShowMessage1("Full Energy!");
+        }
+        else
+        {
+            while (isInZenMode)
+            {
+                // 消耗体力，根据体力转化率
+                float deltaPowerPercent = zenModeP2EConversionSpeed * Time.deltaTime;
+                if (ConsumePower(deltaPowerPercent * maxPower))
+                {
+                    // 如果成功消耗体力，就恢复相应比例的能量
+                    float energyToRestore = deltaPowerPercent * zenModeP2EConversionEfficiency * maxEnergy;
+                    RestoreEnergy(energyToRestore);
+                }
+                // 每帧等待
+                yield return null;
+            }
+        }
+    }
 }
