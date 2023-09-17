@@ -86,7 +86,7 @@ public class State : MonoBehaviour
     [SerializeField]private float zenModeP2EConversionEfficiency = 0.6f; // 禅模式下的体力转化率
     private bool isCrouchingCooldown; // 用于记录下蹲后的冷却状态
     private float _shakeBeforeZenMode = 1.5f; // 下蹲冷却时长施法前摇
-    private bool isInZenMode; // 是否处于禅模式
+    internal bool isInZenMode; // 是否处于禅模式
     private float zenModeHealthModifier = 1.35f; // 禅模式下的生命值修改器
     private float zenModeHealthRegenModifier = 1.5f; // 禅模式下的生命值恢复速度修改器
     private float zenModeP2EConversionSpeed; // 禅模式下的体力转化率
@@ -273,7 +273,7 @@ public class State : MonoBehaviour
             }
         }
 
-        if (plyctl.isCrouching && !plyctl.isMoving)//蹲且不走
+        if (plyctl is { isCrouching: true, isMoving: false })//蹲且不走
         {
             if (!isCrouchingCooldown && !isInZenMode)//
             {
@@ -532,21 +532,15 @@ public class State : MonoBehaviour
     }
 
 
-    private void ExitZenMode()
+    internal void ExitZenMode()
     {
-        // 退出禅模式
         isInZenMode = false;
-
-        // 还原生命值恢复速度
-        healthRegenerationRate = temporaryHealthRegenRate;
-
-        // 重置体力转化率
-        zenModeP2EConversionSpeed = 0f;
-
-        // 重置下蹲冷却状态
-        isCrouchingCooldown = false;
-        
+        StopAllCoroutines();
         OnExitZenMode?.Invoke();//粒子系统停播
+        UIManager.Instance.ShowMessage2("ExitZenMode()");
+        healthRegenerationRate = temporaryHealthRegenRate;
+        zenModeP2EConversionSpeed = 0f;
+        isCrouchingCooldown = false;
     }
 
     private IEnumerator P2EConvert_ZenMode()

@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using UI;
 using UnityEngine;
 
 public class ParticleEffectManager : MonoBehaviour
@@ -151,7 +152,7 @@ public class ParticleEffectManager : MonoBehaviour
 
         // 手动结束特效时调用回调
         onEffectEnd?.Invoke();
-
+        UIManager.Instance.ShowMessage2("onEffectEnd?.Invoke();");
         // 销毁特效
         Destroy(currentParticleEffect);
         currentParticleEffect = null; // 清空引用
@@ -160,6 +161,7 @@ public class ParticleEffectManager : MonoBehaviour
 
     private void StopParticleEffect()
     {
+        UIManager.Instance.ShowMessage2("StopParticleEffect()");
         if (currentParticleEffect != null)
         {
             Destroy(currentParticleEffect);
