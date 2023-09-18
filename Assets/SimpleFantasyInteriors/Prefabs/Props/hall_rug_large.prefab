@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 143816, guid: b1ae16ea50687e1439a4ead8807101dc, type: 3}
       propertyPath: m_Name
-      value: SM_Prop_Rug_Large_02 (2) Variant
+      value: hall_rug_large
       objectReference: {fileID: 0}
     - target: {fileID: 143816, guid: b1ae16ea50687e1439a4ead8807101dc, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -63,35 +63,5 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 143816, guid: b1ae16ea50687e1439a4ead8807101dc, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 8971806685386286868}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b1ae16ea50687e1439a4ead8807101dc, type: 3}
---- !u!1 &4965929302171116246 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 143816, guid: b1ae16ea50687e1439a4ead8807101dc, type: 3}
-  m_PrefabInstance: {fileID: 4965929302171243294}
-  m_PrefabAsset: {fileID: 0}
---- !u!64 &8971806685386286868
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4965929302171116246}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4300000, guid: 80cd661c1b6eba74a964eefc1b624279, type: 3}
