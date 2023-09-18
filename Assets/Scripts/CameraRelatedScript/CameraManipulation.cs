@@ -5,12 +5,12 @@ namespace CameraRelatedScript
 {
     public class CameraManipulation : MonoBehaviour
     {
-        [SerializeField]
-        private Transform attachedCamera;
-        
+        [SerializeField] private Camera attachedCamera;
+        [SerializeField] Camera FPCamera; // 备用相机
         [SerializeField] GameObject viewPoint;
-        [SerializeField] GameObject FPCamera; // 备用相机
+        
         [SerializeField] private LayerMask wallLayer; // 墙体的Layer
+        [SerializeField] private PlayerController plyctl;
 
         [SerializeField] private float forwardOffset;
         [SerializeField] private float upwardOffset;
@@ -30,6 +30,8 @@ namespace CameraRelatedScript
             {
                 Debug.LogError("FPCamera not found!");
             }
+
+            plyctl = GetComponent<PlayerController>();
         }
 
         private void LateUpdate()
@@ -38,14 +40,15 @@ namespace CameraRelatedScript
 
             // 使用射线检测来避免相机被墙体阻挡
             RaycastHit hit;
-            Vector3 cameraToViewPoint = viewPoint.transform.position - attachedCamera.position;
+            Vector3 cameraToViewPoint = viewPoint.transform.position - attachedCamera.transform.position;
 
-            if (Physics.Raycast(attachedCamera.position, cameraToViewPoint, out hit, cameraToViewPoint.magnitude, wallLayer))
+            if (Physics.Raycast(attachedCamera.transform.position, cameraToViewPoint, out hit, cameraToViewPoint.magnitude, wallLayer))
             {
                 if (!obstacleInWay)
                 {
                     // 切换到备用相机
-                    FPCamera.SetActive(true);
+                    FPCamera.gameObject.SetActive(true);
+                    plyctl.mycamera = FPCamera;
                     attachedCamera.gameObject.SetActive(false);
                     obstacleInWay = true;
                 }
@@ -59,14 +62,15 @@ namespace CameraRelatedScript
                 if (obstacleInWay)
                 {
                     // 切换回原相机
-                    FPCamera.SetActive(false);
+                    FPCamera.gameObject.SetActive(false);
+                    plyctl.mycamera = attachedCamera;
                     attachedCamera.gameObject.SetActive(true);
                     obstacleInWay = false;
                 }
 
                 newPosition += transform.forward * forwardOffset + transform.up * upwardOffset;
                 // 平滑过渡到新位置
-                attachedCamera.position = Vector3.Lerp(attachedCamera.position, newPosition, Time.deltaTime * transitionSpeed);
+                attachedCamera.transform.position = Vector3.Lerp(attachedCamera.transform.position, newPosition, Time.deltaTime * transitionSpeed);
             }
         }
     }

@@ -40,10 +40,10 @@ public class PlayerController : MonoBehaviour
     
     private float lastAttackTime = 0f; 
     
-    [SerializeField]private Camera mycamera;
+    [SerializeField]internal Camera mycamera;
+    
     
     private Animator animator;
-    
 
     private float xRotation = 0f;
 
@@ -80,6 +80,7 @@ public class PlayerController : MonoBehaviour
     private static readonly int RunningJump = Animator.StringToHash("RunningJump");
     private static readonly int IsAttacking = Animator.StringToHash("isAttacking");
     
+
 
     private void Start()
     {
