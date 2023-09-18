@@ -1,16 +1,14 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using AttributeRelatedScript;
-using CameraView;
 using CodeMonkey.HealthSystemCM;
 using TMPro;
 using UI;
 using Unity.Mathematics;
 using UnityEngine;
-using UnityEngine.Timeline;
-using UnityEngine.UIElements;
 using Cursor = UnityEngine.Cursor;
 using Random = UnityEngine.Random;
+using UnityEngine.SceneManagement;
 
 
 public class PlayerController : MonoBehaviour
@@ -19,36 +17,39 @@ public class PlayerController : MonoBehaviour
     [SerializeField]Transform viewPoint;
     
     [Header("Movement Settings")]
-    public float moveSpeed = 5f;
-
-    public float crouchSpeed = 2f;
+    public float crouchForceRate = 0.95f;
+    [SerializeField] private float MaxCrouchPlySpeed = 1f;
+    [SerializeField] private float MaxPlySpeed = 2f;
+    [SerializeField] private float sprintSpeedRate = 1.5f;
     
     [Header("Mouse Look Settings")]
     public float mouseSensitivity = 100f;
 
-    private bool isMoving = false;
+    internal bool isMoving = false;
     private bool isJumping = false;
-    private bool isCrouching = false;
+    internal bool isCrouching = false;
     public float forwardForce = 100;
     public float backwardRate = 0.9f;
     public float jumpForce = 800;
     
     
-    private bool isClimbing = false;
+    // private bool isClimbing = false;
     
     private Vector3 moveDirection;
 
     
     private float lastAttackTime = 0f; 
     
-    [SerializeField]private Camera mycamera;
+    [SerializeField]internal Camera mycamera;
+    
     
     private Animator animator;
-    
 
     private float xRotation = 0f;
 
     private bool isNextAttackCritical = false;
+    public delegate void OnAttackEndedHandler();
+    public event OnAttackEndedHandler OnAttackEnded;
 
     public bool IsCrouching
     {
@@ -63,19 +64,28 @@ public class PlayerController : MonoBehaviour
     public float moveForceTimerCounter = 0.05f;
     
     [SerializeField] private GameObject swordTransform;
-    private Damage damage;
-    private float speed_Ratio_Attack = 0.2f;
+    private float speed_Ratio_Attack = 0.1f;
     public float rotationFriction = 4000f; // 调整旋转摩擦力的大小
     private State state;
     [SerializeField] private Transform sword;
     internal bool cheatMode = false;
     private CriticalHitCurve _criticalHitCurve;
+    private static readonly int AttSpeedMult = Animator.StringToHash("AttSpeedMult");
+    private static readonly int IsGrounded = Animator.StringToHash("isGrounded");
+    private static readonly int Standing = Animator.StringToHash("Standing");
+    private static readonly int IsMoving = Animator.StringToHash("isMoving");
+    private static readonly int BeginCrouch = Animator.StringToHash("BeginCrouch");
+    private static readonly int Crouching = Animator.StringToHash("isCrouching");
+    private static readonly int Jump = Animator.StringToHash("Jump");
+    private static readonly int RunningJump = Animator.StringToHash("RunningJump");
+    private static readonly int IsAttacking = Animator.StringToHash("isAttacking");
+    
+
 
     private void Start()
     {
         _criticalHitCurve = GetComponent<CriticalHitCurve>();
         state = GetComponent<State>();
-        damage = GetComponent<Damage>();
         rb = GetComponent<Rigidbody>();
         moveDirection = Vector3.zero;
         var model = transform.Find("Model"); 
@@ -102,6 +112,7 @@ public class PlayerController : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         originalPosition = transform.position;
         if (Camera.main != null) Camera.main.transform.rotation = Quaternion.identity; // 正前方
+        animator.SetFloat("AttSpeedMult",1f);
     }
 
     private void Update()
@@ -116,15 +127,15 @@ public class PlayerController : MonoBehaviour
         {
             isGrounded = false;
         }
-        animator.SetBool("isGrounded",isGrounded);
+        animator.SetBool(IsGrounded,isGrounded);
         
         isMoving = math.abs(rb.velocity.x) + math.abs(rb.velocity.z) > 0.01f;
 
-        animator.SetBool("Standing",!isMoving);
-        animator.SetBool("isMoving",isMoving);
+        animator.SetBool(Standing,!isMoving);
+        animator.SetBool(IsMoving,isMoving);
 
-        float horizontal = Input.GetAxis("Horizontal");
-        float vertical = Input.GetAxis("Vertical");
+        var horizontal = Input.GetAxis("Horizontal");
+        var vertical = Input.GetAxis("Vertical");
         moveDirection = transform.right * horizontal + transform.forward * vertical;
         
         UserInput();
@@ -146,7 +157,7 @@ public class PlayerController : MonoBehaviour
         // Crouch
         if (Input.GetKeyDown(KeyCode.LeftControl))
         {
-            animator.SetTrigger("BeginCrouch");
+            animator.SetTrigger(BeginCrouch);
             isCrouching = true;
         }
         
@@ -157,7 +168,7 @@ public class PlayerController : MonoBehaviour
         
 
         // Crouch
-        animator.SetBool("isCrouching",isCrouching);
+        animator.SetBool(Crouching,isCrouching);
         
         // Mouse look
         float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
@@ -172,37 +183,41 @@ public class PlayerController : MonoBehaviour
     {
         rb.velocity = Vector3.zero;
         Vector3 playerPosition = transform.position;
-        Collider[] hitEnemies = Physics.OverlapSphere(playerPosition, damage.hurricaneKickRange);
+        Collider[] hitEnemies = Physics.OverlapSphere(playerPosition, state.hurricaneKickRange);
 
-        // UIManager.Instance.ShowMessage2(hitEnemies.Length == 0 ? "What are you kicking?" : "Lets KICK!");
-
-        foreach (Collider cld in hitEnemies)
+        if (hitEnemies.Length != 0)
         {
-            if (cld.CompareTag("Enemy"))
+            if (state.ConsumePower(12.5f))
             {
-                Vector3 enemyPosition = cld.transform.position;
-                
-                Vector3 knockbackDirection = (enemyPosition - playerPosition).normalized;
-                
-                HealthSystem enemyHealth = cld.GetComponent<HealthSystemComponent>().GetHealthSystem();
-
-                cld.GetComponentInChildren<Animator>().SetTrigger("HurricaneKickTrigger");
-                if (enemyHealth != null)
+                foreach (Collider cld in hitEnemies)
                 {
-                    enemyHealth.Damage(damage.HurricaneKickDamage);
-                    // UI.UIManager.Instance.ShowMessage2("What a Hurricane Kick!");
-                    Rigidbody enemyRigidbody = cld.GetComponent<Rigidbody>();
-                    if (enemyRigidbody != null)
+                    if (cld.CompareTag("Enemy"))
                     {
-                        enemyRigidbody.AddForce(knockbackDirection * damage.hurricaneKickKnockbackForce, ForceMode.VelocityChange);
-                        // 计算随机切向方向（左或右）
-                        Vector3 randomTangentDirection = Quaternion.Euler(0, Random.Range(-90f, 90f), 0) * knockbackDirection;
+                        Vector3 enemyPosition = cld.transform.position;
+                
+                        Vector3 knockbackDirection = (enemyPosition - playerPosition).normalized;
+                
+                        HealthSystem enemyHealth = cld.GetComponent<HealthSystemComponent>().GetHealthSystem();
 
-                        // 计算旋转摩擦力，不依赖于当前角速度
-                        Vector3 rotationFrictionForce = randomTangentDirection * rotationFriction;
+                        cld.GetComponentInChildren<Animator>().SetTrigger("HurricaneKickTrigger");
+                        if (enemyHealth != null)
+                        {
+                            enemyHealth.Damage(state.HurricaneKickDamage);
+                            // UI.UIManager.Instance.ShowMessage2("What a Hurricane Kick!");
+                            Rigidbody enemyRigidbody = cld.GetComponent<Rigidbody>();
+                            if (enemyRigidbody != null)
+                            {
+                                enemyRigidbody.AddForce(knockbackDirection * state.hurricaneKickKnockbackForce, ForceMode.VelocityChange);
+                                // 计算随机切向方向（左或右）
+                                Vector3 randomTangentDirection = Quaternion.Euler(0, Random.Range(-90f, 90f), 0) * knockbackDirection;
 
-                        // 将旋转摩擦力施加到切向方向
-                        enemyRigidbody.AddTorque(rotationFrictionForce * Random.Range(0.5f, 1.5f), ForceMode.Impulse);                    }
+                                // 计算旋转摩擦力，不依赖于当前角速度
+                                Vector3 rotationFrictionForce = randomTangentDirection * rotationFriction;
+
+                                // 将旋转摩擦力施加到切向方向
+                                enemyRigidbody.AddTorque(rotationFrictionForce * Random.Range(0.5f, 1.5f), ForceMode.Impulse);                    }
+                        }
+                    }
                 }
             }
         }
@@ -263,38 +278,31 @@ public class PlayerController : MonoBehaviour
 
     public void UserInput()
     {
-        if (Input.GetMouseButtonDown(0) && Time.time - lastAttackTime >= damage.attackCooldown)
+        if (Input.GetMouseButtonDown(0) && Time.time - lastAttackTime >= state.AttackCooldown)
         {
             rb.velocity *= speed_Ratio_Attack;
             
             float criticalHitChance = _criticalHitCurve.CalculateCriticalHitChance(state.GetCurrentLevel());
+            // Debug.Log(state.GetCurrentLevel() + "级暴击率" + criticalHitChance*100 +"%");
 
             var randomValue = Random.Range(0.0f, 1.0f);
-            if (randomValue <= criticalHitChance)
-            {
-                // 触发暴击攻击
-                StartCoroutine(CriticalAttack());
-            }
-            else
-            {
-                // 触发普通攻击
-                StartCoroutine(NormalAttack());
-            }
-
+            isNextAttackCritical = randomValue <= criticalHitChance;
+            StartCoroutine(isNextAttackCritical ? CriticalAttack() : NormalAttack());
             lastAttackTime = Time.time;
         }
+        
         if (Input.GetKeyDown(KeyCode.Space) ) // Add a check to see if a jump has been made
         {
             if(isGrounded){
                 if(isJumping) return;
                 if(!isMoving){
                     rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
-                    animator.SetTrigger("Jump");
+                    animator.SetTrigger(Jump);
                     isJumping = true;
                     isGrounded = false;
                 }else if(isMoving){
                     rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
-                    animator.SetTrigger("RunningJump");
+                    animator.SetTrigger(RunningJump);
                     isJumping = true;
                     isGrounded = false;
                 }
@@ -323,62 +331,101 @@ public class PlayerController : MonoBehaviour
                 state.CheatLevelUp();
             }
         }
-        
-        
-        moveForceTimerCounter -= Time.deltaTime;
-    
-        if (moveForceTimerCounter <= 0)
+        if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.K))
         {
+            if (cheatMode)
+            {
+                // 如果作弊模式开启，对玩家造成最大生命值的伤害
+                state.TakeDamage(999999999f);
+            }
+        }
+
+        Vector3 moveDirection = Vector3.zero;
+
+        if (Input.GetKey(KeyCode.W))
+        {
+            moveDirection += transform.forward;
+        }
+        if (Input.GetKey(KeyCode.S))
+        {
+            moveDirection -= transform.forward * backwardRate;
+        }
+        if (Input.GetKey(KeyCode.A))
+        {
+            moveDirection -= transform.right;
+        }
+        if (Input.GetKey(KeyCode.D))
+        {
+            moveDirection += transform.right;
+        }
+
+        if (moveDirection.magnitude > 1f)
+        {
+            moveDirection.Normalize();
+        }
+
+        if (!Input.GetKey(KeyCode.LeftShift))
+        {
+            // 您的现有移动逻辑
+            moveForceTimerCounter -= Time.deltaTime;
+            if (!(moveForceTimerCounter <= 0))
+            {
+                return;
+            }
             moveForceTimerCounter += moveForceTimer;
-        
-            if (Input.GetKey(KeyCode.W))
+            var f = isCrouching ? crouchForceRate * forwardForce : forwardForce;
+
+            rb.AddForce(moveDirection * f, ForceMode.Force);
+            float maxSpeed = isCrouching ? MaxCrouchPlySpeed : MaxPlySpeed;
+            rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxSpeed);
+        }
+        else
+        {
+            if (Vector3.zero != moveDirection)
             {
-                rb.AddForce(transform.forward * forwardForce, ForceMode.Force);
-            }
-        
-            if (Input.GetKey(KeyCode.S))
-            {
-                rb.AddForce(transform.forward * (-forwardForce * backwardRate), ForceMode.Force);
-            }
-        
-            if (Input.GetKey(KeyCode.A))
-            {
-                rb.AddForce(transform.right * -forwardForce, ForceMode.Force);
-            }
-        
-            if (Input.GetKey(KeyCode.D))
-            {
-                rb.AddForce(transform.right * forwardForce, ForceMode.Force);
+                if(state.ConsumePower(4 * Time.deltaTime))
+                {
+                    float sprintSpeed = sprintSpeedRate * (isCrouching ? MaxCrouchPlySpeed : MaxPlySpeed);
+                    rb.velocity = moveDirection * sprintSpeed;
+                }
             }
         }
     }
 
+    private IEnumerator PerformAttack(string attackTrigger, float attackDuration)
+    {
+        animator.SetTrigger(attackTrigger);
+        animator.SetBool(IsAttacking, true);
+
+        yield return new WaitForSeconds(attackDuration);
+
+        EndAttack();
+    }
+
     private IEnumerator NormalAttack()
     {
-        isNextAttackCritical = false;
-        animator.SetTrigger("AttackTrigger1");
-        animator.SetBool("isAttacking",true);
-        AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
-        float animationLength = stateInfo.length;
-        yield return new WaitForSeconds(animationLength);
-        animator.SetBool("isAttacking",false);
+        if(state.ConsumePower(2f))
+        {
+            float attackDuration = 0.75f * 1.25f / state.attackSpeedRate;
+            yield return PerformAttack("AttackTrigger1", attackDuration);
+        }
     }
 
     private IEnumerator CriticalAttack()
     {
-        isNextAttackCritical = true;
-        animator.SetTrigger("AttackTrigger2");
-        animator.SetBool("isAttacking",true);
-        AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
-        float animationLength = stateInfo.length;
-        yield return new WaitForSeconds(animationLength);
-        animator.SetBool("isAttacking",false);
+        if (state.ConsumePower(8f))
+        {
+            float attackDuration = 0.875f / (0.75f * state.attackSpeedRate);
+            yield return PerformAttack("AttackTrigger2", attackDuration);
+        }
     }
+
+
 
 
     private void checkInteract()
     {
-        InSightDetector sightDetector = new InSightDetector();
+        // InSightDetector sightDetector = new InSightDetector();
         var hasPickable = false;
         // Check Around
         var nearColliders = TryToInteract();
@@ -478,6 +525,7 @@ public class PlayerController : MonoBehaviour
     {
         // 查找场景内所有名称为 "ExpText" 的对象
         TextMeshPro[] expTextObjects = Resources.FindObjectsOfTypeAll<TextMeshPro>();
+        // TextMeshPro[] expTextObjects = GetComponentsInChildren<TextMeshPro>();
         // if(expTextObjects.Length == 0){ShowMessage1("No txterPro");}
 
         foreach (TextMeshPro textMesh in expTextObjects)
@@ -489,8 +537,9 @@ public class PlayerController : MonoBehaviour
                 textMesh.gameObject.SetActive(true);
 
                 // 启动协程来淡出经验值显示
-                MonoBehaviour monoBehaviour = textMesh.gameObject.GetComponent<MonoBehaviour>();
-                monoBehaviour.StartCoroutine(FadeOutExpText(textMesh));
+                // MonoBehaviour monoBehaviour = textMesh.gameObject.GetComponent<MonoBehaviour>();
+                // monoBehaviour.StartCoroutine(FadeOutExpText(textMesh));
+                StartCoroutine(FadeOutExpText(textMesh));
             }
             else
             {
@@ -523,15 +572,36 @@ public class PlayerController : MonoBehaviour
     {
         animator.SetTrigger("Hurt");
         state.TakeDamage(dmg);
+        if (state.IsEmptyHealth())
+        {
+            StartCoroutine(GameOver());
+        }
+    }
+
+    private IEnumerator GameOver()
+    {
+        animator.Play("Flying Back Death");
+        yield return new WaitForSeconds(3.1f);
+        SceneManager.LoadScene("LoseScene"); 
     }
 
     public float GetDamage()
     {
-        return (isNextAttackCritical ? damage.criticalDmgRate * damage.CurrentDamage : damage.CurrentDamage);
+        return (isNextAttackCritical ? state.criticalDmgRate * state.CurrentDamage : state.CurrentDamage);
     }
 
+    public void EndAttack()
+    {
+        OnAttackEnded();
+    }
+    
     public Animator GetAnimator()
     {
         return animator;
+    }
+
+    public void UpdateAttackAnimationTime(float attackSpeedRate)
+    {
+        animator.SetFloat(AttSpeedMult,attackSpeedRate);
     }
 }

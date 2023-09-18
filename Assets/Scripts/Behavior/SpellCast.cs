@@ -10,14 +10,12 @@ public class SpellCast : MonoBehaviour
     private Animator animator;
     [SerializeField] private Transform spellingPartTransform; // 序列化字段，用于拖放 Weapon 物体
     [SerializeField] private float spellRange = 1.6f;
-    private Damage damage;
     private State state;
 
 
     void Start()
     {
         state = GetComponent<State>();
-        damage = GetComponent<Damage>();
         if (spellingPartTransform == null)
         {
             Debug.LogError("Weapon Transform 未指定，请在 Inspector 中将 Weapon 物体拖放到该字段中！");
@@ -54,7 +52,7 @@ public class SpellCast : MonoBehaviour
     private void CastSpell()
     {
         //TODO:更新此机制。
-        if (!state.ConsumeEnergy(2))
+        if (!state.ConsumeEnergy(state.CurrentDamage))
         {
             return;
         };
@@ -86,7 +84,7 @@ public class SpellCast : MonoBehaviour
                 if (enemyHealth != null)
                 {
                     // 对敌人造成伤害
-                    enemyHealth.Damage(damage.CurrentDamage);
+                    enemyHealth.Damage(state.CurrentDamage);
 
                     // 播放特效
                     if (spellingPartTransform != null)
@@ -115,8 +113,8 @@ public class SpellCast : MonoBehaviour
     
     private void CastUlt()
     {
-        //TODO:更新此机制。
-        if (!state.ConsumeEnergy(10))
+        //TODO:更新此机制: 冰冻特效
+        if (!state.ConsumeEnergy(state.CurrentDamage * 1.5f))
         {
             return;
         };
@@ -148,8 +146,9 @@ public class SpellCast : MonoBehaviour
                 if (enemyHealth != null)
                 {
                     // 对敌人造成伤害
-                    enemyHealth.Damage(damage.CurrentDamage * 4);
-
+                    enemyHealth.Damage(state.CurrentDamage * 2);
+                    enemy.attachedRigidbody.velocity = Vector3.zero;
+                    StartCoroutine(enemy.GetComponent<MonsterBehaviour>().ApplyFreezeEffect(1 + state.GetCurrentLevel() * 0.2f / 10f));
                     // 播放特效
                     if (spellingPartTransform != null)
                     {

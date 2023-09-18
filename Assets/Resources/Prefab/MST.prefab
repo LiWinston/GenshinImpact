@@ -284,7 +284,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 4.632, y: 0, z: 7.02}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 730206568510945220}
@@ -303,7 +303,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthAmountMax: 100
-  startingHealthAmount: 100
+  startingHealthAmount: 0
 --- !u!114 &5353251570761854213
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -321,11 +321,12 @@ MonoBehaviour:
   mstForwardForce: 3000
   attackCooldownInterval: 2
   moveForceCooldownInterval: 0.05
-  minAttackPower: 1
-  maxAttackPower: 3
-  rotationSpeed: 2
+  obstacleDetectionInterval: 3
+  minAttackPower: 4
+  maxAttackPower: 9
+  rotationSpeed: 8
   aimDistance: 15
-  chaseDistance: 20
+  chaseDistance: 8
   stalkMstSpeed: 1
   MaxMstSpeed: 2
   stalkAccRatio: 0.8
@@ -376,10 +377,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.19627333
-  m_Height: 0.874289
+  m_Radius: 0.20577502
+  m_Height: 0.8650289
   m_Direction: 1
-  m_Center: {x: -0.012136459, y: 0.41452298, z: -0.017478943}
+  m_Center: {x: -0.012136459, y: 0.419153, z: -0.007977247}
 --- !u!1 &986807896210216346
 GameObject:
   m_ObjectHideFlags: 0
@@ -2529,6 +2530,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   getHealthSystemGameObject: {fileID: 932865806192016074}
   image: {fileID: 8687147699228655164}
+  fillSpeed: 2
 --- !u!1 &6790461587359265539
 GameObject:
   m_ObjectHideFlags: 0
