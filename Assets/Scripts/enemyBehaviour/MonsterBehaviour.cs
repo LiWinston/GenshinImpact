@@ -32,16 +32,16 @@ public class MonsterBehaviour : MonoBehaviour, IPoolable
     private int monsterExperience;
     [SerializeField] private float aimDistance;
     [SerializeField] private float chaseDistance;
-    [SerializeField] private float stalkMstSpeed = 1f;
+    // [SerializeField] private float stalkMstSpeed = 1f;
     [SerializeField] private float MaxMstSpeed = 2f;
-    [SerializeField] private float stalkAccRatio = 0.8f;
+    // [SerializeField] private float stalkAccRatio = 0.8f;
     [SerializeField] private float attackDistance = 1.5f;
     private bool isMoving;
     private State _state;
     private float curDistance;
 
     [InspectorLabel("Freeze")]
-    private bool isFrozen = false; // 表示怪物是否处于冰冻状态
+    private bool isFrozen; // 表示怪物是否处于冰冻状态
     private float originalMoveForce;
     private float originalAttackCooldownInterval;
     private float originalMaxMstSpeed;
