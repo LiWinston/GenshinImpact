@@ -19,7 +19,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1301686439504549740
 RectTransform:
   m_ObjectHideFlags: 0
@@ -101,7 +101,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: EXP 8
+  m_text: EXP 1
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 125cb55b44b24c4393181402bc6200e6, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 125cb55b44b24c4393181402bc6200e6, type: 2}
@@ -111,7 +111,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 6351213
-  m_fontColor: {r: 0.4257208, g: 0.9150943, b: 0.375534, a: 0.10629862}
+  m_fontColor: {r: 0.4257208, g: 0.9150943, b: 0.375534, a: 6e-45}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -481,8 +481,8 @@ MonoBehaviour:
   plyctl: {fileID: 0}
   forwardOffset: -2
   upwardOffset: 0.4
-  FPforwardOffset: 0.3
-  FPupwardOffset: 0.1
+  FPforwardOffset: 0.2
+  FPupwardOffset: 0
 --- !u!114 &3090013106338420035
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -754,7 +754,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 79
+  field of view: 82
   orthographic: 0
   orthographic size: 5
   m_Depth: 0

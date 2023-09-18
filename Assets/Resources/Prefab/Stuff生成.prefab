@@ -16,7 +16,7 @@ GameObject:
   m_Layer: 0
   m_Name: "Stuff\u751F\u6210"
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 3936346786652291628, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -30,7 +30,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -3.64, y: 0, z: 1.69}
-  m_LocalScale: {x: 0.8066077, y: 5.290056, z: 0.8066077}
+  m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -48,11 +48,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 932865806192016074, guid: 129b0652518cb7a47a918ed79ca4fd4e, type: 3}
-  initialSpawnInterval: 8
-  minSpawnInterval: 4
+  initialSpawnInterval: 6
+  minSpawnInterval: 0.5
   spawnHeight: 0
-  accelerationRate: 0.1
-  maxExistTime: 30
+  accelerationRate: 0.09
+  maxExistTime: 40
   defaultCapacity: 40
   maxCapacity: 100
   countAll: 0
@@ -71,8 +71,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 825039665692490759, guid: d1374f3407b5db04288d6432aa72a955, type: 3}
-  initialSpawnInterval: 6
-  minSpawnInterval: 2
+  initialSpawnInterval: 5
+  minSpawnInterval: 3
   spawnHeight: 1
   accelerationRate: 0.1
   maxExistTime: 10
@@ -117,7 +117,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 4599387510405099364, guid: ba55e396ec0138643b834e92da85ed3b, type: 3}
-  initialSpawnInterval: 14
+  initialSpawnInterval: 11
   minSpawnInterval: 2
   spawnHeight: 1
   accelerationRate: 0.1

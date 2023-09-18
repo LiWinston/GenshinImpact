@@ -321,11 +321,12 @@ MonoBehaviour:
   mstForwardForce: 3000
   attackCooldownInterval: 2
   moveForceCooldownInterval: 0.05
+  obstacleDetectionInterval: 3
   minAttackPower: 4
   maxAttackPower: 9
   rotationSpeed: 2
   aimDistance: 15
-  chaseDistance: 20
+  chaseDistance: 8
   stalkMstSpeed: 1
   MaxMstSpeed: 2
   stalkAccRatio: 0.8

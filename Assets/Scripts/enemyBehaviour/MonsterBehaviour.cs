@@ -25,7 +25,7 @@ public class MonsterBehaviour : MonoBehaviour, IPoolable
     [SerializeField] private float maxAttackPower = 10;
     
     
-     public float rotationSpeed = 0.001f; // 调整旋转速度
+     public float rotationSpeed = 0.5f; // 调整旋转速度
      
     // private float gameTime = Time.time;
     private float monsterLevel;
