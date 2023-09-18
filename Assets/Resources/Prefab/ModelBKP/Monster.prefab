@@ -175,14 +175,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetPlayer: {fileID: 0}
-  attackDistance: 0.7
-  chaseDistance: 20
+  animator: {fileID: 0}
   mstForwardForce: 100
   attackCooldownInterval: 2
   moveForceCooldownInterval: 0.05
+  obstacleDetectionInterval: 3
   minAttackPower: 1
   maxAttackPower: 3
-  rotationSpeed: 180
+  rotationSpeed: 2
+  aimDistance: 15
+  chaseDistance: 20
+  stalkMstSpeed: 1
+  MaxMstSpeed: 2
+  stalkAccRatio: 0.8
+  attackDistance: 0.7
 --- !u!195 &3233922365591628871
 NavMeshAgent:
   m_ObjectHideFlags: 0

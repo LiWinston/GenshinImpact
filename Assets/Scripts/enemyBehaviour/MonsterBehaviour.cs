@@ -25,13 +25,13 @@ public class MonsterBehaviour : MonoBehaviour, IPoolable
     [SerializeField] private float maxAttackPower = 10;
     
     
-     public float rotationSpeed = 0.5f; // 调整旋转速度
+     public float rotationSpeed = 2f; // 调整旋转速度
      
     // private float gameTime = Time.time;
     private float monsterLevel;
     private int monsterExperience;
-    [SerializeField] private float aimDistance = 15;
-    [SerializeField] private float chaseDistance = 8f;
+    [SerializeField] private float aimDistance;
+    [SerializeField] private float chaseDistance;
     [SerializeField] private float stalkMstSpeed = 1f;
     [SerializeField] private float MaxMstSpeed = 2f;
     [SerializeField] private float stalkAccRatio = 0.8f;
@@ -112,7 +112,7 @@ public class MonsterBehaviour : MonoBehaviour, IPoolable
             return;
         }
         
-        isMoving = rb.velocity.magnitude > 0.1f;
+        isMoving = rb.velocity.magnitude > 0.01f;
         animator.SetBool("isMoving", isMoving);
 
         // Decrease the move force cooldown timer
@@ -122,21 +122,21 @@ public class MonsterBehaviour : MonoBehaviour, IPoolable
         attackCooldownTimer -= Time.deltaTime;
 
         curDistance = Vector3.Distance(transform.position, targetPlayer.transform.position);
-        if (curDistance <= aimDistance && curDistance > attackDistance)
+        if (curDistance <= chaseDistance && curDistance > attackDistance)
         {
-            if (curDistance > chaseDistance)
-            {
-                if (rb.velocity.magnitude < stalkMstSpeed)
-                {
-                    rb.AddForce(transform.forward * (stalkAccRatio * mstForwardForce), ForceMode.Force);
-                    moveForceTimerCounter = moveForceCooldownInterval;
-                }
-            }
-            else if (curDistance <= chaseDistance)
+            // if (curDistance > chaseDistance)
+            // {
+            //     if (rb.velocity.magnitude < stalkMstSpeed)
+            //     {
+            //         rb.AddForce(transform.forward * (stalkAccRatio * mstForwardForce), ForceMode.Force);
+            //         moveForceTimerCounter = moveForceCooldownInterval;
+            //     }
+            // }
+            if (curDistance <= chaseDistance)
             {
                 obstacleDetectionTimer -= Time.deltaTime;
 
-                isMoving = rb.velocity.magnitude > 0.1f;
+                isMoving = rb.velocity.magnitude > 0.01f;
                 animator.SetBool("isMoving", isMoving);
 
                 // 如果计时器小于等于0，进行障碍物检测
@@ -160,7 +160,7 @@ public class MonsterBehaviour : MonoBehaviour, IPoolable
             Attack();
             attackCooldownTimer = attackCooldownInterval;
         }
-        else
+        else//追击距离外 瞄准距离内
         {
             animator.SetBool("Near",false);
         }
@@ -180,9 +180,9 @@ public class MonsterBehaviour : MonoBehaviour, IPoolable
 
     void FixedUpdate()
     {
-        if (curDistance <= aimDistance)
+        if (curDistance <= aimDistance) //追击距离内
         {
-            animator.SetBool("Near",false);
+            animator.SetBool("Near",true);
             
             var directionToPly = targetPlayer.transform.position - transform.position;
             directionToPly.y = 0;
