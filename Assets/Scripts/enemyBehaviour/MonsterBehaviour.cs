@@ -135,27 +135,24 @@ public class MonsterBehaviour : MonoBehaviour, IPoolable
         curDistance = Vector3.Distance(transform.position, target.transform.position);
         if (curDistance <= chaseDistance && curDistance > attackDistance)
         {
-            if (curDistance <= chaseDistance)
+            obstacleDetectionTimer -= Time.deltaTime;
+
+            isMoving = rb.velocity.magnitude > 0.01f;
+            animator.SetBool("isMoving", isMoving);
+
+            // 如果计时器小于等于0，进行障碍物检测
+            if (obstacleDetectionTimer <= 0f)
             {
-                obstacleDetectionTimer -= Time.deltaTime;
+                // 在此处进行障碍物检测逻辑，包括尝试跳跃和避免障碍物的移动逻辑
+                ObstacleHandle();
 
-                isMoving = rb.velocity.magnitude > 0.01f;
-                animator.SetBool("isMoving", isMoving);
-
-                // 如果计时器小于等于0，进行障碍物检测
-                if (obstacleDetectionTimer <= 0f)
-                {
-                    // 在此处进行障碍物检测逻辑，包括尝试跳跃和避免障碍物的移动逻辑
-                    ObstacleHandle();
-
-                    // 重置计时器
-                    obstacleDetectionTimer = obstacleDetectionInterval;
-                }
-                if (rb.velocity.magnitude < MaxMstSpeed)
-                {
-                    rb.AddForce(transform.forward * mstForwardForce, ForceMode.Force);
-                    moveForceTimerCounter = moveForceCooldownInterval;
-                }
+                // 重置计时器
+                obstacleDetectionTimer = obstacleDetectionInterval;
+            }
+            if (rb.velocity.magnitude < MaxMstSpeed)
+            {
+                rb.AddForce(transform.forward * mstForwardForce, ForceMode.Force);
+                moveForceTimerCounter = moveForceCooldownInterval;
             }
         }
         else if (target && curDistance < attackDistance && attackCooldownTimer <= 0)
