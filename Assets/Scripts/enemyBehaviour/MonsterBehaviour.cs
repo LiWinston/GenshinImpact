@@ -16,8 +16,8 @@ public class MonsterBehaviour : MonoBehaviour, IPoolable
 
     private void Awake()
     {
-        enemyLayer = LayerMask.NameToLayer("Enemy");
-        playerLayer = LayerMask.NameToLayer("Player");
+        enemyLayer = LayerMask.GetMask("Enemy");
+        playerLayer = LayerMask.GetMask("Player");
     }
 
     private Rigidbody rb;
@@ -131,8 +131,16 @@ public class MonsterBehaviour : MonoBehaviour, IPoolable
         // Decrease the attack cooldown timer
         attackCooldownTimer -= Time.deltaTime;
 
-        target = IsInSelfKill ? PickAlly() :targetPlayer.GameObject();
-        curDistance = Vector3.Distance(transform.position, target.transform.position);
+        if (IsInSelfKill)
+        {
+            target = PickAlly();//距离更新已经写在择敌方法中
+        }
+        else
+        {
+            target = targetPlayer.GameObject();
+            curDistance = Vector3.Distance(transform.position, target.transform.position);
+        }
+        
         if (curDistance <= chaseDistance && curDistance > attackDistance)
         {
             obstacleDetectionTimer -= Time.deltaTime;
@@ -173,14 +181,43 @@ public class MonsterBehaviour : MonoBehaviour, IPoolable
             Debug.LogWarning("保持原敌");
             return target;
         }
+        // 获取所有在怪物周围的敌人
         Collider[] nearEnemies = Physics.OverlapSphere(transform.position, chaseDistance, enemyLayer);
-        if (nearEnemies.Length != 0)
+
+        // 初始化最近敌人和最近距离
+        GameObject nearestEnemy = null;
+        float nearestDistance = float.MaxValue;
+
+        // 遍历所有附近的敌人
+        foreach (Collider enemyCollider in nearEnemies)
         {
-            Debug.LogWarning("已树敌");
-            return nearEnemies[0].gameObject;
+            if (enemyCollider.gameObject == gameObject) continue;
+            // 检查敌人是否存活
+            MonsterBehaviour enemyMonster = enemyCollider.GetComponent<MonsterBehaviour>();
+            if (enemyMonster != null && !enemyMonster.health.IsDead())
+            {
+                // 计算距离
+                float distance = Vector3.Distance(transform.position, enemyCollider.transform.position);
+
+                // 如果找到更近的敌人，更新最近敌人和距离
+                if (distance < nearestDistance)
+                {
+                    nearestEnemy = enemyCollider.gameObject;
+                    nearestDistance = distance;
+                }
+            }
         }
-        Debug.LogWarning("未树新敌");
-        return target;
+        curDistance = nearestDistance;
+        
+        if (nearestEnemy != null)
+        {
+            return nearestEnemy;
+        }
+        else
+        {
+            // 如果没有找到最近的敌人，返回当前目标
+            return gameObject;
+        }
     }
 
     private void ObstacleHandle()
@@ -212,19 +249,24 @@ public class MonsterBehaviour : MonoBehaviour, IPoolable
      private void Attack()
     {
         // UIManager.Instance.ShowMessage1("揍你！");
-        animator.SetTrigger("AttackTrigger");
         if (!IsInSelfKill)
         {
+            animator.SetTrigger("AttackTrigger");
             targetPlayer.TakeDamage(monsterLevel/20 * Random.Range(minAttackPower, maxAttackPower));
         }
         else
         {
-            target.GetComponent<MonsterBehaviour>().TakeDamage(monsterLevel/20 * Random.Range(minAttackPower, maxAttackPower));
+            if (target.gameObject != gameObject)
+            {
+                animator.SetTrigger("AttackTrigger");
+            }
+            target.GetComponent<MonsterBehaviour>().TakeDamage(400 + monsterLevel/20 * Random.Range(minAttackPower, maxAttackPower));
         }
     }
 
      internal void TakeDamage(float dmg)
      {
+         animator.SetTrigger("Hurt");
          health.Damage(dmg);
      }
 
