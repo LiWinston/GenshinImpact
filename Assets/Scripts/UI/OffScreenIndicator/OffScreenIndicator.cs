@@ -14,7 +14,7 @@ public class OffScreenIndicator : MonoBehaviour
     [Tooltip("Distance offset of the indicators from the centre of the screen")]
     [SerializeField] private float screenBoundOffset = 0.9f;
 
-    private Camera mainCamera;
+    // private Camera mainCamera;
     private Vector3 screenCentre;
     private Vector3 screenBounds;
 
@@ -24,7 +24,8 @@ public class OffScreenIndicator : MonoBehaviour
 
     void Awake()
     {
-        mainCamera = Camera.main;
+        // mainCamera = Camera.main;
+        // mainCamera = Camera.current;
         screenCentre = new Vector3(Screen.width, Screen.height, 0) / 2;
         screenBounds = screenCentre * screenBoundOffset;
         TargetStateChanged += HandleTargetStateChanged;
@@ -42,9 +43,9 @@ public class OffScreenIndicator : MonoBehaviour
     {
         foreach(Target target in targets)
         {
-            Vector3 screenPosition = OffScreenIndicatorCore.GetScreenPosition(mainCamera, target.GetIndicatorDrawTransform().position);
+            Vector3 screenPosition = OffScreenIndicatorCore.GetScreenPosition(Camera.main, target.GetIndicatorDrawTransform().position);
             bool isTargetVisible = OffScreenIndicatorCore.IsTargetVisible(screenPosition);
-            float distanceFromCamera = target.NeedDistanceText ? target.GetDistanceFromCamera(mainCamera.transform.position) : float.MinValue;// Gets the target distance from the camera.
+            float distanceFromCamera = target.NeedDistanceText ? target.GetDistanceFromCamera(Camera.main.transform.position) : float.MinValue;// Gets the target distance from the camera.
             Indicator indicator = null;
 
             if(target.NeedBoxIndicator && isTargetVisible)

@@ -13,12 +13,7 @@ public class MonsterBehaviour : MonoBehaviour, IPoolable
     private GameObject target;
     private LayerMask enemyLayer;
     private LayerMask playerLayer;
-
-    private void Awake()
-    {
-        enemyLayer = LayerMask.GetMask("Enemy");
-        playerLayer = LayerMask.GetMask("Player");
-    }
+    
 
     private Rigidbody rb;
     public Animator animator;
@@ -58,7 +53,8 @@ public class MonsterBehaviour : MonoBehaviour, IPoolable
     
     //[][][][][][][][]
     public UnityEngine.Pool.ObjectPool<GameObject> pool;
-    
+    private Target targetComponent;
+
     public void SetPool(UnityEngine.Pool.ObjectPool<GameObject> pool)
     {
         this.pool = pool;
@@ -72,9 +68,16 @@ public class MonsterBehaviour : MonoBehaviour, IPoolable
 
     public void actionOnRelease()
     {
-        IsInSelfKill = false;
+        targetComponent.targetColor = Color.red;
     }
-
+    
+    private void Awake()
+    {
+        enemyLayer = LayerMask.GetMask("Enemy");
+        playerLayer = LayerMask.GetMask("Player");
+        targetComponent = GetComponent<Target>();
+    }
+    
     private void Start()
     {
         targetPlayer = GameObject.Find("Player").GetComponent<PlayerController>();
@@ -119,6 +122,7 @@ public class MonsterBehaviour : MonoBehaviour, IPoolable
         {
             _state.AddExperience(this.monsterExperience);
             targetPlayer.showExp("EXP " + this.monsterExperience);
+            DeactivateSelfKillMode();
             StartCoroutine(nameof(PlayDeathEffects));
             return;
         }
@@ -310,11 +314,40 @@ public class MonsterBehaviour : MonoBehaviour, IPoolable
             isFrozen = false;
         }
     }
+    
+    public void ActivateSelfKillMode(float elapseT)
+    {
+        selfKillCoroutine = StartCoroutine(SelfKillCoroutine(elapseT));
+    }
 
-    public IEnumerator ActivateSelfKillMode(float elapseT)
+    public void DeactivateSelfKillMode()
+    {
+        IsInSelfKill = false;
+        StopCoroutine(selfKillCoroutine);
+    }
+    public Coroutine selfKillCoroutine { get; set; }
+
+    private IEnumerator SelfKillCoroutine(float elapseT)
     {
         IsInSelfKill = true;
-        yield return new WaitForSeconds(elapseT);
+        var orgTargetColor = targetComponent.targetColor;
+        Color startColor = Color.green;
+        float elapsedTime = 0f;
+
+        while (elapsedTime < elapseT)
+        {
+            float t = Mathf.Clamp01(elapsedTime / elapseT);
+            targetComponent.targetColor = Color.Lerp(startColor, orgTargetColor, t);
+
+            yield return new WaitForSeconds(1f); // 等待1秒钟
+            elapsedTime += 1f;
+        }
+
+        // Ensure the final color is exactly the original color.
+        targetComponent.targetColor = orgTargetColor;
+
+        yield return null; // 保证协程执行完整
+
         IsInSelfKill = false;
     }
 
