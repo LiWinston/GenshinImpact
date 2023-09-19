@@ -72,6 +72,7 @@ public class MonsterBehaviour : MonoBehaviour, IPoolable
 
     public void actionOnRelease()
     {
+        IsInSelfKill = false;
     }
 
     private void Start()
