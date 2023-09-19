@@ -81,11 +81,11 @@ public class ParticleEffectManager : MonoBehaviour
         while (elapsedTime < duration)
         {
             float lerpValue = elapsedTime / duration;
-            Color lerpedColor = Color.Lerp(startColor, endColor, lerpValue);
+            // Color lerpedColor = Color.Lerp(startColor, endColor, lerpValue);
 
             // 修改粒子系统的颜色
-            var main = particleSystem.main;
-            main.startColor = lerpedColor;
+            // var main = particleSystem.main;
+            // main.startColor = lerpedColor;
 
             elapsedTime += Time.deltaTime;
             yield return null;

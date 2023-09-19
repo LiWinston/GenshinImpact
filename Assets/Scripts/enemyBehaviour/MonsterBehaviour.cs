@@ -295,10 +295,7 @@ namespace enemyBehaviour
     
         public void ActivateFreezeMode(float duration)
         {
-            if (!isFrozen)
-            {
-                freezeEffectCoroutine = StartCoroutine(FreezeEffectCoroutine(duration));
-            }
+            freezeEffectCoroutine = StartCoroutine(FreezeEffectCoroutine(duration));
         }
         internal Coroutine freezeEffectCoroutine { get; set; }
 
@@ -323,6 +320,8 @@ namespace enemyBehaviour
             MaxMstSpeed = originalMaxMstSpeed;
             isFrozen = false;
         }
+
+
     
         public void ActivateSelfKillMode(float elapseT)
         {
