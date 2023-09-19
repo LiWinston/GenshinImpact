@@ -265,6 +265,7 @@ GameObject:
   - component: {fileID: 4835178461767978829}
   - component: {fileID: 1913477348650689022}
   - component: {fileID: 5353251570761854213}
+  - component: {fileID: 1725506762452342574}
   - component: {fileID: 1928511585271000626}
   - component: {fileID: 3207376126136473266}
   m_Layer: 7
@@ -329,6 +330,24 @@ MonoBehaviour:
   chaseDistance: 8
   MaxMstSpeed: 2.2
   attackDistance: 1
+--- !u!114 &1725506762452342574
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 932865806192016074}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 411060de4483b5e4c9847cd3cbc18554, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetColor: {r: 0.7264151, g: 0.22957456, b: 0.30500427, a: 1}
+  needBoxIndicator: 1
+  needArrowIndicator: 1
+  needDistanceText: 1
+  boxIndicatorDrawAtTransform: {fileID: 404395535939509762}
+  indicator: {fileID: 0}
 --- !u!54 &1928511585271000626
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2502,7 +2521,7 @@ RectTransform:
   m_GameObject: {fileID: 6667352392150993703}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 0.725, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8947545193359375251}
