@@ -59,7 +59,7 @@ public class PlayerController : MonoBehaviour
 
     private Vector3 originalPosition;
     [SerializeField] private float MAX_ALLOWED_INTERACT_RANGE = 3;
-    private bool isGrounded;
+    internal bool isGrounded;
     public float moveForceTimer = 0.05f;
     public float moveForceTimerCounter = 0.05f;
     

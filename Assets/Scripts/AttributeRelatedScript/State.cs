@@ -273,7 +273,7 @@ public class State : MonoBehaviour
             }
         }
 
-        if (plyctl is { isCrouching: true, isMoving: false })//蹲且不走
+        if (plyctl is { isGrounded:true, isCrouching: true, isMoving: false })//蹲且不走
         {
             if (!isCrouchingCooldown && !isInZenMode)//
             {
