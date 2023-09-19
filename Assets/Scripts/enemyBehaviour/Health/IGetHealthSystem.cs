@@ -1,5 +1,5 @@
 ﻿
-namespace CodeMonkey.HealthSystemCM {
+namespace enemyBehaviour.Health {
 
     /// <summary>
     /// Interface to decouple objects that need to interact with the Health System from whatever object creates it.

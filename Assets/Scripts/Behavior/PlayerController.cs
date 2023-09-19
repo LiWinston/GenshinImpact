@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using CodeMonkey.HealthSystemCM;
+using enemyBehaviour.Health;
 using TMPro;
 using UI;
 using Unity.Mathematics;

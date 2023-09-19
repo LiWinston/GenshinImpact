@@ -11,9 +11,10 @@
  */
 
 using System;
+using CodeMonkey.HealthSystemCM;
 using UnityEngine;
 
-namespace CodeMonkey.HealthSystemCM {
+namespace enemyBehaviour.Health {
 
     /// <summary>
     /// Health System: Damage, Heal, fires several events when data changes.
