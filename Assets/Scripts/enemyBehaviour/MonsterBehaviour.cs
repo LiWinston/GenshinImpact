@@ -84,7 +84,7 @@ public class MonsterBehaviour : MonoBehaviour, IPoolable
         }
         _state = targetPlayer.GetComponent<State>();
         animator = GetComponentInChildren<Animator>();
-        if (targetPlayer == null)
+        if (animator == null)
         {
             Debug.LogWarning("No Animator Compoment found.");
         }
