@@ -1,10 +1,6 @@
 using System.Collections;
-using System.Collections.Generic;
-using AttributeRelatedScript;
 using CodeMonkey.HealthSystemCM;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class SpellCast : MonoBehaviour
 {

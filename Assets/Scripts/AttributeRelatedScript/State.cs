@@ -87,7 +87,6 @@ public class State : MonoBehaviour
     private bool isCrouchingCooldown; // 用于记录下蹲后的冷却状态
     private float _shakeBeforeZenMode = 1.5f; // 下蹲冷却时长施法前摇
     internal bool isInZenMode; // 是否处于禅模式
-    private float zenModeHealthModifier = 1.35f; // 禅模式下的生命值修改器
     private float zenModeHealthRegenModifier = 1.5f; // 禅模式下的生命值恢复速度修改器
     private float zenModeP2EConversionSpeed; // 禅模式下的体力转化率
     private float temporaryHealthRegenRate; // 临时的生命值恢复速度
