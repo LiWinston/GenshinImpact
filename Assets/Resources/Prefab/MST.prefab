@@ -327,9 +327,7 @@ MonoBehaviour:
   rotationSpeed: 8
   aimDistance: 15
   chaseDistance: 8
-  stalkMstSpeed: 1
   MaxMstSpeed: 2
-  stalkAccRatio: 0.8
   attackDistance: 0.7
 --- !u!54 &1928511585271000626
 Rigidbody:
@@ -2530,7 +2528,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   getHealthSystemGameObject: {fileID: 932865806192016074}
   image: {fileID: 8687147699228655164}
-  fillSpeed: 2
+  fillSpeed: 5
 --- !u!1 &6790461587359265539
 GameObject:
   m_ObjectHideFlags: 0
