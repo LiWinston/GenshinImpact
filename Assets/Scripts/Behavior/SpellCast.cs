@@ -48,7 +48,7 @@ public class SpellCast : MonoBehaviour
         }
     }
 
-    
+        
     private void CastSpell()
     {
         //TODO:更新此机制。
@@ -67,7 +67,7 @@ public class SpellCast : MonoBehaviour
         {
             Debug.LogError("无法播放特效，因为 Weapon Transform 未指定！");
         }
-        // 获取玩家的位置
+        // 玩家的位置
         Vector3 playerPosition = transform.position;
 
         // 检测在法术范围内的敌人
@@ -84,8 +84,15 @@ public class SpellCast : MonoBehaviour
                 if (enemyHealth != null)
                 {
                     // 对敌人造成伤害
-                    enemyHealth.Damage(state.CurrentDamage);
-
+                    float damageAmount = state.CurrentDamage;
+                    enemyHealth.Damage(damageAmount);
+                    
+                    // 计算持续掉血的总量（20％的伤害）
+                    float continuousDamageAmount = damageAmount * 0.2f;
+                    StartCoroutine(enemy.GetComponent<MonsterBehaviour>().ApplyFreezeEffect(3f + state.GetCurrentLevel() * 0.2f / 10f));
+                    // 启动持续掉血的协程
+                    StartCoroutine(ContinuousDamage(enemyHealth, continuousDamageAmount));
+                    
                     // 播放特效
                     if (spellingPartTransform != null)
                     {
@@ -102,18 +109,36 @@ public class SpellCast : MonoBehaviour
                             ParticleEffectManager.Instance.PlayParticleEffect("HitBySpell", enemy.gameObject, Quaternion.identity,
                                 Color.red, Color.black, 1f);
                         }
-                        // ParticleEffectManager.Instance.PlayParticleEffect("HitBySpell", enemy.gameObject,
-                        //     Quaternion.identity,
-                        //     Color.cyan, Color.green, 1f);
                     }
                 }
             }
         }
     }
+
+    // 协程来实现持续掉血
+    private IEnumerator ContinuousDamage(HealthSystem enemyHealth, float damageAmount)
+    {
+        // 持续掉血的时间，可以根据需要进行调整
+        float continuousDamageDuration = 3.0f;
+        
+        float timer = 0f;
+        
+        while (timer < continuousDamageDuration)
+        {
+            // 对敌人造成持续伤害
+            enemyHealth.Damage(damageAmount * Time.deltaTime);
+            
+            // 等待一帧
+            yield return null;
+            
+            timer += Time.deltaTime;
+        }
+    }
+
     
     private void CastUlt()
     {
-        //TODO:更新此机制: 冰冻特效
+        
         if (!state.ConsumeEnergy(state.CurrentDamage * 1.5f))
         {
             return;
@@ -147,8 +172,7 @@ public class SpellCast : MonoBehaviour
                 {
                     // 对敌人造成伤害
                     enemyHealth.Damage(state.CurrentDamage * 2);
-                    enemy.attachedRigidbody.velocity = Vector3.zero;
-                    StartCoroutine(enemy.GetComponent<MonsterBehaviour>().ApplyFreezeEffect(1 + state.GetCurrentLevel() * 0.2f / 10f));
+                    enemy.GetComponent<MonsterBehaviour>().ActivateSelfKillMode();
                     // 播放特效
                     if (spellingPartTransform != null)
                     {
