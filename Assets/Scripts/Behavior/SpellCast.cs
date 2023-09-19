@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using AttributeRelatedScript;
 using CodeMonkey.HealthSystemCM;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -70,9 +71,10 @@ public class SpellCast : MonoBehaviour
         // 玩家的位置
         Vector3 playerPosition = transform.position;
 
-        // 检测在法术范围内的敌人
-        Collider[] hitEnemies = Physics.OverlapSphere(playerPosition, spellRange);
-
+        // 检测在法术范围内的敌人 TODO:??? Layer就不行
+        Collider[] hitEnemies = Physics.OverlapSphere(playerPosition, spellRange, LayerMask.GetMask("Enemy"));
+        Debug.LogWarning("检测到 "+hitEnemies.Length + "Enemy");
+        // Collider[] hitEnemies = Physics.OverlapSphere(playerPosition, spellRange);
         foreach (Collider enemy in hitEnemies)
         {
             // 检查是否敌人
@@ -172,7 +174,7 @@ public class SpellCast : MonoBehaviour
                 {
                     // 对敌人造成伤害
                     enemyHealth.Damage(state.CurrentDamage * 2);
-                    enemy.GetComponent<MonsterBehaviour>().ActivateSelfKillMode();
+                    StartCoroutine(enemy.GetComponent<MonsterBehaviour>().ActivateSelfKillMode(20));
                     // 播放特效
                     if (spellingPartTransform != null)
                     {
