@@ -10,9 +10,19 @@ using Random = UnityEngine.Random;
 public class MonsterBehaviour : MonoBehaviour, IPoolable
 {
     public PlayerController targetPlayer;
+    private GameObject target;
+    private LayerMask enemyLayer;
+    private LayerMask playerLayer;
+
+    private void Awake()
+    {
+        enemyLayer = LayerMask.NameToLayer("Enemy");
+        playerLayer = LayerMask.NameToLayer("Player");
+    }
+
     private Rigidbody rb;
     public Animator animator;
-    private HealthSystem health;
+    internal HealthSystem health;
     [SerializeField] private float mstForwardForce = 200;
     private float attackCooldownTimer;
     [SerializeField] private float attackCooldownInterval = 2f;
@@ -121,17 +131,10 @@ public class MonsterBehaviour : MonoBehaviour, IPoolable
         // Decrease the attack cooldown timer
         attackCooldownTimer -= Time.deltaTime;
 
-        curDistance = Vector3.Distance(transform.position, targetPlayer.transform.position);
+        target = IsInSelfKill ? PickAlly() :targetPlayer.GameObject();
+        curDistance = Vector3.Distance(transform.position, target.transform.position);
         if (curDistance <= chaseDistance && curDistance > attackDistance)
         {
-            // if (curDistance > chaseDistance)
-            // {
-            //     if (rb.velocity.magnitude < stalkMstSpeed)
-            //     {
-            //         rb.AddForce(transform.forward * (stalkAccRatio * mstForwardForce), ForceMode.Force);
-            //         moveForceTimerCounter = moveForceCooldownInterval;
-            //     }
-            // }
             if (curDistance <= chaseDistance)
             {
                 obstacleDetectionTimer -= Time.deltaTime;
@@ -155,7 +158,7 @@ public class MonsterBehaviour : MonoBehaviour, IPoolable
                 }
             }
         }
-        else if (targetPlayer && curDistance < attackDistance && attackCooldownTimer <= 0)
+        else if (target && curDistance < attackDistance && attackCooldownTimer <= 0)
         {
             Attack();
             attackCooldownTimer = attackCooldownInterval;
@@ -164,6 +167,23 @@ public class MonsterBehaviour : MonoBehaviour, IPoolable
         {
             animator.SetBool("Near",false);
         }
+    }
+
+    private GameObject PickAlly()
+    {
+        if (target.layer == enemyLayer && !target.GetComponent<MonsterBehaviour>().health.IsDead())
+        {
+            Debug.LogWarning("保持原敌");
+            return target;
+        }
+        Collider[] nearEnemies = Physics.OverlapSphere(transform.position, chaseDistance, enemyLayer);
+        if (nearEnemies.Length != 0)
+        {
+            Debug.LogWarning("已树敌");
+            return nearEnemies[0].gameObject;
+        }
+        Debug.LogWarning("未树新敌");
+        return target;
     }
 
     private void ObstacleHandle()
@@ -184,7 +204,7 @@ public class MonsterBehaviour : MonoBehaviour, IPoolable
         {
             animator.SetBool("Near",true);
             
-            var directionToPly = targetPlayer.transform.position - transform.position;
+            var directionToPly = target.transform.position - transform.position;
             directionToPly.y = 0;
             directionToPly.Normalize();
             Quaternion targetRotation = Quaternion.LookRotation(directionToPly);
@@ -196,8 +216,20 @@ public class MonsterBehaviour : MonoBehaviour, IPoolable
     {
         // UIManager.Instance.ShowMessage1("揍你！");
         animator.SetTrigger("AttackTrigger");
-        targetPlayer.TakeDamage(monsterLevel/20 * Random.Range(minAttackPower, maxAttackPower));
+        if (!IsInSelfKill)
+        {
+            targetPlayer.TakeDamage(monsterLevel/20 * Random.Range(minAttackPower, maxAttackPower));
+        }
+        else
+        {
+            target.GetComponent<MonsterBehaviour>().TakeDamage(monsterLevel/20 * Random.Range(minAttackPower, maxAttackPower));
+        }
     }
+
+     internal void TakeDamage(float dmg)
+     {
+         health.Damage(dmg);
+     }
 
     private IEnumerator PlayDeathEffects()
     {
@@ -238,4 +270,13 @@ public class MonsterBehaviour : MonoBehaviour, IPoolable
             isFrozen = false;
         }
     }
+
+    public IEnumerator ActivateSelfKillMode(float elapseT)
+    {
+        IsInSelfKill = true;
+        yield return new WaitForSeconds(elapseT);
+        IsInSelfKill = false;
+    }
+
+    public bool IsInSelfKill { get; set; }
 }

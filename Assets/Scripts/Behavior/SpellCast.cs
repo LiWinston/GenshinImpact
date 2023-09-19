@@ -172,7 +172,7 @@ public class SpellCast : MonoBehaviour
                 {
                     // 对敌人造成伤害
                     enemyHealth.Damage(state.CurrentDamage * 2);
-                    enemy.GetComponent<MonsterBehaviour>().ActivateSelfKillMode();
+                    StartCoroutine(enemy.GetComponent<MonsterBehaviour>().ActivateSelfKillMode(6));
                     // 播放特效
                     if (spellingPartTransform != null)
                     {
