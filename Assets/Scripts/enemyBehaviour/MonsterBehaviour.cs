@@ -53,6 +53,7 @@ namespace enemyBehaviour
         //[][][][][][][][]
         public UnityEngine.Pool.ObjectPool<GameObject> pool;
         private Target targetComponent;
+        private static readonly int Die = Animator.StringToHash("Die");
 
         public void SetPool(UnityEngine.Pool.ObjectPool<GameObject> pool)
         {
@@ -279,6 +280,7 @@ namespace enemyBehaviour
 
         private IEnumerator PlayDeathEffects()
         {
+            animator.SetTrigger(Die);
             ParticleEffectManager.Instance.PlayParticleEffect("MonsterDie", this.gameObject, Quaternion.identity, Color.red, Color.black, 1.2f);
             yield return new WaitForSeconds(1.2f);
             // Destroy(this.gameObject);
