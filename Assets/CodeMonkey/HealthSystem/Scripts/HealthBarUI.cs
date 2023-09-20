@@ -12,7 +12,7 @@ namespace CodeMonkey.HealthSystemCM {
 
         [SerializeField] private GameObject getHealthSystemGameObject;
         [SerializeField] private Image image;
-        [SerializeField] private float fillSpeed = 2f; // 调整这个值以控制填充速度
+        [SerializeField] private float fillSpeed = 5f; // 调整这个值以控制填充速度
 
         private HealthSystem healthSystem;
         private float targetFillAmount;

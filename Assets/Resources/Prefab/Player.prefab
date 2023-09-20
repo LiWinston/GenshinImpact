@@ -101,7 +101,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: EXP 1
+  m_text: EXP 92
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 125cb55b44b24c4393181402bc6200e6, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 125cb55b44b24c4393181402bc6200e6, type: 2}
@@ -111,7 +111,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 6351213
-  m_fontColor: {r: 0.4257208, g: 0.9150943, b: 0.375534, a: 0.0000034857874}
+  m_fontColor: {r: 0.4257208, g: 0.9150943, b: 0.375534, a: 0.0040675765}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -347,7 +347,7 @@ GameObject:
   - component: {fileID: 94393281984951438}
   - component: {fileID: 6507685321940979291}
   - component: {fileID: 4527048075143176695}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -400,7 +400,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 112
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
 --- !u!114 &5614921957825579036
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -452,7 +452,7 @@ MonoBehaviour:
   mouseSensitivity: 100
   forwardForce: 6000
   backwardRate: 0.9
-  jumpForce: 450
+  jumpForce: 600
   mycamera: {fileID: 691092138744490856}
   MAX_ALLOWED_INTERACT_RANGE: 3
   moveForceTimer: 0.08

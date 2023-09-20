@@ -12,6 +12,7 @@ public class Sword : MonoBehaviour
     private Animator animator;
     [SerializeField] private BoxCollider swordCollider;
     private HashSet<Collider> hitEnemies = new HashSet<Collider>();
+    private int enemyLayer;
 
     private void Start()
     {
@@ -27,6 +28,9 @@ public class Sword : MonoBehaviour
         animator = pCtrl.GetAnimator();
         if (!swordCollider) swordCollider = GetComponent<BoxCollider>();
         swordCollider.enabled = true;
+
+        // 获取敌人层级
+        enemyLayer = LayerMask.NameToLayer("Enemy");
     }
 
     private void Update()
@@ -34,32 +38,24 @@ public class Sword : MonoBehaviour
         if (!animator) animator = pCtrl.GetAnimator();
     }
 
-    private void OnTriggerEnter(Collider enemyCollider)
+    private void OnTriggerEnter(Collider other)
     {
-        if (!animator.GetBool("isAttacking")) return;
-        if (enemyCollider.CompareTag("Enemy") && !hitEnemies.Contains(enemyCollider))
-        {
-            // 剑碰到敌人时执行的操作
-            // UI.UIManager.Instance.ShowMessage2("Taste My Sword !!!(While a little stupid)");
+        if (!animator.GetBool("isAttacking") || other.gameObject.layer != enemyLayer || hitEnemies.Contains(other))
+            return;
 
-            HealthSystem healthSystem = enemyCollider.GetComponent<HealthSystemComponent>().GetHealthSystem();
-            if (healthSystem != null)
-            {
-                var dmg = pCtrl.GetDamage();
-                UIManager.Instance.ShowMessage1("A " + dmg + " Cut~");
-                healthSystem.Damage(dmg); // Inflict damage on enemies
-                hitEnemies.Add(enemyCollider); // 记录已攻击过的敌人
-            }
+        HealthSystem healthSystem = other.GetComponent<HealthSystemComponent>()?.GetHealthSystem();
+        if (healthSystem != null)
+        {
+            var dmg = pCtrl.GetDamage();
+            UIManager.Instance.ShowMessage1("A " + dmg + " Cut~");
+            healthSystem.Damage(dmg); // Inflict damage on enemies
+            hitEnemies.Add(other); // 记录已攻击过的敌人
         }
     }
 
-    // 当攻击结束时清空哈希表 Clear the hash table & SetBool False when the attack is over
     private void HandleAttackEnded()
     {
-        // UIManager.Instance.ShowMessage2("End了"); //END ATTACK SYMBOL
         animator.SetBool("isAttacking", false);
         hitEnemies.Clear();
     }
-
-    
 }

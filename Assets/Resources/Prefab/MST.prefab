@@ -267,7 +267,7 @@ GameObject:
   - component: {fileID: 5353251570761854213}
   - component: {fileID: 1928511585271000626}
   - component: {fileID: 3207376126136473266}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: MST
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -327,10 +327,8 @@ MonoBehaviour:
   rotationSpeed: 8
   aimDistance: 15
   chaseDistance: 8
-  stalkMstSpeed: 1
-  MaxMstSpeed: 2
-  stalkAccRatio: 0.8
-  attackDistance: 0.7
+  MaxMstSpeed: 2.2
+  attackDistance: 1
 --- !u!54 &1928511585271000626
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1585,7 +1583,7 @@ GameObject:
   - component: {fileID: 1318018912665562068}
   - component: {fileID: 6954434253834962467}
   - component: {fileID: 2365978672704804775}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: HealthBarUIWorldCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2530,7 +2528,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   getHealthSystemGameObject: {fileID: 932865806192016074}
   image: {fileID: 8687147699228655164}
-  fillSpeed: 2
+  fillSpeed: 5
 --- !u!1 &6790461587359265539
 GameObject:
   m_ObjectHideFlags: 0
