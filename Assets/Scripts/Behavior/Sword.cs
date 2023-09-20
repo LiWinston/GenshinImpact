@@ -17,7 +17,7 @@ public class Sword : MonoBehaviour
 
     private void Start()
     {
-        pCtrl = GameObject.Find("Player").GetComponent<PlayerController>();
+        pCtrl = PlayerController.Instance;
         if (pCtrl == null)
         {
             Debug.LogError("Player controller for sword not found!");

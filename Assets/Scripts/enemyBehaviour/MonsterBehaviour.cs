@@ -79,7 +79,7 @@ namespace enemyBehaviour
     
         private void Start()
         {
-            targetPlayer = GameObject.Find("Player").GetComponent<PlayerController>();
+            targetPlayer = PlayerController.Instance;
 
             if (targetPlayer == null)
             {
