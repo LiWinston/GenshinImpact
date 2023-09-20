@@ -106,10 +106,11 @@ public class State : MonoBehaviour
     private bool isCrouchingCooldown; // 用于记录下蹲后的冷却状态
     private float _shakeBeforeZenMode = 1.5f; // 下蹲冷却时长施法前摇
     internal bool isInZenMode; // 是否处于禅模式
-    private float zenModeHealthRegenModifier = 1.5f; // 禅模式下的生命值恢复速度修改器
+    private float zenModeHealthRegenModifier = 1.8f; // 禅模式下的生命值恢复速度修改器
     private float zenModeP2EConversionSpeed; // 禅模式下的体力转化率
-    private float temporaryHealthRegenRate; // 临时的生命值恢复速度
     private PlayerController plyctl;
+    private static readonly int IsCrouching = Animator.StringToHash("isCrouching");
+
     public delegate void ExitZenModeEventHandler();
     public static event ExitZenModeEventHandler OnExitZenMode;
     
@@ -288,13 +289,29 @@ public class State : MonoBehaviour
             }
         }
 
-        if (plyctl is { isGrounded:true, isCrouching: true, isMoving: false })//蹲且不走
+        // if (isInZenMode)
+        // {
+        //     // 检测是否按下了除了左控制键以外的其他键
+        //     if (Input.anyKeyDown || !Input.GetKeyDown(KeyCode.LeftControl))
+        //     {
+        //         ExitZenMode();
+        //     }
+        // }
+        if (!IsInCombat && plyctl.GetAnimator().GetBool(IsCrouching) && plyctl is { isGrounded:true, isMoving: false, isJumping: false})//蹲且不走
         {
             if (!isCrouchingCooldown && !isInZenMode)//
             {
                 isInZenMode = true;
                 isCrouchingCooldown = true;
                 StartCoroutine(EnterZenMode());// 若见诸相非相，即见如来
+            }
+
+            if (isInZenMode)
+            {
+                if (Input.anyKeyDown && !Input.GetKey(KeyCode.LeftControl))
+                {
+                    ExitZenMode();
+                }
             }
         }
         else
@@ -484,11 +501,21 @@ public class State : MonoBehaviour
         IsInCombat = Time.time < combatEndTime; // Player is considered in combat
     }
 
+    public float HealthRegenerationRate
+    {
+        get => isInZenMode ? zenModeHealthRegenModifier * healthRegenerationRate : healthRegenerationRate;
+        set => healthRegenerationRate = value;
+    }
+
+    private float DeltaHealthRegeneration => maxHealth * HealthRegenerationRate * (1.0f + (currentLevel - 1) * healthRegenAddition);
+
+    private float DeltaEnergyRegeneration =>
+        maxEnergy * energyRegenerationRate * (1.0f + (currentLevel - 1) * energyRegenAddition);
     private void RegenerateHealthAndEnergy()
     {
         // Regenerate health and energy based on regeneration rates and current level
-        Heal(maxHealth * healthRegenerationRate * (1.0f + (currentLevel - 1) * healthRegenAddition));
-        RestoreEnergy(maxEnergy * energyRegenerationRate * (1.0f + (currentLevel - 1) * energyRegenAddition));
+        Heal(DeltaHealthRegeneration);
+        RestoreEnergy(DeltaEnergyRegeneration);
         RestorePower(maxPower * powerRegenerationRate);
     }
 
@@ -530,13 +557,10 @@ public class State : MonoBehaviour
         const float levelRange = 100f; // 等级范围，即从1级到100级
         zenModeP2EConversionSpeed = minConversionSpeed + (maxConversionSpeed - minConversionSpeed) *
             Mathf.Log(1f + currentLevel) / Mathf.Log(1f + levelRange);
+        
 
-        // 保存当前的生命值恢复速度，以便禅模式结束后还原
-        temporaryHealthRegenRate = healthRegenerationRate;
-
-        // 修改生命值恢复速度
-        healthRegenerationRate *= zenModeHealthRegenModifier;
-
+        // // 修改生命值恢复速度
+        // healthRegenerationRate *= zenModeHealthRegenModifier;
         // 开始消耗体力并恢复能量
         StartCoroutine(P2EConvert_ZenMode());
     }
@@ -545,10 +569,10 @@ public class State : MonoBehaviour
     internal void ExitZenMode()
     {
         isInZenMode = false;
-        StopAllCoroutines();
         OnExitZenMode?.Invoke();//粒子系统停播
+        StopAllCoroutines();
         UIManager.Instance.ShowMessage2("ExitZenMode()");
-        healthRegenerationRate = temporaryHealthRegenRate;
+        // healthRegenerationRate = temporaryHealthRegenRate;
         zenModeP2EConversionSpeed = 0f;
         isCrouchingCooldown = false;
     }

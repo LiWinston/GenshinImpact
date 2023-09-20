@@ -46,7 +46,7 @@ public class PlayerController : MonoBehaviour
     public float mouseSensitivity = 100f;
 
     internal bool isMoving = false;
-    private bool isJumping = false;
+    internal bool isJumping = false;
     internal bool isCrouching = false;
     public float forwardForce = 100;
     public float backwardRate = 0.9f;
@@ -138,7 +138,7 @@ public class PlayerController : MonoBehaviour
     private void Update()
 
     {
-        if (Mathf.Abs(rb.velocity.y) < 0.1f)
+        if (Mathf.Abs(rb.velocity.y) < 5e-3)
         {
             isGrounded = true;
             isJumping = false; // reset
@@ -149,9 +149,9 @@ public class PlayerController : MonoBehaviour
         }
         animator.SetBool(IsGrounded,isGrounded);
         
-        isMoving = math.abs(rb.velocity.x) + math.abs(rb.velocity.z) > 0.01f;
+        isMoving = math.abs(rb.velocity.x) + math.abs(rb.velocity.z) > 0.1f;
 
-        animator.SetBool(Standing,!isMoving);
+        animator.SetBool(Standing,!isMoving && !isCrouching && !isJumping);
         animator.SetBool(IsMoving,isMoving);
 
         var horizontal = Input.GetAxis("Horizontal");
@@ -163,14 +163,15 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.E))
         {
+            
             // StartCoroutine("checkInteract");
             checkInteract();
         }
         
         if (Input.GetKeyDown(KeyCode.V)) 
         {
+            IsCrouching = false;
             animator.SetTrigger("HurricaneKickTrigger");
-        
             HurricaneKick();
         }
         
@@ -178,7 +179,7 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.LeftControl))
         {
             animator.SetTrigger(BeginCrouch);
-            isCrouching = true;
+                isCrouching = true;
         }
         
         if(Input.GetKeyUp(KeyCode.LeftControl))
@@ -241,9 +242,7 @@ public class PlayerController : MonoBehaviour
                 }
             }
         }
-    } 
-
- 
+    }
     
     /// <summary>
     /// /abandoned Attack function using range detect and angle limiting
@@ -292,16 +291,13 @@ public class PlayerController : MonoBehaviour
         }
     }
     */
-
-
-
-
+    
     public void UserInput()
     {
         if (Input.GetMouseButtonDown(0) && Time.time - lastAttackTime >= state.AttackCooldown)
         {
+            IsCrouching = false;
             rb.velocity *= speed_Ratio_Attack;
-            
             float criticalHitChance = _criticalHitCurve.CalculateCriticalHitChance(state.GetCurrentLevel());
             // Debug.Log(state.GetCurrentLevel() + "级暴击率" + criticalHitChance*100 +"%");
 
@@ -313,10 +309,11 @@ public class PlayerController : MonoBehaviour
         
         if (Input.GetKeyDown(KeyCode.Space) ) // Add a check to see if a jump has been made
         {
+            IsCrouching = false;
             if(isGrounded){
                 if(isJumping) return;
                 if(!isMoving){
-                    rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
+                    rb.AddForce(transform.up * (isCrouching ? 10f * jumpForce : jumpForce), ForceMode.Impulse);
                     animator.SetTrigger(Jump);
                     isJumping = true;
                     isGrounded = false;
@@ -383,7 +380,7 @@ public class PlayerController : MonoBehaviour
         {
             moveDirection.Normalize();
         }
-
+        
         if (!Input.GetKey(KeyCode.LeftShift))
         {
             // 您的现有移动逻辑
@@ -480,8 +477,8 @@ public class PlayerController : MonoBehaviour
                     
                     //TODO:动画播完在触发Pick()
                     rb.velocity = Vector3.zero;
+                    isCrouching = false;
                     StartCoroutine(GoPick(pickable));
-                    
                     hasPickable = true;
                     break;
                 }
@@ -590,6 +587,7 @@ public class PlayerController : MonoBehaviour
 
     public void TakeDamage(float dmg)
     {
+        isCrouching = false;
         animator.SetTrigger("Hurt");
         state.TakeDamage(dmg);
         if (state.IsEmptyHealth())
@@ -601,7 +599,7 @@ public class PlayerController : MonoBehaviour
     private IEnumerator GameOver()
     {
         animator.Play("Flying Back Death");
-        yield return new WaitForSeconds(3.1f);
+        yield return new WaitForSeconds(5f);
         SceneManager.LoadScene("LoseScene"); 
     }
 

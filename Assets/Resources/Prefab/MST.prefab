@@ -320,16 +320,16 @@ MonoBehaviour:
   targetPlayer: {fileID: 0}
   animator: {fileID: 0}
   mstForwardForce: 3000
-  attackCooldownInterval: 2
+  attackCooldownInterval: 1
   moveForceCooldownInterval: 0.05
   obstacleDetectionInterval: 3
   minAttackPower: 4
   maxAttackPower: 9
   rotationSpeed: 8
-  aimDistance: 15
-  chaseDistance: 8
+  aimDistance: 30
+  chaseDistance: 12
   MaxMstSpeed: 2.2
-  attackDistance: 1
+  attackDistance: 1.1
 --- !u!114 &1725506762452342574
 MonoBehaviour:
   m_ObjectHideFlags: 0

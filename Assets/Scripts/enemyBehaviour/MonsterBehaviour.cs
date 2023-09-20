@@ -32,7 +32,7 @@ namespace enemyBehaviour
         public float rotationSpeed = 2f; // 调整旋转速度
      
         // private float gameTime = Time.time;
-        private float monsterLevel;
+        internal float monsterLevel;
         private int monsterExperience;
         [SerializeField] private float aimDistance;
         [SerializeField] private float chaseDistance;
@@ -260,7 +260,7 @@ namespace enemyBehaviour
             if (!IsInSelfKill)
             {
                 animator.SetTrigger("AttackTrigger");
-                targetPlayer.TakeDamage(monsterLevel/20 * Random.Range(minAttackPower, maxAttackPower));
+                targetPlayer.TakeDamage(5 + monsterLevel/20 * Random.Range(minAttackPower, maxAttackPower));
             }
             else
             {
@@ -268,7 +268,7 @@ namespace enemyBehaviour
                 {
                     animator.SetTrigger("AttackTrigger");
                 }
-                target.GetComponent<MonsterBehaviour>().TakeDamage(400 + monsterLevel/20 * Random.Range(minAttackPower, maxAttackPower));
+                target.GetComponent<MonsterBehaviour>().TakeDamage(70 + monsterLevel/20 * Random.Range(minAttackPower, maxAttackPower));
             }
         }
 
@@ -341,6 +341,7 @@ namespace enemyBehaviour
         public void DeactivateSelfKillMode()
         {
             IsInSelfKill = false;
+            MaxMstSpeed = originalMaxMstSpeed;
             if(!selfKillCoroutine.IsUnityNull()) StopCoroutine(selfKillCoroutine);
         }
         public Coroutine selfKillCoroutine { get; set; }
@@ -348,6 +349,7 @@ namespace enemyBehaviour
         private IEnumerator SelfKillCoroutine(float elapseT)
         {
             IsInSelfKill = true;
+            MaxMstSpeed *= 1.2f;
             var orgTargetColor = targetComponent.targetColor;
             Color startColor = Color.green;
             float elapsedTime = 0f;

@@ -134,6 +134,7 @@ public class ParticleEffectManager : MonoBehaviour
     public IEnumerator PlayParticleEffectUntilEndCoroutine(string particlePrefabFile, GameObject player, 
         Quaternion rotation, Color startColor, Color endColor , Action onEffectEnd = null)
     {
+        if (currentParticleEffect) yield break;
         var myParticlePrefab = Resources.Load<GameObject>(particlePrefabFile);
         currentParticleEffect = Instantiate(myParticlePrefab, player.transform.position, rotation);
 
