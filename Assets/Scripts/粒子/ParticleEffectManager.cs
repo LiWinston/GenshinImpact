@@ -81,11 +81,11 @@ public class ParticleEffectManager : MonoBehaviour
         while (elapsedTime < duration)
         {
             float lerpValue = elapsedTime / duration;
-            Color lerpedColor = Color.Lerp(startColor, endColor, lerpValue);
+            // Color lerpedColor = Color.Lerp(startColor, endColor, lerpValue);
 
             // 修改粒子系统的颜色
-            var main = particleSystem.main;
-            main.startColor = lerpedColor;
+            // var main = particleSystem.main;
+            // main.startColor = lerpedColor;
 
             elapsedTime += Time.deltaTime;
             yield return null;
@@ -132,7 +132,7 @@ public class ParticleEffectManager : MonoBehaviour
     }
 
     public IEnumerator PlayParticleEffectUntilEndCoroutine(string particlePrefabFile, GameObject player, 
-        Quaternion rotation, Color startColor, Color endColor, Action onEffectEnd)
+        Quaternion rotation, Color startColor, Color endColor , Action onEffectEnd = null)
     {
         var myParticlePrefab = Resources.Load<GameObject>(particlePrefabFile);
         currentParticleEffect = Instantiate(myParticlePrefab, player.transform.position, rotation);
@@ -157,11 +157,11 @@ public class ParticleEffectManager : MonoBehaviour
         }
 
         // 手动结束特效时调用回调
-        onEffectEnd?.Invoke();
-        UIManager.Instance.ShowMessage2("onEffectEnd?.Invoke();");
+        // onEffectEnd?.Invoke();
+        // UIManager.Instance.ShowMessage2("onEffectEnd?.Invoke();");
         // 销毁特效
-        Destroy(currentParticleEffect);
-        currentParticleEffect = null; // 清空引用
+        // Destroy(currentParticleEffect);
+        // currentParticleEffect = null; // 清空引用
     }
 
 

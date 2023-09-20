@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using CodeMonkey.HealthSystemCM;
+using enemyBehaviour.Health;
 using TMPro;
 using UI;
 using Unity.Mathematics;
@@ -13,6 +14,25 @@ using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
+    private static PlayerController _instance;
+    public static PlayerController Instance
+    {
+        get
+        {
+            // 如果实例尚未创建，创建一个新实例
+            if (_instance == null)
+            {
+                Debug.LogError("NO PLAYERController");
+            }
+            return _instance;
+        }
+    }
+
+    public void Awake()
+    {
+        _instance = this;
+    }
+
     private Rigidbody rb;
     [SerializeField]Transform viewPoint;
     

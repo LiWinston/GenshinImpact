@@ -8,6 +8,24 @@ using UnityEngine.UI;
 
 public class State : MonoBehaviour
 {
+    private static State _instance;
+    public static State Instance
+    {
+        get
+        {
+            // 如果实例尚未创建，创建一个新实例
+            if (_instance == null)
+            {
+                Debug.LogError("NO State!");
+            }
+            return _instance;
+        }
+    }
+
+    public void Awake()
+    {
+        _instance = this;
+    }
     [Header("Health")] 
     [SerializeField] private float maxHealth;
     [SerializeField] private float currentHealth;
@@ -59,7 +77,8 @@ public class State : MonoBehaviour
 
     [Header("CombatJudge")] 
     [SerializeField] private float combatCooldownDuration = 1.8f; //脱战延时
-    private bool isInCombat = false;
+
+    public bool IsInCombat { get; set; } = false;
     private float combatEndTime = 0f;
     
 
@@ -93,12 +112,7 @@ public class State : MonoBehaviour
     private PlayerController plyctl;
     public delegate void ExitZenModeEventHandler();
     public static event ExitZenModeEventHandler OnExitZenMode;
-
-
-    public bool IsInCombat()
-    {
-        return isInCombat;
-    }
+    
 
     public float CurrentHealth
     {
@@ -193,7 +207,7 @@ public class State : MonoBehaviour
 
     private void Start()
     {
-        plyctl = GetComponent<PlayerController>();
+        plyctl = PlayerController.Instance;
         healthBarObject = GameObject.Find("UIHealthbar");
         energyBarObject = GameObject.Find("UIManabar");
         powerBarObject = GameObject.Find("UIPowerbar");
@@ -216,6 +230,8 @@ public class State : MonoBehaviour
         UpdateAttackCooldown();
         if (!UpdEffectTransform) UpdEffectTransform = SpellCast.FindDeepChild(transform, "spine_01");
         // if(0 !=_shakeBeforeZenMode) GetComponentInChildren<Animator>().SetFloat("_shakeBeforeZenMode",_shakeBeforeZenMode);
+        
+        OnExitZenMode += StopZenCoroutine;
     }
 
     // 初始化升级所需经验值数组
@@ -258,7 +274,7 @@ public class State : MonoBehaviour
         // CheckInCombat();
         // if(!isInCombat) RegenerateHealthAndEnergy();
         CheckInCombat();
-        if (!isInCombat)
+        if (!IsInCombat)
         {
             // 更新回复计时器
             regenerationTimer += Time.deltaTime;
@@ -342,7 +358,7 @@ public class State : MonoBehaviour
         var actualDamage = isInZenMode ? damage * (1 - damageReduction) : damage * 1.5f;
         CurrentHealth -= actualDamage <= maxHealth ? actualDamage : CurrentHealth; //vulnerable during zenMode
 
-        isInCombat = true;
+        IsInCombat = true;
         combatEndTime = Time.time + combatCooldownDuration;
     }
 
@@ -380,8 +396,7 @@ public class State : MonoBehaviour
     {
         CurrentPower += amount;
     }
-
-// 新增方法用于消耗Power
+    
     public bool ConsumePower(float amount)
     {
         if (CurrentPower >= amount)
@@ -417,7 +432,7 @@ public class State : MonoBehaviour
     // 增加经验值并检查是否升级
     public void AddExperience(int experience)
     {
-        if (GetComponent<PlayerController>().cheatMode) return;
+        if (PlayerController.Instance.cheatMode) return;
         currentExperience += experience;
 
         // 检查是否升级
@@ -453,7 +468,7 @@ public class State : MonoBehaviour
         // CurrentEnergy += addEnergyOnUpdate;
         CurrentEnergy += CurrentDamage * 2.5f;
         ParticleEffectManager.Instance.PlayParticleEffect("UpLevel", UpdEffectTransform.gameObject, Quaternion.identity,
-            Color.clear, Color.clear, 3f);
+            Color.clear, Color.clear, 1.8f);
         UpdateAttackCooldown();
         damageReduction = currentLevel * 0.005f; // 每级增加 5%
         if (OnLevelChanged != null)
@@ -466,7 +481,7 @@ public class State : MonoBehaviour
     private void CheckInCombat()
     {
         // Check if the player has taken damage recently
-        isInCombat = Time.time < combatEndTime; // Player is considered in combat
+        IsInCombat = Time.time < combatEndTime; // Player is considered in combat
     }
 
     private void RegenerateHealthAndEnergy()
@@ -490,13 +505,9 @@ public class State : MonoBehaviour
             AttackCooldown = _AttcooldownCurve.CalculateAttackCooldown(currentLevel);
             attackSpeedRate = _AttcooldownCurve.curvePoints[0].cooldown / AttackCooldown;
             //通知player controller更新动画时间参数
-            PlayerController playerController = GetComponent<PlayerController>();
-            if (playerController != null)
-            {
-                playerController.UpdateAttackAnimationTime(attackSpeedRate);
-            }
-
-            Debug.Log(currentLevel + "级攻速" + AttackCooldown + "秒，动画倍速 " + attackSpeedRate);
+            PlayerController.Instance.UpdateAttackAnimationTime(attackSpeedRate);
+            
+            // Debug.Log(currentLevel + "级攻速" + AttackCooldown + "秒，动画倍速 " + attackSpeedRate);
         }
     }
 
@@ -542,10 +553,18 @@ public class State : MonoBehaviour
         isCrouchingCooldown = false;
     }
 
+    private Coroutine ZenCoroutine { get; set; }
+
+    private void StopZenCoroutine()
+    {
+        StopCoroutine(ZenCoroutine);
+    }
     private IEnumerator P2EConvert_ZenMode()
     {
-        StartCoroutine(ParticleEffectManager.Instance.PlayParticleEffectUntilEndCoroutine("Zen",
-            UpdEffectTransform.gameObject, Quaternion.identity, Color.clear, Color.cyan, ExitZenMode));
+        // StartCoroutine(ParticleEffectManager.Instance.PlayParticleEffectUntilEndCoroutine("Zen",
+        //     UpdEffectTransform.gameObject, Quaternion.identity, Color.clear, Color.cyan, ExitZenMode));
+        ZenCoroutine = StartCoroutine(ParticleEffectManager.Instance.PlayParticleEffectUntilEndCoroutine("Zen",
+            UpdEffectTransform.gameObject, Quaternion.identity, Color.clear, Color.cyan));
         while (isInZenMode)
         {
             // ParticleEffectManager.Instance.PlayParticleEffectUntilEnd("Zen", UpdEffectTransform.gameObject, 
