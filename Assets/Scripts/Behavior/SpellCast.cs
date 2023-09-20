@@ -1,5 +1,7 @@
 using System.Collections;
 using CodeMonkey.HealthSystemCM;
+using enemyBehaviour;
+using enemyBehaviour.Health;
 using UnityEngine;
 
 public class SpellCast : MonoBehaviour
@@ -87,9 +89,10 @@ public class SpellCast : MonoBehaviour
                     
                     // 计算持续掉血的总量（20％的伤害）
                     float continuousDamageAmount = damageAmount * 0.2f;
-                    StartCoroutine(enemy.GetComponent<MonsterBehaviour>().ApplyFreezeEffect(3f + state.GetCurrentLevel() * 0.2f / 10f));
+                    float freezeRemainingTime = 3f + state.GetCurrentLevel() * 0.2f / 10f;
+                    enemy.GetComponent<MonsterBehaviour>().ActivateFreezeMode(freezeRemainingTime);
                     // 启动持续掉血的协程
-                    StartCoroutine(ContinuousDamage(enemyHealth, continuousDamageAmount));
+                    StartCoroutine(ContinuousDamage(enemyHealth, continuousDamageAmount, freezeRemainingTime ));
                     
                     // 播放特效
                     if (spellingPartTransform != null)
@@ -99,13 +102,13 @@ public class SpellCast : MonoBehaviour
                         {
                             // 找到了 spine_01 子物体，可以使用它的Transform
                             ParticleEffectManager.Instance.PlayParticleEffect("HitBySpell", spineTransform.gameObject, Quaternion.identity,
-                                Color.red, Color.black, 1f);
+                                Color.red, Color.black, freezeRemainingTime);
                         }
                         else
                         {
                             // 未找到 spine_01，可以执行默认逻辑
                             ParticleEffectManager.Instance.PlayParticleEffect("HitBySpell", enemy.gameObject, Quaternion.identity,
-                                Color.red, Color.black, 1f);
+                                Color.red, Color.black, freezeRemainingTime);
                         }
                     }
                 }
@@ -114,11 +117,9 @@ public class SpellCast : MonoBehaviour
     }
 
     // 协程来实现持续掉血
-    private IEnumerator ContinuousDamage(HealthSystem enemyHealth, float damageAmount)
+    private IEnumerator ContinuousDamage(HealthSystem enemyHealth, float damageAmount, float continuousDamageDuration = 3.0f)
     {
         // 持续掉血的时间，可以根据需要进行调整
-        float continuousDamageDuration = 3.0f;
-        
         float timer = 0f;
         
         while (timer < continuousDamageDuration)
@@ -170,7 +171,7 @@ public class SpellCast : MonoBehaviour
                 {
                     // 对敌人造成伤害
                     enemyHealth.Damage(state.CurrentDamage * 2);
-                    StartCoroutine(enemy.GetComponent<MonsterBehaviour>().ActivateSelfKillMode(20));
+                    enemy.GetComponent<MonsterBehaviour>().ActivateSelfKillMode(20);
                     // 播放特效
                     if (spellingPartTransform != null)
                     {
