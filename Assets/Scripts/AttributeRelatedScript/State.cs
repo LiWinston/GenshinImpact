@@ -230,6 +230,8 @@ public class State : MonoBehaviour
         UpdateAttackCooldown();
         if (!UpdEffectTransform) UpdEffectTransform = SpellCast.FindDeepChild(transform, "spine_01");
         // if(0 !=_shakeBeforeZenMode) GetComponentInChildren<Animator>().SetFloat("_shakeBeforeZenMode",_shakeBeforeZenMode);
+        
+        OnExitZenMode += StopZenCoroutine;
     }
 
     // 初始化升级所需经验值数组
@@ -553,6 +555,10 @@ public class State : MonoBehaviour
 
     private Coroutine ZenCoroutine { get; set; }
 
+    private void StopZenCoroutine()
+    {
+        StopCoroutine(ZenCoroutine);
+    }
     private IEnumerator P2EConvert_ZenMode()
     {
         // StartCoroutine(ParticleEffectManager.Instance.PlayParticleEffectUntilEndCoroutine("Zen",
