@@ -466,7 +466,7 @@ public class State : MonoBehaviour
         // CurrentEnergy += addEnergyOnUpdate;
         CurrentEnergy += CurrentDamage * 2.5f;
         ParticleEffectManager.Instance.PlayParticleEffect("UpLevel", UpdEffectTransform.gameObject, Quaternion.identity,
-            Color.clear, Color.clear, 3f);
+            Color.clear, Color.clear, 1.8f);
         UpdateAttackCooldown();
         damageReduction = currentLevel * 0.005f; // 每级增加 5%
         if (OnLevelChanged != null)
@@ -551,10 +551,14 @@ public class State : MonoBehaviour
         isCrouchingCooldown = false;
     }
 
+    private Coroutine ZenCoroutine { get; set; }
+
     private IEnumerator P2EConvert_ZenMode()
     {
-        StartCoroutine(ParticleEffectManager.Instance.PlayParticleEffectUntilEndCoroutine("Zen",
-            UpdEffectTransform.gameObject, Quaternion.identity, Color.clear, Color.cyan, ExitZenMode));
+        // StartCoroutine(ParticleEffectManager.Instance.PlayParticleEffectUntilEndCoroutine("Zen",
+        //     UpdEffectTransform.gameObject, Quaternion.identity, Color.clear, Color.cyan, ExitZenMode));
+        ZenCoroutine = StartCoroutine(ParticleEffectManager.Instance.PlayParticleEffectUntilEndCoroutine("Zen",
+            UpdEffectTransform.gameObject, Quaternion.identity, Color.clear, Color.cyan));
         while (isInZenMode)
         {
             // ParticleEffectManager.Instance.PlayParticleEffectUntilEnd("Zen", UpdEffectTransform.gameObject, 
