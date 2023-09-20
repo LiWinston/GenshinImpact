@@ -22,7 +22,7 @@ public class PlayerController : MonoBehaviour
             // 如果实例尚未创建，创建一个新实例
             if (_instance == null)
             {
-                _instance = new PlayerController();
+                Debug.LogError("NO PLAYERController");
             }
             return _instance;
         }

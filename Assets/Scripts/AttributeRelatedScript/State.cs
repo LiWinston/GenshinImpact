@@ -8,6 +8,24 @@ using UnityEngine.UI;
 
 public class State : MonoBehaviour
 {
+    private static State _instance;
+    public static State Instance
+    {
+        get
+        {
+            // 如果实例尚未创建，创建一个新实例
+            if (_instance == null)
+            {
+                Debug.LogError("NO State!");
+            }
+            return _instance;
+        }
+    }
+
+    public void Awake()
+    {
+        _instance = this;
+    }
     [Header("Health")] 
     [SerializeField] private float maxHealth;
     [SerializeField] private float currentHealth;
@@ -59,7 +77,8 @@ public class State : MonoBehaviour
 
     [Header("CombatJudge")] 
     [SerializeField] private float combatCooldownDuration = 1.8f; //脱战延时
-    private bool isInCombat = false;
+
+    public bool IsInCombat { get; set; } = false;
     private float combatEndTime = 0f;
     
 
@@ -93,12 +112,7 @@ public class State : MonoBehaviour
     private PlayerController plyctl;
     public delegate void ExitZenModeEventHandler();
     public static event ExitZenModeEventHandler OnExitZenMode;
-
-
-    public bool IsInCombat()
-    {
-        return isInCombat;
-    }
+    
 
     public float CurrentHealth
     {
@@ -258,7 +272,7 @@ public class State : MonoBehaviour
         // CheckInCombat();
         // if(!isInCombat) RegenerateHealthAndEnergy();
         CheckInCombat();
-        if (!isInCombat)
+        if (!IsInCombat)
         {
             // 更新回复计时器
             regenerationTimer += Time.deltaTime;
@@ -342,7 +356,7 @@ public class State : MonoBehaviour
         var actualDamage = isInZenMode ? damage * (1 - damageReduction) : damage * 1.5f;
         CurrentHealth -= actualDamage <= maxHealth ? actualDamage : CurrentHealth; //vulnerable during zenMode
 
-        isInCombat = true;
+        IsInCombat = true;
         combatEndTime = Time.time + combatCooldownDuration;
     }
 
@@ -465,7 +479,7 @@ public class State : MonoBehaviour
     private void CheckInCombat()
     {
         // Check if the player has taken damage recently
-        isInCombat = Time.time < combatEndTime; // Player is considered in combat
+        IsInCombat = Time.time < combatEndTime; // Player is considered in combat
     }
 
     private void RegenerateHealthAndEnergy()

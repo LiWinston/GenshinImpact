@@ -67,30 +67,12 @@ namespace enemyBehaviour
 
         public void actionOnRelease()
         {
+            IsInSelfKill = false;
             targetComponent.targetColor = Color.red;
         }
-    
-    public void SetPool(UnityEngine.Pool.ObjectPool<GameObject> pool)
-    {
-        this.pool = pool;
-    }
+        
 
-    public void actionOnGet()
-    {
-        InitializeMonsterLevel();
-        health.SetHealthMax(monsterLevel * 100 +100, true);
-    }
-
-    public void actionOnRelease()
-    {
-        IsInSelfKill = false;
-    }
-
-    private void Start()
-    {
-        targetPlayer = GameObject.Find("Player").GetComponent<PlayerController>();
-
-        if (targetPlayer == null)
+      
         private void Awake()
         {
             enemyLayer = LayerMask.GetMask("Enemy");
@@ -323,6 +305,11 @@ namespace enemyBehaviour
         public void DeactivateFreezeMode()
         {
             if(!freezeEffectCoroutine.IsUnityNull()) StopCoroutine(freezeEffectCoroutine);
+            // 恢复原始推力和攻击间隔
+            mstForwardForce = originalMoveForce;
+            attackCooldownInterval = originalAttackCooldownInterval;
+            MaxMstSpeed = originalMaxMstSpeed;
+            isFrozen = false;
         }
         private IEnumerator FreezeEffectCoroutine(float duration)
         {
