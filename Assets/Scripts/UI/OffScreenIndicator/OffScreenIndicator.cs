@@ -13,8 +13,7 @@ public class OffScreenIndicator : MonoBehaviour
     [Range(0.5f, 0.9f)]
     [Tooltip("Distance offset of the indicators from the centre of the screen")]
     [SerializeField] private float screenBoundOffset = 0.9f;
-
-    // private Camera mainCamera;
+    
     private Vector3 screenCentre;
     private Vector3 screenBounds;
 
@@ -43,9 +42,9 @@ public class OffScreenIndicator : MonoBehaviour
     {
         foreach(Target target in targets)
         {
-            Vector3 screenPosition = OffScreenIndicatorCore.GetScreenPosition(Camera.main, target.GetIndicatorDrawTransform().position);
+            Vector3 screenPosition = OffScreenIndicatorCore.GetScreenPosition(PlayerController.Instance.mycamera, target.GetIndicatorDrawTransform().position);
             bool isTargetVisible = OffScreenIndicatorCore.IsTargetVisible(screenPosition);
-            float distanceFromCamera = target.NeedDistanceText ? target.GetDistanceFromCamera(Camera.main.transform.position) : float.MinValue;// Gets the target distance from the camera.
+            float distanceFromCamera = target.NeedDistanceText ? target.GetDistanceFromCamera(PlayerController.Instance.mycamera.transform.position) : float.MinValue;// Gets the target distance from the camera.
             Indicator indicator = null;
 
             if(target.NeedBoxIndicator && isTargetVisible)

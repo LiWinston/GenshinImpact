@@ -14,6 +14,25 @@ using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
+    private static PlayerController _instance;
+    public static PlayerController Instance
+    {
+        get
+        {
+            // 如果实例尚未创建，创建一个新实例
+            if (_instance == null)
+            {
+                _instance = new PlayerController();
+            }
+            return _instance;
+        }
+    }
+
+    public void Awake()
+    {
+        _instance = this;
+    }
+
     private Rigidbody rb;
     [SerializeField]Transform viewPoint;
     
