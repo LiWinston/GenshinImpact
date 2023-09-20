@@ -31,7 +31,7 @@ namespace CameraRelatedScript
                 Debug.LogError("FPCamera not found!");
             }
 
-            plyctl = GetComponent<PlayerController>();
+            plyctl = PlayerController.Instance;
         }
 
         private void LateUpdate()

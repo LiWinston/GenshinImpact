@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using AttributeRelatedScript;
 using CodeMonkey.HealthSystemCM;
+using enemyBehaviour.Health;
 using UI;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -16,7 +17,7 @@ public class Sword : MonoBehaviour
 
     private void Start()
     {
-        pCtrl = GameObject.Find("Player").GetComponent<PlayerController>();
+        pCtrl = PlayerController.Instance;
         if (pCtrl == null)
         {
             Debug.LogError("Player controller for sword not found!");

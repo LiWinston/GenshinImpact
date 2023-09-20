@@ -1,5 +1,7 @@
 using System.Collections;
 using CodeMonkey.HealthSystemCM;
+using enemyBehaviour;
+using enemyBehaviour.Health;
 using UnityEngine;
 
 public class SpellCast : MonoBehaviour
@@ -87,7 +89,7 @@ public class SpellCast : MonoBehaviour
                     
                     // 计算持续掉血的总量（20％的伤害）
                     float continuousDamageAmount = damageAmount * 0.2f;
-                    StartCoroutine(enemy.GetComponent<MonsterBehaviour>().ApplyFreezeEffect(3f + state.GetCurrentLevel() * 0.2f / 10f));
+                    enemy.GetComponent<MonsterBehaviour>().ActivateFreezeMode(3f + state.GetCurrentLevel() * 0.2f / 10f);
                     // 启动持续掉血的协程
                     StartCoroutine(ContinuousDamage(enemyHealth, continuousDamageAmount));
                     
@@ -170,7 +172,7 @@ public class SpellCast : MonoBehaviour
                 {
                     // 对敌人造成伤害
                     enemyHealth.Damage(state.CurrentDamage * 2);
-                    StartCoroutine(enemy.GetComponent<MonsterBehaviour>().ActivateSelfKillMode(20));
+                    enemy.GetComponent<MonsterBehaviour>().ActivateSelfKillMode(20);
                     // 播放特效
                     if (spellingPartTransform != null)
                     {

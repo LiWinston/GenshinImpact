@@ -193,7 +193,7 @@ public class State : MonoBehaviour
 
     private void Start()
     {
-        plyctl = GetComponent<PlayerController>();
+        plyctl = PlayerController.Instance;
         healthBarObject = GameObject.Find("UIHealthbar");
         energyBarObject = GameObject.Find("UIManabar");
         powerBarObject = GameObject.Find("UIPowerbar");
@@ -380,8 +380,7 @@ public class State : MonoBehaviour
     {
         CurrentPower += amount;
     }
-
-// 新增方法用于消耗Power
+    
     public bool ConsumePower(float amount)
     {
         if (CurrentPower >= amount)
@@ -417,7 +416,7 @@ public class State : MonoBehaviour
     // 增加经验值并检查是否升级
     public void AddExperience(int experience)
     {
-        if (GetComponent<PlayerController>().cheatMode) return;
+        if (PlayerController.Instance.cheatMode) return;
         currentExperience += experience;
 
         // 检查是否升级
@@ -490,13 +489,9 @@ public class State : MonoBehaviour
             AttackCooldown = _AttcooldownCurve.CalculateAttackCooldown(currentLevel);
             attackSpeedRate = _AttcooldownCurve.curvePoints[0].cooldown / AttackCooldown;
             //通知player controller更新动画时间参数
-            PlayerController playerController = GetComponent<PlayerController>();
-            if (playerController != null)
-            {
-                playerController.UpdateAttackAnimationTime(attackSpeedRate);
-            }
-
-            Debug.Log(currentLevel + "级攻速" + AttackCooldown + "秒，动画倍速 " + attackSpeedRate);
+            PlayerController.Instance.UpdateAttackAnimationTime(attackSpeedRate);
+            
+            // Debug.Log(currentLevel + "级攻速" + AttackCooldown + "秒，动画倍速 " + attackSpeedRate);
         }
     }
 

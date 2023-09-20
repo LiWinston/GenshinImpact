@@ -44,20 +44,6 @@ public class PrefabGenerator : MonoBehaviour
         // SetPoolForGeneratedObject(prfb);
         return prfb;
     }
-    //
-    // private void SetPoolForGeneratedObject(GameObject generatedObject)
-    // {
-    //     // 检查生成的对象的类型
-    //     if (generatedObject.GetComponent<MonsterBehaviour>() != null)
-    //     {
-    //         generatedObject.GetComponent<MonsterBehaviour>().pool = objPool;
-    //     }
-    //     else if (generatedObject.GetComponent<Pickable>() != null)
-    //     {
-    //         generatedObject.GetComponent<Pickable>().pool = objPool;
-    //     }
-    //     // More to generate and set Pool
-    // }
     
     void actionOnGet(GameObject obj)
     {
