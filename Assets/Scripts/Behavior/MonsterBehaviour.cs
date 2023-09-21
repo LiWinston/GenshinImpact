@@ -68,7 +68,7 @@ namespace enemyBehaviour
 
         public void actionOnRelease()
         {
-            if(freezeEffectCoroutine.IsUnityNull())StopCoroutine(freezeEffectCoroutine);
+            if(!freezeEffectCoroutine.IsUnityNull())StopCoroutine(freezeEffectCoroutine);
             IsInSelfKill = false;
             targetComponent.targetColor = Color.red;
         }
