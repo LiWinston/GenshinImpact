@@ -101,7 +101,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: EXP 9
+  m_text: EXP 22
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 125cb55b44b24c4393181402bc6200e6, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 125cb55b44b24c4393181402bc6200e6, type: 2}
@@ -382,7 +382,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1678239912745874840}
   serializedVersion: 4
-  m_Mass: 100
+  m_Mass: 400
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -450,7 +450,7 @@ MonoBehaviour:
   MaxPlySpeed: 6
   sprintSpeedRate: 1.5
   mouseSensitivity: 100
-  forwardForce: 6000
+  forwardForce: 24000
   backwardRate: 0.9
   jumpForce: 600
   mycamera: {fileID: 691092138744490856}
