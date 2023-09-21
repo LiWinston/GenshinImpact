@@ -41,7 +41,7 @@ public class ParticleEffectManager : MonoBehaviour
         PlayParticleEffect(particlePrefab,  player,  rotation,  startColor, endColor,  duration);
     }
 
-    public void PlayParticleEffect(string particlePrefabFile, GameObject player, Quaternion rotation, Color startColor,
+    public void PlayParticleEffect(string particlePrefabFile, GameObject player, Quaternion rotation, Color startColor ,
                                     Color endColor, float duration = -1f)
     {
         var myParticlePrefab = Resources.Load<GameObject>(particlePrefabFile);
@@ -56,7 +56,8 @@ public class ParticleEffectManager : MonoBehaviour
         // 设置特效的持续时间
         if (duration < 0f)
         {
-            duration = defaultDuration;
+            // duration = defaultDuration;
+            duration = particleSystem.totalTime;
         }
 
         if (autoDestroy)
@@ -156,13 +157,6 @@ public class ParticleEffectManager : MonoBehaviour
             particleRenderer.material.color = Color.Lerp(startColor, endColor, t);
             yield return null;
         }
-
-        // 手动结束特效时调用回调
-        // onEffectEnd?.Invoke();
-        // UIManager.Instance.ShowMessage2("onEffectEnd?.Invoke();");
-        // 销毁特效
-        // Destroy(currentParticleEffect);
-        // currentParticleEffect = null; // 清空引用
     }
 
 

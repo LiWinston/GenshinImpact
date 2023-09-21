@@ -101,7 +101,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: EXP 57
+  m_text: EXP 9
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 125cb55b44b24c4393181402bc6200e6, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 125cb55b44b24c4393181402bc6200e6, type: 2}
@@ -545,6 +545,7 @@ MonoBehaviour:
   hurricaneKickRange: 1.8
   criticalDmgRate: 8
   zenModeP2EConversionEfficiency: 0.5
+  JZZReduceMutiplier: 1.5
 --- !u!114 &94393281984951438
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -558,6 +559,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spellingPartTransform: {fileID: 5496938358071925957}
+  innerSpellingTransform: {fileID: 0}
   spellRange: 1.6
 --- !u!195 &6507685321940979291
 NavMeshAgent:
