@@ -1,6 +1,7 @@
 using System;
 using Unity.Mathematics;
 using UnityEngine;
+using Utility;
 
 namespace AttributeRelatedScript
 {
@@ -15,7 +16,7 @@ namespace AttributeRelatedScript
             player.GetComponent<State>().RestoreEnergy(effectValue);
             float currentmana = player.GetComponent<State>().CurrentEnergy; // 获取玩家当前的生命值
             ShowEffectMessage(effectValue, currentmana);
-            var pos = SpellCast.FindDeepChild(player.transform, "root");
+            var pos = Find.FindDeepChild(player.transform, "root");
             ParticleEffectManager.Instance.PlayParticleEffect("MagicSupply",pos.gameObject,quaternion.identity, 
                 Color.cyan,Color.green, 2f);
         }

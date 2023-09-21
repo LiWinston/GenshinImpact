@@ -4,6 +4,7 @@ using UI;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
+using Utility;
 
 
 public class State : MonoBehaviour
@@ -232,7 +233,7 @@ public class State : MonoBehaviour
         _AttcooldownCurve = GetComponent<AttackCooldownCurve>();
         if (!_AttcooldownCurve) Debug.LogError("AttackCooldownCurve NotFound");
         UpdateAttackCooldown();
-        if (!UpdEffectTransform) UpdEffectTransform = SpellCast.FindDeepChild(transform, "spine_01");
+        if (!UpdEffectTransform) UpdEffectTransform = Find.FindDeepChild(transform, "spine_01");
         // if(0 !=_shakeBeforeZenMode) GetComponentInChildren<Animator>().SetFloat("_shakeBeforeZenMode",_shakeBeforeZenMode);
         
         OnExitZenMode += StopZenCoroutine;

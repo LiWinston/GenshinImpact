@@ -1,7 +1,7 @@
 using CameraView;
 using UnityEngine;
 
-public class Pickable : MonoBehaviour, IPoolable
+public class ImmediateUseItems : MonoBehaviour, IPoolable
 {
     public float pickupRange = 3.0f;
     public float alertDis = 2.0f; // 警告距离

@@ -4,6 +4,7 @@ using CodeMonkey.HealthSystemCM;
 using enemyBehaviour;
 using enemyBehaviour.Health;
 using UnityEngine;
+using Utility;
 
 public class SpellCast : MonoBehaviour
 {
@@ -22,7 +23,7 @@ public class SpellCast : MonoBehaviour
             Debug.LogError("Weapon Transform 未指定，请在 Inspector 中将 Weapon 物体拖放到该字段中！");
         }
 
-        if (innerSpellingTransform == null) innerSpellingTransform = FindDeepChild(transform, "spine_03");
+        if (innerSpellingTransform == null) innerSpellingTransform = Find.FindDeepChild(transform, "spine_03");
         var childTransform = transform.Find("Model");
         if (childTransform != null)
         {
@@ -152,16 +153,15 @@ public class SpellCast : MonoBehaviour
                     enemyHealth.Damage(damageAmount);
                     
                     // 计算持续掉血的总量（20％的伤害）
-                    float continuousDamageAmount = damageAmount * 0.2f;
+                    
                     float freezeRemainingTime = 3f + state.GetCurrentLevel() * 0.2f / 10f;
-                    enemy.GetComponent<MonsterBehaviour>().ActivateFreezeMode(freezeRemainingTime);
-                    // 启动持续掉血的协程
-                    StartCoroutine(ContinuousDamage(enemyHealth, continuousDamageAmount, freezeRemainingTime ));
+                    float continuousDamageAmount = damageAmount * 0.2f;
+                    enemy.GetComponent<MonsterBehaviour>().ActivateFreezeMode(freezeRemainingTime, continuousDamageAmount);
                     
                     // 播放特效
                     if (spellingPartTransform != null)
                     {
-                        Transform spineTransform = FindDeepChild(enemy.transform, "spine_01");
+                        Transform spineTransform = Find.FindDeepChild(enemy.transform, "spine_01");
                         if (spineTransform != null)
                         {
                             // 找到了 spine_01 子物体，可以使用它的Transform
@@ -181,22 +181,6 @@ public class SpellCast : MonoBehaviour
     }
 
     // 协程来实现持续掉血
-    private IEnumerator ContinuousDamage(HealthSystem enemyHealth, float damageAmount, float continuousDamageDuration = 3.0f)
-    {
-        // 持续掉血的时间，可以根据需要进行调整
-        float timer = 0f;
-        
-        while (timer < continuousDamageDuration)
-        {
-            // 对敌人造成持续伤害
-            enemyHealth.Damage(damageAmount * Time.deltaTime);
-            
-            // 等待一帧
-            yield return null;
-            
-            timer += Time.deltaTime;
-        }
-    }
 
     
     private void CastUlt()
@@ -237,7 +221,7 @@ public class SpellCast : MonoBehaviour
                     // 播放特效
                     if (spellingPartTransform != null)
                     {
-                        Transform spineTransform = FindDeepChild(enemy.transform, "spine_01");
+                        Transform spineTransform = Find.FindDeepChild(enemy.transform, "spine_01");
                         if (spineTransform != null)
                         {
                             // 找到了 spine_01 子物体，可以使用它的Transform
@@ -265,32 +249,5 @@ public class SpellCast : MonoBehaviour
                 e.GetComponent<MonsterBehaviour>().ActivateSelfKillMode(10);
             }
         }
-    }
-    
-    
-    /// <summary>
-    /// Utility function used to seek into a subclass for a Transform
-    /// </summary>
-    /// <param name="parent"></param>
-    /// <param name="name"></param>
-    /// <returns></returns>
-    public static Transform FindDeepChild(Transform parent, string name)
-    {
-        Transform result = parent.Find(name);
-        if (result != null)
-        {
-            return result;
-        }
-
-        foreach (Transform child in parent)
-        {
-            result = FindDeepChild(child, name);
-            if (result != null)
-            {
-                return result;
-            }
-        }
-
-        return null; // 没有找到
     }
 }
