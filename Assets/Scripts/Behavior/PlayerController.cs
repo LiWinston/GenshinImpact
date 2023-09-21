@@ -587,7 +587,6 @@ public class PlayerController : MonoBehaviour
 
     public void TakeDamage(float dmg)
     {
-        isCrouching = false;
         switch (state.isJZZ)
         {
             case true:
@@ -595,10 +594,12 @@ public class PlayerController : MonoBehaviour
                 var powerReduce = state.maxPower * damage / state.maxHealth;
                 if (!state.ConsumePower(powerReduce))
                 {
+                    isCrouching = false;
                     state.TakeDamage(damage);
                 }
                 break;
             default:
+                isCrouching = false;
                 state.TakeDamage(dmg);
                 break;
         }
