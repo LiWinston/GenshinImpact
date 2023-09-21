@@ -131,11 +131,9 @@ public class SpellCast : MonoBehaviour
         {
             Debug.LogError("无法播放特效，因为 Weapon Transform 未指定！");
         }
-        // 玩家的位置
-        Vector3 playerPosition = transform.position;
 
-        // 检测在法术范围内的敌人 TODO:??? Layer就不行
-        Collider[] hitEnemies = Physics.OverlapSphere(playerPosition, spellRange, LayerMask.GetMask("Enemy"));
+        // 检测在法术范围内的敌人 TODO:??? Layer就不行==要GetMask
+        Collider[] hitEnemies = Physics.OverlapSphere(transform.position, spellRange, LayerMask.GetMask("Enemy"));
         Debug.LogWarning("检测到 "+hitEnemies.Length + "Enemy");
         // Collider[] hitEnemies = Physics.OverlapSphere(playerPosition, spellRange);
         foreach (Collider enemy in hitEnemies)
@@ -162,18 +160,8 @@ public class SpellCast : MonoBehaviour
                     if (spellingPartTransform != null)
                     {
                         Transform spineTransform = Find.FindDeepChild(enemy.transform, "spine_01");
-                        if (spineTransform != null)
-                        {
-                            // 找到了 spine_01 子物体，可以使用它的Transform
-                            ParticleEffectManager.Instance.PlayParticleEffect("HitBySpell", spineTransform.gameObject, Quaternion.identity,
-                                Color.red, Color.black, freezeRemainingTime);
-                        }
-                        else
-                        {
-                            // 未找到 spine_01，可以执行默认逻辑
-                            ParticleEffectManager.Instance.PlayParticleEffect("HitBySpell", enemy.gameObject, Quaternion.identity,
-                                Color.red, Color.black, freezeRemainingTime);
-                        }
+                        ParticleEffectManager.Instance.PlayParticleEffect("HitBySpell", (spineTransform != null ? spineTransform : enemy.transform).gameObject, 
+                            Quaternion.identity, Color.red, Color.black, freezeRemainingTime);
                     }
                 }
             }
@@ -205,13 +193,13 @@ public class SpellCast : MonoBehaviour
 
         // 检测在法术范围内的敌人
         Collider[] hitEnemies = Physics.OverlapSphere(playerPosition, spellRange);
-        List<Collider> enemys = new List<Collider>();
+        List<Collider> enemies = new List<Collider>();
         foreach (Collider enemy in hitEnemies)
         {
             // 检查是否敌人
             if (enemy.CompareTag("Enemy"))
             {
-                enemys.Add(enemy);
+                enemies.Add(enemy);
                 // 获取敌人的 HealthSystem 组件
                 HealthSystem enemyHealth = enemy.GetComponent<HealthSystemComponent>().GetHealthSystem();
                 if (enemyHealth != null)
@@ -222,27 +210,19 @@ public class SpellCast : MonoBehaviour
                     if (spellingPartTransform != null)
                     {
                         Transform spineTransform = Find.FindDeepChild(enemy.transform, "spine_01");
-                        if (spineTransform != null)
-                        {
-                            // 找到了 spine_01 子物体，可以使用它的Transform
-                            ParticleEffectManager.Instance.PlayParticleEffect("HitByUlt", spineTransform.gameObject, Quaternion.identity,
-                                Color.white, Color.blue, 1.8f);
-                        }
-                        else
-                        {
-                            // 未找到 spine_01，可以执行默认逻辑
-                            ParticleEffectManager.Instance.PlayParticleEffect("HitByUlt", enemy.gameObject, Quaternion.identity,
-                                Color.white, Color.blue, 1.8f);
-                        }
-                        // ParticleEffectManager.Instance.PlayParticleEffect("HitBySpell", enemy.gameObject,
-                        //     Quaternion.identity,
-                        //     Color.cyan, Color.green, 1f);
+                        ParticleEffectManager.Instance.PlayParticleEffect("HitByUlt", (spineTransform != null ? spineTransform : enemy.transform).gameObject, 
+                            Quaternion.identity, Color.white, Color.blue, 1.8f);
                     }
                 }
             }
         }
+        StartCoroutine(MindControl(enemies));
+    }
 
-        foreach (var e in enemys)
+    IEnumerator MindControl(List<Collider> enemies)
+    {
+        yield return new WaitForSeconds(1.4f);
+        foreach (var e in enemies)
         {
             if (state.ConsumeEnergy(0.02f*state.CurrentEnergy))
             {
