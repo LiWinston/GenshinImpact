@@ -51,9 +51,11 @@ public class Indicator : MonoBehaviour
     /// Sets the distance text for the indicator.
     /// </summary>
     /// <param name="value"></param>
-    public void SetDistanceText(float value)
+    public void SetDistanceText(float value, string str = "")
     {
-        distanceText.text = value >= 0 ? Mathf.Floor(value) + " m" : "";
+        // distanceText.text = value >= 0 ? Mathf.Floor(value) + " m" : "";
+        string text = value >= 0 ? Mathf.Floor(value) + " m" : "";
+        distanceText.text = text;
     }
 
     /// <summary>

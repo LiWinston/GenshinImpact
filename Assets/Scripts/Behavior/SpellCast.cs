@@ -36,12 +36,14 @@ public class SpellCast : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Mouse1))
         {
+            PlayerController.Instance.isCrouching = false;
             animator.SetTrigger("Cast");
             CastSpell();
         }
 
         if (Input.GetKeyDown(KeyCode.Q))
         {
+            PlayerController.Instance.isCrouching = false;
             animator.SetTrigger("ULT");
             CastUlt();
         }
