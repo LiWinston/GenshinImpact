@@ -68,6 +68,7 @@ namespace enemyBehaviour
 
         public void actionOnRelease()
         {
+            if(freezeEffectCoroutine.IsUnityNull())StopCoroutine(freezeEffectCoroutine);
             IsInSelfKill = false;
             targetComponent.targetColor = Color.red;
         }
@@ -124,7 +125,7 @@ namespace enemyBehaviour
             if (health.IsDead())
             {
                 _state.AddExperience(this.monsterExperience);
-                targetPlayer.showExp("EXP " + this.monsterExperience);
+                targetPlayer.ShowPlayerHUD("EXP " + this.monsterExperience);
                 DeactiveAllEffect();
                 StartCoroutine(nameof(PlayDeathEffects));
                 return;
@@ -298,9 +299,11 @@ namespace enemyBehaviour
             health.SetHealthMax(monsterLevel * 100 +100, true);
         }
     
-        public void ActivateFreezeMode(float duration)
+        public void ActivateFreezeMode(float duration, float continuousDamageAmount)
         {
             freezeEffectCoroutine = StartCoroutine(FreezeEffectCoroutine(duration));
+                    // 启动持续掉血的协程
+            StartCoroutine(Effect.Freeze.ContinuousDamage(health, continuousDamageAmount, duration ));
         }
         internal Coroutine freezeEffectCoroutine { get; set; }
 

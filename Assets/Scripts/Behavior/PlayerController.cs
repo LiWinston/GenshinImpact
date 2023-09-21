@@ -1,7 +1,5 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using CodeMonkey.HealthSystemCM;
 using enemyBehaviour.Health;
 using TMPro;
 using UI;
@@ -10,6 +8,8 @@ using UnityEngine;
 using Cursor = UnityEngine.Cursor;
 using Random = UnityEngine.Random;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
+using Utility;
 
 
 public class PlayerController : MonoBehaviour
@@ -57,6 +57,7 @@ public class PlayerController : MonoBehaviour
     
     private Vector3 moveDirection;
 
+    [SerializeField] private TextMeshPro textMeshProComponent;
     
     private float lastAttackTime = 0f; 
     
@@ -105,6 +106,7 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         _criticalHitCurve = GetComponent<CriticalHitCurve>();
+        if (!textMeshProComponent) textMeshProComponent = Find.FindDeepChild(transform, "PlayerHUD").GetComponent<TextMeshPro>();
         state = GetComponent<State>();
         rb = GetComponent<Rigidbody>();
         moveDirection = Vector3.zero;
@@ -118,8 +120,8 @@ public class PlayerController : MonoBehaviour
             Debug.LogError("Didnt Find 'model'!");
         }
 
-        viewPoint = SpellCast.FindDeepChild(transform, "root");//调一下得了 不粘贴过来了
-        sword = SpellCast.FindDeepChild(transform, "blade");
+        viewPoint = Find.FindDeepChild(transform, "root");//调一下得了 不粘贴过来了
+        sword = Find.FindDeepChild(transform, "blade");
         if (viewPoint == null)
         {
             Debug.LogError("viewPoint not found!");
@@ -331,12 +333,12 @@ public class PlayerController : MonoBehaviour
         {
             if (cheatMode == false)
             {
-                showExp("CHEAT MODE ON");
+                ShowPlayerHUD("CHEAT MODE ON");
                 cheatMode = true;
             }
             else
             {
-                showExp("CHEAT MODE OFF");
+                ShowPlayerHUD("CHEAT MODE OFF");
                 cheatMode = false;
             }
         }
@@ -448,17 +450,17 @@ public class PlayerController : MonoBehaviour
         var nearColliders = TryToInteract();
         if (nearColliders is { Length: > 0 })
         {
-            // Create a list to store pickable objects and their distances.
-            List<(Pickable pickable, float distance)> pickableList = new List<(Pickable, float)>();
+            // Create a list to store immediateUseItems objects and their distances.
+            List<(ImmediateUseItems pickable, float distance)> pickableList = new List<(ImmediateUseItems, float)>();
 
             foreach (var cld in nearColliders)
             {
-                var pkb = cld.GetComponent<Pickable>();
+                var pkb = cld.GetComponent<ImmediateUseItems>();
                 if (null == pkb) continue;
 
                 float currentDistance = Vector3.Distance(transform.position, pkb.transform.position);
 
-                // Only consider pickable objects within MAX_ALLOWED_INTERACT_RANGE.
+                // Only consider immediateUseItems objects within MAX_ALLOWED_INTERACT_RANGE.
                 if (currentDistance <= MAX_ALLOWED_INTERACT_RANGE)
                 {
                     pickableList.Add((pkb, currentDistance));
@@ -470,10 +472,10 @@ public class PlayerController : MonoBehaviour
 
             foreach (var (pickable, distance) in pickableList)
             {
-                // if ((distance < pickable.pickupRange) && sightDetector.IsInLineOfSight(viewPoint,pickable))  //the ray tracer detect always obstacle the picking, 先关了
+                // if ((distance < immediateUseItems.pickupRange) && sightDetector.IsInLineOfSight(viewPoint,immediateUseItems))  //the ray tracer detect always obstacle the picking, 先关了
                 if ((distance < pickable.pickupRange))
                 {
-                    // transform.LookAt(pickable.transform);
+                    // transform.LookAt(immediateUseItems.transform);
                     
                     //TODO:动画播完在触发Pick()
                     rb.velocity = Vector3.zero;
@@ -492,10 +494,10 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    private IEnumerator GoPick(Pickable pickable)
+    private IEnumerator GoPick(ImmediateUseItems immediateUseItems)
     {
         // 获取目标方向
-        Vector3 targetDirection = pickable.transform.position - transform.position;
+        Vector3 targetDirection = immediateUseItems.transform.position - transform.position;
         targetDirection.y = 0f; // 将Y轴分量置零，以确保只在水平面上旋转
 
         // 计算旋转角度
@@ -527,7 +529,7 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(animationLength);
 
         // 执行捡取操作
-        pickable.Pick();
+        immediateUseItems.Pick();
     }
 
 
@@ -538,34 +540,23 @@ public class PlayerController : MonoBehaviour
     }
 
     
-    public void showExp(string expText)
+    public void ShowPlayerHUD(string expText)
     {
-        // 查找场景内所有名称为 "ExpText" 的对象
-        TextMeshPro[] expTextObjects = Resources.FindObjectsOfTypeAll<TextMeshPro>();
-        // TextMeshPro[] expTextObjects = GetComponentsInChildren<TextMeshPro>();
-        // if(expTextObjects.Length == 0){ShowMessage1("No txterPro");}
-
-        foreach (TextMeshPro textMesh in expTextObjects)
+        if (textMeshProComponent != null)
         {
-            if (textMesh != null)
-            {
-                textMesh.text = expText;
-                textMesh.alpha = 1f; // 设置初始透明度为1，完全可见
-                textMesh.gameObject.SetActive(true);
-
-                // 启动协程来淡出经验值显示
-                // MonoBehaviour monoBehaviour = textMesh.gameObject.GetComponent<MonoBehaviour>();
-                // monoBehaviour.StartCoroutine(FadeOutExpText(textMesh));
-                StartCoroutine(FadeOutExpText(textMesh));
-            }
-            else
-            {
-                Debug.LogError("TextMeshPro component not found on an ExpText GameObject.");
-            }
+            textMeshProComponent.text = expText;
+            textMeshProComponent.alpha = 1f; // 设置初始透明度为1，完全可见
+            textMeshProComponent.gameObject.SetActive(true);
+                
+            StartCoroutine(FadeOutPlayerHUDText(textMeshProComponent));
+        }
+        else
+        {
+            Debug.LogError("TextMeshPro component not found on an PlayerHUD GameObject.");
         }
     }
 
-    private static IEnumerator FadeOutExpText(TextMeshPro textMesh, float time = 0.8f, float fadeTime = 0.5f)
+    private static IEnumerator FadeOutPlayerHUDText(TMP_Text textMesh, float time = 0.8f, float fadeTime = 0.5f)
     {
         // 延迟一段时间以便观察经验值文本
         yield return new WaitForSeconds(time);
