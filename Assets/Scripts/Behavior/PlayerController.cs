@@ -100,7 +100,8 @@ public class PlayerController : MonoBehaviour
     private static readonly int Jump = Animator.StringToHash("Jump");
     private static readonly int RunningJump = Animator.StringToHash("RunningJump");
     private static readonly int IsAttacking = Animator.StringToHash("isAttacking");
-    
+    // private static readonly int Die = Animator.StringToHash("Die");
+    private static readonly int IsDead = Animator.StringToHash("isDead");
 
 
     private void Start()
@@ -296,6 +297,7 @@ public class PlayerController : MonoBehaviour
     
     public void UserInput()
     {
+        // if(_isDead) return;
         if (Input.GetMouseButtonDown(0) && Time.time - lastAttackTime >= state.AttackCooldown)
         {
             IsCrouching = false;
@@ -410,6 +412,8 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
+
+    public bool _isDead { get; set; }
 
     private IEnumerator PerformAttack(string attackTrigger, float attackDuration)
     {
@@ -578,6 +582,20 @@ public class PlayerController : MonoBehaviour
 
     public void TakeDamage(float dmg)
     {
+        if (state.IsEmptyHealth())
+        {
+            _isDead = true;
+            // animator.Play("Flying Back Death");
+            animator.SetBool(Standing, false);
+            animator.SetBool(IsAttacking, false);
+            animator.SetBool(IsMoving, false);
+            animator.SetBool(IsGrounded, false);
+            animator.SetBool(IsDead,_isDead);
+            
+
+            StartCoroutine(GameOver());
+            return;
+        }
         switch (state.isJZZ)
         {
             case true:
@@ -594,16 +612,11 @@ public class PlayerController : MonoBehaviour
                 state.TakeDamage(dmg);
                 break;
         }
-        if (state.IsEmptyHealth())
-        {
-            StartCoroutine(GameOver());
-        }
     }
 
     private IEnumerator GameOver()
     {
-        animator.Play("Flying Back Death");
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(2.7f);
         SceneManager.LoadScene("LoseScene"); 
     }
 
