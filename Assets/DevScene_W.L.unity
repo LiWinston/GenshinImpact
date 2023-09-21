@@ -5454,21 +5454,25 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 652878872917320646, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1678239912745874840, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 2007897275112994830, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
-      propertyPath: m_text
-      value: 
+    - target: {fileID: 3360135653076135481, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
+      propertyPath: m_Mass
+      value: 400
       objectReference: {fileID: 0}
-    - target: {fileID: 2007897275112994830, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
-      propertyPath: m_fontColor32.rgba
-      value: 4284541293
+    - target: {fileID: 3360135653076135481, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
+      propertyPath: m_IsKinematic
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6844506482609387575, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
+      propertyPath: forwardForce
+      value: 24000
+      objectReference: {fileID: 0}
+    - target: {fileID: 6921031817926144304, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
+      propertyPath: m_ProvidesContacts
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7406021605194356953, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
       propertyPath: m_LocalPosition.x

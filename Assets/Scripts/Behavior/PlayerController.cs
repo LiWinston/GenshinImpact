@@ -588,8 +588,20 @@ public class PlayerController : MonoBehaviour
     public void TakeDamage(float dmg)
     {
         isCrouching = false;
-        animator.SetTrigger("Hurt");
-        state.TakeDamage(dmg);
+        switch (state.isJZZ)
+        {
+            case true:
+                var damage = dmg * (1 - state.damageReduction * state.JZZReduceMutiplier);
+                var powerReduce = state.maxPower * damage / state.maxHealth;
+                if (!state.ConsumePower(powerReduce))
+                {
+                    state.TakeDamage(damage);
+                }
+                break;
+            default:
+                state.TakeDamage(dmg);
+                break;
+        }
         if (state.IsEmptyHealth())
         {
             StartCoroutine(GameOver());

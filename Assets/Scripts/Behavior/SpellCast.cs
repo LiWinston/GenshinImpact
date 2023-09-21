@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using CodeMonkey.HealthSystemCM;
 using enemyBehaviour;
 using enemyBehaviour.Health;
@@ -7,7 +8,8 @@ using UnityEngine;
 public class SpellCast : MonoBehaviour
 {
     private Animator animator;
-    [SerializeField] private Transform spellingPartTransform; // 序列化字段，用于拖放 Weapon 物体
+    [SerializeField] private Transform spellingPartTransform; // 施法的手
+    [SerializeField] private Transform innerSpellingTransform; // 施法的腰子
     [SerializeField] private float spellRange = 1.6f;
     private State state;
 
@@ -20,6 +22,7 @@ public class SpellCast : MonoBehaviour
             Debug.LogError("Weapon Transform 未指定，请在 Inspector 中将 Weapon 物体拖放到该字段中！");
         }
 
+        if (innerSpellingTransform == null) innerSpellingTransform = FindDeepChild(transform, "spine_03");
         var childTransform = transform.Find("Model");
         if (childTransform != null)
         {
@@ -47,9 +50,68 @@ public class SpellCast : MonoBehaviour
             animator.SetTrigger("ULT");
             CastUlt();
         }
+        
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            if(state.isJZZ) return;
+            PlayerController.Instance.isCrouching = false;
+            animator.SetTrigger("Cast");
+            StartJZZ();
+        }
     }
 
-        
+    private void StartJZZ()
+    {
+        if (!state.ConsumeEnergy(state.maxEnergy * 0.2f)) return;
+        state.isJZZ = true;
+        var d = 7f;
+        ParticleSystem JZZ = Resources.Load<ParticleSystem>("JZZ");
+        if(JZZ == null) Debug.LogError("NO JZZ");
+        var jzzi = Instantiate(JZZ, innerSpellingTransform);
+        jzzi.Play();
+        Coroutine c = StartCoroutine(StopJZZAfterDuration(d));
+        StartCoroutine(ObservePower(d, c, jzzi));
+    }
+
+    //JZZ observer, once power too low exit JZZ mode
+    private IEnumerator ObservePower(float f, Coroutine c, ParticleSystem pts)
+    {
+        float timer = 0.0f;
+    
+        while (state.isJZZ && timer < f)
+        {
+            timer += Time.deltaTime;
+
+            for (float waitTime = 0; waitTime < 0.5f; waitTime += Time.deltaTime)
+            {
+                yield return null;
+            }
+
+            if (state.CurrentPower < 10)
+            {
+                state.isJZZ = false;
+                StopCoroutine(c);
+                if (pts != null)
+                {
+                    Destroy(pts.gameObject);
+                }
+            }
+
+            yield return null;
+        }
+        Destroy(pts.gameObject);
+        yield return null;
+    }
+
+
+    private IEnumerator StopJZZAfterDuration(float t)
+    {
+        // ParticleEffectManager.Instance.PlayParticleEffect("JZZ", innerSpellingTransform.gameObject, Quaternion.identity, Color.clear, Color.clear,t);
+        yield return new WaitForSeconds(t);
+        // 停止金钟罩效果
+        state.isJZZ = false;
+    }
+
     private void CastSpell()
     {
         //TODO:更新此机制。
@@ -151,29 +213,27 @@ public class SpellCast : MonoBehaviour
                 Quaternion.identity,
                 Color.white, Color.white, 1.2f);
         }
-        else
-        {
-            Debug.LogError("无法播放特效，因为 Weapon Transform 未指定！");
-        }
+        ParticleEffectManager.Instance.PlayParticleEffect("ULT1", innerSpellingTransform.gameObject,
+            Quaternion.identity,
+            Color.white, Color.white, 3f);
         // 获取玩家的位置
         Vector3 playerPosition = transform.position;
 
         // 检测在法术范围内的敌人
         Collider[] hitEnemies = Physics.OverlapSphere(playerPosition, spellRange);
-
+        List<Collider> enemys = new List<Collider>();
         foreach (Collider enemy in hitEnemies)
         {
             // 检查是否敌人
             if (enemy.CompareTag("Enemy"))
             {
+                enemys.Add(enemy);
                 // 获取敌人的 HealthSystem 组件
                 HealthSystem enemyHealth = enemy.GetComponent<HealthSystemComponent>().GetHealthSystem();
-
                 if (enemyHealth != null)
                 {
                     // 对敌人造成伤害
                     enemyHealth.Damage(state.CurrentDamage * 2);
-                    enemy.GetComponent<MonsterBehaviour>().ActivateSelfKillMode(20);
                     // 播放特效
                     if (spellingPartTransform != null)
                     {
@@ -195,6 +255,14 @@ public class SpellCast : MonoBehaviour
                         //     Color.cyan, Color.green, 1f);
                     }
                 }
+            }
+        }
+
+        foreach (var e in enemys)
+        {
+            if (state.ConsumeEnergy(0.02f*state.CurrentEnergy))
+            {
+                e.GetComponent<MonsterBehaviour>().ActivateSelfKillMode(10);
             }
         }
     }

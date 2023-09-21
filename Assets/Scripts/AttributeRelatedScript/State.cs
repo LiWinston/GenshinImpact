@@ -27,7 +27,7 @@ public class State : MonoBehaviour
         _instance = this;
     }
     [Header("Health")] 
-    [SerializeField] private float maxHealth;
+    [SerializeField] internal float maxHealth;
     [SerializeField] private float currentHealth;
     [SerializeField] private float addHealthOnUpdate;
     [SerializeField] private float addMaxHealthOnUpdate;
@@ -39,7 +39,7 @@ public class State : MonoBehaviour
     private Color emptyHealthColor = new Color(0, 0, 0.5f, 1); // 黑红色
 
     [Header("Energy")] 
-    [SerializeField] private float maxEnergy;
+    [SerializeField] internal float maxEnergy;
     [SerializeField] private float currentEnergy;
     [SerializeField] private float addEnergyOnUpdate;
     [SerializeField] private float addMaxEnergyOnUpdate;
@@ -50,7 +50,7 @@ public class State : MonoBehaviour
     private Color emptyEnergyColor = Color.white;
 
     [Header("Power")] 
-    [SerializeField] private float maxPower = 100;
+    [SerializeField] internal float maxPower = 100;
     [SerializeField] private float currentPower = 100;
     [SerializeField] private float powerRegenerationRate = 0.05f; // 每秒恢复5%
     private Image powerBar;
@@ -64,8 +64,8 @@ public class State : MonoBehaviour
     private bool isPowerUpdated = true;
 
     [Header("Level and Experience")] 
-    [SerializeField]private int currentExperience;
-    [SerializeField] private float damageReduction = 0.005f;
+    [SerializeField] internal int currentExperience;
+    [SerializeField] internal float damageReduction = 0.005f;
     [SerializeField] private int maxLevel = 100;
 
     public delegate void LevelChangedEventHandler(int newLevel);
@@ -114,6 +114,9 @@ public class State : MonoBehaviour
     public delegate void ExitZenModeEventHandler();
     public static event ExitZenModeEventHandler OnExitZenMode;
     
+    //JZZ
+    public bool isJZZ { get; set; }
+    [SerializeField]internal float JZZReduceMutiplier = 1.5f;
 
     public float CurrentHealth
     {
@@ -373,8 +376,8 @@ public class State : MonoBehaviour
     public void TakeDamage(float damage)
     {
         var actualDamage = isInZenMode ? damage * (1 - damageReduction) : damage * 1.5f;
+        if(actualDamage > 5e-2) PlayerController.Instance.GetAnimator().SetTrigger("Hurt");
         CurrentHealth -= actualDamage <= maxHealth ? actualDamage : CurrentHealth; //vulnerable during zenMode
-
         IsInCombat = true;
         combatEndTime = Time.time + combatCooldownDuration;
     }
@@ -578,6 +581,7 @@ public class State : MonoBehaviour
     }
 
     private Coroutine ZenCoroutine { get; set; }
+    
 
     private void StopZenCoroutine()
     {

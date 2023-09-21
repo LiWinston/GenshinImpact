@@ -17,7 +17,7 @@ namespace AttributeRelatedScript
             // 在这里实现增加伤害的逻辑
             player.GetComponent<State>().IncreaseDamage(effectValue);
             ShowEffectMessage(effectValue, player.GetComponent<State>().CurrentDamage);
-            var pos = SpellCast.FindDeepChild(player.transform, "root");
+            var pos = SpellCast.FindDeepChild(player.transform, "spine_03");
             ParticleEffectManager.Instance.PlayParticleEffect("DamageUp",pos.gameObject,quaternion.identity, 
                 Color.cyan,Color.green, 2.8f);
         }
