@@ -17,7 +17,11 @@ public class ImmediateUseItems : MonoBehaviour, IPoolable
 
     public ObjectPool<GameObject> ThisPool { get; set; }
     public bool IsExisting { get; set; }
-    
+
+    public void SetPool(UnityEngine.Pool.ObjectPool<GameObject> pool)
+    {
+        ThisPool = pool;
+    }
     
 
     public void actionOnRelease()
