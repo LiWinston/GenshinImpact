@@ -1,10 +1,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using enemyBehaviour;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Pool;
+using Random = UnityEngine.Random;
 
 [System.Serializable]
 public class RemoteThrowingsBehavior : MonoBehaviour, IPoolable
@@ -26,7 +28,7 @@ public class RemoteThrowingsBehavior : MonoBehaviour, IPoolable
     
     
     [InspectorLabel("Effect")]
-    internal float triggerRange = 1f;
+    internal float triggerRange = 0.5f;
     internal float damage = 500f;
     internal float AOEDamage = 100f;
     [SerializeField]internal float AOERange = 1.5f;
@@ -37,17 +39,23 @@ public class RemoteThrowingsBehavior : MonoBehaviour, IPoolable
     private bool detectedEnemy = false; // 标志是否已经检测到敌人
     private GameObject target = null;
     private int bounceCount = 0;
+    private bool hasAppliedFirstDamage = false;
     private bool hasAppliedAOE;
-    private HashSet<Collider> hitEnemies = new HashSet<Collider>();
+    private HashSet<Collider> hitEnemies;
     
     [InspectorLabel("Player")]
     [SerializeField]internal float _energyCost;
 
     private Coroutine existCoroutine;
     private int enemyLayer;
+    
+
+    private void Start(){
+        hitEnemies = new HashSet<Collider>();
+    }
 
     private void Awake(){
-        enemyLayer = LayerMask.GetMask("Enemy");
+        enemyLayer = LayerMask.NameToLayer("Enemy");
     }
 
 
@@ -60,6 +68,7 @@ public class RemoteThrowingsBehavior : MonoBehaviour, IPoolable
         bounceCount = 0;
         IsExisting = true;
         hasAppliedAOE = false;
+        hasAppliedFirstDamage = false;
     }
 
     public void actionOnRelease(){
@@ -78,11 +87,29 @@ public class RemoteThrowingsBehavior : MonoBehaviour, IPoolable
    
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log(other.name+"Enter Trigger");
-        if (other.gameObject.layer == LayerMask.GetMask("Enemy") && !hitEnemies.Contains(other))
+        // Debug.Log(other.name+"Enter Trigger,层级 " + other.gameObject.layer.ToString() + "检测层级" + enemyLayer.ToString());
+        if (other.gameObject.layer == enemyLayer && !hitEnemies.Contains(other))
         {
-            ApplyEffect(other);
-            if (!hasAppliedAOE)
+            
+            switch (_effectCategory)
+            {
+                case EffectCategory.Bouncing:
+                case EffectCategory.Explosion:
+                {
+                    if (!hasAppliedFirstDamage)
+                    {
+                        ApplyEffect(other);
+                        Debug.Log(other.name+"是本轮唯一首次攻击");
+                    }
+                    hasAppliedFirstDamage = true;
+                    break;
+                }
+                case EffectCategory.Existing:
+                    ApplyEffect(other);
+                    break;
+            }
+            
+            if (_effectCategory != EffectCategory.Bouncing && !hasAppliedAOE)
             {
                 ApplyAOEEffect();
             }
@@ -93,7 +120,7 @@ public class RemoteThrowingsBehavior : MonoBehaviour, IPoolable
             hitEnemies.Add(other); // 记录已攻击过的敌人
         }
 
-        if (positionalCategory == PositionalCategory.Throwing && other.gameObject.layer == LayerMask.GetMask("Wall") && !detectedEnemy)
+        if (positionalCategory == PositionalCategory.Throwing && other.gameObject.layer == LayerMask.NameToLayer("Wall") && !detectedEnemy)
         {
             ApplyAOEEffect();
             Release();
@@ -102,8 +129,8 @@ public class RemoteThrowingsBehavior : MonoBehaviour, IPoolable
     
     private void OnTriggerExit(Collider other)//TODO：真的能触发吗 有待测试 other是墙又不会跑出去 
     {
-        Debug.Log(other.name+"Exit Trigger");
-        if (positionalCategory == PositionalCategory.Throwing && other.gameObject.layer == LayerMask.GetMask("Wall") && !detectedEnemy)
+        // Debug.Log(other.name+"Exit Trigger");
+        if (positionalCategory == PositionalCategory.Throwing && other.gameObject.layer == LayerMask.NameToLayer("Wall") && !detectedEnemy)
         {
             ApplyAOEEffect();
             hasAppliedAOE = true;
@@ -115,18 +142,14 @@ public class RemoteThrowingsBehavior : MonoBehaviour, IPoolable
     {
         if (_effectCategory == EffectCategory.Existing)
         {
-            // Check if it's an existing effect, apply damage over time
             StartCoroutine(ApplyDamageOverTime(other));
         }
         else if (_effectCategory == EffectCategory.Bouncing)
         {
-            // Check if it's a bouncing effect, apply damage with bounce
-            ApplyBouncingDamage(other.gameObject);
-            Debug.Log("kaiTiao");
+            if(other.gameObject.layer == enemyLayer) ApplyBouncingDamage(other.gameObject);
         }
-        else
+        else if (_effectCategory == EffectCategory.Explosion)
         {
-            // Check if it's an explosion or immediate effect, apply primary damage
             var mstbhv = other.GetComponent<MonsterBehaviour>();
             if (mstbhv != null)
             {
@@ -137,6 +160,7 @@ public class RemoteThrowingsBehavior : MonoBehaviour, IPoolable
 
     private void ApplyAOEEffect()
     {
+        Debug.Log("AOE!");
         var colliders = Physics.OverlapSphere(transform.position, AOERange, LayerMask.GetMask("Enemy"));
         foreach (var collider in colliders)
         {
@@ -166,18 +190,24 @@ public class RemoteThrowingsBehavior : MonoBehaviour, IPoolable
 
     private void ApplyBouncingDamage(GameObject other)
     {
-        Debug.Log("tiaodashen");
         var mstbhv = other.GetComponent<MonsterBehaviour>();
         if (mstbhv != null)
         {
-            mstbhv.TakeDamage(damage * Mathf.Pow(0.8f, bounceCount));
+            var dmg = damage * Mathf.Pow(0.8f, bounceCount);
+            Debug.Log("击中" + other.name + "dmg = "+ dmg);
+            mstbhv.TakeDamage(dmg);
+            hitEnemies.Add(mstbhv.GetComponent<Collider>());
             bounceCount++;
-            if (bounceCount > 5 || Mathf.Pow(0.8f, bounceCount) < 0.1f)
+            if (bounceCount > 10 || Mathf.Pow(0.8f, bounceCount) < 0.06f)
             {
                 Release();
             }
         }
         var nextTarget = GetBounceTarget();
+        while(hitEnemies.Contains(nextTarget.GetComponent<Collider>()))
+        {
+            nextTarget = GetBounceTarget();
+        }
         if (nextTarget != null)
         {
             target = nextTarget;
@@ -189,22 +219,23 @@ public class RemoteThrowingsBehavior : MonoBehaviour, IPoolable
 
     private IEnumerator Bounce()
     {
-        float duration = 0.5f; // 跳跃的总时间
+        float duration = 0.4f; // 跳跃的总时间
         float startTime = Time.time;
         Vector3 startPosition = transform.position;
         Vector3 endPosition = target.transform.position;
 
-        while (Time.time - startTime < duration)
-        {
-            float t = (Time.time - startTime) / duration;
-            // 使用插值将物体从起始位置移动到目标位置
-            transform.position = Vector3.Lerp(startPosition, endPosition, t);
-            yield return null;
-        }
-
+        Debug.Log("在跳了");
+        // while (Time.time - startTime < duration)
+        // {
+        //     float t = (Time.time - startTime) / duration;
+        //     // 使用插值将物体从起始位置移动到目标位置
+        //     transform.position = Vector3.Lerp(startPosition, endPosition, t);
+        //     yield return null;
+        // }
         // 确保物体准确到达目标位置
+        yield return new WaitForSeconds(1);
         transform.position = endPosition;
-
+        
         // 调用ApplyBouncingDamage来处理新的目标
         ApplyBouncingDamage(target.gameObject);
     }
@@ -215,32 +246,30 @@ public class RemoteThrowingsBehavior : MonoBehaviour, IPoolable
     }
     
     private GameObject GetBounceTarget()
+    {
+        Collider[] nearEnemies = Physics.OverlapSphere(target.transform.position, AOERange, enemyLayer);
+        List<GameObject> validEnemies = new List<GameObject>();
+        
+        foreach (Collider enemyCollider in nearEnemies)
         {
-            if (target.layer == enemyLayer && !target.GetComponent<MonsterBehaviour>().health.IsDead())
+            if (enemyCollider.gameObject == gameObject) continue;
+            MonsterBehaviour enemyMonster = enemyCollider.GetComponent<MonsterBehaviour>();
+            if (!hitEnemies.Contains(enemyMonster.GetComponent<Collider>()) && enemyMonster != null && !enemyMonster.health.IsDead())
             {
-                // 如果目标是存活的敌人，返回目标
-                return target;
+                validEnemies.Add(enemyCollider.gameObject);
             }
-            Collider[] nearEnemies = Physics.OverlapSphere(transform.position, AOERange, enemyLayer);
-            GameObject nearestEnemy = null;
-            float nearestDistance = float.MaxValue;
-            foreach (Collider enemyCollider in nearEnemies)
-            {
-                if (enemyCollider.gameObject == gameObject) continue;
-                // 检查敌人是否存活
-                MonsterBehaviour enemyMonster = enemyCollider.GetComponent<MonsterBehaviour>();
-                if (enemyMonster != null && !enemyMonster.health.IsDead())
-                {
-                    float distance = Vector3.Distance(transform.position, enemyCollider.transform.position);
-                    if (distance < nearestDistance)
-                    {
-                        nearestEnemy = enemyCollider.gameObject;
-                        nearestDistance = distance;
-                    }
-                }
-            }
-
-            // curDistance = nearestDistance;
-            return nearestEnemy != null ? nearestEnemy : gameObject;// 如果没有找到最近的敌人，返回当前目标
         }
+
+        if (validEnemies.Count > 0)
+        {
+            // 随机选择一个有效敌人作为目标
+            int randomIndex = Random.Range(0, validEnemies.Count - 1);
+            return validEnemies[randomIndex];
+        }
+        else
+        {
+            return target == null ? target : gameObject;
+        }
+    }
+
 }

@@ -42,6 +42,7 @@ public class PrefabGenerator : MonoBehaviour
         var prfb = Instantiate(prefab, spawnPosition, Quaternion.identity);
         prfb.GetComponent<IPoolable>().SetPool(objPool);
         // SetPoolForGeneratedObject(prfb);
+        prfb.name = countAll.ToString();
         return prfb;
     }
     
