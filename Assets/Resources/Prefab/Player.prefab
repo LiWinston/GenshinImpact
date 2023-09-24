@@ -340,6 +340,7 @@ GameObject:
   - component: {fileID: 7406021605194356953}
   - component: {fileID: 3360135653076135481}
   - component: {fileID: 1311987219512801190}
+  - component: {fileID: 737389524479703910}
   - component: {fileID: 5614921957825579036}
   - component: {fileID: 6844506482609387575}
   - component: {fileID: 9011349587138179888}
@@ -373,7 +374,6 @@ Transform:
   - {fileID: 5496938359645849437}
   - {fileID: 1961631992508790801}
   - {fileID: 9052529448980344077}
-  - {fileID: 7210394976520353700}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &3360135653076135481
@@ -423,10 +423,34 @@ MonoBehaviour:
   countAll: 0
   countActive: 0
   countInactive: 0
-  SkillPreview: {fileID: 1960286806359720136}
   castingDistance: 7
   animatorTriggerName: Cast
   animationGap: 0.4
+  key: 102
+--- !u!114 &737389524479703910
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1678239912745874840}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9012ec7ec793c144f9f905436e3a3714, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 5633851335140538449, guid: ed076578aada9594d8d65138fa81b028, type: 3}
+  maxExistTime: 10
+  generatingOffset: {x: 0, y: 0.4, z: 0}
+  defaultCapacity: 10
+  maxCapacity: 10
+  countAll: 0
+  countActive: 0
+  countInactive: 0
+  castingDistance: 10
+  animatorTriggerName: AttackTrigger1
+  animationGap: 0.3
+  key: 103
 --- !u!114 &5614921957825579036
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -625,37 +649,6 @@ MonoBehaviour:
   particlePrefab: {fileID: 0}
   defaultDuration: 1.5
   autoDestroy: 1
---- !u!1 &1960286806359720136
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 7210394976520353700}
-  m_Layer: 0
-  m_Name: CastRangeDrawer
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &7210394976520353700
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1960286806359720136}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0.44379106, z: 0, w: 0.8961303}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2.4999998, y: 2.5, z: 2.4999998}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 7406021605194356953}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6788492857406727715
 GameObject:
   m_ObjectHideFlags: 0

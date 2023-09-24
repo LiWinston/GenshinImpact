@@ -67,17 +67,18 @@ public class RemoteThrowingsBehavior : MonoBehaviour, IPoolable
         if(existCoroutine != null){
             StopCoroutine(existCoroutine);
         }
+        target = null;
     }
 
     public void Release()
     {
         ThisPool.Release(gameObject);
-        target = null;
     }
     
    
     private void OnTriggerEnter(Collider other)
     {
+        Debug.Log(other.name+"Enter Trigger");
         if (other.gameObject.layer == LayerMask.GetMask("Enemy") && !hitEnemies.Contains(other))
         {
             ApplyEffect(other);
@@ -101,6 +102,7 @@ public class RemoteThrowingsBehavior : MonoBehaviour, IPoolable
     
     private void OnTriggerExit(Collider other)//TODO：真的能触发吗 有待测试 other是墙又不会跑出去 
     {
+        Debug.Log(other.name+"Exit Trigger");
         if (positionalCategory == PositionalCategory.Throwing && other.gameObject.layer == LayerMask.GetMask("Wall") && !detectedEnemy)
         {
             ApplyAOEEffect();
@@ -120,6 +122,7 @@ public class RemoteThrowingsBehavior : MonoBehaviour, IPoolable
         {
             // Check if it's a bouncing effect, apply damage with bounce
             ApplyBouncingDamage(other.gameObject);
+            Debug.Log("kaiTiao");
         }
         else
         {
@@ -163,6 +166,7 @@ public class RemoteThrowingsBehavior : MonoBehaviour, IPoolable
 
     private void ApplyBouncingDamage(GameObject other)
     {
+        Debug.Log("tiaodashen");
         var mstbhv = other.GetComponent<MonsterBehaviour>();
         if (mstbhv != null)
         {

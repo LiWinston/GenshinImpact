@@ -6,6 +6,7 @@ using enemyBehaviour;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Pool;
+using Utility;
 using Quaternion = UnityEngine.Quaternion;
 using Random = UnityEngine.Random;
 using Vector3 = UnityEngine.Vector3;
@@ -29,7 +30,7 @@ public class RemoteSpelling: MonoBehaviour
     public int countInactive;
     
     [InspectorLabel("Trying Cast Position")]
-    [SerializeAs("预览技能对象")] public GameObject SkillPreview;
+    private GameObject SkillPreview;
     private LineRenderer lineRenderer;
     private bool isCasting;
     private Coroutine castingCoroutine;
@@ -43,9 +44,16 @@ public class RemoteSpelling: MonoBehaviour
     [InspectorLabel("Skill Customization")]
     [SerializeField] private string animatorTriggerName;
     [SerializeField] private float animationGap = 0.4f;
+    [SerializeField] private KeyCode key = KeyCode.F;
 
-    private void Start()
-    {
+    private void Start(){
+        string randomName;
+        do
+        {
+            randomName = UnityEngine.Random.Range(0, 100000).ToString();
+        } while (GameObject.Find(randomName) != null);
+        SkillPreview = new GameObject(randomName);
+        SkillPreview.transform.SetParent(this.transform);
         _spellCast = GetComponent<SpellCast>();
         _playerController = GetComponent<PlayerController>();
         _throwingsPool = new ObjectPool<GameObject>(CreateFunc, actionOnGet, actionOnRelease, actionOnDestroy,
@@ -91,11 +99,11 @@ public class RemoteSpelling: MonoBehaviour
         countInactive = _throwingsPool.CountInactive;
         if (throwingsBehavior.positionalCategory == RemoteThrowingsBehavior.PositionalCategory.ImmediatelyInPosition)
         {
-            if (Input.GetKeyDown(KeyCode.F))
+            if (Input.GetKeyDown(key))
             {
                 StartCasting();
             }
-            else if (Input.GetKeyUp(KeyCode.F))
+            else if (Input.GetKeyUp(key))
             {
                 if (castingCoroutine != null)
                 {

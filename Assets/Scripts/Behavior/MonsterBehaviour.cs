@@ -66,6 +66,7 @@ namespace enemyBehaviour
         public void actionOnGet()
         {
             InitializeMonsterLevel();
+            target = PlayerController.Instance.gameObject;
             health.SetHealthMax(monsterLevel * 100 +100, true);
         }
 
