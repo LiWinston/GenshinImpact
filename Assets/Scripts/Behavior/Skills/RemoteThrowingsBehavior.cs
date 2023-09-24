@@ -17,9 +17,9 @@ public class RemoteThrowingsBehavior : MonoBehaviour, IPoolable
     
 
     [Tooltip("Effect")]
-    float damage = 50f;
-    float AOEDamage = 10f;
-    float AOERange = 10f;
+    internal float damage = 50f;
+    internal float AOEDamage = 10f;
+    [SerializeField]internal float AOERange = 1f;
     internal enum EffectCategory
     {
         Explosion,
