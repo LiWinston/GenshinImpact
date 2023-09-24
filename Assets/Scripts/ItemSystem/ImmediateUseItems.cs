@@ -1,5 +1,6 @@
 using CameraView;
 using UnityEngine;
+using UnityEngine.Pool;
 
 public class ImmediateUseItems : MonoBehaviour, IPoolable
 {
@@ -12,23 +13,26 @@ public class ImmediateUseItems : MonoBehaviour, IPoolable
     // private bool isPlayerInSight = false; // 玩家是否在视野内
     // private bool showAlert = false; // 是否显示警告
     // private rotation _rotation;
-
-    public UnityEngine.Pool.ObjectPool<GameObject> pool;
     
+
+    public ObjectPool<GameObject> ThisPool { get; set; }
+    public bool IsExisting { get; set; }
+
     public void SetPool(UnityEngine.Pool.ObjectPool<GameObject> pool)
     {
-        this.pool = pool;
+        ThisPool = pool;
     }
-
-    public void actionOnGet()
-    {
-        
-    }
+    
 
     public void actionOnRelease()
     {
         //TODO: implement Package Sys
         // if (_isEffNotNull) player.GetComponent<Package>().addToPackage(this.gameObject);
+    }
+
+    public void Release()
+    {
+        ThisPool.Release(gameObject);
     }
 
 
@@ -50,22 +54,8 @@ public class ImmediateUseItems : MonoBehaviour, IPoolable
     {
         if (used)
         {
-            pool.Release(gameObject);
+            Release();
         }
-
-        // 检测玩家是否在视野内
-        // showAlert = InSightDetector.IsInLineOfSight(player, this);
-
-        // 根据条件显示警告
-        // if (Vector3.Distance(transform.position, player.transform.position) <= alertDis)
-        // {
-        //     showAlert = true;
-        //     // player.GetComponent<PlayerController>().showExp("EEE");
-        // }
-        // else
-        // {
-        //     showAlert = false;
-        // }
     }
 
     public void Pick()

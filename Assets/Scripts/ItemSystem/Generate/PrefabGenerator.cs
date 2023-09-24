@@ -89,6 +89,7 @@ public class PrefabGenerator : MonoBehaviour
 
     private IEnumerator ReturnToPoolDelayed(GameObject obj, float delay)
     {
+        if (!obj.GetComponent<IPoolable>().IsExisting) yield break;
         yield return new WaitForSeconds(delay);
         // Return the object to the object pool
         if (obj.activeSelf)
