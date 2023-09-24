@@ -63,6 +63,7 @@ public class RemoteSpelling: MonoBehaviour
     private GameObject CreateFunc(){
         GameObject throwing = Instantiate(prefab, transform.position, Quaternion.identity);
         throwing.GetComponent<IPoolable>().SetPool(_throwingsPool);
+        throwing.GetComponent<RemoteThrowingsBehavior>().actionOnGet();
         return throwing.GameObject();
     }
 
@@ -88,18 +89,20 @@ public class RemoteSpelling: MonoBehaviour
         countAll = _throwingsPool.CountAll;
         countActive = _throwingsPool.CountActive;
         countInactive = _throwingsPool.CountInactive;
-        
-        if (Input.GetKeyDown(KeyCode.F))
+        if (throwingsBehavior.positionalCategory == RemoteThrowingsBehavior.PositionalCategory.ImmediatelyInPosition)
         {
-            StartCasting();
-        }
-        else if (Input.GetKeyUp(KeyCode.F))
-        {
-            if (castingCoroutine != null)
+            if (Input.GetKeyDown(KeyCode.F))
             {
-                StopCoroutine(castingCoroutine);
+                StartCasting();
             }
-            StartCoroutine(StopCasting());
+            else if (Input.GetKeyUp(KeyCode.F))
+            {
+                if (castingCoroutine != null)
+                {
+                    StopCoroutine(castingCoroutine);
+                }
+                StartCoroutine(StopCasting());
+            }
         }
     }
     
@@ -107,7 +110,7 @@ public class RemoteSpelling: MonoBehaviour
     {
         if (isCasting) return;
         isCasting = true;
-        castingCoroutine = StartCoroutine(CastingLogic());
+        castingCoroutine = StartCoroutine(ImmediateCastAimingLogic());
     }
 
     protected IEnumerator StopCasting()
@@ -125,7 +128,7 @@ public class RemoteSpelling: MonoBehaviour
         isCasting = false;
     }
 
-    protected IEnumerator CastingLogic()
+    protected IEnumerator ImmediateCastAimingLogic()
     {
         SkillPreview.SetActive(true);
         var castTrans = _playerController
@@ -136,21 +139,17 @@ public class RemoteSpelling: MonoBehaviour
             if (Physics.Raycast(castTrans, PlayerController.Instance.mycamera.transform.forward,
                     out RaycastHit hit, castingDistance, castingLayer))
             {
-                if (hit.collider != null)
-                {
-                    // 命中物体，绘制绿色圆圈
-                    hitTarget = hit.point;
-                    SkillPreview.transform.position = hitTarget;
-                    Vector3 playerToHitVector = castTrans - hit.point;
-                    float aoeRange = throwingsBehavior.AOERange;
-                    DrawCircle(aoeRange, Color.green, playerToHitVector.normalized * 0.01f, 30);
-                    canCast = true;
-                }
+                hitTarget = hit.point;
+                SkillPreview.transform.position = hitTarget;
+                Vector3 playerToHitVector = castTrans - hit.point;
+                float triggerRange = throwingsBehavior.triggerRange;
+                DrawCircle(triggerRange, Color.green, playerToHitVector.normalized * 0.08f, 30);
+                canCast = true;
             }
             else
             {
                 // 未命中物体，绘制红色圆圈
-                SkillPreview.transform.position = new Vector3(castTrans.x, 0.01f, castTrans.z);
+                SkillPreview.transform.position = new Vector3(castTrans.x, 0.5f, castTrans.z);
 
                 // 获取地表的高度
                 float groundHeight = transform.position.y;
@@ -161,8 +160,8 @@ public class RemoteSpelling: MonoBehaviour
                 DrawCircle(radius, Color.red, Vector3.zero, 100);
                 canCast = false;
             }
-
-            yield return new WaitForSeconds(0.04f);
+            yield return null;
+            // yield return new WaitForSeconds(0.04f);
         }
     }
     

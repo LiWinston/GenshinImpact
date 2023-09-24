@@ -17,7 +17,7 @@ public interface IPoolable
         IsExisting = true;
     }
 
-    void actionOnRelease()
+    public void actionOnRelease()
     {
         IsExisting = false;
     }

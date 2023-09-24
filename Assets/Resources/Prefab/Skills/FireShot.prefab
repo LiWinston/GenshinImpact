@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 2353437418114724401}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 22.597, y: 2.659, z: 12.732}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.52, y: 0.52, z: 0.52}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -96,7 +96,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   positionalCategory: 1
+  AOERange: 1
   _effectCategory: 0
+  _energyCost: 0
 --- !u!1001 &3459863218280417733
 PrefabInstance:
   m_ObjectHideFlags: 0
