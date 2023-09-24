@@ -9,8 +9,8 @@ using Utility;
 public class SpellCast : MonoBehaviour
 {
     private Animator animator;
-    [SerializeField] private Transform spellingPartTransform; // 施法的手
-    [SerializeField] private Transform innerSpellingTransform; // 施法的腰子
+    [SerializeField] internal Transform spellingPartTransform; // 施法的手
+    [SerializeField] internal Transform innerSpellingTransform; // 施法的腰子
     [SerializeField] private float spellRange = 1.6f;
     private State state;
 

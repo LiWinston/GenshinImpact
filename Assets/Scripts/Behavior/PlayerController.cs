@@ -136,6 +136,7 @@ public class PlayerController : MonoBehaviour
         originalPosition = transform.position;
         if (Camera.main != null) Camera.main.transform.rotation = Quaternion.identity; // 正前方
         animator.SetFloat("AttSpeedMult",1f);
+        animator.Play("Getting_Up");
     }
 
     private void Update()
