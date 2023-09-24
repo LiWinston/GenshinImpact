@@ -1,26 +1,85 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
+using enemyBehaviour;
 using UnityEngine;
 using UnityEngine.Pool;
-using Random = UnityEngine.Random;
 
 [System.Serializable]
 public class RemoteThrowingsBehavior : MonoBehaviour, IPoolable
 {
-    public void SetPool(ObjectPool<GameObject> pool)
+    public ObjectPool<GameObject> ThisPool { get; set; }
+    public bool IsExisting { get; set; }
+    internal enum PositionalCategory
     {
-        throw new NotImplementedException();
+        Throwing,
+        ImmediatelyInPosition
+    };
+    [SerializeField] internal PositionalCategory positionalCategory;
+    
+
+    [Tooltip("Effect")]
+    float damage = 50f;
+    float AOEDamage = 10f;
+    float AOERange = 10f;
+    internal enum EffectCategory
+    {
+        Explosion,
+        Exising,
+        Bouncing
     }
 
-    public void actionOnGet()
+    [SerializeField] internal EffectCategory _effectCategory = EffectCategory.Explosion;
+    float disappearDistance = 10f;
+    float disappearTime = 3f;
+    // float RemainingEffectTime = 0f;
+    
+    public void Release()
     {
-        throw new NotImplementedException();
+        ThisPool.Release(gameObject);
     }
-
-    public void actionOnRelease()
+    
+    private void OnTriggerEnter(Collider other)
     {
-        throw new NotImplementedException();
+        if (positionalCategory == PositionalCategory.Throwing)
+        {
+            if (other.gameObject.layer == LayerMask.GetMask("Enemy"))
+            {
+                ApplyEffect(other);
+            }
+
+            if (other.gameObject.layer == LayerMask.GetMask("Wall"))
+            {
+                
+            }
+        }
+        else if (positionalCategory == PositionalCategory.ImmediatelyInPosition)
+        {
+            if (other.gameObject.layer == LayerMask.GetMask("Enemy"))
+            {
+                ApplyEffect(other);
+            }
+        }
+    }
+    
+    private void ApplyEffect(Collider other)
+    {
+        var mstbhv = other.GetComponent<MonsterBehaviour>();
+        if (mstbhv != null)
+        {
+            mstbhv.TakeDamage(damage);
+        }
+        ApplyAOEEffect();
+    }
+    
+    private void ApplyAOEEffect()
+    {
+        var colliders = Physics.OverlapSphere(transform.position, AOERange, LayerMask.GetMask("Enemy"));
+        foreach (var collider in colliders)
+        {
+            var mstbhv = collider.GetComponent<MonsterBehaviour>();
+            if (mstbhv != null)
+            {
+                mstbhv.TakeDamage(AOEDamage);
+            }
+        }
     }
 }

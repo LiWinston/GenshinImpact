@@ -40,7 +40,8 @@ public class ImmediateUseItems : MonoBehaviour, IPoolable
     {
         // _rotation = GetComponent<rotation>();
         _eff = GetComponent<PlayerBuffEffect>();
-        player = GameObject.Find("Player");
+        // player = GameObject.Find("Player");
+        player = PlayerController.Instance.gameObject;
         if (player == null)
         {
             Debug.LogError("No Player found!");
