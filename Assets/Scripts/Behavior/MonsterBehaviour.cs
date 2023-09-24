@@ -2,6 +2,7 @@ using System.Collections;
 using enemyBehaviour.Health;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Pool;
 using Random = UnityEngine.Random;
 
 namespace enemyBehaviour
@@ -50,14 +51,16 @@ namespace enemyBehaviour
         private float originalAttackCooldownInterval;
         private float originalMaxMstSpeed;
     
-        //[][][][][][][][]
-        public UnityEngine.Pool.ObjectPool<GameObject> pool;
+        
         private Target targetComponent;
         private static readonly int Die = Animator.StringToHash("Die");
 
+        public ObjectPool<GameObject> ThisPool { get; set; }
+        public bool IsExisting { get; set; }
+
         public void SetPool(UnityEngine.Pool.ObjectPool<GameObject> pool)
         {
-            this.pool = pool;
+            ThisPool = pool;
         }
 
         public void actionOnGet()
@@ -72,9 +75,13 @@ namespace enemyBehaviour
             IsInSelfKill = false;
             targetComponent.targetColor = Color.red;
         }
-        
 
-      
+        public void Release()
+        {
+            ThisPool.Release(gameObject);
+        }
+
+
         private void Awake()
         {
             enemyLayer = LayerMask.GetMask("Enemy");
@@ -285,7 +292,7 @@ namespace enemyBehaviour
             ParticleEffectManager.Instance.PlayParticleEffect("MonsterDie", this.gameObject, Quaternion.identity, Color.red, Color.black, 1.2f);
             yield return new WaitForSeconds(1.2f);
             // Destroy(this.gameObject);
-            pool.Release(this.gameObject);
+            Release();
         }
 
         //TODO:逻辑待更新。
