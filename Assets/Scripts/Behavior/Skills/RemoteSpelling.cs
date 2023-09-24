@@ -27,19 +27,30 @@ public class RemoteSpelling: MonoBehaviour
     
     [InspectorLabel("Trying Cast Position")]
     [SerializeAs("预览技能对象")] public GameObject SkillPreview;
+    private LineRenderer lineRenderer;
     private bool isCasting;
     private Coroutine castingCoroutine;
-    public float castingDistance = 20f; // 施法最大距离
+    public float castingDistance = 7f; // 施法最大距离
     private Vector3 hitTarget;
     private RemoteThrowingsBehavior throwingsBehavior;
+    private PlayerController _playerController;
+    private SpellCast _spellCast;
 
 
     private void Start()
     {
+        _spellCast = GetComponent<SpellCast>();
+        _playerController = GetComponent<PlayerController>();
         _throwingsPool = new ObjectPool<GameObject>(CreateFunc, actionOnGet, actionOnRelease, actionOnDestroy,
             true, defaultCapacity, maxCapacity);
-        castingLayer = LayerMask.GetMask("Wall","Floor");
+        castingLayer = LayerMask.GetMask("Wall", "Floor");
         throwingsBehavior = prefab.GetComponent<RemoteThrowingsBehavior>();
+
+        // 初始化 LineRenderer
+        lineRenderer = SkillPreview.AddComponent<LineRenderer>();
+        lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
+        lineRenderer.startWidth = 0.02f;
+        lineRenderer.endWidth = 0.02f;
     }
 
     private GameObject CreateFunc(){
@@ -102,16 +113,16 @@ public class RemoteSpelling: MonoBehaviour
         SkillPreview.SetActive(false);
     }
 
-    // ReSharper disable Unity.PerformanceAnalysis
-    protected IEnumerator CastingLogic(){
+    
+    protected IEnumerator CastingLogic()
+    {
         SkillPreview.SetActive(true);
-        var playerController = GetComponent<PlayerController>();
-        var castTrans = playerController
-            ? GetComponent<SpellCast>().spellingPartTransform.position
+        var castTrans = _playerController
+            ? _spellCast.spellingPartTransform.position
             : transform.position + Vector3.up * 0.5f;
         while (isCasting)
         {
-            if (Physics.Raycast(castTrans, PlayerController.Instance.mycamera.transform.forward, 
+            if (Physics.Raycast(castTrans, PlayerController.Instance.mycamera.transform.forward,
                     out RaycastHit hit, castingDistance, castingLayer))
             {
                 if (hit.collider != null)
@@ -121,40 +132,24 @@ public class RemoteSpelling: MonoBehaviour
                     SkillPreview.transform.position = hitTarget;
                     Vector3 playerToHitVector = castTrans - hit.point;
                     float aoeRange = throwingsBehavior.AOERange;
-                    DrawCircle(hit.point, aoeRange, Color.green, playerToHitVector.normalized * 0.1f, 30);
-                }
-                else
-                {
-                    // 未命中物体，绘制红色圆圈
-                    SkillPreview.transform.position = castTrans + PlayerController.Instance.mycamera.transform.forward * castingDistance;
-                    DrawCircle(SkillPreview.transform.position, throwingsBehavior.AOERange, Color.red, Vector3.zero, 10);
+                    DrawCircle(aoeRange, Color.green, playerToHitVector.normalized * 0.1f, 30);
                 }
             }
-            // else
-            // {
-            //     // 未命中物体，绘制红色圆圈
-            //     SkillPreview.transform.position = castTrans + PlayerController.Instance.mycamera.transform.forward * castingDistance;
-            //     DrawCircle(SkillPreview.transform.position, throwingsBehavior.AOERange, Color.red, Vector3.zero);
-            // }
-            
-            yield return new WaitForSeconds(0.05f);
+            else
+            {
+                // 未命中物体，绘制红色圆圈
+                SkillPreview.transform.position = castTrans;
+                DrawCircle(castingDistance, Color.red, Vector3.zero);
+            }
+
+            yield return new WaitForSeconds(0.04f);
         }
     }
     
-    private void DrawCircle(Vector3 center, float radius, Color color, Vector3 offset, int segments = 100)
+    private void DrawCircle(float radius, Color color, Vector3 offset, int segments = 100)
     {
-        LineRenderer lineRenderer = SkillPreview.GetComponent<LineRenderer>();
-    
-        if (lineRenderer == null)
-        {
-            // 如果预览技能对象上没有 LineRenderer 组件，就添加一个
-            lineRenderer = SkillPreview.AddComponent<LineRenderer>();
-            lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
-            lineRenderer.startColor = color;
-            lineRenderer.endColor = color;
-            lineRenderer.startWidth = 0.02f;
-            lineRenderer.endWidth = 0.02f;
-        }
+        lineRenderer.startColor = color; // 更新颜色
+        lineRenderer.endColor = color;
 
         lineRenderer.positionCount = segments + 1;
         lineRenderer.useWorldSpace = false;
@@ -169,7 +164,7 @@ public class RemoteSpelling: MonoBehaviour
 
             Vector3 pos = new Vector3(x, 0, z) + offset; // 应用偏移向量
             lineRenderer.SetPosition(i, pos);
-        
+
             theta += deltaTheta;
         }
     }
