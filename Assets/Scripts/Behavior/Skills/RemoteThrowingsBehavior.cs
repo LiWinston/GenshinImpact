@@ -32,6 +32,8 @@ public class RemoteThrowingsBehavior : MonoBehaviour, IPoolable
     float disappearTime = 3f;
     // float RemainingEffectTime = 0f;
     
+    [Tooltip("Player")]
+    [SerializeField]internal float _energyCost;
     public void Release()
     {
         ThisPool.Release(gameObject);

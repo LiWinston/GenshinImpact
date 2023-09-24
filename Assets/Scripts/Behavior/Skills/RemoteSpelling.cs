@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Numerics;
 using enemyBehaviour;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Pool;
+using Quaternion = UnityEngine.Quaternion;
 using Random = UnityEngine.Random;
+using Vector3 = UnityEngine.Vector3;
 
 [System.Serializable]
 public class RemoteSpelling: MonoBehaviour
@@ -35,7 +38,11 @@ public class RemoteSpelling: MonoBehaviour
     private RemoteThrowingsBehavior throwingsBehavior;
     private PlayerController _playerController;
     private SpellCast _spellCast;
+    private bool canCast = false;
 
+    [InspectorLabel("Skill Customization")]
+    [SerializeField] private string animatorTriggerName;
+    [SerializeField] private float animationGap = 0.4f;
 
     private void Start()
     {
@@ -88,7 +95,11 @@ public class RemoteSpelling: MonoBehaviour
         }
         else if (Input.GetKeyUp(KeyCode.F))
         {
-            StopCasting();
+            if (castingCoroutine != null)
+            {
+                StopCoroutine(castingCoroutine);
+            }
+            StartCoroutine(StopCasting());
         }
     }
     
@@ -99,21 +110,21 @@ public class RemoteSpelling: MonoBehaviour
         castingCoroutine = StartCoroutine(CastingLogic());
     }
 
-    protected void StopCasting()
+    protected IEnumerator StopCasting()
     {
-        if (!isCasting) return;
-        var th = _throwingsPool.Get();
-        th.transform.position = hitTarget + generatingOffset;
-        StartCoroutine(ReturnToPoolDelayed(th, 2));
-        isCasting = false;
-        if (castingCoroutine != null)
-        {
-            StopCoroutine(castingCoroutine);
-        }
         SkillPreview.SetActive(false);
+        if (!isCasting) yield break;
+        if (canCast)
+        {
+            _playerController.GetAnimator().SetTrigger(animatorTriggerName);
+            yield return new WaitForSeconds(animationGap);
+            var th = _throwingsPool.Get();
+            th.transform.position = hitTarget + generatingOffset;
+            StartCoroutine(ReturnToPoolDelayed(th, 2));
+        }
+        isCasting = false;
     }
 
-    
     protected IEnumerator CastingLogic()
     {
         SkillPreview.SetActive(true);
@@ -132,19 +143,30 @@ public class RemoteSpelling: MonoBehaviour
                     SkillPreview.transform.position = hitTarget;
                     Vector3 playerToHitVector = castTrans - hit.point;
                     float aoeRange = throwingsBehavior.AOERange;
-                    DrawCircle(aoeRange, Color.green, playerToHitVector.normalized * 0.1f, 30);
+                    DrawCircle(aoeRange, Color.green, playerToHitVector.normalized * 0.01f, 30);
+                    canCast = true;
                 }
             }
             else
             {
                 // 未命中物体，绘制红色圆圈
-                SkillPreview.transform.position = castTrans;
-                DrawCircle(castingDistance, Color.red, Vector3.zero);
+                SkillPreview.transform.position = new Vector3(castTrans.x, 0.01f, castTrans.z);
+
+                // 获取地表的高度
+                float groundHeight = transform.position.y;
+
+                // 计算半径，考虑勾股定理
+                float radius = Mathf.Sqrt(castingDistance * castingDistance - (castTrans.y - groundHeight) * (castTrans.y - groundHeight));
+
+                DrawCircle(radius, Color.red, Vector3.zero, 100);
+                canCast = false;
             }
 
             yield return new WaitForSeconds(0.04f);
         }
     }
+    
+    
     
     private void DrawCircle(float radius, Color color, Vector3 offset, int segments = 100)
     {
