@@ -75,7 +75,7 @@ MonoBehaviour:
   AOERange: 3
   positionalCategory: 1
   _effectCategory: 2
-  maxExistTime: 1
+  maxExistTime: 2
   _energyCost: 0
 --- !u!1001 &5389386326756002439
 PrefabInstance:
@@ -144,6 +144,18 @@ PrefabInstance:
     - target: {fileID: 400002, guid: 391ec6f1311384e75b4888fd6fc26b7e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 10800000, guid: 391ec6f1311384e75b4888fd6fc26b7e, type: 3}
+      propertyPath: m_Color.b
+      value: 0.98039216
+      objectReference: {fileID: 0}
+    - target: {fileID: 10800000, guid: 391ec6f1311384e75b4888fd6fc26b7e, type: 3}
+      propertyPath: m_Color.g
+      value: 0.44705886
+      objectReference: {fileID: 0}
+    - target: {fileID: 10800000, guid: 391ec6f1311384e75b4888fd6fc26b7e, type: 3}
+      propertyPath: m_Color.r
+      value: 0.7197405
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

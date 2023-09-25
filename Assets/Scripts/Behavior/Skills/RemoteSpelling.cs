@@ -72,9 +72,21 @@ public class RemoteSpelling: MonoBehaviour
     }
 
     private GameObject CreateFunc(){
+        // if(countAll < maxCapacity){
+        //     GameObject throwing = Instantiate(prefab, transform.position, Quaternion.identity);
+        //     actionOnGet(throwing);//尝试新写法 解决不销毁的问题
+        //     throwing.GetComponent<IPoolable>().SetPool(_throwingsPool);
+        //     // throwing.GetComponent<RemoteThrowingsBehavior>().actionOnGet();
+        //     return throwing.GameObject();
+        // }
+        // else
+        // {
+        //     _throwingsPool.Dispose();
+        //     return _throwingsPool.Get();
+        // }
         GameObject throwing = Instantiate(prefab, transform.position, Quaternion.identity);
+        actionOnGet(throwing);//尝试新写法 解决不销毁的问题
         throwing.GetComponent<IPoolable>().SetPool(_throwingsPool);
-        throwing.GetComponent<RemoteThrowingsBehavior>().actionOnGet();
         return throwing.GameObject();
     }
 
@@ -91,7 +103,7 @@ public class RemoteSpelling: MonoBehaviour
 
     void actionOnDestroy(GameObject obj)
     {
-        Destroy(obj);
+        // Destroy(obj);
     }
     
     private void Update()
@@ -142,6 +154,7 @@ public class RemoteSpelling: MonoBehaviour
             yield return new WaitForSeconds(animationGap);
             var th = _throwingsPool.Get();
             th.transform.position = hitTarget + generatingOffset;
+            th.transform.rotation = transform.rotation;
         }
         isCasting = false;
     }

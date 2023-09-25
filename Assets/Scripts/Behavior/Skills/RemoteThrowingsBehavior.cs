@@ -62,10 +62,7 @@ public class RemoteThrowingsBehavior : MonoBehaviour, IPoolable
     }
 
     public void actionOnGet(){
-        
-        if(_effectCategory == EffectCategory.Existing){
-            existCoroutine = StartCoroutine(ReturnToPoolDelayed(maxExistTime));
-        }
+        existCoroutine = StartCoroutine(ReturnToPoolDelayed(maxExistTime));
         // hitEnemies.Clear();
         // hasEnemyInside = false;
         detectedEnemy = false;
@@ -77,11 +74,12 @@ public class RemoteThrowingsBehavior : MonoBehaviour, IPoolable
 
     public void actionOnRelease(){
         hitEnemies.Clear();
-        if(existCoroutine != null){
-            StopCoroutine(existCoroutine);
-        }
         if(DamageOverTimeCoroutine_Existing != null){
             StopCoroutine(DamageOverTimeCoroutine_Existing);
+        }
+        if(existCoroutine != null){
+            StopCoroutine(existCoroutine);
+            existCoroutine = null;
         }
         IsExisting = false;
         target = null;
@@ -274,9 +272,10 @@ public class RemoteThrowingsBehavior : MonoBehaviour, IPoolable
     {
         yield return new WaitForSeconds(delay);
         // Return the object to the object pool
-        if (gameObject.activeSelf)
+        if (IsExisting)
         {
             Release();
         }
+        yield return null;
     }
 }
