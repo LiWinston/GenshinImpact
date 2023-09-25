@@ -28,13 +28,13 @@ public class RemoteThrowingsBehavior : MonoBehaviour, IPoolable
     
     
     [InspectorLabel("Effect")]
-    internal float triggerRange = 0.5f;
-    internal float damage = 500f;
-    internal float AOEDamage = 100f;
-    [SerializeField]internal float AOERange = 1.5f;
+    [SerializeField] internal float triggerRange = 0.5f;
+    [SerializeField] internal float damage = 500;
+    [SerializeField] internal float AOEDamage = 300f;
+    [SerializeField] internal float AOERange = 1.5f;
     [SerializeField] internal PositionalCategory positionalCategory;
     [SerializeField] internal EffectCategory _effectCategory = EffectCategory.Explosion;
-    public float maxExistTime = 10f;
+    [SerializeField] public float maxExistTime = 10f;
     // private bool hasEnemyInside = false; // 标志是否有敌人在碰撞内
     private bool detectedEnemy = false; // 标志是否已经检测到敌人
     private GameObject target = null;
@@ -49,15 +49,17 @@ public class RemoteThrowingsBehavior : MonoBehaviour, IPoolable
     private Coroutine existCoroutine;
     private int enemyLayer;
     
+    private void Awake(){
+            enemyLayer = LayerMask.NameToLayer("Enemy");
+        }
 
     private void Start(){
         hitEnemies = new HashSet<Collider>();
     }
 
-    private void Awake(){
-        enemyLayer = LayerMask.NameToLayer("Enemy");
+    public void Update(){
+       // Debug.Log(hasAppliedFirstDamage);
     }
-
 
     public void actionOnGet(){
         if(_effectCategory == EffectCategory.Existing){
@@ -76,6 +78,7 @@ public class RemoteThrowingsBehavior : MonoBehaviour, IPoolable
         if(existCoroutine != null){
             StopCoroutine(existCoroutine);
         }
+        IsExisting = false;
         target = null;
     }
 
@@ -96,15 +99,17 @@ public class RemoteThrowingsBehavior : MonoBehaviour, IPoolable
                 case EffectCategory.Bouncing:
                 case EffectCategory.Explosion:
                 {
+                    Debug.Log(other.name+"进入前俩分支");
                     if (!hasAppliedFirstDamage)
                     {
-                        ApplyEffect(other);
+                        hasAppliedFirstDamage = true;
                         Debug.Log(other.name+"是本轮唯一首次攻击");
+                        ApplyEffect(other);
                     }
-                    hasAppliedFirstDamage = true;
                     break;
                 }
                 case EffectCategory.Existing:
+                    Debug.Log(other.name+"第三分支 正常触发伤害");
                     ApplyEffect(other);
                     break;
             }
@@ -146,7 +151,8 @@ public class RemoteThrowingsBehavior : MonoBehaviour, IPoolable
         }
         else if (_effectCategory == EffectCategory.Bouncing)
         {
-            if(other.gameObject.layer == enemyLayer) ApplyBouncingDamage(other.gameObject);
+            target = other.gameObject;//尼玛，终于找到罪魁祸首了
+            ApplyBouncingDamage(other.gameObject);
         }
         else if (_effectCategory == EffectCategory.Explosion)
         {
@@ -160,8 +166,8 @@ public class RemoteThrowingsBehavior : MonoBehaviour, IPoolable
 
     private void ApplyAOEEffect()
     {
-        Debug.Log("AOE!");
         var colliders = Physics.OverlapSphere(transform.position, AOERange, LayerMask.GetMask("Enemy"));
+        Debug.Log("AOE人数" + colliders.Length);
         foreach (var collider in colliders)
         {
             var mstbhv = collider.GetComponent<MonsterBehaviour>();
@@ -190,22 +196,22 @@ public class RemoteThrowingsBehavior : MonoBehaviour, IPoolable
 
     private void ApplyBouncingDamage(GameObject other)
     {
-        var mstbhv = other.GetComponent<MonsterBehaviour>();
-        if (mstbhv != null)
+        var mst = other.GetComponent<MonsterBehaviour>();
+        if (mst)
         {
             var dmg = damage * Mathf.Pow(0.8f, bounceCount);
             Debug.Log("击中" + other.name + "dmg = "+ dmg);
-            mstbhv.TakeDamage(dmg);
-            hitEnemies.Add(mstbhv.GetComponent<Collider>());
+            mst.TakeDamage(dmg);
+            hitEnemies.Add(mst.GetComponent<Collider>());
             bounceCount++;
-            if (bounceCount > 10 || Mathf.Pow(0.8f, bounceCount) < 0.06f)
-            {
-                Release();
-            }
+            // if (bounceCount > 10 || Mathf.Pow(0.8f, bounceCount) < 0.06f)
+            if (Mathf.Pow(0.8f, bounceCount) < 0.06f) Release();
         }
-        var nextTarget = GetBounceTarget();
+        GameObject nextTarget = GetBounceTarget();
+        Debug.Log("择取下一个："+nextTarget);
         while(hitEnemies.Contains(nextTarget.GetComponent<Collider>()))
         {
+            Debug.Log("不合适，再换："+nextTarget);
             nextTarget = GetBounceTarget();
         }
         if (nextTarget != null)
@@ -233,7 +239,7 @@ public class RemoteThrowingsBehavior : MonoBehaviour, IPoolable
         //     yield return null;
         // }
         // 确保物体准确到达目标位置
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(duration);
         transform.position = endPosition;
         
         // 调用ApplyBouncingDamage来处理新的目标
@@ -245,9 +251,10 @@ public class RemoteThrowingsBehavior : MonoBehaviour, IPoolable
         Release();
     }
     
-    private GameObject GetBounceTarget()
-    {
-        Collider[] nearEnemies = Physics.OverlapSphere(target.transform.position, AOERange, enemyLayer);
+    private GameObject GetBounceTarget(){
+        Debug.Log("GetBounceTarget调用");
+        Collider[] nearEnemies = Physics.OverlapSphere(target.transform.position, AOERange, LayerMask.GetMask("Enemy"));
+        Debug.Log("nearEnemies长度"+nearEnemies.Length);
         List<GameObject> validEnemies = new List<GameObject>();
         
         foreach (Collider enemyCollider in nearEnemies)
@@ -256,15 +263,16 @@ public class RemoteThrowingsBehavior : MonoBehaviour, IPoolable
             MonsterBehaviour enemyMonster = enemyCollider.GetComponent<MonsterBehaviour>();
             if (!hitEnemies.Contains(enemyMonster.GetComponent<Collider>()) && enemyMonster != null && !enemyMonster.health.IsDead())
             {
+                Debug.Log("如果敌人非空没有被攻击过且不是死亡状态");
                 validEnemies.Add(enemyCollider.gameObject);
             }
         }
-
+        Debug.Log("validEnemies长度"+validEnemies.Count);
         if (validEnemies.Count > 0)
         {
             // 随机选择一个有效敌人作为目标
             int randomIndex = Random.Range(0, validEnemies.Count - 1);
-            return validEnemies[randomIndex];
+            return validEnemies[0];
         }
         else
         {

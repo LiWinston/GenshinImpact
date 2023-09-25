@@ -69,7 +69,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5653a0a4f7c6394d8926205e40e0b91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AOERange: 1
+  triggerRange: 0.5
+  damage: 500
+  AOEDamage: 300
+  AOERange: 3
   positionalCategory: 1
   _effectCategory: 2
   maxExistTime: 10
