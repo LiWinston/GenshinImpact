@@ -96,10 +96,20 @@ public class RemoteSpelling: MonoBehaviour
     
     private void Update()
     {
-        
         countAll = _throwingsPool.CountAll;
         countActive = _throwingsPool.CountActive;
         countInactive = _throwingsPool.CountInactive;
+
+        // if (throwingsBehavior.positionalCategory == RemoteThrowingsBehavior.PositionalCategory.Throwing)
+        // {
+        //     if (Input.GetKeyDown(key))
+        //     {
+        //         var th = _throwingsPool.Get();
+        //         th.transform.position = hitTarget + generatingOffset;
+        //         // StartCoroutine(ReturnToPoolDelayed(th, maxExistTime));
+        //     }
+        // }
+        
         if (throwingsBehavior.positionalCategory == RemoteThrowingsBehavior.PositionalCategory.ImmediatelyInPosition)
         {
             if (Input.GetKeyDown(key))
@@ -134,7 +144,7 @@ public class RemoteSpelling: MonoBehaviour
             yield return new WaitForSeconds(animationGap);
             var th = _throwingsPool.Get();
             th.transform.position = hitTarget + generatingOffset;
-            StartCoroutine(ReturnToPoolDelayed(th, 2));
+            // StartCoroutine(ReturnToPoolDelayed(th, prefab.));
         }
         isCasting = false;
     }
@@ -159,7 +169,6 @@ public class RemoteSpelling: MonoBehaviour
             }
             else
             {
-                // 未命中物体，绘制红色圆圈
                 SkillPreview.transform.position = new Vector3(castTrans.x, 0.5f, castTrans.z);
 
                 // 获取地表的高度
@@ -198,17 +207,6 @@ public class RemoteSpelling: MonoBehaviour
             lineRenderer.SetPosition(i, pos);
 
             theta += deltaTheta;
-        }
-    }
-
-    
-    private IEnumerator ReturnToPoolDelayed(GameObject obj, float delay)
-    {
-        yield return new WaitForSeconds(delay);
-        // Return the object to the object pool
-        if (obj.activeSelf)
-        {
-            _throwingsPool.Release(obj);
         }
     }
 }

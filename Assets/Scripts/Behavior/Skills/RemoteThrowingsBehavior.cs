@@ -25,7 +25,7 @@ public class RemoteThrowingsBehavior : MonoBehaviour, IPoolable
     
     public ObjectPool<GameObject> ThisPool { get; set; }
     public bool IsExisting { get; set; }
-    
+    private Coroutine existCoroutine;
     
     [InspectorLabel("Effect")]
     [SerializeField] internal float triggerRange = 0.5f;
@@ -41,20 +41,20 @@ public class RemoteThrowingsBehavior : MonoBehaviour, IPoolable
     private int bounceCount = 0;
     private bool hasAppliedFirstDamage = false;
     private bool hasAppliedAOE;
-    private HashSet<Collider> hitEnemies;
+    private HashSet<GameObject> hitEnemies;
+    private Coroutine DamageOverTimeCoroutine_Existing;
     
     [InspectorLabel("Player")]
     [SerializeField]internal float _energyCost;
-
-    private Coroutine existCoroutine;
     private int enemyLayer;
     
+
     private void Awake(){
             enemyLayer = LayerMask.NameToLayer("Enemy");
         }
 
     private void Start(){
-        hitEnemies = new HashSet<Collider>();
+        hitEnemies = new HashSet<GameObject>();
     }
 
     public void Update(){
@@ -62,9 +62,11 @@ public class RemoteThrowingsBehavior : MonoBehaviour, IPoolable
     }
 
     public void actionOnGet(){
+        
         if(_effectCategory == EffectCategory.Existing){
-            existCoroutine = StartCoroutine(StartExistenceTimer());
+            existCoroutine = StartCoroutine(ReturnToPoolDelayed(maxExistTime));
         }
+        hitEnemies.Clear();
         // hasEnemyInside = false;
         detectedEnemy = false;
         bounceCount = 0;
@@ -77,6 +79,9 @@ public class RemoteThrowingsBehavior : MonoBehaviour, IPoolable
         hitEnemies.Clear();
         if(existCoroutine != null){
             StopCoroutine(existCoroutine);
+        }
+        if(DamageOverTimeCoroutine_Existing != null){
+            StopCoroutine(DamageOverTimeCoroutine_Existing);
         }
         IsExisting = false;
         target = null;
@@ -91,7 +96,7 @@ public class RemoteThrowingsBehavior : MonoBehaviour, IPoolable
     private void OnTriggerEnter(Collider other)
     {
         // Debug.Log(other.name+"Enter Trigger,层级 " + other.gameObject.layer.ToString() + "检测层级" + enemyLayer.ToString());
-        if (other.gameObject.layer == enemyLayer && !hitEnemies.Contains(other))
+        if (other.gameObject.layer == enemyLayer && !hitEnemies.Contains(other.gameObject))
         {
             
             switch (_effectCategory)
@@ -99,7 +104,7 @@ public class RemoteThrowingsBehavior : MonoBehaviour, IPoolable
                 case EffectCategory.Bouncing:
                 case EffectCategory.Explosion:
                 {
-                    Debug.Log(other.name+"进入前俩分支");
+                    // Debug.Log(other.name+"进入前俩分支");
                     if (!hasAppliedFirstDamage)
                     {
                         hasAppliedFirstDamage = true;
@@ -122,7 +127,7 @@ public class RemoteThrowingsBehavior : MonoBehaviour, IPoolable
             
             // hasEnemyInside = true;
             detectedEnemy = true;
-            hitEnemies.Add(other); // 记录已攻击过的敌人
+            hitEnemies.Add(other.gameObject); // 记录已攻击过的敌人
         }
 
         if (positionalCategory == PositionalCategory.Throwing && other.gameObject.layer == LayerMask.NameToLayer("Wall") && !detectedEnemy)
@@ -147,7 +152,7 @@ public class RemoteThrowingsBehavior : MonoBehaviour, IPoolable
     {
         if (_effectCategory == EffectCategory.Existing)
         {
-            StartCoroutine(ApplyDamageOverTime(other));
+            DamageOverTimeCoroutine_Existing = StartCoroutine(ApplyDamageOverTime(other));
         }
         else if (_effectCategory == EffectCategory.Bouncing)
         {
@@ -202,82 +207,79 @@ public class RemoteThrowingsBehavior : MonoBehaviour, IPoolable
             var dmg = damage * Mathf.Pow(0.8f, bounceCount);
             Debug.Log("击中" + other.name + "dmg = "+ dmg);
             mst.TakeDamage(dmg);
-            hitEnemies.Add(mst.GetComponent<Collider>());
+            hitEnemies.Add(mst.gameObject);
             bounceCount++;
             // if (bounceCount > 10 || Mathf.Pow(0.8f, bounceCount) < 0.06f)
             if (Mathf.Pow(0.8f, bounceCount) < 0.06f) Release();
         }
+
         GameObject nextTarget = GetBounceTarget();
-        Debug.Log("择取下一个："+nextTarget);
-        while(hitEnemies.Contains(nextTarget.GetComponent<Collider>()))
-        {
-            Debug.Log("不合适，再换："+nextTarget);
-            nextTarget = GetBounceTarget();
-        }
-        if (nextTarget != null)
+        if (nextTarget != target && nextTarget != null)
         {
             target = nextTarget;
             transform.LookAt(target.transform);
             StartCoroutine(Bounce());
-        }
-        else Release();
+            Debug.Log("择取下一个："+nextTarget);
+        }else Release();
     }
 
     private IEnumerator Bounce()
     {
-        float duration = 0.4f; // 跳跃的总时间
+        float duration = 0.3f; // 跳跃的总时间
         float startTime = Time.time;
-        Vector3 startPosition = transform.position;
-        Vector3 endPosition = target.transform.position;
+        // Vector3 startPosition = transform.position;
+        // Vector3 endPosition = target.transform.position;
 
-        Debug.Log("在跳了");
-        // while (Time.time - startTime < duration)
-        // {
-        //     float t = (Time.time - startTime) / duration;
-        //     // 使用插值将物体从起始位置移动到目标位置
-        //     transform.position = Vector3.Lerp(startPosition, endPosition, t);
-        //     yield return null;
-        // }
-        // 确保物体准确到达目标位置
+        // Debug.Log("在跳了");
+        while (Time.time - startTime < duration)
+        {
+            float t = (Time.time - startTime) / duration;
+            // 使用插值将物体从起始位置移动到目标位置
+            transform.position = Vector3.Lerp(transform.position, target.transform.position, t);
+            yield return null;
+        }
         yield return new WaitForSeconds(duration);
-        transform.position = endPosition;
+        transform.position = target.transform.position;
         
         // 调用ApplyBouncingDamage来处理新的目标
         ApplyBouncingDamage(target.gameObject);
     }
-    private IEnumerator StartExistenceTimer()
-    {
-        yield return new WaitForSeconds(maxExistTime);
-        Release();
-    }
+  
     
     private GameObject GetBounceTarget(){
-        Debug.Log("GetBounceTarget调用");
+        // Debug.Log("GetBounceTarget调用");
         Collider[] nearEnemies = Physics.OverlapSphere(target.transform.position, AOERange, LayerMask.GetMask("Enemy"));
-        Debug.Log("nearEnemies长度"+nearEnemies.Length);
+        // Debug.Log("nearEnemies长度"+nearEnemies.Length);
         List<GameObject> validEnemies = new List<GameObject>();
         
         foreach (Collider enemyCollider in nearEnemies)
         {
-            if (enemyCollider.gameObject == gameObject) continue;
+            if (enemyCollider.gameObject.transform == transform) continue;
             MonsterBehaviour enemyMonster = enemyCollider.GetComponent<MonsterBehaviour>();
-            if (!hitEnemies.Contains(enemyMonster.GetComponent<Collider>()) && enemyMonster != null && !enemyMonster.health.IsDead())
+            if (!hitEnemies.Contains(enemyMonster.gameObject) && enemyMonster != null && !enemyMonster.health.IsDead())
             {
-                Debug.Log("如果敌人非空没有被攻击过且不是死亡状态");
+                // Debug.Log("如果敌人非空没有被攻击过且不是死亡状态");
                 validEnemies.Add(enemyCollider.gameObject);
             }
         }
-        Debug.Log("validEnemies长度"+validEnemies.Count);
+        // Debug.Log("validEnemies长度"+validEnemies.Count);
         if (validEnemies.Count > 0)
         {
             // 随机选择一个有效敌人作为目标
-            int randomIndex = Random.Range(0, validEnemies.Count - 1);
+            // int randomIndex = Random.Range(0, validEnemies.Count - 1);
             return validEnemies[0];
         }
-        else
-        {
-            return target == null ? target : gameObject;
-        }
+
+        return target;
     }
 
+    private IEnumerator ReturnToPoolDelayed(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        // Return the object to the object pool
+        if (gameObject.activeSelf)
+        {
+            Release();
+        }
+    }
 }
