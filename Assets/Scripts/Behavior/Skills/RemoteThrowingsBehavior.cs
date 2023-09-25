@@ -230,7 +230,7 @@ public class RemoteThrowingsBehavior : MonoBehaviour, IPoolable
         {
             float t = (Time.time - startTime) / duration;
             // 使用插值将物体从起始位置移动到目标位置
-            transform.position = Vector3.Lerp(transform.position, target.transform.position, t);
+            transform.position = Vector3.Lerp(transform.position, target.transform.position + Vector3.up * Random.Range(0.3f,1.2f), t);
             yield return null;
         }
         yield return new WaitForSeconds(duration);
