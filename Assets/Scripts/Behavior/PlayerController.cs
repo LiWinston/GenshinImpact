@@ -33,7 +33,7 @@ public class PlayerController : MonoBehaviour
         _instance = this;
     }
 
-    private Rigidbody rb;
+    internal Rigidbody rb;
     [SerializeField]Transform viewPoint;
     
     [Header("Movement Settings")]
@@ -84,10 +84,10 @@ public class PlayerController : MonoBehaviour
     public float moveForceTimer = 0.05f;
     public float moveForceTimerCounter = 0.05f;
     
-    [SerializeField] private GameObject swordTransform;
+    [FormerlySerializedAs("swordTransform")] [SerializeField] internal GameObject swordObject;
     private float speed_Ratio_Attack = 0.1f;
     public float rotationFriction = 4000f; // 调整旋转摩擦力的大小
-    private State state;
+    internal State state;
     [SerializeField] private Transform sword;
     internal bool cheatMode = false;
     private CriticalHitCurve _criticalHitCurve;

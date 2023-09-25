@@ -339,6 +339,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7406021605194356953}
   - component: {fileID: 3360135653076135481}
+  - component: {fileID: 3516849946789951379}
+  - component: {fileID: 6770313562260628058}
   - component: {fileID: 1311987219512801190}
   - component: {fileID: 737389524479703910}
   - component: {fileID: 5614921957825579036}
@@ -403,6 +405,55 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 2
+--- !u!114 &3516849946789951379
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1678239912745874840}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b838bbba4e2a8a4883fcda3b89e4c28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 4084828893074943605, guid: f4375c2a167ed8a40ad845b0ee29c9b7, type: 3}
+  maxExistTime: 10
+  generatingOffset: {x: 0, y: 0.3, z: 0}
+  defaultCapacity: 100
+  maxCapacity: 100
+  countAll: 0
+  countActive: 0
+  countInactive: 0
+  animatorTriggerName: 
+  animationGap: 0.4
+  key: 99
+--- !u!114 &6770313562260628058
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1678239912745874840}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9012ec7ec793c144f9f905436e3a3714, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 4084828893074943605, guid: f4375c2a167ed8a40ad845b0ee29c9b7, type: 3}
+  maxExistTime: 10
+  generatingOffset: {x: 0, y: 0, z: 0}
+  defaultCapacity: 12
+  maxCapacity: 100
+  countAll: 0
+  countActive: 0
+  countInactive: 0
+  castingDistance: 7
+  animatorTriggerName: 
+  animationGap: 0.2
+  key: 99
+  validColor: {r: 0, g: 1, b: 0, a: 1}
+  invalidColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!114 &1311987219512801190
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -417,9 +468,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 2353437418114724401, guid: 94a90d9048561e54da97e6c52674da07, type: 3}
   maxExistTime: 10
-  generatingOffset: {x: 0, y: 0, z: 0}
-  defaultCapacity: 3
-  maxCapacity: 5
+  generatingOffset: {x: 0, y: 0.5, z: 0}
+  defaultCapacity: 4
+  maxCapacity: 10
   countAll: 0
   countActive: 0
   countInactive: 0
@@ -427,6 +478,8 @@ MonoBehaviour:
   animatorTriggerName: Cast
   animationGap: 0.4
   key: 102
+  validColor: {r: 1, g: 0.9914959, b: 0, a: 1}
+  invalidColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!114 &737389524479703910
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -442,8 +495,8 @@ MonoBehaviour:
   prefab: {fileID: 5633851335140538449, guid: ed076578aada9594d8d65138fa81b028, type: 3}
   maxExistTime: 10
   generatingOffset: {x: 0, y: 0.4, z: 0}
-  defaultCapacity: 10
-  maxCapacity: 10
+  defaultCapacity: 6
+  maxCapacity: 12
   countAll: 0
   countActive: 0
   countInactive: 0
@@ -451,6 +504,8 @@ MonoBehaviour:
   animatorTriggerName: AttackTrigger1
   animationGap: 0.3
   key: 103
+  validColor: {r: 0, g: 0.73154736, b: 1, a: 1}
+  invalidColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!114 &5614921957825579036
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -508,7 +563,7 @@ MonoBehaviour:
   MAX_ALLOWED_INTERACT_RANGE: 3
   moveForceTimer: 0.08
   moveForceTimerCounter: 0.08
-  swordTransform: {fileID: 5783294752404380237}
+  swordObject: {fileID: 5783294752404380237}
   rotationFriction: 200
   sword: {fileID: 5662817349311532234}
 --- !u!114 &9011349587138179888

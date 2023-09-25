@@ -731,7 +731,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 100000, guid: 53ecd979e5901a64180e76675090ca0c, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 53ecd979e5901a64180e76675090ca0c, type: 3}
       propertyPath: m_LocalScale.y
@@ -2043,6 +2043,60 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 357082100983638266, guid: 705a0aa5ac66b2f42b8577a6b33a634d, type: 3}
   m_PrefabInstance: {fileID: 644052040}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &649011971 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1678239912745874840, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
+  m_PrefabInstance: {fileID: 6755353934008130882}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &649011984
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 649011971}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9012ec7ec793c144f9f905436e3a3714, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 4084828893074943605, guid: f4375c2a167ed8a40ad845b0ee29c9b7, type: 3}
+  maxExistTime: 10
+  generatingOffset: {x: 0, y: 0, z: 0}
+  defaultCapacity: 12
+  maxCapacity: 100
+  countAll: 0
+  countActive: 0
+  countInactive: 0
+  castingDistance: 7
+  animatorTriggerName: 
+  animationGap: 0.2
+  key: 99
+  validColor: {r: 0, g: 1, b: 0, a: 1}
+  invalidColor: {r: 1, g: 0, b: 0, a: 1}
+--- !u!114 &649011985
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 649011971}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b838bbba4e2a8a4883fcda3b89e4c28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 4084828893074943605, guid: f4375c2a167ed8a40ad845b0ee29c9b7, type: 3}
+  maxExistTime: 10
+  generatingOffset: {x: 0, y: 0.3, z: 0}
+  defaultCapacity: 100
+  maxCapacity: 100
+  countAll: 0
+  countActive: 0
+  countInactive: 0
+  animatorTriggerName: 
+  animationGap: 0.4
+  key: 99
 --- !u!1001 &649454040
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7682,7 +7736,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 100000, guid: 53ecd979e5901a64180e76675090ca0c, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 53ecd979e5901a64180e76675090ca0c, type: 3}
       propertyPath: m_LocalScale.y
@@ -7758,7 +7812,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 100000, guid: 53ecd979e5901a64180e76675090ca0c, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 53ecd979e5901a64180e76675090ca0c, type: 3}
       propertyPath: m_LocalScale.y
@@ -8394,7 +8448,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 100000, guid: 53ecd979e5901a64180e76675090ca0c, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 53ecd979e5901a64180e76675090ca0c, type: 3}
       propertyPath: m_LocalScale.y
@@ -8814,37 +8868,9 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 737389524479703910, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
-      propertyPath: maxCapacity
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 737389524479703910, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
-      propertyPath: validColor.b
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 737389524479703910, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
-      propertyPath: validColor.g
-      value: 0.73154736
-      objectReference: {fileID: 0}
-    - target: {fileID: 737389524479703910, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
-      propertyPath: defaultCapacity
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 1311987219512801190, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
-      propertyPath: maxCapacity
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1311987219512801190, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
-      propertyPath: validColor.g
-      value: 0.9914959
-      objectReference: {fileID: 0}
-    - target: {fileID: 1311987219512801190, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
-      propertyPath: validColor.r
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1311987219512801190, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
-      propertyPath: defaultCapacity
-      value: 2
+      propertyPath: generatingOffset.y
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 1678239912745874840, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
       propertyPath: m_Name
@@ -8893,7 +8919,13 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1678239912745874840, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
+      insertIndex: 2
+      addedObject: {fileID: 649011985}
+    - targetCorrespondingSourceObject: {fileID: 1678239912745874840, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
+      insertIndex: 3
+      addedObject: {fileID: 649011984}
   m_SourcePrefab: {fileID: 100100000, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
