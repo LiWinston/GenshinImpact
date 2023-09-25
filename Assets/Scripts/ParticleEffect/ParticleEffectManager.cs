@@ -77,26 +77,27 @@ public class ParticleEffectManager : MonoBehaviour
 
     private IEnumerator FadeInAndOut(ParticleSystem particleSystem, GameObject particleEffect, float duration, Color startColor, Color endColor)
     {
-        float elapsedTime = 0f;
+        // float elapsedTime = 0f;
+        //
+        // while (elapsedTime < duration)
+        // {
+        //     // float lerpValue = elapsedTime / duration;
+        //     // Color lerpedColor = Color.Lerp(startColor, endColor, lerpValue);
+        //
+        //     // 修改粒子系统的颜色
+        //     // var main = particleSystem.main;
+        //     // main.startColor = lerpedColor;
+        //
+        //     elapsedTime += Time.deltaTime;
+        //     yield return null;
+        // }
 
-        while (elapsedTime < duration)
-        {
-            float lerpValue = elapsedTime / duration;
-            // Color lerpedColor = Color.Lerp(startColor, endColor, lerpValue);
-
-            // 修改粒子系统的颜色
-            // var main = particleSystem.main;
-            // main.startColor = lerpedColor;
-
-            elapsedTime += Time.deltaTime;
-            yield return null;
-        }
-
-        // 确保结束时颜色是endColor
-        var finalMain = particleSystem.main;
-        finalMain.startColor = endColor;
+        // // 确保结束时颜色是endColor
+        // var finalMain = particleSystem.main;
+        // finalMain.startColor = endColor;
 
         // 在淡出后销毁特效
+        yield return new WaitForSeconds(duration);
         if (autoDestroy)
         {
             Destroy(particleEffect);

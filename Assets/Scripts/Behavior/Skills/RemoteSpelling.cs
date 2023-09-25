@@ -49,7 +49,9 @@ public class RemoteSpelling: MonoBehaviour
     [SerializeField] private Color validColor = Color.green;
     [SerializeField] private Color invalidColor = Color.red;
 
-
+    [InspectorLabel("Throwing Customization")]
+    [SerializeField] public bool isUpdatedWithLevel = false;
+    
     private void Start(){
         string randomName;
         do
@@ -116,7 +118,11 @@ public class RemoteSpelling: MonoBehaviour
         {
             if (Input.GetKeyDown(key))
             {
-                StartCoroutine(StartThrow());
+                if(isUpdatedWithLevel) StartCoroutine(StartThrowWithUpdate());
+                else
+                {
+                    StartCoroutine(StartThrow());
+                }
             }
         }
         if (throwingsBehavior.positionalCategory == RemoteThrowingsBehavior.PositionalCategory.ImmediatelyInPosition)
@@ -132,6 +138,46 @@ public class RemoteSpelling: MonoBehaviour
                     StopCoroutine(castingCoroutine);
                 }
                 StartCoroutine(StopCasting());
+            }
+        }
+    }
+
+    private IEnumerator StartThrowWithUpdate(){
+        _playerController.GetAnimator().SetTrigger(animatorTriggerName = "Throw");
+        _playerController.isCrouching = false;
+        _playerController.rb.velocity = Vector3.zero;
+        yield return new WaitForSeconds(animationGap);
+
+        int maxSwordCount = 30; // 最大剑气数量
+        int minSwordCount = 1; // 最小剑气数量
+        float maxAngle = 30f; // 最大角度
+        float minAngle = 0f; // 最小角度
+
+        int playerLevel = _playerController.state.GetCurrentLevel(); // 获取玩家等级
+        int swordCount = Mathf.Clamp(playerLevel / 2, minSwordCount, maxSwordCount); // 根据玩家等级计算剑气数量
+        float angleIncrement = (maxAngle - minAngle) / (swordCount - 1); // 计算角度增量
+
+        if (swordCount == 1)
+        {
+            var th = _throwingsPool.Get();
+            th.transform.position = _playerController.swordObject.transform.position;
+            th.transform.forward = transform.forward;
+            th.GetComponent<Rigidbody>().velocity = transform.forward * throwingsBehavior.throwingSpeed;
+        }
+        else
+        {
+            for (int i = 0; i < swordCount; i++)
+            {
+                var th = _throwingsPool.Get();
+                th.transform.position = _playerController.swordObject.transform.position;
+
+                // 计算剑气的角度
+                float angle = minAngle + i * angleIncrement - (maxAngle - minAngle) / 2f;
+                Vector3 direction = Quaternion.Euler(0, angle, 0) * _playerController.transform.forward;
+                th.transform.forward = direction;
+
+                Rigidbody rb = th.GetComponent<Rigidbody>();
+                rb.velocity = direction * throwingsBehavior.throwingSpeed;
             }
         }
     }
@@ -172,9 +218,10 @@ public class RemoteSpelling: MonoBehaviour
     protected IEnumerator ImmediateCastAimingLogic()
     {
         SkillPreview.SetActive(true);
-        var castTrans = _playerController
-            ? _spellCast.spellingPartTransform.position
-            : transform.position + Vector3.up * 0.5f;
+        // var castTrans = _playerController
+        //     ? _spellCast.spellingPartTransform.position
+        //     : transform.position + Vector3.up * 0.5f;
+        var castTrans = _playerController.mycamera.transform.position;
         while (isCasting)
         {
             if (Physics.Raycast(castTrans, PlayerController.Instance.mycamera.transform.forward,

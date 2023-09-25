@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using enemyBehaviour;
 using Unity.VisualScripting;
+using UnityEditor.Toolbars;
 using UnityEngine;
 using UnityEngine.Pool;
 using Random = UnityEngine.Random;
@@ -137,10 +138,21 @@ public class RemoteThrowingsBehavior : MonoBehaviour, IPoolable
             hitEnemies.Add(other.gameObject); // Record enemies that have been attacked
         }
 
-        if (positionalCategory == PositionalCategory.Throwing && other.gameObject.layer == LayerMask.NameToLayer("Wall") && !detectedEnemy)
+        if (positionalCategory == PositionalCategory.Throwing && other.gameObject.layer == LayerMask.NameToLayer("Wall") )
         {
-            ApplyAOEEffect();
-            ThisPool.Release(gameObject);
+            switch (_effectCategory)
+            {
+                case EffectCategory.Explosion:
+                    if (!detectedEnemy)
+                    {
+                        ApplyAOEEffect();
+                        ThisPool.Release(gameObject);
+                    }break;
+                case EffectCategory.Bouncing:
+                    ApplyAOEEffect();
+                    ThisPool.Release(gameObject);
+                    break;
+            }
         }
     }
     
