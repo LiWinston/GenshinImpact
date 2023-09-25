@@ -208,39 +208,30 @@ public class RemoteThrowingsBehavior : MonoBehaviour, IPoolable
             if (Mathf.Pow(0.8f, bounceCount) < 0.06f) Release();
         }
         GameObject nextTarget = GetBounceTarget();
-        Debug.Log("择取下一个："+nextTarget);
-        while(hitEnemies.Contains(nextTarget.gameObject))
-        {
-            Debug.Log("不合适，再换："+nextTarget);
-            nextTarget = GetBounceTarget();
-        }
-        if (nextTarget != null)
+        if (nextTarget != target && nextTarget != null)
         {
             target = nextTarget;
             transform.LookAt(target.transform);
             StartCoroutine(Bounce());
-        }
-        else Release();
+            Debug.Log("择取下一个："+nextTarget);
+        }else Release();
     }
 
     private IEnumerator Bounce()
     {
         float duration = 0.4f; // 跳跃的总时间
         float startTime = Time.time;
-        Vector3 startPosition = transform.position;
-        Vector3 endPosition = target.transform.position;
 
         Debug.Log("在跳了");
-        // while (Time.time - startTime < duration)
-        // {
-        //     float t = (Time.time - startTime) / duration;
-        //     // 使用插值将物体从起始位置移动到目标位置
-        //     transform.position = Vector3.Lerp(startPosition, endPosition, t);
-        //     yield return null;
-        // }
-        // 确保物体准确到达目标位置
+        while (Time.time - startTime < duration)
+        {
+            float t = (Time.time - startTime) / duration;
+            // 使用插值将物体从起始位置移动到目标位置
+            transform.position = Vector3.Lerp(transform.position, target.transform.position, t);
+            yield return null;
+        }
         yield return new WaitForSeconds(duration);
-        transform.position = endPosition;
+        transform.position = target.transform.position;
         
         // 调用ApplyBouncingDamage来处理新的目标
         ApplyBouncingDamage(target.gameObject);
@@ -252,31 +243,39 @@ public class RemoteThrowingsBehavior : MonoBehaviour, IPoolable
     }
     
     private GameObject GetBounceTarget(){
-        Debug.Log("GetBounceTarget调用");
+        // Debug.Log("GetBounceTarget调用");
         Collider[] nearEnemies = Physics.OverlapSphere(target.transform.position, AOERange, LayerMask.GetMask("Enemy"));
-        Debug.Log("nearEnemies长度"+nearEnemies.Length);
+        // Debug.Log("nearEnemies长度"+nearEnemies.Length);
         List<GameObject> validEnemies = new List<GameObject>();
-        
+
         foreach (Collider enemyCollider in nearEnemies)
         {
-            if (enemyCollider.gameObject == gameObject) continue;
+            if (enemyCollider.gameObject.transform == transform) continue;
             MonsterBehaviour enemyMonster = enemyCollider.GetComponent<MonsterBehaviour>();
             if (!hitEnemies.Contains(enemyMonster.gameObject) && enemyMonster != null && !enemyMonster.health.IsDead())
             {
-                Debug.Log("如果敌人非空没有被攻击过且不是死亡状态");
+                // Debug.Log("如果敌人非空没有被攻击过且不是死亡状态");
                 validEnemies.Add(enemyCollider.gameObject);
             }
         }
-        Debug.Log("validEnemies长度"+validEnemies.Count);
+        // Debug.Log("validEnemies长度"+validEnemies.Count);
         if (validEnemies.Count > 0)
         {
             // 随机选择一个有效敌人作为目标
-            int randomIndex = Random.Range(0, validEnemies.Count - 1);
+            // int randomIndex = Random.Range(0, validEnemies.Count - 1);
             return validEnemies[0];
         }
-        else
+
+        return target;
+    }
+
+    private IEnumerator ReturnToPoolDelayed(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        // Return the object to the object pool
+        if (gameObject.activeSelf)
         {
-            return target == null ? target : gameObject;
+            Release();
         }
     }
 
