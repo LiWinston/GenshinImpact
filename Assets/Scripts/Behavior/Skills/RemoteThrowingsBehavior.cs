@@ -25,7 +25,7 @@ public class RemoteThrowingsBehavior : MonoBehaviour, IPoolable
     
     public ObjectPool<GameObject> ThisPool { get; set; }
     public bool IsExisting { get; set; }
-    
+    private Coroutine existCoroutine;
     
     [InspectorLabel("Effect")]
     [SerializeField] internal float triggerRange = 0.5f;
@@ -42,13 +42,12 @@ public class RemoteThrowingsBehavior : MonoBehaviour, IPoolable
     private bool hasAppliedFirstDamage = false;
     private bool hasAppliedAOE;
     private HashSet<GameObject> hitEnemies;
+    private Coroutine DamageOverTimeCoroutine_Existing;
     
     [InspectorLabel("Player")]
     [SerializeField]internal float _energyCost;
-
-    private Coroutine existCoroutine;
-    private Coroutine DamageOverTimeCoroutine_Existing;
     private int enemyLayer;
+    
     
     private void Awake(){
             enemyLayer = LayerMask.NameToLayer("Enemy");
@@ -63,9 +62,11 @@ public class RemoteThrowingsBehavior : MonoBehaviour, IPoolable
     }
 
     public void actionOnGet(){
+        
         if(_effectCategory == EffectCategory.Existing){
             existCoroutine = StartCoroutine(ReturnToPoolDelayed(maxExistTime));
         }
+        // hitEnemies.Clear();
         // hasEnemyInside = false;
         detectedEnemy = false;
         bounceCount = 0;
@@ -103,7 +104,7 @@ public class RemoteThrowingsBehavior : MonoBehaviour, IPoolable
                 case EffectCategory.Bouncing:
                 case EffectCategory.Explosion:
                 {
-                    Debug.Log(other.name+"进入前俩分支");
+                    // Debug.Log(other.name+"进入前俩分支");
                     if (!hasAppliedFirstDamage)
                     {
                         hasAppliedFirstDamage = true;

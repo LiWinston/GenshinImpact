@@ -96,10 +96,18 @@ public class RemoteSpelling: MonoBehaviour
     
     private void Update()
     {
-        
         countAll = _throwingsPool.CountAll;
         countActive = _throwingsPool.CountActive;
         countInactive = _throwingsPool.CountInactive;
+        if (throwingsBehavior.positionalCategory == RemoteThrowingsBehavior.PositionalCategory.Throwing)
+        {
+            if (Input.GetKeyDown(key))
+            {
+                var th = _throwingsPool.Get();
+                th.transform.position = hitTarget + generatingOffset;
+                // StartCoroutine(ReturnToPoolDelayed(th, maxExistTime));
+            }
+        }
         if (throwingsBehavior.positionalCategory == RemoteThrowingsBehavior.PositionalCategory.ImmediatelyInPosition)
         {
             if (Input.GetKeyDown(key))
