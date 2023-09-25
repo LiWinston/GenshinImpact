@@ -48,7 +48,7 @@ public class RemoteThrowingsBehavior : MonoBehaviour, IPoolable
     [SerializeField]internal float _energyCost;
     private int enemyLayer;
     
-
+    
     private void Awake(){
             enemyLayer = LayerMask.NameToLayer("Enemy");
         }
@@ -62,11 +62,8 @@ public class RemoteThrowingsBehavior : MonoBehaviour, IPoolable
     }
 
     public void actionOnGet(){
-        
-        if(_effectCategory == EffectCategory.Existing){
-            existCoroutine = StartCoroutine(ReturnToPoolDelayed(maxExistTime));
-        }
-        hitEnemies.Clear();
+        existCoroutine = StartCoroutine(ReturnToPoolDelayed(maxExistTime));
+        // hitEnemies.Clear();
         // hasEnemyInside = false;
         detectedEnemy = false;
         bounceCount = 0;
@@ -77,11 +74,12 @@ public class RemoteThrowingsBehavior : MonoBehaviour, IPoolable
 
     public void actionOnRelease(){
         hitEnemies.Clear();
-        if(existCoroutine != null){
-            StopCoroutine(existCoroutine);
-        }
         if(DamageOverTimeCoroutine_Existing != null){
             StopCoroutine(DamageOverTimeCoroutine_Existing);
+        }
+        if(existCoroutine != null){
+            StopCoroutine(existCoroutine);
+            existCoroutine = null;
         }
         IsExisting = false;
         target = null;
@@ -212,7 +210,6 @@ public class RemoteThrowingsBehavior : MonoBehaviour, IPoolable
             // if (bounceCount > 10 || Mathf.Pow(0.8f, bounceCount) < 0.06f)
             if (Mathf.Pow(0.8f, bounceCount) < 0.06f) Release();
         }
-
         GameObject nextTarget = GetBounceTarget();
         if (nextTarget != target && nextTarget != null)
         {
@@ -227,8 +224,6 @@ public class RemoteThrowingsBehavior : MonoBehaviour, IPoolable
     {
         float duration = 0.3f; // 跳跃的总时间
         float startTime = Time.time;
-        // Vector3 startPosition = transform.position;
-        // Vector3 endPosition = target.transform.position;
 
         // Debug.Log("在跳了");
         while (Time.time - startTime < duration)
@@ -277,9 +272,10 @@ public class RemoteThrowingsBehavior : MonoBehaviour, IPoolable
     {
         yield return new WaitForSeconds(delay);
         // Return the object to the object pool
-        if (gameObject.activeSelf)
+        if (IsExisting)
         {
             Release();
         }
+        yield return null;
     }
 }
