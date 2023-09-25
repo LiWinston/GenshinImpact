@@ -41,7 +41,7 @@ public class RemoteThrowingsBehavior : MonoBehaviour, IPoolable
     private int bounceCount = 0;
     private bool hasAppliedFirstDamage = false;
     private bool hasAppliedAOE;
-    private HashSet<Collider> hitEnemies;
+    private HashSet<GameObject> hitEnemies;
     
     [InspectorLabel("Player")]
     [SerializeField]internal float _energyCost;
@@ -54,7 +54,7 @@ public class RemoteThrowingsBehavior : MonoBehaviour, IPoolable
         }
 
     private void Start(){
-        hitEnemies = new HashSet<Collider>();
+        hitEnemies = new HashSet<GameObject>();
     }
 
     public void Update(){
@@ -91,7 +91,7 @@ public class RemoteThrowingsBehavior : MonoBehaviour, IPoolable
     private void OnTriggerEnter(Collider other)
     {
         // Debug.Log(other.name+"Enter Trigger,层级 " + other.gameObject.layer.ToString() + "检测层级" + enemyLayer.ToString());
-        if (other.gameObject.layer == enemyLayer && !hitEnemies.Contains(other))
+        if (other.gameObject.layer == enemyLayer && !hitEnemies.Contains(other.gameObject))
         {
             
             switch (_effectCategory)
@@ -122,7 +122,7 @@ public class RemoteThrowingsBehavior : MonoBehaviour, IPoolable
             
             // hasEnemyInside = true;
             detectedEnemy = true;
-            hitEnemies.Add(other); // 记录已攻击过的敌人
+            hitEnemies.Add(other.gameObject); // 记录已攻击过的敌人
         }
 
         if (positionalCategory == PositionalCategory.Throwing && other.gameObject.layer == LayerMask.NameToLayer("Wall") && !detectedEnemy)
@@ -202,14 +202,14 @@ public class RemoteThrowingsBehavior : MonoBehaviour, IPoolable
             var dmg = damage * Mathf.Pow(0.8f, bounceCount);
             Debug.Log("击中" + other.name + "dmg = "+ dmg);
             mst.TakeDamage(dmg);
-            hitEnemies.Add(mst.GetComponent<Collider>());
+            hitEnemies.Add(mst.GetComponent<GameObject>());
             bounceCount++;
             // if (bounceCount > 10 || Mathf.Pow(0.8f, bounceCount) < 0.06f)
             if (Mathf.Pow(0.8f, bounceCount) < 0.06f) Release();
         }
         GameObject nextTarget = GetBounceTarget();
         Debug.Log("择取下一个："+nextTarget);
-        while(hitEnemies.Contains(nextTarget.GetComponent<Collider>()))
+        while(hitEnemies.Contains(nextTarget.gameObject))
         {
             Debug.Log("不合适，再换："+nextTarget);
             nextTarget = GetBounceTarget();
@@ -261,7 +261,7 @@ public class RemoteThrowingsBehavior : MonoBehaviour, IPoolable
         {
             if (enemyCollider.gameObject == gameObject) continue;
             MonsterBehaviour enemyMonster = enemyCollider.GetComponent<MonsterBehaviour>();
-            if (!hitEnemies.Contains(enemyMonster.GetComponent<Collider>()) && enemyMonster != null && !enemyMonster.health.IsDead())
+            if (!hitEnemies.Contains(enemyMonster.gameObject) && enemyMonster != null && !enemyMonster.health.IsDead())
             {
                 Debug.Log("如果敌人非空没有被攻击过且不是死亡状态");
                 validEnemies.Add(enemyCollider.gameObject);
