@@ -47,6 +47,7 @@ public class RemoteThrowingsBehavior : MonoBehaviour, IPoolable
     [SerializeField]internal float _energyCost;
 
     private Coroutine existCoroutine;
+    private Coroutine DamageOverTimeCoroutine_Existing;
     private int enemyLayer;
     
     private void Awake(){
@@ -63,7 +64,7 @@ public class RemoteThrowingsBehavior : MonoBehaviour, IPoolable
 
     public void actionOnGet(){
         if(_effectCategory == EffectCategory.Existing){
-            existCoroutine = StartCoroutine(StartExistenceTimer());
+            existCoroutine = StartCoroutine(ReturnToPoolDelayed(maxExistTime));
         }
         // hasEnemyInside = false;
         detectedEnemy = false;
@@ -77,6 +78,9 @@ public class RemoteThrowingsBehavior : MonoBehaviour, IPoolable
         hitEnemies.Clear();
         if(existCoroutine != null){
             StopCoroutine(existCoroutine);
+        }
+        if(DamageOverTimeCoroutine_Existing != null){
+            StopCoroutine(DamageOverTimeCoroutine_Existing);
         }
         IsExisting = false;
         target = null;
@@ -147,7 +151,7 @@ public class RemoteThrowingsBehavior : MonoBehaviour, IPoolable
     {
         if (_effectCategory == EffectCategory.Existing)
         {
-            StartCoroutine(ApplyDamageOverTime(other));
+            DamageOverTimeCoroutine_Existing = StartCoroutine(ApplyDamageOverTime(other));
         }
         else if (_effectCategory == EffectCategory.Bouncing)
         {
@@ -202,7 +206,7 @@ public class RemoteThrowingsBehavior : MonoBehaviour, IPoolable
             var dmg = damage * Mathf.Pow(0.8f, bounceCount);
             Debug.Log("击中" + other.name + "dmg = "+ dmg);
             mst.TakeDamage(dmg);
-            hitEnemies.Add(mst.GetComponent<GameObject>());
+            hitEnemies.Add(mst.gameObject);
             bounceCount++;
             // if (bounceCount > 10 || Mathf.Pow(0.8f, bounceCount) < 0.06f)
             if (Mathf.Pow(0.8f, bounceCount) < 0.06f) Release();
@@ -219,10 +223,10 @@ public class RemoteThrowingsBehavior : MonoBehaviour, IPoolable
 
     private IEnumerator Bounce()
     {
-        float duration = 0.4f; // 跳跃的总时间
+        float duration = 0.3f; // 跳跃的总时间
         float startTime = Time.time;
 
-        Debug.Log("在跳了");
+        // Debug.Log("在跳了");
         while (Time.time - startTime < duration)
         {
             float t = (Time.time - startTime) / duration;
@@ -236,18 +240,14 @@ public class RemoteThrowingsBehavior : MonoBehaviour, IPoolable
         // 调用ApplyBouncingDamage来处理新的目标
         ApplyBouncingDamage(target.gameObject);
     }
-    private IEnumerator StartExistenceTimer()
-    {
-        yield return new WaitForSeconds(maxExistTime);
-        Release();
-    }
+  
     
     private GameObject GetBounceTarget(){
         // Debug.Log("GetBounceTarget调用");
         Collider[] nearEnemies = Physics.OverlapSphere(target.transform.position, AOERange, LayerMask.GetMask("Enemy"));
         // Debug.Log("nearEnemies长度"+nearEnemies.Length);
         List<GameObject> validEnemies = new List<GameObject>();
-
+        
         foreach (Collider enemyCollider in nearEnemies)
         {
             if (enemyCollider.gameObject.transform == transform) continue;
@@ -278,5 +278,4 @@ public class RemoteThrowingsBehavior : MonoBehaviour, IPoolable
             Release();
         }
     }
-
 }

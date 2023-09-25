@@ -134,7 +134,6 @@ public class RemoteSpelling: MonoBehaviour
             yield return new WaitForSeconds(animationGap);
             var th = _throwingsPool.Get();
             th.transform.position = hitTarget + generatingOffset;
-            StartCoroutine(ReturnToPoolDelayed(th, 2));
         }
         isCasting = false;
     }
@@ -198,17 +197,6 @@ public class RemoteSpelling: MonoBehaviour
             lineRenderer.SetPosition(i, pos);
 
             theta += deltaTheta;
-        }
-    }
-
-    
-    private IEnumerator ReturnToPoolDelayed(GameObject obj, float delay)
-    {
-        yield return new WaitForSeconds(delay);
-        // Return the object to the object pool
-        if (obj.activeSelf)
-        {
-            _throwingsPool.Release(obj);
         }
     }
 }
