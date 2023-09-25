@@ -36,7 +36,7 @@ public class RemoteThrowingsBehavior : MonoBehaviour, IPoolable
     [SerializeField] internal EffectCategory _effectCategory = EffectCategory.Explosion;
     [SerializeField] public float maxExistTime = 10f;
     // private bool hasEnemyInside = false; // 标志是否有敌人在碰撞内
-    private bool detectedEnemy = false; // 标志是否已经检测到敌人
+    private bool detectedEnemy = false; // Flag whether an enemy has been detected
     private GameObject target = null;
     private int bounceCount = 0;
     private bool hasAppliedFirstDamage = false;
@@ -85,17 +85,23 @@ public class RemoteThrowingsBehavior : MonoBehaviour, IPoolable
         }
         IsExisting = false;
         target = null;
+        // StartCoroutine(checkRelease());
     }
 
-    public void Release()
+    private void OnBecameInvisible()
     {
-        ThisPool.Release(gameObject);
+        if(positionalCategory == PositionalCategory.Throwing) ThisPool.Release(gameObject);
     }
-    
-   
+
+    // private IEnumerator checkRelease(){
+    //     //Stupid method to avoid fail release, by Destroy(gameObject) in the end
+    //     yield return null; yield return null;
+    //     if(gameObject.activeSelf) Destroy(gameObject);
+    // }
+
     private void OnTriggerEnter(Collider other)
     {
-        // Debug.Log(other.name+"Enter Trigger,层级 " + other.gameObject.layer.ToString() + "检测层级" + enemyLayer.ToString());
+        // Debug.Log(other.name+"Enter Trigger,level " + other.gameObject.layer.ToString() + "Detection level" + enemyLayer.ToString());
         if (other.gameObject.layer == enemyLayer && !hitEnemies.Contains(other.gameObject))
         {
             
@@ -104,17 +110,17 @@ public class RemoteThrowingsBehavior : MonoBehaviour, IPoolable
                 case EffectCategory.Bouncing:
                 case EffectCategory.Explosion:
                 {
-                    // Debug.Log(other.name+"进入前俩分支");
+                    // Debug.Log(other.name+"Enter the first two branches");
                     if (!hasAppliedFirstDamage)
                     {
                         hasAppliedFirstDamage = true;
-                        Debug.Log(other.name+"是本轮唯一首次攻击");
+                        Debug.Log(other.name+"This is the only first attack in this round");
                         ApplyEffect(other);
                     }
                     break;
                 }
                 case EffectCategory.Existing:
-                    Debug.Log(other.name+"第三分支 正常触发伤害");
+                    Debug.Log(other.name+"The third branch triggers damage normally");
                     ApplyEffect(other);
                     break;
             }
@@ -122,29 +128,30 @@ public class RemoteThrowingsBehavior : MonoBehaviour, IPoolable
             if (_effectCategory != EffectCategory.Bouncing && !hasAppliedAOE)
             {
                 ApplyAOEEffect();
+                // if(_effectCategory != EffectCategory.Existing) ThisPool.Release(gameObject);//本句会导致火砸中人就消失
             }
             hasAppliedAOE = true;
             
             // hasEnemyInside = true;
             detectedEnemy = true;
-            hitEnemies.Add(other.gameObject); // 记录已攻击过的敌人
+            hitEnemies.Add(other.gameObject); // Record enemies that have been attacked
         }
 
         if (positionalCategory == PositionalCategory.Throwing && other.gameObject.layer == LayerMask.NameToLayer("Wall") && !detectedEnemy)
         {
             ApplyAOEEffect();
-            Release();
+            ThisPool.Release(gameObject);
         }
     }
     
-    private void OnTriggerExit(Collider other)//TODO：真的能触发吗 有待测试 other是墙又不会跑出去 
+    private void OnTriggerExit(Collider other)//TODO：Can it really be triggered? needs to be tested. --other is a wall which will not escape.
     {
         // Debug.Log(other.name+"Exit Trigger");
         if (positionalCategory == PositionalCategory.Throwing && other.gameObject.layer == LayerMask.NameToLayer("Wall") && !detectedEnemy)
         {
             ApplyAOEEffect();
             hasAppliedAOE = true;
-            Release();
+            ThisPool.Release(gameObject);
         }
     }
     
@@ -156,7 +163,7 @@ public class RemoteThrowingsBehavior : MonoBehaviour, IPoolable
         }
         else if (_effectCategory == EffectCategory.Bouncing)
         {
-            target = other.gameObject;//尼玛，终于找到罪魁祸首了
+            target = other.gameObject;//Damn, finally found the culprit.
             ApplyBouncingDamage(other.gameObject);
         }
         else if (_effectCategory == EffectCategory.Explosion)
@@ -166,13 +173,14 @@ public class RemoteThrowingsBehavior : MonoBehaviour, IPoolable
             {
                 mstbhv.TakeDamage(damage);
             }
+            // ThisPool.Release(gameObject);
         }
     }
 
     private void ApplyAOEEffect()
     {
         var colliders = Physics.OverlapSphere(transform.position, AOERange, LayerMask.GetMask("Enemy"));
-        Debug.Log("AOE人数" + colliders.Length);
+        // Debug.Log("AOE involved counter:" + colliders.Length);
         foreach (var collider in colliders)
         {
             var mstbhv = collider.GetComponent<MonsterBehaviour>();
@@ -205,12 +213,12 @@ public class RemoteThrowingsBehavior : MonoBehaviour, IPoolable
         if (mst)
         {
             var dmg = damage * Mathf.Pow(0.8f, bounceCount);
-            Debug.Log("击中" + other.name + "dmg = "+ dmg);
+            // Debug.Log("Hit" + other.name + "dmg = "+ dmg);
             mst.TakeDamage(dmg);
             hitEnemies.Add(mst.gameObject);
             bounceCount++;
             // if (bounceCount > 10 || Mathf.Pow(0.8f, bounceCount) < 0.06f)
-            if (Mathf.Pow(0.8f, bounceCount) < 0.06f) Release();
+            if (Mathf.Pow(0.8f, bounceCount) < 0.06f) ThisPool.Release(gameObject);
         }
         GameObject nextTarget = GetBounceTarget();
         if (nextTarget != target && nextTarget != null)
@@ -219,26 +227,26 @@ public class RemoteThrowingsBehavior : MonoBehaviour, IPoolable
             transform.LookAt(target.transform);
             StartCoroutine(Bounce());
             Debug.Log("择取下一个："+nextTarget);
-        }else Release();
+        }else ThisPool.Release(gameObject);
     }
 
     private IEnumerator Bounce()
     {
-        float duration = 0.3f; // 跳跃的总时间
+        float duration = 0.3f; // total Bounce time
         float startTime = Time.time;
 
-        // Debug.Log("在跳了");
+        // Debug.Log("Bouncing");
         while (Time.time - startTime < duration)
         {
             float t = (Time.time - startTime) / duration;
-            // 使用插值将物体从起始位置移动到目标位置
+            // Move from starting position to target position using interpolation
             transform.position = Vector3.Lerp(transform.position, target.transform.position + Vector3.up * Random.Range(0.3f,1.2f), t);
             yield return null;
         }
         yield return new WaitForSeconds(duration);
         transform.position = target.transform.position;
         
-        // 调用ApplyBouncingDamage来处理新的目标
+        // Call ApplyBouncingDamage to handle the new target
         ApplyBouncingDamage(target.gameObject);
     }
   
@@ -262,7 +270,7 @@ public class RemoteThrowingsBehavior : MonoBehaviour, IPoolable
         // Debug.Log("validEnemies长度"+validEnemies.Count);
         if (validEnemies.Count > 0)
         {
-            // 随机选择一个有效敌人作为目标
+            // Randomly selects a valid enemy as the target
             // int randomIndex = Random.Range(0, validEnemies.Count - 1);
             return validEnemies[0];
         }
@@ -276,8 +284,7 @@ public class RemoteThrowingsBehavior : MonoBehaviour, IPoolable
         // Return the object to the object pool
         if (IsExisting)
         {
-            Release();
+            ThisPool.Release(gameObject);
         }
-        yield return null;
     }
 }

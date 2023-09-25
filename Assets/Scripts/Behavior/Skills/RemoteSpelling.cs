@@ -18,13 +18,13 @@ public class RemoteSpelling: MonoBehaviour
     public GameObject prefab;
     [SerializeField] private float maxExistTime = 10f;
     internal LayerMask castingLayer;
-    [SerializeField] private Vector3 generatingOffset = Vector3.up * 0.4f;
+    [SerializeField] protected Vector3 generatingOffset = Vector3.up * 0.4f;
     
 
     [InspectorLabel("对象池--ObjectPool")]
     [SerializeField]private int defaultCapacity = 10;
     [SerializeField]private int maxCapacity = 10;
-    private ObjectPool<GameObject> _throwingsPool;
+    protected ObjectPool<GameObject> _throwingsPool;
     public int countAll;
     public int countActive;
     public int countInactive;
@@ -36,14 +36,15 @@ public class RemoteSpelling: MonoBehaviour
     private Coroutine castingCoroutine;
     public float castingDistance = 7f; // 施法最大距离
     private Vector3 hitTarget;
-    private RemoteThrowingsBehavior throwingsBehavior;
-    private PlayerController _playerController;
+    protected RemoteThrowingsBehavior throwingsBehavior;
+    protected PlayerController _playerController;
     private SpellCast _spellCast;
     private bool canCast = false;
 
     [InspectorLabel("Skill Customization")]
-    [SerializeField] private string animatorTriggerName;
-    [SerializeField] private float animationGap = 0.4f;
+    [SerializeField]
+    protected string animatorTriggerName;
+    [SerializeField] protected float animationGap = 0.4f;
     [SerializeField] private KeyCode key = KeyCode.F;
     [SerializeField] private Color validColor = Color.green;
     [SerializeField] private Color invalidColor = Color.red;
@@ -74,7 +75,7 @@ public class RemoteSpelling: MonoBehaviour
     private GameObject CreateFunc(){
         // if(countAll < maxCapacity){
         //     GameObject throwing = Instantiate(prefab, transform.position, Quaternion.identity);
-        //     actionOnGet(throwing);//尝试新写法 解决不销毁的问题
+        //     actionOnGet(throwing);   //Try a new way of coding to solve the problem of non-destruction
         //     throwing.GetComponent<IPoolable>().SetPool(_throwingsPool);
         //     // throwing.GetComponent<RemoteThrowingsBehavior>().actionOnGet();
         //     return throwing.GameObject();
@@ -85,7 +86,7 @@ public class RemoteSpelling: MonoBehaviour
         //     return _throwingsPool.Get();
         // }
         GameObject throwing = Instantiate(prefab, transform.position, Quaternion.identity);
-        actionOnGet(throwing);//尝试新写法 解决不销毁的问题
+        actionOnGet(throwing);
         throwing.GetComponent<IPoolable>().SetPool(_throwingsPool);
         return throwing.GameObject();
     }
@@ -115,10 +116,7 @@ public class RemoteSpelling: MonoBehaviour
         {
             if (Input.GetKeyDown(key))
             {
-                var th = _throwingsPool.Get();
-                th.transform.position = _spellCast.spellingPartTransform.position + generatingOffset;
-                th.transform.forward = transform.forward;
-                th.GetComponent<Rigidbody>().velocity = transform.forward * throwingsBehavior.throwingSpeed;
+                StartCoroutine(StartThrow());
             }
         }
         if (throwingsBehavior.positionalCategory == RemoteThrowingsBehavior.PositionalCategory.ImmediatelyInPosition)
@@ -137,7 +135,18 @@ public class RemoteSpelling: MonoBehaviour
             }
         }
     }
-    
+
+    protected IEnumerator StartThrow(){
+        _playerController.GetAnimator().SetTrigger(animatorTriggerName = "Throw");
+        _playerController.isCrouching = false;
+        _playerController.rb.velocity = Vector3.zero;
+        yield return new WaitForSeconds(animationGap);
+        var th = _throwingsPool.Get();
+        th.transform.position = _playerController.swordObject.transform.position;
+        th.transform.forward = transform.forward;
+        th.GetComponent<Rigidbody>().velocity = transform.forward * throwingsBehavior.throwingSpeed;
+    }
+
     protected void StartCasting()
     {
         if (isCasting) return;
@@ -180,13 +189,13 @@ public class RemoteSpelling: MonoBehaviour
             }
             else
             {
-                // 未命中物体，绘制红色圆圈
+                // out of spelling range, draw red circle
                 SkillPreview.transform.position = new Vector3(castTrans.x, 0.5f, castTrans.z);
 
-                // 获取地表的高度
+                // Ground height
                 float groundHeight = transform.position.y;
 
-                // 计算半径，考虑勾股定理
+                // Calculate the radius, considering the Pythagorean Theorem
                 float radius = Mathf.Sqrt(castingDistance * castingDistance - (castTrans.y - groundHeight) * (castTrans.y - groundHeight));
 
                 DrawCircle(radius, invalidColor, Vector3.zero, 100);
@@ -201,7 +210,7 @@ public class RemoteSpelling: MonoBehaviour
     
     private void DrawCircle(float radius, Color color, Vector3 offset, int segments = 100)
     {
-        lineRenderer.startColor = color; // 更新颜色
+        lineRenderer.startColor = color; // update color
         lineRenderer.endColor = color;
 
         lineRenderer.positionCount = segments + 1;
@@ -215,7 +224,7 @@ public class RemoteSpelling: MonoBehaviour
             float x = radius * Mathf.Cos(theta);
             float z = radius * Mathf.Sin(theta);
 
-            Vector3 pos = new Vector3(x, 0, z) + offset; // 应用偏移向量
+            Vector3 pos = new Vector3(x, 0, z) + offset; // Apply offset vector to avoid being buried underneath ground
             lineRenderer.SetPosition(i, pos);
 
             theta += deltaTheta;

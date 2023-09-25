@@ -21,6 +21,4 @@ public interface IPoolable
     {
         IsExisting = false;
     }
-
-    void Release();
 }
