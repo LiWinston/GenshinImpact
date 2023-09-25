@@ -116,8 +116,9 @@ public class RemoteSpelling: MonoBehaviour
             if (Input.GetKeyDown(key))
             {
                 var th = _throwingsPool.Get();
-                th.transform.position = hitTarget + generatingOffset;
-                // StartCoroutine(ReturnToPoolDelayed(th, maxExistTime));
+                th.transform.position = _spellCast.spellingPartTransform.position + generatingOffset;
+                th.transform.forward = transform.forward;
+                th.GetComponent<Rigidbody>().velocity = transform.forward * throwingsBehavior.throwingSpeed;
             }
         }
         if (throwingsBehavior.positionalCategory == RemoteThrowingsBehavior.PositionalCategory.ImmediatelyInPosition)

@@ -47,7 +47,9 @@ public class RemoteThrowingsBehavior : MonoBehaviour, IPoolable
     [InspectorLabel("Player")]
     [SerializeField]internal float _energyCost;
     private int enemyLayer;
-    
+
+    [InspectorLabel("ThrowingAttributes")]
+    public float throwingSpeed = 3f;
     
     private void Awake(){
             enemyLayer = LayerMask.NameToLayer("Enemy");
