@@ -45,6 +45,9 @@ public class RemoteSpelling: MonoBehaviour
     [SerializeField] private string animatorTriggerName;
     [SerializeField] private float animationGap = 0.4f;
     [SerializeField] private KeyCode key = KeyCode.F;
+    [SerializeField] private Color validColor = Color.green;
+    [SerializeField] private Color invalidColor = Color.red;
+
 
     private void Start(){
         string randomName;
@@ -151,7 +154,7 @@ public class RemoteSpelling: MonoBehaviour
                 SkillPreview.transform.position = hitTarget;
                 Vector3 playerToHitVector = castTrans - hit.point;
                 float triggerRange = throwingsBehavior.triggerRange;
-                DrawCircle(triggerRange, Color.green, playerToHitVector.normalized * 0.08f, 30);
+                DrawCircle(triggerRange, validColor, playerToHitVector.normalized * 0.08f, 30);
                 canCast = true;
             }
             else
@@ -165,7 +168,7 @@ public class RemoteSpelling: MonoBehaviour
                 // 计算半径，考虑勾股定理
                 float radius = Mathf.Sqrt(castingDistance * castingDistance - (castTrans.y - groundHeight) * (castTrans.y - groundHeight));
 
-                DrawCircle(radius, Color.red, Vector3.zero, 100);
+                DrawCircle(radius, invalidColor, Vector3.zero, 100);
                 canCast = false;
             }
             yield return null;
