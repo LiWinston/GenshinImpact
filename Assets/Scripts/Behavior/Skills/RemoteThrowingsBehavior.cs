@@ -128,7 +128,7 @@ namespace Behavior.Skills
                 if (_effectCategory != EffectCategory.Bouncing && !hasAppliedAOE)
                 {
                     ApplyAOEEffect();
-                    // if(_effectCategory != EffectCategory.Existing) ThisPool.Release(gameObject);//This line will cause people to disappear if they are hit by fire.
+                    // if(_effectCategory != EffectCategory.Existing) ThisPool.Release(gameObject);//This line will cause self to disappear if they hit target directly.
                     hasAppliedAOE = true;
                 }
             
