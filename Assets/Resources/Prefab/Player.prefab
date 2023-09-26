@@ -416,6 +416,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9012ec7ec793c144f9f905436e3a3714, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Name: Undefined
   prefab: {fileID: 4084828893074943605, guid: f4375c2a167ed8a40ad845b0ee29c9b7, type: 3}
   maxExistTime: 10
   generatingOffset: {x: 0, y: 0.3, z: 0}
@@ -443,6 +444,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9012ec7ec793c144f9f905436e3a3714, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Name: Undefined
   prefab: {fileID: 2353437418114724401, guid: 94a90d9048561e54da97e6c52674da07, type: 3}
   maxExistTime: 10
   generatingOffset: {x: 0, y: 0.5, z: 0}
@@ -451,7 +453,7 @@ MonoBehaviour:
   countAll: 0
   countActive: 0
   countInactive: 0
-  castingDistance: 7
+  castingDistance: 9
   animatorTriggerName: Cast
   animationGap: 0.4
   key: 102
@@ -470,6 +472,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9012ec7ec793c144f9f905436e3a3714, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Name: Undefined
   prefab: {fileID: 5633851335140538449, guid: ed076578aada9594d8d65138fa81b028, type: 3}
   maxExistTime: 10
   generatingOffset: {x: 0, y: 0.4, z: 0}
