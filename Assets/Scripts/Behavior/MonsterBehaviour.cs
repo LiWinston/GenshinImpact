@@ -1,11 +1,15 @@
 using System.Collections;
-using enemyBehaviour.Health;
+using Behavior.Health;
+using ParticleEffect;
+using UI.OffScreenIndicator;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Pool;
+using IPoolable = Utility.IPoolable;
 using Random = UnityEngine.Random;
+using State = AttributeRelatedScript.State;
 
-namespace enemyBehaviour
+namespace Behavior
 {
     public class MonsterBehaviour : MonoBehaviour, IPoolable
     {

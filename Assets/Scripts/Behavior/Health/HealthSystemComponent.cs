@@ -1,7 +1,6 @@
-﻿using CodeMonkey.HealthSystemCM;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace enemyBehaviour.Health {
+namespace Behavior.Health {
 
     /// <summary>
     /// Adds a HealthSystem to a Game Object

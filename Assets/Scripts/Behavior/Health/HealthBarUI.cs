@@ -3,11 +3,10 @@
 
 using System;
 using System.Collections;
-using CodeMonkey.HealthSystemCM;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace enemyBehaviour.Health {
+namespace Behavior.Health {
 
     public class HealthBarUI : MonoBehaviour {
 

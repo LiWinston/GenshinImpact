@@ -1,7 +1,6 @@
-using System;
 using UnityEngine;
 
-namespace AttributeRelatedScript
+namespace ItemSystem.Sub_strategy_and_gain_template
 {
     public interface IItemEffectStrategy
     {

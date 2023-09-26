@@ -1,10 +1,10 @@
-using System;
+using AttributeRelatedScript;
+using ParticleEffect;
 using Unity.Mathematics;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Utility;
 
-namespace AttributeRelatedScript
+namespace ItemSystem.Sub_strategy_and_gain_template
 {
     public class DamageIncreaseItemEffect : ItemEffectStrategyBase
     {

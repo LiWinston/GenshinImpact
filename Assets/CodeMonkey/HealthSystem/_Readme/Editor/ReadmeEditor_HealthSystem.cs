@@ -1,11 +1,11 @@
-﻿using UnityEngine;
-using UnityEditor;
+﻿using UnityEditor;
+using UnityEngine;
 
-namespace CodeMonkey.HealthSystemCM {
+namespace CodeMonkey.HealthSystem._Readme.Editor {
 
     [CustomEditor(typeof(Readme_HealthSystem))]
     [InitializeOnLoad]
-    public class ReadmeEditor_HealthSystem : Editor {
+    public class ReadmeEditor_HealthSystem : UnityEditor.Editor {
 
         private static float kSpace = 16f;
 

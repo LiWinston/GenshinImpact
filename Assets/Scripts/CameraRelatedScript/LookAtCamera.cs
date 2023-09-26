@@ -1,6 +1,7 @@
-﻿using System;
+﻿using Behavior;
 using UnityEngine;
-namespace CodeMonkey.HealthSystemCM {
+
+namespace CameraRelatedScript {
 
     /// <summary>
     /// Utility script to make a Transform look straight at the main camera

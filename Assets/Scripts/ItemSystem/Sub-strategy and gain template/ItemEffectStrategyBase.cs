@@ -1,7 +1,8 @@
 ﻿using System;
 using UnityEngine;
 
-namespace AttributeRelatedScript
+// using Classes under this directory directly is invalid, Use PlayerBuffEffect instead. --@YongchunLi
+namespace ItemSystem.Sub_strategy_and_gain_template
 {
     public abstract class ItemEffectStrategyBase : IItemEffectStrategy
     {

@@ -2,7 +2,7 @@
 
 namespace Utility
 {
-    public class Find
+    public static class Find
     {
         /// <summary>
         /// Utility function used to seek into a subclass for a Transform

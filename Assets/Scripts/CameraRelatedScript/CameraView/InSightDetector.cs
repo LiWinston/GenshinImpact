@@ -1,7 +1,7 @@
 // using UnityEngine;
 // using UnityEngine.Serialization;
 //
- namespace CameraView{
+ namespace CameraRelatedScript.CameraView{
 //     public class InSightDetector : MonoBehaviour
 //     {
 //         [SerializeField]private float detectDistance = 1/0.0f;

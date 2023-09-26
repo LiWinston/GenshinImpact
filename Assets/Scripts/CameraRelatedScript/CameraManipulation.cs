@@ -1,3 +1,4 @@
+using Behavior;
 using UnityEngine;
 using UnityEngine.Serialization;
 

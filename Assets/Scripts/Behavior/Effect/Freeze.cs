@@ -1,8 +1,8 @@
 ﻿using System.Collections;
-using enemyBehaviour.Health;
+using Behavior.Health;
 using UnityEngine;
 
-namespace enemyBehaviour.Effect
+namespace Behavior.Effect
 {
     public class Freeze
     {

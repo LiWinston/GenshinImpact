@@ -1,5 +1,5 @@
 ﻿
-namespace enemyBehaviour.Health {
+namespace Behavior.Health {
 
     /// <summary>
     /// Interface to decouple objects that need to interact with the Health System from whatever object creates it.
