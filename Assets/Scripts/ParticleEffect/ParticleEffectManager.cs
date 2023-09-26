@@ -77,6 +77,8 @@ public class ParticleEffectManager : MonoBehaviour
 
     private IEnumerator FadeInAndOut(ParticleSystem particleSystem, GameObject particleEffect, float duration, Color startColor, Color endColor)
     {
+        //This lead to RT Error and have no obvious effect. Delete it.
+        
         // float elapsedTime = 0f;
         //
         // while (elapsedTime < duration)

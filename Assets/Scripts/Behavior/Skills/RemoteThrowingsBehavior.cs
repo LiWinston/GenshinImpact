@@ -224,6 +224,7 @@ public class RemoteThrowingsBehavior : MonoBehaviour, IPoolable
         var mst = other.GetComponent<MonsterBehaviour>();
         if (mst)
         {
+            GetComponent<Rigidbody>().velocity = Vector3.zero;
             var dmg = damage * Mathf.Pow(0.8f, bounceCount);
             // Debug.Log("Hit" + other.name + "dmg = "+ dmg);
             mst.TakeDamage(dmg);

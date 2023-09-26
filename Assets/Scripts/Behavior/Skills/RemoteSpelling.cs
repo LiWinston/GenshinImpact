@@ -14,6 +14,9 @@ using Vector3 = UnityEngine.Vector3;
 [System.Serializable]
 public class RemoteSpelling: MonoBehaviour
 {
+    [Header("NameOfSkill - 技能名称")]
+    public String Name = "Undefined";
+    
     [InspectorLabel("生成--GenerationInfo")]
     public GameObject prefab;
     [SerializeField] private float maxExistTime = 10f;
@@ -21,7 +24,7 @@ public class RemoteSpelling: MonoBehaviour
     [SerializeField] protected Vector3 generatingOffset = Vector3.up * 0.4f;
     
 
-    [InspectorLabel("对象池--ObjectPool")]
+    [InspectorLabel("ObjectPool--对象池")]
     [SerializeField]private int defaultCapacity = 10;
     [SerializeField]private int maxCapacity = 10;
     protected ObjectPool<GameObject> _throwingsPool;
@@ -29,7 +32,7 @@ public class RemoteSpelling: MonoBehaviour
     public int countActive;
     public int countInactive;
     
-    [InspectorLabel("Trying Cast Position")]
+    [InspectorLabel("Trying Cast Position -- 落点瞄准")]
     private GameObject SkillPreview;
     private LineRenderer lineRenderer;
     private bool isCasting;
@@ -41,7 +44,7 @@ public class RemoteSpelling: MonoBehaviour
     private SpellCast _spellCast;
     private bool canCast = false;
 
-    [InspectorLabel("Skill Customization")]
+    [InspectorLabel("Skill Customization -- 技能自定义")]
     [SerializeField]
     protected string animatorTriggerName;
     [SerializeField] protected float animationGap = 0.4f;
@@ -49,7 +52,7 @@ public class RemoteSpelling: MonoBehaviour
     [SerializeField] private Color validColor = Color.green;
     [SerializeField] private Color invalidColor = Color.red;
 
-    [InspectorLabel("Throwing Customization")]
+    [InspectorLabel("Throwing Customization -- 投掷自定义")]
     [SerializeField] public bool isUpdatedWithLevel = false;
     
     private void Start(){
@@ -148,13 +151,13 @@ public class RemoteSpelling: MonoBehaviour
         _playerController.rb.velocity = Vector3.zero;
         yield return new WaitForSeconds(animationGap);
 
-        int maxSwordCount = 30; // 最大剑气数量
-        int minSwordCount = 1; // 最小剑气数量
-        float maxAngle = 30f; // 最大角度
-        float minAngle = 0f; // 最小角度
+        int maxThrowingsCount = 30;
+        int minThrowingsCount = 1;
+        float maxAngle = 30f;
+        float minAngle = 0f;
 
         int playerLevel = _playerController.state.GetCurrentLevel(); // 获取玩家等级
-        int swordCount = Mathf.Clamp(playerLevel / 2, minSwordCount, maxSwordCount); // 根据玩家等级计算剑气数量
+        int swordCount = Mathf.Clamp(playerLevel / 2, minThrowingsCount, maxThrowingsCount); // 根据玩家等级计算剑气数量
         float angleIncrement = (maxAngle - minAngle) / (swordCount - 1); // 计算角度增量
 
         if (swordCount == 1)
@@ -168,15 +171,15 @@ public class RemoteSpelling: MonoBehaviour
         {
             for (int i = 0; i < swordCount; i++)
             {
-                var th = _throwingsPool.Get();
-                th.transform.position = _playerController.swordObject.transform.position;
+                var throwStuff = _throwingsPool.Get();
+                throwStuff.transform.position = _playerController.swordObject.transform.position;
 
                 // 计算剑气的角度
                 float angle = minAngle + i * angleIncrement - (maxAngle - minAngle) / 2f;
                 Vector3 direction = Quaternion.Euler(0, angle, 0) * _playerController.transform.forward;
-                th.transform.forward = direction;
+                throwStuff.transform.forward = direction;
 
-                Rigidbody rb = th.GetComponent<Rigidbody>();
+                Rigidbody rb = throwStuff.GetComponent<Rigidbody>();
                 rb.velocity = direction * throwingsBehavior.throwingSpeed;
             }
         }
@@ -208,9 +211,9 @@ public class RemoteSpelling: MonoBehaviour
         {
             _playerController.GetAnimator().SetTrigger(animatorTriggerName);
             yield return new WaitForSeconds(animationGap);
-            var th = _throwingsPool.Get();
-            th.transform.position = hitTarget + generatingOffset;
-            th.transform.rotation = transform.rotation;
+            var throwStuff = _throwingsPool.Get();
+            throwStuff.transform.position = hitTarget + generatingOffset;
+            throwStuff.transform.rotation = transform.rotation;
         }
         isCasting = false;
     }
@@ -218,6 +221,7 @@ public class RemoteSpelling: MonoBehaviour
     protected IEnumerator ImmediateCastAimingLogic()
     {
         SkillPreview.SetActive(true);
+        //--Its hard to make monster skill compatible with player skill here, give up.
         // var castTrans = _playerController
         //     ? _spellCast.spellingPartTransform.position
         //     : transform.position + Vector3.up * 0.5f;
