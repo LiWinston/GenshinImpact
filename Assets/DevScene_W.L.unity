@@ -6245,7 +6245,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9191315033311515638, guid: cf22150b059c9a94c947e3d09522c055, type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9191315033311515638, guid: cf22150b059c9a94c947e3d09522c055, type: 3}
       propertyPath: minSpawnInterval
@@ -6258,7 +6258,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3030407638572315631, guid: cf22150b059c9a94c947e3d09522c055, type: 3}
+      insertIndex: 1
+      addedObject: {fileID: 2077040959}
   m_SourcePrefab: {fileID: 100100000, guid: cf22150b059c9a94c947e3d09522c055, type: 3}
 --- !u!1001 &1606173549
 PrefabInstance:
@@ -7029,7 +7032,7 @@ Light:
   m_Type: 1
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 0.3
+  m_Intensity: 1.03
   m_Range: 100
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -8376,6 +8379,34 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 357082100983638266, guid: 705a0aa5ac66b2f42b8577a6b33a634d, type: 3}
   m_PrefabInstance: {fileID: 1984604068}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &2077040953 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3030407638572315631, guid: cf22150b059c9a94c947e3d09522c055, type: 3}
+  m_PrefabInstance: {fileID: 1604544646}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2077040959
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2077040953}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ff91e88964860146bbbd0b2fb35a77b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 1374235814553377006, guid: c8a37c2873ac8c742a78302e15e0459c, type: 3}
+  initialSpawnInterval: 4
+  minSpawnInterval: 2
+  spawnHeight: 0
+  accelerationRate: 0.09
+  maxExistTime: 40
+  defaultCapacity: 40
+  maxCapacity: 100
+  countAll: 0
+  countActive: 0
+  countInactive: 0
 --- !u!1001 &2094505187
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -58,6 +58,7 @@ namespace Behavior
         
         private Target targetComponent;
         private static readonly int Die = Animator.StringToHash("Die");
+        [SerializeField] private string DieEffectName = "MonsterDie";
 
         public ObjectPool<GameObject> ThisPool { get; set; }
         public bool IsExisting { get; set; }
@@ -294,7 +295,7 @@ namespace Behavior
         private IEnumerator PlayDeathEffects()
         {
             animator.SetTrigger(Die);
-            ParticleEffectManager.Instance.PlayParticleEffect("MonsterDie", this.gameObject, Quaternion.identity, Color.red, Color.black, 1.2f);
+            ParticleEffectManager.Instance.PlayParticleEffect(DieEffectName, this.gameObject, Quaternion.identity, Color.red, Color.black, 1.2f);
             yield return new WaitForSeconds(1.2f);
             // Destroy(this.gameObject);
             Release();
