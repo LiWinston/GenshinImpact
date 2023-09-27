@@ -19,12 +19,11 @@ public class SoundPlay : StateMachineBehaviour
             return;
         }
 
-        // 找到物体上的组件
-        audioSource = PlayerController.Instance.GetComponent<AudioSource>();
+        
+        
         if (audioSource == null)
         {
-            Debug.LogError("找不到 AudioSource 组件，请确保该组件存在。");
-            return;
+            audioSource = PlayerController.Instance.GetComponent<AudioSource>();
         }
 
         // 随机选择一个音频剪辑
@@ -32,12 +31,13 @@ public class SoundPlay : StateMachineBehaviour
         AudioClip randomClip = audioClips[randomIndex];
 
         // 将随机选中的音频剪辑给音源
-        audioSource.clip = randomClip;
+        
         if (delay == 0f)
         {
-            audioSource.Play();
+            audioSource.PlayOneShot(randomClip);
         }else
         {
+            audioSource.clip = randomClip;
             audioSource.PlayDelayed(delay);
         }
     }

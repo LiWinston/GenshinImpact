@@ -21,7 +21,7 @@ namespace ItemSystem
         public ObjectPool<GameObject> ThisPool { get; set; }
         public bool IsExisting { get; set; }
 
-        public void SetPool(UnityEngine.Pool.ObjectPool<GameObject> pool)
+        public void SetPool(ObjectPool<GameObject> pool)
         {
             ThisPool = pool;
         }
@@ -32,6 +32,7 @@ namespace ItemSystem
 
         public void actionOnRelease()
         {
+            used = false;
             //TODO: implement Package Sys
             // if (_isEffNotNull) player.GetComponent<Package>().addToPackage(this.gameObject);
         }

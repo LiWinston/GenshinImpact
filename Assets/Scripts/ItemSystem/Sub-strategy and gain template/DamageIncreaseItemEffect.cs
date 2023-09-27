@@ -14,7 +14,7 @@ namespace ItemSystem.Sub_strategy_and_gain_template
 
         public override void ApplyEffect(GameObject player)
         {
-            // 在这里实现增加伤害的逻辑
+            SoundEffectManager.Instance.PlaySound("Music/音效/战斗/攻击提升", player);
             player.GetComponent<State>().IncreaseDamage(effectValue);
             ShowEffectMessage(effectValue, player.GetComponent<State>().CurrentDamage);
             var pos = Find.FindDeepChild(player.transform, "spine_03");
