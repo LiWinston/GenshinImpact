@@ -68,7 +68,8 @@ namespace Behavior
         [SerializeField]internal Camera mycamera;
     
     
-        private Animator animator;
+        internal Animator animator;
+        internal AudioSource audioSource;
 
         private float xRotation = 0f;
 
@@ -110,6 +111,7 @@ namespace Behavior
 
         private void Start()
         {
+            audioSource = GetComponent<AudioSource>();
             _criticalHitCurve = GetComponent<CriticalHitCurve>();
             if (!textMeshProComponent) textMeshProComponent = Find.FindDeepChild(transform, "PlayerHUD").GetComponent<TextMeshPro>();
             state = GetComponent<State>();

@@ -1,10 +1,10 @@
 using System.Collections;
 using Behavior.Health;
-using ParticleEffect;
 using UI.OffScreenIndicator;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Pool;
+using Utility;
 using IPoolable = Utility.IPoolable;
 using Random = UnityEngine.Random;
 using State = AttributeRelatedScript.State;
@@ -70,6 +70,7 @@ namespace Behavior
 
         public void actionOnGet()
         {
+            gameObject.SetActive(true);
             InitializeMonsterLevel();
             target = PlayerController.Instance.gameObject;
             health.SetHealthMax(monsterLevel * 100 +100, true);
@@ -90,6 +91,7 @@ namespace Behavior
 
         private void Awake()
         {
+            target = PlayerController.Instance.gameObject;
             enemyLayer = LayerMask.GetMask("Enemy");
             playerLayer = LayerMask.GetMask("Player");
             targetComponent = GetComponent<Target>();
@@ -97,6 +99,7 @@ namespace Behavior
     
         private void Start()
         {
+            target = PlayerController.Instance.gameObject;
             targetPlayer = PlayerController.Instance;
 
             if (targetPlayer == null)
