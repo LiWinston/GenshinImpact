@@ -25,7 +25,10 @@ namespace ItemSystem
         {
             ThisPool = pool;
         }
-    
+
+        public void actionOnGet(){
+            gameObject.SetActive(true);
+        }
 
         public void actionOnRelease()
         {

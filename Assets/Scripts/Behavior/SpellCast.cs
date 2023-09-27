@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using AttributeRelatedScript;
 using Behavior.Health;
-using ParticleEffect;
 using UnityEngine;
 using Utility;
 
@@ -66,6 +65,7 @@ namespace Behavior
         private void StartJZZ()
         {
             if (!state.ConsumeEnergy(state.maxEnergy * 0.2f)) return;
+            // SoundEffectManager.Instance.PlaySound(new List<string>(){"JZZ1","JZZ2"}, gameObject);
             state.isJZZ = true;
             var d = 7f;
             ParticleSystem JZZ = Resources.Load<ParticleSystem>("JZZ");
@@ -175,7 +175,7 @@ namespace Behavior
     
         private void CastUlt()
         {
-        
+            // SoundEffectManager.Instance.PlaySound("魔-江翻海沸", gameObject);
             if (!state.ConsumeEnergy(state.CurrentDamage * 1.5f))
             {
                 return;

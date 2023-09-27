@@ -4,7 +4,7 @@ using AttributeRelatedScript;
 using UI;
 using UnityEngine;
 
-namespace ParticleEffect
+namespace Utility
 {
     public class ParticleEffectManager : MonoBehaviour
     {

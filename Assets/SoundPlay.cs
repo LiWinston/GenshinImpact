@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using Behavior;
 using UnityEngine;
@@ -9,6 +7,8 @@ public class SoundPlay : StateMachineBehaviour
 {
     [SerializeField] private List<AudioClip> audioClips = new List<AudioClip>();
     private AudioSource audioSource;
+    [SerializeField] private bool stopOnExit;
+    [SerializeField] private float delay;
 
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -33,13 +33,19 @@ public class SoundPlay : StateMachineBehaviour
 
         // 将随机选中的音频剪辑给音源
         audioSource.clip = randomClip;
-        audioSource.Play();
+        if (delay == 0f)
+        {
+            audioSource.Play();
+        }else
+        {
+            audioSource.PlayDelayed(delay);
+        }
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         // 停止播放音频
-        audioSource.Stop();
+        if(stopOnExit) audioSource.Stop();
     }
 }
