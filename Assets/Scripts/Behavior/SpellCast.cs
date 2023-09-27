@@ -65,7 +65,7 @@ namespace Behavior
         private void StartJZZ()
         {
             if (!state.ConsumeEnergy(state.maxEnergy * 0.2f)) return;
-            // SoundEffectManager.Instance.PlaySound(new List<string>(){"JZZ1","JZZ2"}, gameObject);
+            SoundEffectManager.Instance.PlaySound(new List<string>(){"Music/音效/法术/JZZ1","Music/音效/法术/JZZ2"}, gameObject);
             state.isJZZ = true;
             var d = 7f;
             ParticleSystem JZZ = Resources.Load<ParticleSystem>("JZZ");
@@ -175,7 +175,7 @@ namespace Behavior
     
         private void CastUlt()
         {
-            // SoundEffectManager.Instance.PlaySound("魔-江翻海沸", gameObject);
+            SoundEffectManager.Instance.PlaySound("Music/音效/法术/魔-江翻海沸", spellingPartTransform.gameObject);
             if (!state.ConsumeEnergy(state.CurrentDamage * 1.5f))
             {
                 return;

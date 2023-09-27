@@ -49,8 +49,8 @@ namespace ItemSystem.Generate
     
         void actionOnGet(GameObject obj)
         {
-            obj.transform.position = targetPosition + new Vector3(Random.Range(-10f, 10f), spawnHeight, Random.Range(-10f, 10f));
             obj.GetComponent<IPoolable>().actionOnGet();
+            obj.transform.position = targetPosition + new Vector3(Random.Range(-10f, 10f), spawnHeight, Random.Range(-10f, 10f));
             obj.SetActive(true);
         }
 

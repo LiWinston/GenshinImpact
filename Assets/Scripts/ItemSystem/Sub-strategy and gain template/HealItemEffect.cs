@@ -8,7 +8,6 @@ namespace ItemSystem.Sub_strategy_and_gain_template
 {
     public class HealItemEffect : ItemEffectStrategyBase
     {
-        List<string> sound = new List<string>() { "武_云蒸霞蔚", "武_回风拂柳" };
         public HealItemEffect(PlayerBuffEffect.EffectType et, float healAmount) : base(et, healAmount)
         {
         }
@@ -28,7 +27,7 @@ namespace ItemSystem.Sub_strategy_and_gain_template
                 UI.UIManager.Instance.ShowMessage1("Health is Full!");
             }
 
-            SoundEffectManager.Instance.PlaySound(sound, player);
+            SoundEffectManager.Instance.PlaySound("Music/音效/法术/武_云蒸霞蔚", player);
             // 调用内部类处理特效
             ParticleEffectManager.Instance.PlayParticleEffect("Heal",player,quaternion.identity, 
                 Color.cyan,Color.green, 2f);
