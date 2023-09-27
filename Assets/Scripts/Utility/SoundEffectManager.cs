@@ -105,7 +105,51 @@ public class SoundEffectManager : MonoBehaviour
 
             PlaySound(randomAudioFileName, targetObject);
         }
-
-        
     }
+    
+    public void PlaySound([NotNull] AudioClip audioClip, GameObject targetObject = null)
+    {
+        if (audioClip == null) throw new ArgumentNullException(nameof(audioClip));
+    
+        if (targetObject == null)
+        {
+            audioSource.clip = audioClip;
+            audioSource.Play();
+        }
+        else
+        {
+            AudioSource targetAudioSource = targetObject.GetComponent<AudioSource>();
+            if (targetAudioSource == null)
+            {
+                targetAudioSource = targetObject.AddComponent<AudioSource>();
+            }
+
+            targetAudioSource.clip = audioClip;
+            targetAudioSource.Play();
+        }
+    }
+
+    public void PlaySound(List<AudioClip> audioClips, GameObject targetObject = null)
+    {
+        if (audioClips == null || audioClips.Count == 0) throw new ArgumentNullException(nameof(audioClips));
+    
+        if (targetObject == null)
+        {
+            AudioClip randomClip = audioClips[Random.Range(0, audioClips.Count)];
+            audioSource.clip = randomClip;
+            audioSource.Play();
+        }
+        else
+        {
+            AudioSource targetAudioSource = targetObject.GetComponent<AudioSource>();
+            if (targetAudioSource == null)
+            {
+                targetAudioSource = targetObject.AddComponent<AudioSource>();
+            }
+            AudioClip randomClip = audioClips[Random.Range(0, audioClips.Count)];
+            targetAudioSource.clip = randomClip;
+            targetAudioSource.Play();
+        }
+    }
+
 }
