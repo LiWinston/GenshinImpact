@@ -82,14 +82,14 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: zombie agonizing
-  m_Speed: 3
+  m_Speed: 1
   m_CycleOffset: 0
-  m_Transitions:
-  - {fileID: 6140967741168266062}
-  m_StateMachineBehaviours: []
+  m_Transitions: []
+  m_StateMachineBehaviours:
+  - {fileID: 1691475243977427462}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
-  m_WriteDefaultValues: 1
+  m_WriteDefaultValues: 0
   m_Mirror: 0
   m_SpeedParameterActive: 0
   m_MirrorParameterActive: 0
@@ -101,6 +101,29 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
+--- !u!114 &-7419644600423979058
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0abb088c1487e7c459fc5492f68d39da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioClips:
+  - {fileID: 8300000, guid: 23fce66b50c14dd45b810467ec8e501a, type: 3}
+  - {fileID: 8300000, guid: 66c27e40fab735347a07d51b362d2e40, type: 3}
+  - {fileID: 8300000, guid: 8d531219500f2ed448702eccb223204c, type: 3}
+  - {fileID: 8300000, guid: efa0711f7e7fd3c409aa4821c93b8ee4, type: 3}
+  - {fileID: 8300000, guid: 984a6d7da8a18d349a90bf4d3492d155, type: 3}
+  - {fileID: 8300000, guid: 92e3eed6bf0dee348825782e6b805172, type: 3}
+  - {fileID: 8300000, guid: cc2bf988c1e4c01498c90a2ae613e1f3, type: 3}
+  - {fileID: 8300000, guid: e453ccf863475bb419fb9da021a3b403, type: 3}
+  stopOnExit: 0
+  delay: 0
 --- !u!1101 &-7233405416401535803
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -470,6 +493,22 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
+--- !u!114 &1691475243977427462
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0abb088c1487e7c459fc5492f68d39da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioClips:
+  - {fileID: 8300000, guid: 7be6f250332525a4f887eff270b20dc9, type: 3}
+  stopOnExit: 1
+  delay: 0
 --- !u!1102 &4876636465729607685
 AnimatorState:
   serializedVersion: 6
@@ -497,28 +536,6 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
---- !u!1101 &6140967741168266062
-AnimatorStateTransition:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  m_Conditions: []
-  m_DstStateMachine: {fileID: 0}
-  m_DstState: {fileID: 0}
-  m_Solo: 0
-  m_Mute: 0
-  m_IsExit: 1
-  serializedVersion: 3
-  m_TransitionDuration: 0.25
-  m_TransitionOffset: 0
-  m_ExitTime: 0.94690263
-  m_HasExitTime: 1
-  m_HasFixedDuration: 1
-  m_InterruptionSource: 0
-  m_OrderedInterruption: 1
-  m_CanTransitionToSelf: 1
 --- !u!1101 &6496813807982395700
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -586,7 +603,7 @@ AnimatorStateMachine:
     m_Position: {x: -210, y: 40, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 8352226790395125786}
-    m_Position: {x: 290, y: 40, z: 0}
+    m_Position: {x: 290, y: 70, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -1703292085570382586}
     m_Position: {x: 570, y: 120, z: 0}
@@ -653,7 +670,8 @@ AnimatorState:
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -3185651787414427083}
-  m_StateMachineBehaviours: []
+  m_StateMachineBehaviours:
+  - {fileID: -7419644600423979058}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1

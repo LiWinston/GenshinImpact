@@ -96,7 +96,6 @@ namespace Behavior.Skills
 
         private void actionOnGet(GameObject obj){
             obj.GetComponent<IPoolable>().actionOnGet();
-            obj.SetActive(true);
         }
 
         private void actionOnRelease(GameObject obj)

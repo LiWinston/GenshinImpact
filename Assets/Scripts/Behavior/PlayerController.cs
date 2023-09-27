@@ -68,7 +68,8 @@ namespace Behavior
         [SerializeField]internal Camera mycamera;
     
     
-        private Animator animator;
+        internal Animator animator;
+        internal AudioSource audioSource;
 
         private float xRotation = 0f;
 
@@ -110,6 +111,7 @@ namespace Behavior
 
         private void Start()
         {
+            audioSource = GetComponent<AudioSource>();
             _criticalHitCurve = GetComponent<CriticalHitCurve>();
             if (!textMeshProComponent) textMeshProComponent = Find.FindDeepChild(transform, "PlayerHUD").GetComponent<TextMeshPro>();
             state = GetComponent<State>();
@@ -179,7 +181,6 @@ namespace Behavior
             if (Input.GetKeyDown(KeyCode.V)) 
             {
                 IsCrouching = false;
-                animator.SetTrigger("HurricaneKickTrigger");
                 HurricaneKick();
             }
         
@@ -208,43 +209,48 @@ namespace Behavior
             transform.Rotate(Vector3.up * mouseX);
         }
 
-        private void HurricaneKick()
-        {
+        private void HurricaneKick(){
+            if (!state.ConsumePower(12.5f)) return;
+            
+            animator.SetTrigger("HurricaneKickTrigger");
+            
             rb.velocity = Vector3.zero;
             Vector3 playerPosition = transform.position;
             Collider[] hitEnemies = Physics.OverlapSphere(playerPosition, state.hurricaneKickRange);
 
             if (hitEnemies.Length != 0)
             {
-                if (state.ConsumePower(12.5f))
+
+                foreach (Collider cld in hitEnemies)
                 {
-                    foreach (Collider cld in hitEnemies)
+                    if (cld.CompareTag("Enemy"))
                     {
-                        if (cld.CompareTag("Enemy"))
+                        Vector3 enemyPosition = cld.transform.position;
+
+                        Vector3 knockbackDirection = (enemyPosition - playerPosition).normalized;
+
+                        HealthSystem enemyHealth = cld.GetComponent<HealthSystemComponent>().GetHealthSystem();
+
+                        cld.GetComponentInChildren<Animator>().SetTrigger("HurricaneKickTrigger");
+                        if (enemyHealth != null)
                         {
-                            Vector3 enemyPosition = cld.transform.position;
-                
-                            Vector3 knockbackDirection = (enemyPosition - playerPosition).normalized;
-                
-                            HealthSystem enemyHealth = cld.GetComponent<HealthSystemComponent>().GetHealthSystem();
-
-                            cld.GetComponentInChildren<Animator>().SetTrigger("HurricaneKickTrigger");
-                            if (enemyHealth != null)
+                            enemyHealth.Damage(state.HurricaneKickDamage);
+                            // UI.UIManager.Instance.ShowMessage2("What a Hurricane Kick!");
+                            Rigidbody enemyRigidbody = cld.GetComponent<Rigidbody>();
+                            if (enemyRigidbody != null)
                             {
-                                enemyHealth.Damage(state.HurricaneKickDamage);
-                                // UI.UIManager.Instance.ShowMessage2("What a Hurricane Kick!");
-                                Rigidbody enemyRigidbody = cld.GetComponent<Rigidbody>();
-                                if (enemyRigidbody != null)
-                                {
-                                    enemyRigidbody.AddForce(knockbackDirection * state.hurricaneKickKnockbackForce, ForceMode.VelocityChange);
-                                    // 计算随机切向方向（左或右）
-                                    Vector3 randomTangentDirection = Quaternion.Euler(0, Random.Range(-90f, 90f), 0) * knockbackDirection;
+                                enemyRigidbody.AddForce(knockbackDirection * state.hurricaneKickKnockbackForce,
+                                    ForceMode.VelocityChange);
+                                // 计算随机切向方向（左或右）
+                                Vector3 randomTangentDirection =
+                                    Quaternion.Euler(0, Random.Range(-90f, 90f), 0) * knockbackDirection;
 
-                                    // 计算旋转摩擦力，不依赖于当前角速度
-                                    Vector3 rotationFrictionForce = randomTangentDirection * rotationFriction;
+                                // 计算旋转摩擦力，不依赖于当前角速度
+                                Vector3 rotationFrictionForce = randomTangentDirection * rotationFriction;
 
-                                    // 将旋转摩擦力施加到切向方向
-                                    enemyRigidbody.AddTorque(rotationFrictionForce * Random.Range(0.5f, 1.5f), ForceMode.Impulse);                    }
+                                // 将旋转摩擦力施加到切向方向
+                                enemyRigidbody.AddTorque(rotationFrictionForce * Random.Range(0.5f, 1.5f),
+                                    ForceMode.Impulse);
                             }
                         }
                     }

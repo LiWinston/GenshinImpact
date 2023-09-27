@@ -51,6 +51,10 @@ namespace Behavior.Skills
         [InspectorLabel("ThrowingAttributes")]
         public float throwingSpeed = 3f;
     
+        [InspectorLabel("Sound Customization -- 音效自定义")]
+        [SerializeField] AudioClip startAudioClip;
+        [SerializeField] AudioClip hitAudioClip;
+
         private void Awake(){
             enemyLayer = LayerMask.NameToLayer("Enemy");
         }
@@ -64,6 +68,7 @@ namespace Behavior.Skills
         }
 
         public void actionOnGet(){
+            gameObject.SetActive(true);
             existCoroutine = StartCoroutine(ReturnToPoolDelayed(maxExistTime));
             // hitEnemies.Clear();
             // hasEnemyInside = false;
@@ -72,6 +77,10 @@ namespace Behavior.Skills
             IsExisting = true;
             hasAppliedAOE = false;
             hasAppliedFirstDamage = false;
+            if (startAudioClip != null)
+            {
+                SoundEffectManager.Instance.PlaySound(startAudioClip, gameObject);
+            }
         }
 
         public void actionOnRelease(){
@@ -88,16 +97,11 @@ namespace Behavior.Skills
             // StartCoroutine(checkRelease());
         }
 
-        private void OnBecameInvisible()
-        {
-            if(positionalCategory == PositionalCategory.Throwing) ThisPool.Release(gameObject);
-        }
-
-        // private IEnumerator checkRelease(){
-        //     //Stupid method to avoid fail release, by Destroy(gameObject) in the end
-        //     yield return null; yield return null;
-        //     if(gameObject.activeSelf) Destroy(gameObject);
+        // private void OnBecameInvisible()
+        // {
+        //     if(positionalCategory == PositionalCategory.Throwing) ThisPool.Release(gameObject);
         // }
+        
 
         private void OnTriggerEnter(Collider other)
         {
@@ -127,9 +131,14 @@ namespace Behavior.Skills
             
                 if (_effectCategory != EffectCategory.Bouncing && !hasAppliedAOE)
                 {
-                    ApplyAOEEffect();
+                    if(AOEDamage > 0) ApplyAOEEffect();
                     // if(_effectCategory != EffectCategory.Existing) ThisPool.Release(gameObject);//This line will cause self to disappear if they hit target directly.
                     hasAppliedAOE = true;
+                    if (_effectCategory == EffectCategory.Explosion)
+                    {
+                        SoundEffectManager.Instance.PlaySound(hitAudioClip, gameObject);
+                        ThisPool.Release(gameObject);
+                    }
                 }
             
                 // hasEnemyInside = true;
@@ -139,18 +148,10 @@ namespace Behavior.Skills
 
             if (positionalCategory == PositionalCategory.Throwing && other.gameObject.layer == LayerMask.NameToLayer("Wall") )
             {
-                switch (_effectCategory)
+                if (_effectCategory != EffectCategory.Existing)
                 {
-                    case EffectCategory.Explosion:
-                        if (!detectedEnemy)
-                        {
-                            ApplyAOEEffect();
-                            ThisPool.Release(gameObject);
-                        }break;
-                    case EffectCategory.Bouncing:
-                        ApplyAOEEffect();
-                        ThisPool.Release(gameObject);
-                        break;
+                    ApplyAOEEffect();
+                    ThisPool.Release(gameObject);
                 }
             }
         }
@@ -220,6 +221,7 @@ namespace Behavior.Skills
 
         private void ApplyBouncingDamage(GameObject other)
         {
+            SoundEffectManager.Instance.PlaySound(hitAudioClip, other);
             var mst = other.GetComponent<MonsterBehaviour>();
             if (mst)
             {
@@ -284,7 +286,7 @@ namespace Behavior.Skills
             {
                 // Randomly selects a valid enemy as the target
                 // int randomIndex = Random.Range(0, validEnemies.Count - 1);
-                return validEnemies[0];
+                return validEnemies[Random.Range(0, validEnemies.Count - 1)];
             }
 
             return target;

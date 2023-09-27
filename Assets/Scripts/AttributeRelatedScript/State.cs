@@ -1,6 +1,5 @@
 using System.Collections;
 using Behavior;
-using ParticleEffect;
 using UI;
 using UnityEngine;
 using UnityEngine.UI;
@@ -482,6 +481,7 @@ namespace AttributeRelatedScript
         // 更新伤害减免比例
         private void LevelUpAction()
         {
+            SoundEffectManager.Instance.PlaySound("Music/音效/战斗/升级", gameObject);
             CurrentDamage += addDamageOnUpdate;
             maxHealth += addMaxHealthOnUpdate;
             // maxEnergy += addMaxEnergyOnUpdate;

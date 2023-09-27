@@ -1,7 +1,8 @@
+using System.Collections.Generic;
 using AttributeRelatedScript;
-using ParticleEffect;
 using Unity.Mathematics;
 using UnityEngine;
+using Utility;
 
 namespace ItemSystem.Sub_strategy_and_gain_template
 {
@@ -26,6 +27,7 @@ namespace ItemSystem.Sub_strategy_and_gain_template
                 UI.UIManager.Instance.ShowMessage1("Health is Full!");
             }
 
+            SoundEffectManager.Instance.PlaySound("Music/音效/法术/武_云蒸霞蔚", player);
             // 调用内部类处理特效
             ParticleEffectManager.Instance.PlayParticleEffect("Heal",player,quaternion.identity, 
                 Color.cyan,Color.green, 2f);

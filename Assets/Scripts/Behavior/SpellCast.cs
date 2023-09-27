@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using AttributeRelatedScript;
 using Behavior.Health;
-using ParticleEffect;
 using UnityEngine;
 using Utility;
 
@@ -66,6 +65,7 @@ namespace Behavior
         private void StartJZZ()
         {
             if (!state.ConsumeEnergy(state.maxEnergy * 0.2f)) return;
+            SoundEffectManager.Instance.PlaySound(new List<string>(){"Music/音效/法术/JZZ1","Music/音效/法术/JZZ2"}, gameObject);
             state.isJZZ = true;
             var d = 7f;
             ParticleSystem JZZ = Resources.Load<ParticleSystem>("JZZ");
@@ -133,7 +133,8 @@ namespace Behavior
             {
                 Debug.LogError("无法播放特效，因为 Weapon Transform 未指定！");
             }
-
+            
+            SoundEffectManager.Instance.PlaySound("Music/音效/法术/极寒", spellingPartTransform.gameObject);
             // 检测在法术范围内的敌人 TODO:??? Layer就不行==要GetMask
             Collider[] hitEnemies = Physics.OverlapSphere(transform.position, spellRange, LayerMask.GetMask("Enemy"));
             Debug.LogWarning("检测到 "+hitEnemies.Length + "Enemy");
@@ -175,11 +176,13 @@ namespace Behavior
     
         private void CastUlt()
         {
-        
             if (!state.ConsumeEnergy(state.CurrentDamage * 1.5f))
             {
                 return;
             };
+            
+            SoundEffectManager.Instance.PlaySound("Music/音效/法术/ULT", spellingPartTransform.gameObject);
+            
             // 检查是否成功获取了 Weapon 物体的引用
             if (spellingPartTransform != null)
             {

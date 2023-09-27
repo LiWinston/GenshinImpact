@@ -1,6 +1,5 @@
 using Behavior;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace CameraRelatedScript
 {
