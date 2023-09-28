@@ -236,7 +236,7 @@ namespace Behavior.Skills
                 target = nextTarget;
                 transform.LookAt(target.transform);
                 StartCoroutine(Bounce());
-                Debug.Log("择取下一个："+nextTarget);
+                // Debug.Log("择取下一个："+nextTarget);
             }else ThisPool.Release(gameObject);
         }
 
