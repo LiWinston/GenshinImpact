@@ -132,7 +132,7 @@ namespace Behavior.Skills
                     hasAppliedAOE = true;
                     if (_effectCategory == EffectCategory.Explosion)
                     {
-                        SoundEffectManager.Instance.PlaySound(hitAudioClip, gameObject);
+                        if(hitAudioClip != null) SoundEffectManager.Instance.PlaySound(hitAudioClip, gameObject);
                         ThisPool.Release(gameObject);
                     }
                 }
