@@ -148,6 +148,11 @@ namespace Behavior.Skills
             _playerController.rb.velocity = Vector3.zero;
             yield return new WaitForSeconds(animationGap);
 
+            if (throwingsBehavior.startAudioClip != null)
+            {
+                SoundEffectManager.Instance.PlaySound(throwingsBehavior.startAudioClip, _playerController.swordObject);
+            }
+            
             int maxThrowingsCount = 30;
             int minThrowingsCount = 1;
             float maxAngle = 30f;
@@ -188,9 +193,14 @@ namespace Behavior.Skills
             _playerController.rb.velocity = Vector3.zero;
             yield return new WaitForSeconds(animationGap);
             var th = _throwingsPool.Get();
+            if (throwingsBehavior.startAudioClip != null)
+            {
+                SoundEffectManager.Instance.PlaySound(throwingsBehavior.startAudioClip, _playerController.swordObject);
+            }
             th.transform.position = _playerController.swordObject.transform.position;
             th.transform.forward = transform.forward;
             th.GetComponent<Rigidbody>().velocity = transform.forward * throwingsBehavior.throwingSpeed;
+            
         }
 
         protected void BeginAiming()
@@ -208,6 +218,12 @@ namespace Behavior.Skills
             {
                 _playerController.GetAnimator().SetTrigger(animatorTriggerName);
                 yield return new WaitForSeconds(animationGap);
+                
+                if (throwingsBehavior.startAudioClip != null)
+                {
+                    SoundEffectManager.Instance.PlaySound(throwingsBehavior.startAudioClip);
+                }
+                
                 var throwStuff = _throwingsPool.Get();
                 throwStuff.transform.position = hitTarget + generatingOffset;
                 throwStuff.transform.rotation = transform.rotation;

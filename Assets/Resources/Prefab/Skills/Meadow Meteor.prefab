@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6217006770087116210}
   - component: {fileID: 794199488013558291}
   - component: {fileID: -8352849382174817160}
+  - component: {fileID: 597287258701828477}
   m_Layer: 9
   m_Name: Meadow Meteor
   m_TagString: Untagged
@@ -77,7 +78,7 @@ MonoBehaviour:
   AOERange: 0
   positionalCategory: 0
   _effectCategory: 0
-  maxExistTime: 1.413
+  maxExistTime: 0.78
   _energyCost: 0
   throwingSpeed: 100
   startAudioClip: {fileID: 8300000, guid: a37afa6b219111e43b6a532b8f7fae21, type: 3}
@@ -90,7 +91,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4084828893074943605}
   serializedVersion: 4
-  m_Mass: 1
+  m_Mass: 30
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -205,6 +206,27 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!65 &597287258701828477
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4084828893074943605}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1.0317578}
+  m_Center: {x: 0, y: 0, z: 1.0139128}
 --- !u!1001 &5294155599546415771
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -221,6 +243,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 9
       objectReference: {fileID: 0}
+    - target: {fileID: 100002, guid: 6836f5eaa96f845c4ac0909f84272556, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 100004, guid: 6836f5eaa96f845c4ac0909f84272556, type: 3}
       propertyPath: m_Name
       value: frameBall
@@ -232,6 +258,10 @@ PrefabInstance:
     - target: {fileID: 100006, guid: 6836f5eaa96f845c4ac0909f84272556, type: 3}
       propertyPath: m_Layer
       value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100006, guid: 6836f5eaa96f845c4ac0909f84272556, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: 6836f5eaa96f845c4ac0909f84272556, type: 3}
       propertyPath: m_LocalScale.x
@@ -306,6 +336,18 @@ PrefabInstance:
       value: 1.03
       objectReference: {fileID: 0}
     - target: {fileID: 10800000, guid: 6836f5eaa96f845c4ac0909f84272556, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 10800000, guid: 6836f5eaa96f845c4ac0909f84272556, type: 3}
+      propertyPath: m_Color.g
+      value: 0.80829626
+      objectReference: {fileID: 0}
+    - target: {fileID: 10800000, guid: 6836f5eaa96f845c4ac0909f84272556, type: 3}
+      propertyPath: m_Color.r
+      value: 0.4198113
+      objectReference: {fileID: 0}
+    - target: {fileID: 10800000, guid: 6836f5eaa96f845c4ac0909f84272556, type: 3}
       propertyPath: m_Intensity
       value: 0.6
       objectReference: {fileID: 0}
@@ -326,6 +368,18 @@ PrefabInstance:
       value: 23.7
       objectReference: {fileID: 0}
     - target: {fileID: 19800000, guid: 6836f5eaa96f845c4ac0909f84272556, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.b
+      value: 0.9764706
+      objectReference: {fileID: 0}
+    - target: {fileID: 19800000, guid: 6836f5eaa96f845c4ac0909f84272556, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.g
+      value: 0.015686246
+      objectReference: {fileID: 0}
+    - target: {fileID: 19800000, guid: 6836f5eaa96f845c4ac0909f84272556, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.r
+      value: 0.79505354
+      objectReference: {fileID: 0}
+    - target: {fileID: 19800000, guid: 6836f5eaa96f845c4ac0909f84272556, type: 3}
       propertyPath: InitialModule.startSizeY.minMaxState
       value: 3
       objectReference: {fileID: 0}
@@ -341,8 +395,52 @@ PrefabInstance:
       propertyPath: InitialModule.startRotationY.minMaxState
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 19800002, guid: 6836f5eaa96f845c4ac0909f84272556, type: 3}
+      propertyPath: ShapeModule.type
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 19800002, guid: 6836f5eaa96f845c4ac0909f84272556, type: 3}
+      propertyPath: UVModule.timeMode
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 19800002, guid: 6836f5eaa96f845c4ac0909f84272556, type: 3}
+      propertyPath: TrailModule.enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 19800002, guid: 6836f5eaa96f845c4ac0909f84272556, type: 3}
+      propertyPath: LightsModule.enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 19800002, guid: 6836f5eaa96f845c4ac0909f84272556, type: 3}
+      propertyPath: UVModule.animationType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 19800002, guid: 6836f5eaa96f845c4ac0909f84272556, type: 3}
+      propertyPath: ShapeModule.radiusThickness
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 19800002, guid: 6836f5eaa96f845c4ac0909f84272556, type: 3}
+      propertyPath: RotationBySpeedModule.curve.scalar
+      value: 6.283185
+      objectReference: {fileID: 0}
+    - target: {fileID: 19800002, guid: 6836f5eaa96f845c4ac0909f84272556, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.b
+      value: 0.9433962
+      objectReference: {fileID: 0}
+    - target: {fileID: 19800002, guid: 6836f5eaa96f845c4ac0909f84272556, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.g
+      value: 0.8378083
+      objectReference: {fileID: 0}
+    - target: {fileID: 19800002, guid: 6836f5eaa96f845c4ac0909f84272556, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.r
+      value: 0.6986472
+      objectReference: {fileID: 0}
     - target: {fileID: 19800004, guid: 6836f5eaa96f845c4ac0909f84272556, type: 3}
       propertyPath: scalingMode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 19800004, guid: 6836f5eaa96f845c4ac0909f84272556, type: 3}
+      propertyPath: UVModule.enabled
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 19800004, guid: 6836f5eaa96f845c4ac0909f84272556, type: 3}
@@ -350,8 +448,48 @@ PrefabInstance:
       value: 20.59387
       objectReference: {fileID: 0}
     - target: {fileID: 19800004, guid: 6836f5eaa96f845c4ac0909f84272556, type: 3}
+      propertyPath: SizeModule.enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 19800004, guid: 6836f5eaa96f845c4ac0909f84272556, type: 3}
+      propertyPath: ColorModule.enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 19800004, guid: 6836f5eaa96f845c4ac0909f84272556, type: 3}
+      propertyPath: ShapeModule.enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 19800004, guid: 6836f5eaa96f845c4ac0909f84272556, type: 3}
+      propertyPath: EmissionModule.enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 19800004, guid: 6836f5eaa96f845c4ac0909f84272556, type: 3}
+      propertyPath: RotationModule.enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 19800004, guid: 6836f5eaa96f845c4ac0909f84272556, type: 3}
+      propertyPath: InitialModule.gravitySource
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 19800004, guid: 6836f5eaa96f845c4ac0909f84272556, type: 3}
       propertyPath: InitialModule.startSpeed.scalar
       value: 1.7052895
+      objectReference: {fileID: 0}
+    - target: {fileID: 19800004, guid: 6836f5eaa96f845c4ac0909f84272556, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 19800004, guid: 6836f5eaa96f845c4ac0909f84272556, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.b
+      value: 0.8745098
+      objectReference: {fileID: 0}
+    - target: {fileID: 19800004, guid: 6836f5eaa96f845c4ac0909f84272556, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.g
+      value: 0.6192821
+      objectReference: {fileID: 0}
+    - target: {fileID: 19800004, guid: 6836f5eaa96f845c4ac0909f84272556, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.r
+      value: 0.058823515
       objectReference: {fileID: 0}
     - target: {fileID: 19800004, guid: 6836f5eaa96f845c4ac0909f84272556, type: 3}
       propertyPath: InitialModule.startRotationX.minMaxState
@@ -360,6 +498,18 @@ PrefabInstance:
     - target: {fileID: 19800004, guid: 6836f5eaa96f845c4ac0909f84272556, type: 3}
       propertyPath: InitialModule.startRotationY.minMaxState
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 19900002, guid: 6836f5eaa96f845c4ac0909f84272556, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 1eb729f0bf8f447a287bf915f6af971e, type: 2}
+    - target: {fileID: 19900004, guid: 6836f5eaa96f845c4ac0909f84272556, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 19900004, guid: 6836f5eaa96f845c4ac0909f84272556, type: 3}
+      propertyPath: m_AllowRoll
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

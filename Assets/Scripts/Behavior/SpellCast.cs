@@ -137,7 +137,7 @@ namespace Behavior
             SoundEffectManager.Instance.PlaySound("Music/音效/法术/极寒", spellingPartTransform.gameObject);
             // 检测在法术范围内的敌人 TODO:??? Layer就不行==要GetMask
             Collider[] hitEnemies = Physics.OverlapSphere(transform.position, spellRange, LayerMask.GetMask("Enemy"));
-            Debug.LogWarning("检测到 "+hitEnemies.Length + "Enemy");
+            // Debug.LogWarning("检测到 "+hitEnemies.Length + "Enemy");
             // Collider[] hitEnemies = Physics.OverlapSphere(playerPosition, spellRange);
             foreach (Collider enemy in hitEnemies)
             {

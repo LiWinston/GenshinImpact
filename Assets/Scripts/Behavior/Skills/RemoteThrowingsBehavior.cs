@@ -52,8 +52,8 @@ namespace Behavior.Skills
         public float throwingSpeed = 3f;
     
         [InspectorLabel("Sound Customization -- 音效自定义")]
-        [SerializeField] AudioClip startAudioClip;
-        [SerializeField] AudioClip hitAudioClip;
+        [SerializeField] public AudioClip startAudioClip;
+        [SerializeField] public AudioClip hitAudioClip;
 
         private void Awake(){
             enemyLayer = LayerMask.NameToLayer("Enemy");
@@ -77,10 +77,6 @@ namespace Behavior.Skills
             IsExisting = true;
             hasAppliedAOE = false;
             hasAppliedFirstDamage = false;
-            if (startAudioClip != null)
-            {
-                SoundEffectManager.Instance.PlaySound(startAudioClip, gameObject);
-            }
         }
 
         public void actionOnRelease(){
@@ -118,13 +114,13 @@ namespace Behavior.Skills
                         if (!hasAppliedFirstDamage)
                         {
                             hasAppliedFirstDamage = true;
-                            Debug.Log(other.name+"This is the only first attack in this round");
+                            // Debug.Log(other.name+"This is the only first attack in this round");
                             ApplyEffect(other);
                         }
                         break;
                     }
                     case EffectCategory.Existing:
-                        Debug.Log(other.name+"The third branch triggers damage normally");
+                        // Debug.Log(other.name+"The third branch triggers damage normally");
                         ApplyEffect(other);
                         break;
                 }
@@ -136,7 +132,7 @@ namespace Behavior.Skills
                     hasAppliedAOE = true;
                     if (_effectCategory == EffectCategory.Explosion)
                     {
-                        SoundEffectManager.Instance.PlaySound(hitAudioClip, gameObject);
+                        if(hitAudioClip != null) SoundEffectManager.Instance.PlaySound(hitAudioClip, gameObject);
                         ThisPool.Release(gameObject);
                     }
                 }
@@ -240,7 +236,7 @@ namespace Behavior.Skills
                 target = nextTarget;
                 transform.LookAt(target.transform);
                 StartCoroutine(Bounce());
-                Debug.Log("择取下一个："+nextTarget);
+                // Debug.Log("择取下一个："+nextTarget);
             }else ThisPool.Release(gameObject);
         }
 
