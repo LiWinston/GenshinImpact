@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Behavior.Effect;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Pool;
@@ -89,6 +90,7 @@ namespace Behavior.Skills
                 existCoroutine = null;
             }
             if(BounceCoroutine != null){
+                GetComponent<NegativeEffectManager>().StopEffect("Bounce");
                 StopCoroutine(BounceCoroutine);
                 BounceCoroutine = null;
             }
@@ -211,6 +213,7 @@ namespace Behavior.Skills
             if (mstbhv != null)
             {
                 float duration = maxExistTime;
+                mstbhv._negativeEffectManager.CreateEffectBar("Burn", Color.red, duration);
                 float elapsed = 0f;
                 while (elapsed < duration)
                 {
@@ -218,6 +221,7 @@ namespace Behavior.Skills
                     elapsed += Time.deltaTime;
                     yield return null;
                 }
+                mstbhv._negativeEffectManager.StopEffect("Burn");
             }
         }
 
@@ -234,11 +238,17 @@ namespace Behavior.Skills
                 hitEnemies.Add(mst.gameObject);
                 bounceCount++;
                 // if (bounceCount > 10 || Mathf.Pow(0.8f, bounceCount) < 0.06f)
-                if (Mathf.Pow(0.8f, bounceCount) < 0.06f) ThisPool.Release(gameObject);
+                if (Mathf.Pow(0.8f, bounceCount) < 0.06f)
+                {
+                    ThisPool.Release(gameObject);
+                    GetComponent<NegativeEffectManager>().StopEffect("Bounce");
+                }
             }
             GameObject nextTarget = GetBounceTarget();
             if (nextTarget != target && nextTarget != null)
             {
+                //球子第一次加计时条
+                if(bounceCount == 1) GetComponent<NegativeEffectManager>().CreateEffectBar("Bounce", Color.magenta, 3f);
                 target = nextTarget;
                 transform.LookAt(target.transform);
                 BounceCoroutine = StartCoroutine(Bounce());
