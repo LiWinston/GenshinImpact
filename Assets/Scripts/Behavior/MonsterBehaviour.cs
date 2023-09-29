@@ -1,4 +1,5 @@
 using System.Collections;
+using Behavior.Effect;
 using Behavior.Health;
 
 using Unity.VisualScripting;
@@ -59,6 +60,7 @@ namespace Behavior
         
         private Target _targetComponent;
         private static readonly int Die = Animator.StringToHash("Die");
+        internal NegativeEffectManager _negativeEffectManager;
 
         public ObjectPool<GameObject> ThisPool { get; set; }
         public bool IsExisting { get; set; }
@@ -92,6 +94,7 @@ namespace Behavior
 
         private void Awake()
         {
+            _negativeEffectManager = GetComponent<NegativeEffectManager>();
             target = PlayerController.Instance.gameObject;
             enemyLayer = LayerMask.GetMask("Enemy");
             playerLayer = LayerMask.GetMask("Player");
@@ -309,11 +312,11 @@ namespace Behavior
         private void InitializeMonsterLevel()
         {
             // 计算怪物等级，使其在五分钟内逐渐增长到最大等级
-            float maxGameTime = 400f; // 300秒
+            float maxGameTime = 300f; // 300秒
             float progress = Mathf.Clamp01(Time.time / maxGameTime); // 游戏时间进度（0到1之间）
             monsterLevel = progress * 100 + 1; // 从1到100逐渐增长
             monsterExperience = Mathf.FloorToInt(monsterLevel * 1.2f);
-            health.SetHealthMax(monsterLevel * 100 +100, true);
+            health.SetHealthMax(monsterLevel * 300 +100, true);//100
         }
     
         public void ActivateFreezeMode(float duration, float continuousDamageAmount)
@@ -321,6 +324,7 @@ namespace Behavior
             freezeEffectCoroutine = StartCoroutine(FreezeEffectCoroutine(duration));
                     // 启动持续掉血的协程
             StartCoroutine(Effect.Freeze.ContinuousDamage(health, continuousDamageAmount, duration ));
+            _negativeEffectManager.CreateEffectBar("Freeze", Color.blue, duration);
         }
         internal Coroutine freezeEffectCoroutine { get; set; }
 
@@ -332,6 +336,7 @@ namespace Behavior
             attackCooldownInterval = originalAttackCooldownInterval;
             MaxMstSpeed = originalMaxMstSpeed;
             isFrozen = false;
+            _negativeEffectManager.StopEffect("Freeze");
         }
         private IEnumerator FreezeEffectCoroutine(float duration)
         {
@@ -355,12 +360,17 @@ namespace Behavior
     
         public void ActivateSelfKillMode(float elapseT)
         {
+            if(IsInSelfKill) StopCoroutine(selfKillCoroutine);
             selfKillCoroutine = StartCoroutine(SelfKillCoroutine(elapseT));
+            // Debug.Log("SelfKillMode Activated");
+            _negativeEffectManager.CreateEffectBar("SelfKill", Color.white, elapseT);
+            // Debug.Log("SelfKill timerCpn Activated");
         }
 
         public void DeactivateSelfKillMode()
         {
             IsInSelfKill = false;
+            _negativeEffectManager.StopEffect("SelfKill");
             GetComponent<Target>().NeedBoxIndicator = false;
             MaxMstSpeed = originalMaxMstSpeed;
             if(!selfKillCoroutine.IsUnityNull()) StopCoroutine(selfKillCoroutine);
@@ -370,8 +380,8 @@ namespace Behavior
         private IEnumerator SelfKillCoroutine(float elapseT)
         {
             IsInSelfKill = true;
-            
             MaxMstSpeed *= 1.2f;
+            
             // var orgTargetColor = targetComponent.targetColor;
             // Color startColor = Color.green;
             float elapsedTime = 0f;

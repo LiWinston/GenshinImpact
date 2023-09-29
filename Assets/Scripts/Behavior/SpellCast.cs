@@ -210,7 +210,7 @@ namespace Behavior
                     if (enemyHealth != null)
                     {
                         // 对敌人造成伤害
-                        enemyHealth.Damage(state.CurrentDamage * 2);
+                        enemyHealth.Damage(state.CurrentDamage * 0.5f);
                         // 播放特效
                         if (spellingPartTransform != null)
                         {
