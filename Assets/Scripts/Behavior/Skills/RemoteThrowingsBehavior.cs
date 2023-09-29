@@ -55,8 +55,10 @@ namespace Behavior.Skills
         [InspectorLabel("Sound Customization -- 音效自定义")]
         [SerializeField] public AudioClip startAudioClip;
         [SerializeField] public AudioClip hitAudioClip;
+        private NegativeEffectManager _negativeEffectManager;
 
         private void Awake(){
+            _negativeEffectManager = GetComponent<NegativeEffectManager>();
             enemyLayer = LayerMask.NameToLayer("Enemy");
         }
 
@@ -90,7 +92,7 @@ namespace Behavior.Skills
                 existCoroutine = null;
             }
             if(BounceCoroutine != null){
-                GetComponent<NegativeEffectManager>().StopEffect("Bounce");
+                _negativeEffectManager.StopEffect("Bounce");
                 StopCoroutine(BounceCoroutine);
                 BounceCoroutine = null;
             }
@@ -241,14 +243,14 @@ namespace Behavior.Skills
                 if (Mathf.Pow(0.8f, bounceCount) < 0.06f)
                 {
                     ThisPool.Release(gameObject);
-                    GetComponent<NegativeEffectManager>().StopEffect("Bounce");
+                    _negativeEffectManager.StopEffect("Bounce");
                 }
             }
             GameObject nextTarget = GetBounceTarget();
             if (nextTarget != target && nextTarget != null)
             {
                 //球子第一次加计时条
-                if(bounceCount == 1) GetComponent<NegativeEffectManager>().CreateEffectBar("Bounce", Color.magenta, 3f);
+                if(bounceCount == 1) _negativeEffectManager.CreateEffectBar("Bounce", Color.magenta, 3f);
                 target = nextTarget;
                 transform.LookAt(target.transform);
                 BounceCoroutine = StartCoroutine(Bounce());

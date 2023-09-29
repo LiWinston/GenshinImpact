@@ -106,6 +106,7 @@ namespace Behavior
             target = PlayerController.Instance.gameObject;
             targetPlayer = PlayerController.Instance;
 
+            if(_negativeEffectManager == null) _negativeEffectManager = GetComponent<NegativeEffectManager>();
             if (targetPlayer == null)
             {
                 Debug.LogWarning("No GameObject with the name 'Player' found in the scene.");
