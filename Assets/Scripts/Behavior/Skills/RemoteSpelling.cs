@@ -54,13 +54,7 @@ namespace Behavior.Skills
         [SerializeField] public bool isUpdatedWithLevel = false;
     
         private void Start(){
-            string randomName;
-            do
-            {
-                randomName = UnityEngine.Random.Range(0, 100000).ToString();
-            } while (GameObject.Find(randomName) != null);
-            SkillPreview = new GameObject(randomName);
-            SkillPreview.transform.SetParent(this.transform);
+            
             _spellCast = GetComponent<SpellCast>();
             _playerController = GetComponent<PlayerController>();
             _throwingsPool = new ObjectPool<GameObject>(CreateFunc, actionOnGet, actionOnRelease, actionOnDestroy,
@@ -68,6 +62,18 @@ namespace Behavior.Skills
             castingLayer = LayerMask.GetMask("Wall", "Floor");
             throwingsBehavior = prefab.GetComponent<RemoteThrowingsBehavior>();
 
+            if (throwingsBehavior.positionalCategory ==
+                RemoteThrowingsBehavior.PositionalCategory.ImmediatelyInPosition)
+            {
+                string randomName;
+                do
+                {
+                    randomName = UnityEngine.Random.Range(0, 100000).ToString();
+                } while (GameObject.Find(randomName) != null);
+                SkillPreview = new GameObject(randomName);
+            }
+            SkillPreview.transform.SetParent(this.transform);
+            
             // 初始化 LineRenderer
             lineRenderer = SkillPreview.AddComponent<LineRenderer>();
             lineRenderer.material = new Material(Shader.Find("Sprites/Default"));

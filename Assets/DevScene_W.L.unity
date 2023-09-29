@@ -1067,6 +1067,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 357082100983638266, guid: 705a0aa5ac66b2f42b8577a6b33a634d, type: 3}
   m_PrefabInstance: {fileID: 324847007}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &347206417 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5496938358690192402, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
+  m_PrefabInstance: {fileID: 6755353934008130882}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &431361317
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6015,9 +6020,17 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 99203076808414306, guid: cf22150b059c9a94c947e3d09522c055, type: 3}
+      propertyPath: spawnHeight
+      value: 0.2
+      objectReference: {fileID: 0}
     - target: {fileID: 804094611814960037, guid: cf22150b059c9a94c947e3d09522c055, type: 3}
       propertyPath: m_Enabled
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 804094611814960037, guid: cf22150b059c9a94c947e3d09522c055, type: 3}
+      propertyPath: spawnHeight
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 3030407638572315631, guid: cf22150b059c9a94c947e3d09522c055, type: 3}
       propertyPath: m_Name
@@ -6068,12 +6081,20 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7250126472735157602, guid: cf22150b059c9a94c947e3d09522c055, type: 3}
+      propertyPath: spawnHeight
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7250126472735157602, guid: cf22150b059c9a94c947e3d09522c055, type: 3}
       propertyPath: initialSpawnInterval
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 9191315033311515638, guid: cf22150b059c9a94c947e3d09522c055, type: 3}
       propertyPath: m_Enabled
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9191315033311515638, guid: cf22150b059c9a94c947e3d09522c055, type: 3}
+      propertyPath: spawnHeight
+      value: 1.2
       objectReference: {fileID: 0}
     - target: {fileID: 9191315033311515638, guid: cf22150b059c9a94c947e3d09522c055, type: 3}
       propertyPath: minSpawnInterval
@@ -8414,6 +8435,10 @@ PrefabInstance:
       propertyPath: castingDistance
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 6844506482609387575, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
+      propertyPath: pickHandTransform
+      value: 
+      objectReference: {fileID: 347206417}
     - target: {fileID: 6921031817926144304, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
       propertyPath: m_Enabled
       value: 1

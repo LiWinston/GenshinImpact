@@ -89,6 +89,7 @@ namespace Behavior
         public float moveForceTimer = 0.05f;
         public float moveForceTimerCounter = 0.05f;
     
+        [FormerlySerializedAs("handTransform")] [SerializeField] internal Transform pickHandTransform;
         [FormerlySerializedAs("swordTransform")] [SerializeField] internal GameObject swordObject;
         private float speed_Ratio_Attack = 0.1f;
         public float rotationFriction = 4000f; // 调整旋转摩擦力的大小
@@ -521,13 +522,6 @@ namespace Behavior
             // 设置最大旋转角度
             float maxRotationAngle = 360f; // 调整最大旋转角度
 
-            // 触发"Picking"动画
-            animator.SetTrigger("Picking");
-
-            // 获取动画的长度
-            AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
-            float animationLength = stateInfo.length;
-
             // 旋转到目标方向
             while (Quaternion.Angle(transform.rotation, targetRotation) > 0.1f)
             {
@@ -540,11 +534,18 @@ namespace Behavior
                 yield return null;
             }
 
-            // 等待动画播放完毕
-            yield return new WaitForSeconds(animationLength);
+            // 触发"Picking"动画
+            animator.SetTrigger("Picking");
 
+            // 获取动画的长度
+            AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+            float animationLength = stateInfo.length;
+            
+            // 等待动画播放一半
+            yield return new WaitForSeconds(animationLength*3/4);
             // 执行捡取操作
             immediateUseItems.Pick();
+            yield return new WaitForSeconds(animationLength/4);
         }
 
 
