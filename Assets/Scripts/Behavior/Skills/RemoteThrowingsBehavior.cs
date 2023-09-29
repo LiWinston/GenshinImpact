@@ -132,7 +132,6 @@ namespace Behavior.Skills
                     hasAppliedAOE = true;
                     if (_effectCategory == EffectCategory.Explosion)
                     {
-                        if(hitAudioClip != null) SoundEffectManager.Instance.PlaySound(hitAudioClip, gameObject);
                         ThisPool.Release(gameObject);
                     }
                 }
@@ -180,6 +179,7 @@ namespace Behavior.Skills
                 var mstbhv = other.GetComponent<MonsterBehaviour>();
                 if (mstbhv != null)
                 {
+                    if(hitAudioClip) SoundEffectManager.Instance.PlaySound(hitAudioClip, mstbhv.gameObject);
                     mstbhv.TakeDamage(damage);
                 }
                 // ThisPool.Release(gameObject);
@@ -218,7 +218,7 @@ namespace Behavior.Skills
 
         private void ApplyBouncingDamage(GameObject other)
         {
-            SoundEffectManager.Instance.PlaySound(hitAudioClip, other);
+            if(hitAudioClip) SoundEffectManager.Instance.PlaySound(hitAudioClip, other);
             var mst = other.GetComponent<MonsterBehaviour>();
             if (mst)
             {
