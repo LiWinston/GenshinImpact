@@ -9,11 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6134846360754243859}
-  - component: {fileID: 8098975487059622607}
   - component: {fileID: 6217006770087116210}
+  - component: {fileID: 8098975487059622607}
   - component: {fileID: 794199488013558291}
   - component: {fileID: -8352849382174817160}
-  - component: {fileID: 597287258701828477}
   m_Layer: 9
   m_Name: Meadow Meteor
   m_TagString: Untagged
@@ -37,6 +36,29 @@ Transform:
   - {fileID: 5294155599546540063}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6217006770087116210
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4084828893074943605}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5653a0a4f7c6394d8926205e40e0b91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  triggerRange: 0.75
+  damage: 500
+  AOEDamage: 0
+  AOERange: 0
+  positionalCategory: 0
+  _effectCategory: 0
+  maxExistTime: 0.78
+  _energyCost: 0
+  throwingSpeed: 100
+  startAudioClip: {fileID: 8300000, guid: a37afa6b219111e43b6a532b8f7fae21, type: 3}
+  hitAudioClip: {fileID: 8300000, guid: bd8ce360bd28a24469b490a3dc0987a3, type: 3}
 --- !u!136 &8098975487059622607
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -60,29 +82,6 @@ CapsuleCollider:
   m_Height: 1
   m_Direction: 0
   m_Center: {x: 0, y: 0, z: 1}
---- !u!114 &6217006770087116210
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4084828893074943605}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b5653a0a4f7c6394d8926205e40e0b91, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  triggerRange: 0.75
-  damage: 500
-  AOEDamage: 0
-  AOERange: 0
-  positionalCategory: 0
-  _effectCategory: 0
-  maxExistTime: 0.78
-  _energyCost: 0
-  throwingSpeed: 100
-  startAudioClip: {fileID: 8300000, guid: a37afa6b219111e43b6a532b8f7fae21, type: 3}
-  hitAudioClip: {fileID: 0}
 --- !u!54 &794199488013558291
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -206,27 +205,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!65 &597287258701828477
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4084828893074943605}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1.0317578}
-  m_Center: {x: 0, y: 0, z: 1.0139128}
 --- !u!1001 &5294155599546415771
 PrefabInstance:
   m_ObjectHideFlags: 0

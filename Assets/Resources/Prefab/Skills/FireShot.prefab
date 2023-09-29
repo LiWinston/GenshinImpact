@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6449516655068595844}
+  - component: {fileID: 4742097885616104652}
   - component: {fileID: 3331045256657527478}
   - component: {fileID: 500568940038366351}
-  - component: {fileID: 4742097885616104652}
   - component: {fileID: 6170815371814720262}
   m_Layer: 9
   m_Name: FireShot
@@ -36,6 +36,29 @@ Transform:
   - {fileID: 3459863218280551239}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4742097885616104652
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2353437418114724401}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5653a0a4f7c6394d8926205e40e0b91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  triggerRange: 2
+  damage: 100
+  AOEDamage: 70
+  AOERange: 2.5
+  positionalCategory: 1
+  _effectCategory: 1
+  maxExistTime: 2
+  _energyCost: 0
+  throwingSpeed: 3
+  startAudioClip: {fileID: 8300000, guid: 5f5add62676e4aa45bdb6a79dc47cd3e, type: 3}
+  hitAudioClip: {fileID: 0}
 --- !u!54 &3331045256657527478
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -84,29 +107,6 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &4742097885616104652
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2353437418114724401}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b5653a0a4f7c6394d8926205e40e0b91, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  triggerRange: 2
-  damage: 100
-  AOEDamage: 70
-  AOERange: 2.5
-  positionalCategory: 1
-  _effectCategory: 1
-  maxExistTime: 2
-  _energyCost: 0
-  throwingSpeed: 3
-  startAudioClip: {fileID: 8300000, guid: 5f5add62676e4aa45bdb6a79dc47cd3e, type: 3}
-  hitAudioClip: {fileID: 0}
 --- !u!82 &6170815371814720262
 AudioSource:
   m_ObjectHideFlags: 0

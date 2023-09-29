@@ -132,7 +132,6 @@ namespace Behavior.Skills
                     hasAppliedAOE = true;
                     if (_effectCategory == EffectCategory.Explosion)
                     {
-                        if(hitAudioClip != null) SoundEffectManager.Instance.PlaySound(hitAudioClip, gameObject);
                         ThisPool.Release(gameObject);
                     }
                 }
@@ -172,6 +171,7 @@ namespace Behavior.Skills
             else if (_effectCategory == EffectCategory.Bouncing)
             {
                 target = other.gameObject;//Damn, finally found the culprit.
+                transform.position = target.transform.position + Vector3.up * Random.Range(0.3f,1.2f);
                 ApplyBouncingDamage(other.gameObject);
             }
             else if (_effectCategory == EffectCategory.Explosion)
@@ -179,6 +179,7 @@ namespace Behavior.Skills
                 var mstbhv = other.GetComponent<MonsterBehaviour>();
                 if (mstbhv != null)
                 {
+                    if(hitAudioClip) SoundEffectManager.Instance.PlaySound(hitAudioClip, mstbhv.gameObject);
                     mstbhv.TakeDamage(damage);
                 }
                 // ThisPool.Release(gameObject);
@@ -217,7 +218,7 @@ namespace Behavior.Skills
 
         private void ApplyBouncingDamage(GameObject other)
         {
-            SoundEffectManager.Instance.PlaySound(hitAudioClip, other);
+            if(hitAudioClip) SoundEffectManager.Instance.PlaySound(hitAudioClip, other);
             var mst = other.GetComponent<MonsterBehaviour>();
             if (mst)
             {
