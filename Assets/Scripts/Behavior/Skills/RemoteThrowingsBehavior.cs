@@ -172,6 +172,7 @@ namespace Behavior.Skills
             else if (_effectCategory == EffectCategory.Bouncing)
             {
                 target = other.gameObject;//Damn, finally found the culprit.
+                transform.position = target.transform.position + Vector3.up * Random.Range(0.3f,1.2f);
                 ApplyBouncingDamage(other.gameObject);
             }
             else if (_effectCategory == EffectCategory.Explosion)
