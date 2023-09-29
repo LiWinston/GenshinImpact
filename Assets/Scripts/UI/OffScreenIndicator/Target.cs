@@ -57,6 +57,7 @@ namespace UI.OffScreenIndicator
             {
             return needBoxIndicator;
             }
+            set => needBoxIndicator = value;
         }
 
         /// <summary>
@@ -68,6 +69,7 @@ namespace UI.OffScreenIndicator
             {
             return needArrowIndicator;
             }
+            set => needArrowIndicator = value;
         }
 
         /// <summary>
@@ -79,6 +81,7 @@ namespace UI.OffScreenIndicator
             {
             return needDistanceText;
             }
+            set => needDistanceText = value;
         }
 
         /// <summary>

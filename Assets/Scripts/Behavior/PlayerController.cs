@@ -542,10 +542,9 @@ namespace Behavior
             float animationLength = stateInfo.length;
             
             // 等待动画播放一半
-            yield return new WaitForSeconds(animationLength*3/4);
+            yield return new WaitForSeconds(animationLength);
             // 执行捡取操作
             immediateUseItems.Pick();
-            yield return new WaitForSeconds(animationLength/4);
         }
 
 

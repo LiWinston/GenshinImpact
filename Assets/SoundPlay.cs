@@ -21,9 +21,9 @@ public class SoundPlay : StateMachineBehaviour
 
         
         
-        if (audioSource == null)
+        if (animator != null)
         {
-            audioSource = PlayerController.Instance.GetComponent<AudioSource>();
+            audioSource = animator.transform.parent.GetComponent<AudioSource>();
         }
 
         // 随机选择一个音频剪辑

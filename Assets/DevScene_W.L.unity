@@ -949,6 +949,29 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 357082100983638266, guid: 705a0aa5ac66b2f42b8577a6b33a634d, type: 3}
   m_PrefabInstance: {fileID: 294460034}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &296982054 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3030407638572315631, guid: cf22150b059c9a94c947e3d09522c055, type: 3}
+  m_PrefabInstance: {fileID: 1604544646}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &296982060
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 296982054}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 411060de4483b5e4c9847cd3cbc18554, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetColor: {r: 1, g: 0, b: 0, a: 1}
+  needBoxIndicator: 1
+  needArrowIndicator: 1
+  needDistanceText: 1
+  boxIndicatorDrawAtTransform: {fileID: 0}
+  indicator: {fileID: 0}
 --- !u!1001 &324847007
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1067,9 +1090,9 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 357082100983638266, guid: 705a0aa5ac66b2f42b8577a6b33a634d, type: 3}
   m_PrefabInstance: {fileID: 324847007}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &347206417 stripped
+--- !u!4 &401266220 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 5496938358690192402, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
+  m_CorrespondingSourceObject: {fileID: 5496938358905939764, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
   m_PrefabInstance: {fileID: 6755353934008130882}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &431361317
@@ -6107,7 +6130,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3030407638572315631, guid: cf22150b059c9a94c947e3d09522c055, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 296982060}
   m_SourcePrefab: {fileID: 100100000, guid: cf22150b059c9a94c947e3d09522c055, type: 3}
 --- !u!1001 &1606173549
 PrefabInstance:
@@ -8438,7 +8464,7 @@ PrefabInstance:
     - target: {fileID: 6844506482609387575, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
       propertyPath: pickHandTransform
       value: 
-      objectReference: {fileID: 347206417}
+      objectReference: {fileID: 401266220}
     - target: {fileID: 6921031817926144304, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
       propertyPath: m_Enabled
       value: 1

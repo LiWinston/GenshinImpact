@@ -65,7 +65,6 @@ namespace ItemSystem
         {
             if (used)
             {
-                GetComponent<rotation>().clickOff();
                 StartCoroutine(ReleaseDelayed(0.6f));
             }
         }
@@ -76,6 +75,7 @@ namespace ItemSystem
         }
 
         public void Pick(){
+            GetComponent<rotation>().clickOff();
             PickAction();
         }
 

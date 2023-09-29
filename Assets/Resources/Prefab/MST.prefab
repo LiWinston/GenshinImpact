@@ -344,9 +344,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetColor: {r: 1, g: 0, b: 0, a: 1}
-  needBoxIndicator: 1
+  needBoxIndicator: 0
   needArrowIndicator: 1
-  needDistanceText: 1
+  needDistanceText: 0
   boxIndicatorDrawAtTransform: {fileID: 404395535939509762}
   indicator: {fileID: 0}
 --- !u!54 &1928511585271000626
@@ -411,7 +411,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 0.537
+  m_Volume: 1
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -455,7 +455,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 0.927
       inSlope: 0
       outSlope: 0
       tangentMode: 0
