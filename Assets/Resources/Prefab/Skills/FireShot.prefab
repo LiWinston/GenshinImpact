@@ -105,7 +105,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 1
+  m_Radius: 2
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!82 &6170815371814720262
 AudioSource:
@@ -298,6 +298,14 @@ PrefabInstance:
     - target: {fileID: 400004, guid: b2e1927a9cfbd4c03a114b0166c00dce, type: 3}
       propertyPath: m_ConstrainProportionsScale
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 19800002, guid: b2e1927a9cfbd4c03a114b0166c00dce, type: 3}
+      propertyPath: CollisionModule.type
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 19800002, guid: b2e1927a9cfbd4c03a114b0166c00dce, type: 3}
+      propertyPath: CollisionModule.enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 19800002, guid: b2e1927a9cfbd4c03a114b0166c00dce, type: 3}
       propertyPath: InitialModule.startSize.minScalar

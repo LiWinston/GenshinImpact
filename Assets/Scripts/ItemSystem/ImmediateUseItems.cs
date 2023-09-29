@@ -1,7 +1,9 @@
+using System.Collections;
 using Behavior;
 using UnityEngine;
 using UnityEngine.Pool;
 using Utility;
+using rotation = ParticleRibbon.Scripts.rotation;
 
 namespace ItemSystem
 {
@@ -28,10 +30,11 @@ namespace ItemSystem
 
         public void actionOnGet(){
             gameObject.SetActive(true);
+            GetComponent<rotation>().clickOn();
         }
 
-        public void actionOnRelease()
-        {
+        public void actionOnRelease(){
+            transform.SetParent(null);
             used = false;
             //TODO: implement Package Sys
             // if (_isEffNotNull) player.GetComponent<Package>().addToPackage(this.gameObject);
@@ -62,19 +65,29 @@ namespace ItemSystem
         {
             if (used)
             {
-                Release();
+                GetComponent<rotation>().clickOff();
+                StartCoroutine(ReleaseDelayed(0.6f));
             }
         }
 
-        public void Pick()
-        {
+        private IEnumerator ReleaseDelayed(float t){
+            yield return new WaitForSeconds(t);
+            Release();
+        }
+
+        public void Pick(){
+            PickAction();
+        }
+
+        private void PickAction(){
+            transform.position = PlayerController.Instance.pickHandTransform.position;
+            transform.SetParent(PlayerController.Instance.pickHandTransform);
             if (_isEffNotNull)
             {
                 used = true;
                 _eff.AffectPlayer(player);
             }
-
-            // _rotation.clickOff();
+            
 
             // 标记物体为销毁，Unity 会在下一帧销毁它
         }
