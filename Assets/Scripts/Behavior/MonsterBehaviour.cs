@@ -57,7 +57,7 @@ namespace Behavior
         private float originalMaxMstSpeed;
     
         
-        private Target targetComponent;
+        private Target _targetComponent;
         private static readonly int Die = Animator.StringToHash("Die");
 
         public ObjectPool<GameObject> ThisPool { get; set; }
@@ -78,9 +78,10 @@ namespace Behavior
 
         public void actionOnRelease()
         {
+            rb.velocity = Vector3.zero;
             if(!freezeEffectCoroutine.IsUnityNull())StopCoroutine(freezeEffectCoroutine);
             IsInSelfKill = false;
-            targetComponent.targetColor = Color.red;
+            _targetComponent.targetColor = Color.red;
         }
 
         public void Release()
@@ -94,7 +95,7 @@ namespace Behavior
             target = PlayerController.Instance.gameObject;
             enemyLayer = LayerMask.GetMask("Enemy");
             playerLayer = LayerMask.GetMask("Player");
-            targetComponent = GetComponent<Target>();
+            _targetComponent = GetComponent<Target>();
         }
     
         private void Start()
@@ -369,24 +370,23 @@ namespace Behavior
         private IEnumerator SelfKillCoroutine(float elapseT)
         {
             IsInSelfKill = true;
-            GetComponent<Target>().NeedBoxIndicator = true;
             
             MaxMstSpeed *= 1.2f;
-            var orgTargetColor = targetComponent.targetColor;
-            Color startColor = Color.green;
+            // var orgTargetColor = targetComponent.targetColor;
+            // Color startColor = Color.green;
             float elapsedTime = 0f;
 
             while (elapsedTime < elapseT)
             {
-                float t = Mathf.Clamp01(elapsedTime / elapseT);
-                targetComponent.targetColor = Color.Lerp(startColor, orgTargetColor, t);
+                // float t = Mathf.Clamp01(elapsedTime / elapseT);
+                // targetComponent.targetColor = Color.Lerp(startColor, orgTargetColor, t);
 
                 yield return new WaitForSeconds(1f); // 等待1秒钟
                 elapsedTime += 1f;
             }
 
             // Ensure the final color is exactly the original color.
-            targetComponent.targetColor = orgTargetColor;
+            // targetComponent.targetColor = orgTargetColor;
 
             yield return null; // 保证协程执行完整
 
