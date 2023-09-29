@@ -1,6 +1,6 @@
 using System.Collections;
 using Behavior.Health;
-using UI.OffScreenIndicator;
+
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Pool;
@@ -8,6 +8,7 @@ using Utility;
 using IPoolable = Utility.IPoolable;
 using Random = UnityEngine.Random;
 using State = AttributeRelatedScript.State;
+using Target = UI.OffScreenIndicator.Target;
 
 namespace Behavior
 {
@@ -359,6 +360,7 @@ namespace Behavior
         public void DeactivateSelfKillMode()
         {
             IsInSelfKill = false;
+            GetComponent<Target>().NeedBoxIndicator = false;
             MaxMstSpeed = originalMaxMstSpeed;
             if(!selfKillCoroutine.IsUnityNull()) StopCoroutine(selfKillCoroutine);
         }
@@ -367,6 +369,8 @@ namespace Behavior
         private IEnumerator SelfKillCoroutine(float elapseT)
         {
             IsInSelfKill = true;
+            GetComponent<Target>().NeedBoxIndicator = true;
+            
             MaxMstSpeed *= 1.2f;
             var orgTargetColor = targetComponent.targetColor;
             Color startColor = Color.green;

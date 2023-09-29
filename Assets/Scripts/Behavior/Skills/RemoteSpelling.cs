@@ -225,14 +225,14 @@ namespace Behavior.Skills
                 _playerController.GetAnimator().SetTrigger(animatorTriggerName);
                 yield return new WaitForSeconds(animationGap);
                 
-                if (throwingsBehavior.startAudioClip != null)
-                {
-                    SoundEffectManager.Instance.PlaySound(throwingsBehavior.startAudioClip);
-                }
-                
                 var throwStuff = _throwingsPool.Get();
                 throwStuff.transform.position = hitTarget + generatingOffset;
                 throwStuff.transform.rotation = transform.rotation;
+                
+                if (throwingsBehavior.startAudioClip != null)
+                {
+                    SoundEffectManager.Instance.PlaySound(throwingsBehavior.startAudioClip, throwStuff);
+                }
             }
             isCasting = false;
         }
