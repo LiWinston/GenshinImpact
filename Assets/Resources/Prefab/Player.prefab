@@ -420,10 +420,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   effectBarPrefab: {fileID: 5986491840916597951, guid: e375def76bffab1408f3cd22ab1e46d8, type: 3}
   effectBarParent: {fileID: 7406021605194356953}
-  effectBarStartPos: {fileID: 5496938359315279021}
+  effectBarStartPos: {fileID: 1301686439504549740}
   effectBarSpacing: 0.05625
   effectBarOffset: 0.01
-  startPosOffset: {x: 0, y: -0.09, z: 0}
+  startPosOffset: {x: 0, y: -0.38, z: 0}
+  transformNormalizer: {x: 0.05, y: 0.05, z: 0.05}
 --- !u!114 &6770313562260628058
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -445,7 +446,7 @@ MonoBehaviour:
   countAll: 0
   countActive: 0
   countInactive: 0
-  castingDistance: 7
+  castingDistance: 10
   animatorTriggerName: Throw
   animationGap: 0.2
   key: 99
@@ -473,9 +474,9 @@ MonoBehaviour:
   countAll: 0
   countActive: 0
   countInactive: 0
-  castingDistance: 9
+  castingDistance: 11
   animatorTriggerName: Cast
-  animationGap: 0.4
+  animationGap: 0.5
   key: 102
   validColor: {r: 1, g: 0.9914959, b: 0, a: 1}
   invalidColor: {r: 1, g: 0, b: 0, a: 1}
@@ -565,7 +566,7 @@ MonoBehaviour:
   MAX_ALLOWED_INTERACT_RANGE: 3
   moveForceTimer: 0.08
   moveForceTimerCounter: 0.08
-  pickHandTransform: {fileID: 0}
+  pickHandTransform: {fileID: 5496938358905939764}
   swordObject: {fileID: 5783294752404380237}
   rotationFriction: 200
   sword: {fileID: 5662817349311532234}
@@ -995,6 +996,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7406021605194356953}
     m_Modifications:
+    - target: {fileID: 774839135263903808, guid: 2e1919b3058a29a40ab972890a296978, type: 3}
+      propertyPath: m_Mass
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3030912180037073426, guid: 2e1919b3058a29a40ab972890a296978, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4061112373666353820, guid: 2e1919b3058a29a40ab972890a296978, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.88
@@ -1077,27 +1086,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5848477472335387676, guid: 2e1919b3058a29a40ab972890a296978, type: 3}
       propertyPath: m_AABB.m_Center.x
-      value: -0.008372128
+      value: NaN
       objectReference: {fileID: 0}
     - target: {fileID: 5848477472335387676, guid: 2e1919b3058a29a40ab972890a296978, type: 3}
       propertyPath: m_AABB.m_Center.y
-      value: 3.3431838
+      value: NaN
       objectReference: {fileID: 0}
     - target: {fileID: 5848477472335387676, guid: 2e1919b3058a29a40ab972890a296978, type: 3}
       propertyPath: m_AABB.m_Center.z
-      value: -0.0004621148
+      value: NaN
       objectReference: {fileID: 0}
     - target: {fileID: 5848477472335387676, guid: 2e1919b3058a29a40ab972890a296978, type: 3}
       propertyPath: m_AABB.m_Extent.x
-      value: 0.18146324
+      value: NaN
       objectReference: {fileID: 0}
     - target: {fileID: 5848477472335387676, guid: 2e1919b3058a29a40ab972890a296978, type: 3}
       propertyPath: m_AABB.m_Extent.y
-      value: 0.37536502
+      value: NaN
       objectReference: {fileID: 0}
     - target: {fileID: 5848477472335387676, guid: 2e1919b3058a29a40ab972890a296978, type: 3}
       propertyPath: m_AABB.m_Extent.z
-      value: 0.26743057
+      value: NaN
+      objectReference: {fileID: 0}
+    - target: {fileID: 5848477472335387676, guid: 2e1919b3058a29a40ab972890a296978, type: 3}
+      propertyPath: m_UpdateWhenOffscreen
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5848477473061255142, guid: 2e1919b3058a29a40ab972890a296978, type: 3}
       propertyPath: m_Name
@@ -1143,6 +1156,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6657846821268126136, guid: 2e1919b3058a29a40ab972890a296978, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1168,9 +1185,9 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5848477472101346178, guid: 2e1919b3058a29a40ab972890a296978, type: 3}
   m_PrefabInstance: {fileID: 2116967897113325751}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &5496938359315279021 stripped
+--- !u!4 &5496938358905939764 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 5848477472335387674, guid: 2e1919b3058a29a40ab972890a296978, type: 3}
+  m_CorrespondingSourceObject: {fileID: 5848477471918708611, guid: 2e1919b3058a29a40ab972890a296978, type: 3}
   m_PrefabInstance: {fileID: 2116967897113325751}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &5496938359645849437 stripped
