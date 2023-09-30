@@ -55,10 +55,10 @@ namespace Behavior.Skills
         [InspectorLabel("Sound Customization -- 音效自定义")]
         [SerializeField] public AudioClip startAudioClip;
         [SerializeField] public AudioClip hitAudioClip;
-        private NegativeEffectManager _negativeEffectManager;
+        private EffectTimeManager _effectTimeManager;
 
         private void Awake(){
-            _negativeEffectManager = GetComponent<NegativeEffectManager>();
+            _effectTimeManager = GetComponent<EffectTimeManager>();
             enemyLayer = LayerMask.NameToLayer("Enemy");
         }
 
@@ -92,7 +92,7 @@ namespace Behavior.Skills
                 existCoroutine = null;
             }
             if(BounceCoroutine != null){
-                _negativeEffectManager.StopEffect("Bounce");
+                _effectTimeManager.StopEffect("Bounce");
                 StopCoroutine(BounceCoroutine);
                 BounceCoroutine = null;
             }
@@ -215,7 +215,7 @@ namespace Behavior.Skills
             if (mstbhv != null)
             {
                 float duration = maxExistTime;
-                mstbhv._negativeEffectManager.CreateEffectBar("Burn", Color.red, duration);
+                mstbhv._effectTimeManager.CreateEffectBar("Burn", Color.red, duration);
                 float elapsed = 0f;
                 while (elapsed < duration)
                 {
@@ -223,7 +223,7 @@ namespace Behavior.Skills
                     elapsed += Time.deltaTime;
                     yield return null;
                 }
-                mstbhv._negativeEffectManager.StopEffect("Burn");
+                mstbhv._effectTimeManager.StopEffect("Burn");
             }
         }
 
@@ -243,14 +243,14 @@ namespace Behavior.Skills
                 if (Mathf.Pow(0.8f, bounceCount) < 0.06f)
                 {
                     ThisPool.Release(gameObject);
-                    _negativeEffectManager.StopEffect("Bounce");
+                    _effectTimeManager.StopEffect("Bounce");
                 }
             }
             GameObject nextTarget = GetBounceTarget();
             if (nextTarget != target && nextTarget != null)
             {
                 //球子第一次加计时条
-                if(bounceCount == 1) _negativeEffectManager.CreateEffectBar("Bounce", Color.magenta, 3f);
+                if(bounceCount == 1) _effectTimeManager.CreateEffectBar("Bounce", Color.magenta, 3f);
                 target = nextTarget;
                 transform.LookAt(target.transform);
                 BounceCoroutine = StartCoroutine(Bounce());

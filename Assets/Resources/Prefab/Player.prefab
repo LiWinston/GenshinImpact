@@ -339,6 +339,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7406021605194356953}
   - component: {fileID: 3360135653076135481}
+  - component: {fileID: 2834326474299175777}
   - component: {fileID: 6770313562260628058}
   - component: {fileID: 1311987219512801190}
   - component: {fileID: 737389524479703910}
@@ -405,6 +406,24 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 2
+--- !u!114 &2834326474299175777
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1678239912745874840}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 503a3207b00b4574b9054ea6a4e0eb77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  effectBarPrefab: {fileID: 5986491840916597951, guid: e375def76bffab1408f3cd22ab1e46d8, type: 3}
+  effectBarParent: {fileID: 7406021605194356953}
+  effectBarStartPos: {fileID: 5496938359315279021}
+  effectBarSpacing: 0.05625
+  effectBarOffset: 0.01
+  startPosOffset: {x: 0, y: -0.09, z: 0}
 --- !u!114 &6770313562260628058
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -546,6 +565,7 @@ MonoBehaviour:
   MAX_ALLOWED_INTERACT_RANGE: 3
   moveForceTimer: 0.08
   moveForceTimerCounter: 0.08
+  pickHandTransform: {fileID: 0}
   swordObject: {fileID: 5783294752404380237}
   rotationFriction: 200
   sword: {fileID: 5662817349311532234}
@@ -1146,6 +1166,11 @@ GameObject:
 --- !u!4 &5496938358676511541 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5848477472101346178, guid: 2e1919b3058a29a40ab972890a296978, type: 3}
+  m_PrefabInstance: {fileID: 2116967897113325751}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &5496938359315279021 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5848477472335387674, guid: 2e1919b3058a29a40ab972890a296978, type: 3}
   m_PrefabInstance: {fileID: 2116967897113325751}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &5496938359645849437 stripped

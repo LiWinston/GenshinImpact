@@ -60,7 +60,7 @@ namespace Behavior
         
         private Target _targetComponent;
         private static readonly int Die = Animator.StringToHash("Die");
-        internal NegativeEffectManager _negativeEffectManager;
+        internal EffectTimeManager _effectTimeManager;
 
         public ObjectPool<GameObject> ThisPool { get; set; }
         public bool IsExisting { get; set; }
@@ -94,7 +94,7 @@ namespace Behavior
 
         private void Awake()
         {
-            _negativeEffectManager = GetComponent<NegativeEffectManager>();
+            _effectTimeManager = GetComponent<EffectTimeManager>();
             target = PlayerController.Instance.gameObject;
             enemyLayer = LayerMask.GetMask("Enemy");
             playerLayer = LayerMask.GetMask("Player");
@@ -106,7 +106,7 @@ namespace Behavior
             target = PlayerController.Instance.gameObject;
             targetPlayer = PlayerController.Instance;
 
-            if(_negativeEffectManager == null) _negativeEffectManager = GetComponent<NegativeEffectManager>();
+            if(_effectTimeManager == null) _effectTimeManager = GetComponent<EffectTimeManager>();
             if (targetPlayer == null)
             {
                 Debug.LogWarning("No GameObject with the name 'Player' found in the scene.");
@@ -325,7 +325,7 @@ namespace Behavior
             freezeEffectCoroutine = StartCoroutine(FreezeEffectCoroutine(duration));
                     // 启动持续掉血的协程
             StartCoroutine(Effect.Freeze.ContinuousDamage(health, continuousDamageAmount, duration ));
-            _negativeEffectManager.CreateEffectBar("Freeze", Color.blue, duration);
+            _effectTimeManager.CreateEffectBar("Freeze", Color.blue, duration);
         }
         internal Coroutine freezeEffectCoroutine { get; set; }
 
@@ -337,7 +337,7 @@ namespace Behavior
             attackCooldownInterval = originalAttackCooldownInterval;
             MaxMstSpeed = originalMaxMstSpeed;
             isFrozen = false;
-            _negativeEffectManager.StopEffect("Freeze");
+            _effectTimeManager.StopEffect("Freeze");
         }
         private IEnumerator FreezeEffectCoroutine(float duration)
         {
@@ -364,14 +364,14 @@ namespace Behavior
             if(IsInSelfKill) StopCoroutine(selfKillCoroutine);
             selfKillCoroutine = StartCoroutine(SelfKillCoroutine(elapseT));
             // Debug.Log("SelfKillMode Activated");
-            _negativeEffectManager.CreateEffectBar("SelfKill", Color.white, elapseT);
+            _effectTimeManager.CreateEffectBar("SelfKill", Color.white, elapseT);
             // Debug.Log("SelfKill timerCpn Activated");
         }
 
         public void DeactivateSelfKillMode()
         {
             IsInSelfKill = false;
-            _negativeEffectManager.StopEffect("SelfKill");
+            _effectTimeManager.StopEffect("SelfKill");
             GetComponent<Target>().NeedBoxIndicator = false;
             MaxMstSpeed = originalMaxMstSpeed;
             if(!selfKillCoroutine.IsUnityNull()) StopCoroutine(selfKillCoroutine);

@@ -595,6 +595,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 357082100983638266, guid: 705a0aa5ac66b2f42b8577a6b33a634d, type: 3}
   m_PrefabInstance: {fileID: 135037000}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &179965233 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7406021605194356953, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
+  m_PrefabInstance: {fileID: 6755353934008130882}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &192266865
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8067,6 +8072,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 357082100983638266, guid: 705a0aa5ac66b2f42b8577a6b33a634d, type: 3}
   m_PrefabInstance: {fileID: 1984604068}
   m_PrefabAsset: {fileID: 0}
+--- !u!224 &2072404167 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 1301686439504549740, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
+  m_PrefabInstance: {fileID: 6755353934008130882}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2102731186
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8444,6 +8454,30 @@ PrefabInstance:
     - target: {fileID: 1702416736439083255, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
       propertyPath: m_Mass
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2834326474299175777, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
+      propertyPath: effectBarParent
+      value: 
+      objectReference: {fileID: 179965233}
+    - target: {fileID: 2834326474299175777, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
+      propertyPath: startPosOffset.y
+      value: -0.38
+      objectReference: {fileID: 0}
+    - target: {fileID: 2834326474299175777, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
+      propertyPath: effectBarStartPos
+      value: 
+      objectReference: {fileID: 2072404167}
+    - target: {fileID: 2834326474299175777, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
+      propertyPath: transformNormalizer.x
+      value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 2834326474299175777, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
+      propertyPath: transformNormalizer.y
+      value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 2834326474299175777, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
+      propertyPath: transformNormalizer.z
+      value: 0.05
       objectReference: {fileID: 0}
     - target: {fileID: 3994426270805641893, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
       propertyPath: m_Enabled
