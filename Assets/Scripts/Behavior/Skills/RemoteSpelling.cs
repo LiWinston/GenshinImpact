@@ -77,20 +77,6 @@ namespace Behavior.Skills
 
 
         private void Start(){
-            // 首推直接拖进来，也可以用名字找曲线。用名字找曲线时曲线名字不能重复
-            //You can directly drag it in first, or you can use the name to find the curve. When searching for a curve by name, the curve name cannot be repeated.
-            if(_damageUsageCurve == null)
-                _damageUsageCurve = GetComponents<Component>().OfType<PositiveProportionalCurve>().FirstOrDefault(curve => curve.CurveName == damagePracticeCurveName);
-            if (_damageUsageCurve == null && isDamageUpdatedWithUseTimes)
-            {
-                Debug.LogException(new Exception("启用了技能修炼，但没有绑定修炼曲线！Skill cultivation is enabled, but no binding cultivation curve!"));
-            }
-            baseDmg = CalculateDamage(1);
-            _spellCast = GetComponent<SpellCast>();
-            _playerController = GetComponent<PlayerController>();
-            _throwingsPool = new ObjectPool<GameObject>(CreateFunc, actionOnGet, actionOnRelease, actionOnDestroy,
-                true, defaultCapacity, maxCapacity);
-            castingLayer = LayerMask.GetMask("Wall", "Floor");
             throwingsBehavior = prefab.GetComponent<RemoteThrowingsBehavior>();
 
             if (throwingsBehavior.positionalCategory ==
@@ -103,6 +89,22 @@ namespace Behavior.Skills
                 } while (GameObject.Find(randomName) != null);
                 SkillPreview = new GameObject(randomName);
             }
+            
+            // 首推直接拖进来，也可以用名字找曲线。用名字找曲线时曲线名字不能重复
+            //You can directly drag it in first, or you can use the name to find the curve. When searching for a curve by name, the curve name cannot be repeated.
+            if(_damageUsageCurve == null && isDamageUpdatedWithUseTimes)
+                _damageUsageCurve = GetComponents<Component>().OfType<PositiveProportionalCurve>().FirstOrDefault(curve => curve.CurveName == damagePracticeCurveName);
+            if (_damageUsageCurve == null && isDamageUpdatedWithUseTimes)
+            {
+                Debug.LogException(new Exception("启用了技能修炼，但没有绑定修炼曲线！Skill cultivation is enabled, but no binding cultivation curve!"));
+            }
+            baseDmg = isDamageUpdatedWithUseTimes ? CalculateDamage(1) : throwingsBehavior.damage;
+            _spellCast = GetComponent<SpellCast>();
+            _playerController = GetComponent<PlayerController>();
+            _throwingsPool = new ObjectPool<GameObject>(CreateFunc, actionOnGet, actionOnRelease, actionOnDestroy,
+                true, defaultCapacity, maxCapacity);
+            castingLayer = LayerMask.GetMask("Wall", "Floor");
+            
             SkillPreview.transform.SetParent(this.transform);
             
             // 初始化 LineRenderer
