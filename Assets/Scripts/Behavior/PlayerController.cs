@@ -317,7 +317,7 @@ namespace Behavior
             {
                 IsCrouching = false;
                 rb.velocity *= speed_Ratio_Attack;
-                float criticalHitChance = _criticalHitCurve.CalculateCriticalHitChance(state.GetCurrentLevel());
+                float criticalHitChance = _criticalHitCurve.CalculateValueAt(state.GetCurrentLevel());
                 // Debug.Log(state.GetCurrentLevel() + "级暴击率" + criticalHitChance*100 +"%");
 
                 var randomValue = Random.Range(0.0f, 1.0f);
@@ -444,7 +444,7 @@ namespace Behavior
         {
             if(state.ConsumePower(2f))
             {
-                float attackDuration = 0.75f * 1.25f / state.attackSpeedRate;
+                float attackDuration = 0.75f * 1.25f / state.attackAnimationSpeedRate;
                 yield return PerformAttack("AttackTrigger1", attackDuration);
             }
         }
@@ -453,7 +453,7 @@ namespace Behavior
         {
             if (state.ConsumePower(8f))
             {
-                float attackDuration = 0.875f / (0.75f * state.attackSpeedRate);
+                float attackDuration = 0.875f / (0.75f * state.attackAnimationSpeedRate);
                 yield return PerformAttack("AttackTrigger2", attackDuration);
             }
         }

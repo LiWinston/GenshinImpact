@@ -32,6 +32,9 @@ namespace Behavior.Skills
         [SerializeField] internal float triggerRange = 0.5f;
         [SerializeField] internal float damage = 500;
         [SerializeField] internal float AOEDamage = 300f;
+        //若技能释放处勾选了随次数变强，此处的伤害值将会被忽略，而使用按表求得的伤害值
+        //If the RemoteSpelling bool is set to increase with number of times,
+        //the damage value here will be ignored and the damage value calculated according to the table will be used
         [SerializeField] internal float AOERange = 1.5f;
         [SerializeField] internal PositionalCategory positionalCategory;
         [SerializeField] internal EffectCategory _effectCategory = EffectCategory.Explosion;
@@ -186,11 +189,10 @@ namespace Behavior.Skills
             else if (_effectCategory == EffectCategory.Explosion)
             {
                 var mstbhv = other.GetComponent<MonsterBehaviour>();
-                if (mstbhv != null)
-                {
-                    if(hitAudioClip) SoundEffectManager.Instance.PlaySound(hitAudioClip, mstbhv.gameObject);
-                    mstbhv.TakeDamage(damage);
-                }
+                if (mstbhv == null) return;
+                if(hitAudioClip) SoundEffectManager.Instance.PlaySound(hitAudioClip, mstbhv.gameObject);
+                mstbhv.TakeDamage(damage);
+                // Debug.Log("Hit" + other.name + "dmg = "+ damage);
                 // ThisPool.Release(gameObject);
             }
         }
@@ -214,6 +216,7 @@ namespace Behavior.Skills
             var mstbhv = other.GetComponent<MonsterBehaviour>();
             if (mstbhv != null)
             {
+                Debug.Log("ApplyDamageOverTime" + AOEDamage);
                 float duration = maxExistTime;
                 mstbhv._effectTimeManager.CreateEffectBar("Burn", Color.red, duration);
                 float elapsed = 0f;
