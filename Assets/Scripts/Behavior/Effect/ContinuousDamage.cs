@@ -4,9 +4,9 @@ using UnityEngine;
 
 namespace Behavior.Effect
 {
-    public class Freeze
+    public static class ContinuousDamage
     {
-        public static IEnumerator ContinuousDamage(HealthSystem enemyHealth, float damageAmount, float continuousDamageDuration = 3.0f)
+        public static IEnumerator MakeContinuousDamage(HealthSystem enemyHealth, float damageAmount, float continuousDamageDuration = 3.0f)
         {
             // 持续掉血的时间，可以根据需要进行调整
             float timer = 0f;
@@ -22,7 +22,7 @@ namespace Behavior.Effect
                 timer += Time.deltaTime;
             }
         }
-        public static IEnumerator ContinuousDamage(PlayerController ply, float damageAmount, float continuousDamageDuration = 3.0f)
+        public static IEnumerator MakeContinuousDamage(PlayerController ply, float damageAmount, float continuousDamageDuration = 3.0f)
         {
             // 持续掉血的时间，可以根据需要进行调整
             float timer = 0f;
