@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using AttributeRelatedScript;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Pool;
@@ -49,6 +50,7 @@ namespace Behavior.Skills
         [SerializeField] private KeyCode key = KeyCode.F;
         [SerializeField] private Color validColor = Color.green;
         [SerializeField] private Color invalidColor = Color.red;
+        PositiveProportionalCurve damageCurve;
 
         [InspectorLabel("Throwing Customization -- 投掷自定义")]
         [SerializeField] public bool isUpdatedWithLevel = false;

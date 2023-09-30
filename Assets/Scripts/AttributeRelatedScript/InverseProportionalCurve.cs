@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace AttributeRelatedScript
 {
@@ -15,6 +16,7 @@ namespace AttributeRelatedScript
     /// </summary>
     public class InverseProportionalCurve : MonoBehaviour
     {
+        [Tooltip("CurveName")]public string CurveName;
         public List<AttackCooldownCurvePoint> curvePoints = new List<AttackCooldownCurvePoint>();
 
         public float CalculateAttackCooldown(int playerLevel)

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using AttributeRelatedScript;
 using Behavior.Health;
 using ItemSystem;
@@ -113,7 +114,9 @@ namespace Behavior
         private void Start()
         {
             audioSource = GetComponent<AudioSource>();
-            _criticalHitCurve = GetComponent<PositiveProportionalCurve>();
+            // _criticalHitCurve = GetComponent<PositiveProportionalCurve>();
+            _criticalHitCurve = GetComponents<Component>().OfType<PositiveProportionalCurve>().FirstOrDefault(curve => curve.CurveName == "CriticalHitCurve");
+            if(_criticalHitCurve == null) Debug.LogError("CriticalHitCurve not found!");
             if (!textMeshProComponent) textMeshProComponent = Find.FindDeepChild(transform, "PlayerHUD").GetComponent<TextMeshPro>();
             state = GetComponent<State>();
             rb = GetComponent<Rigidbody>();

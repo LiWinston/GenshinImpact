@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Linq;
 using Behavior;
 using UI;
 using UnityEngine;
@@ -230,7 +231,9 @@ namespace AttributeRelatedScript
             currentExperience = 0;
             InitializeExperienceThresholds();
 
-            _AttcooldownCurve = GetComponent<InverseProportionalCurve>();
+            // _AttcooldownCurve = GetComponent<InverseProportionalCurve>();
+            _AttcooldownCurve = GetComponents<Component>().OfType<InverseProportionalCurve>().FirstOrDefault(curve => curve.CurveName == "AttackCooldownCurve");
+
             if (!_AttcooldownCurve) Debug.LogError("AttackCooldownCurve NotFound");
             UpdateAttackCooldown();
             if (!UpdEffectTransform) UpdEffectTransform = Find.FindDeepChild(transform, "spine_01");

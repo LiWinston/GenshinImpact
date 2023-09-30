@@ -521,6 +521,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8958e99c0ecfa3f43b447da29d73f136, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CurveName: CriticalHitCurve
   curvePoints:
   - level: 1
     chance: 0.05
@@ -605,6 +606,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c23d02a21a4d905478d0839600f7dc23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CurveName: AttackCooldownCurve
   curvePoints:
   - level: 1
     cooldown: 1.05

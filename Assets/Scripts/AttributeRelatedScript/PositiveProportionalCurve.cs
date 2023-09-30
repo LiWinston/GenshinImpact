@@ -13,6 +13,7 @@ namespace AttributeRelatedScript
 
     public class PositiveProportionalCurve : MonoBehaviour
     {
+        [Tooltip("CurveName")]public string CurveName;
         public List<CriticalHitCurvePoint> curvePoints = new List<CriticalHitCurvePoint>();
 
         public float CalculateCriticalHitChance(int playerLevel)
