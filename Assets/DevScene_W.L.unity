@@ -949,29 +949,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 357082100983638266, guid: 705a0aa5ac66b2f42b8577a6b33a634d, type: 3}
   m_PrefabInstance: {fileID: 294460034}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &296982054 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3030407638572315631, guid: cf22150b059c9a94c947e3d09522c055, type: 3}
-  m_PrefabInstance: {fileID: 1604544646}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &296982060
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 296982054}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 411060de4483b5e4c9847cd3cbc18554, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targetColor: {r: 1, g: 0, b: 0, a: 1}
-  needBoxIndicator: 1
-  needArrowIndicator: 1
-  needDistanceText: 1
-  boxIndicatorDrawAtTransform: {fileID: 0}
-  indicator: {fileID: 0}
 --- !u!1001 &324847007
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1684,11 +1661,6 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 357082100983638266, guid: 705a0aa5ac66b2f42b8577a6b33a634d, type: 3}
   m_PrefabInstance: {fileID: 555597830}
-  m_PrefabAsset: {fileID: 0}
---- !u!224 &589729957 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 7217921278102503369, guid: ce3bf6b633c8262489e4650ed639e16a, type: 3}
-  m_PrefabInstance: {fileID: 1276229747}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &621690264 stripped
 Transform:
@@ -4259,10 +4231,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 7819678546996076793, guid: ce3bf6b633c8262489e4650ed639e16a, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1749340543}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ce3bf6b633c8262489e4650ed639e16a, type: 3}
 --- !u!1001 &1279661851
 PrefabInstance:
@@ -6042,22 +6011,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 99203076808414306, guid: cf22150b059c9a94c947e3d09522c055, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 99203076808414306, guid: cf22150b059c9a94c947e3d09522c055, type: 3}
-      propertyPath: spawnHeight
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 804094611814960037, guid: cf22150b059c9a94c947e3d09522c055, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 804094611814960037, guid: cf22150b059c9a94c947e3d09522c055, type: 3}
-      propertyPath: spawnHeight
-      value: 0.2
-      objectReference: {fileID: 0}
     - target: {fileID: 3030407638572315631, guid: cf22150b059c9a94c947e3d09522c055, type: 3}
       propertyPath: m_Name
       value: "\u5BF9\u8C61\u751F\u6210\u5668_StuffAutoGeneration"
@@ -6102,41 +6055,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7250126472735157602, guid: cf22150b059c9a94c947e3d09522c055, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7250126472735157602, guid: cf22150b059c9a94c947e3d09522c055, type: 3}
-      propertyPath: spawnHeight
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7250126472735157602, guid: cf22150b059c9a94c947e3d09522c055, type: 3}
-      propertyPath: initialSpawnInterval
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 9191315033311515638, guid: cf22150b059c9a94c947e3d09522c055, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9191315033311515638, guid: cf22150b059c9a94c947e3d09522c055, type: 3}
-      propertyPath: spawnHeight
-      value: 1.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 9191315033311515638, guid: cf22150b059c9a94c947e3d09522c055, type: 3}
-      propertyPath: minSpawnInterval
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 9191315033311515638, guid: cf22150b059c9a94c947e3d09522c055, type: 3}
-      propertyPath: initialSpawnInterval
-      value: 2
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 3030407638572315631, guid: cf22150b059c9a94c947e3d09522c055, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 296982060}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cf22150b059c9a94c947e3d09522c055, type: 3}
 --- !u!1001 &1606173549
 PrefabInstance:
@@ -6940,35 +6862,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
---- !u!1 &1749340538 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7819678546996076793, guid: ce3bf6b633c8262489e4650ed639e16a, type: 3}
-  m_PrefabInstance: {fileID: 1276229747}
-  m_PrefabAsset: {fileID: 0}
---- !u!224 &1749340542 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 6129935228159087508, guid: ce3bf6b633c8262489e4650ed639e16a, type: 3}
-  m_PrefabInstance: {fileID: 1276229747}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1749340543
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1749340538}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 503a3207b00b4574b9054ea6a4e0eb77, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  effectBarPrefab: {fileID: 8635994357700177749, guid: a28c43148e71a2f4c93d5234142e9bc4, type: 3}
-  effectBarParent: {fileID: 1749340542}
-  effectBarStartPos: {fileID: 589729957}
-  effectBarSpacing: 1
-  effectBarOffset: 0.2
-  startPosOffset: {x: 0, y: 10, z: 0}
-  transformNormalizer: {x: 1, y: 1, z: 1}
 --- !u!1001 &1765946043
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8461,125 +8354,9 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1311987219512801190, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
-      propertyPath: Name
-      value: "\u707C\u70E7"
-      objectReference: {fileID: 0}
-    - target: {fileID: 1311987219512801190, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
-      propertyPath: _damageUsageCurve
-      value: 
-      objectReference: {fileID: 6755353934008130884}
-    - target: {fileID: 1311987219512801190, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
-      propertyPath: maxThrowingsCount
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1311987219512801190, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
-      propertyPath: maxAngle_SingleSide
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1311987219512801190, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
-      propertyPath: isDamageUpdatedWithUseTimes
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1311987219512801190, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
-      propertyPath: isCosumingEnegyProportionally
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1311987219512801190, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
-      propertyPath: "\u82E5\u6309\u6BD4\u4F8B\u6BCF\u53D1\u8017\u80FD_singleShootEnegyConsumptionPercentage"
-      value: 0.2
-      objectReference: {fileID: 0}
     - target: {fileID: 1678239912745874840, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
       propertyPath: m_Name
       value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 2834326474299175777, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
-      propertyPath: startPosOffset.y
-      value: -0.23
-      objectReference: {fileID: 0}
-    - target: {fileID: 3090013106338420035, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
-      propertyPath: max
-      value: 1.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3090013106338420035, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
-      propertyPath: limitByMINMAX
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3090013106338420035, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
-      propertyPath: curvePoints.Array.data[0]._x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3090013106338420035, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
-      propertyPath: curvePoints.Array.data[1]._x
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 3090013106338420035, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
-      propertyPath: curvePoints.Array.data[2]._x
-      value: 30
-      objectReference: {fileID: 0}
-    - target: {fileID: 3090013106338420035, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
-      propertyPath: curvePoints.Array.data[3]._x
-      value: 50
-      objectReference: {fileID: 0}
-    - target: {fileID: 3090013106338420035, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
-      propertyPath: curvePoints.Array.data[4]._x
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 3090013106338420035, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
-      propertyPath: curvePoints.Array.data[0]._f_x_
-      value: 1.02
-      objectReference: {fileID: 0}
-    - target: {fileID: 3090013106338420035, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
-      propertyPath: curvePoints.Array.data[1]._f_x_
-      value: 0.8
-      objectReference: {fileID: 0}
-    - target: {fileID: 3090013106338420035, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
-      propertyPath: curvePoints.Array.data[2]._f_x_
-      value: 0.7
-      objectReference: {fileID: 0}
-    - target: {fileID: 3090013106338420035, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
-      propertyPath: curvePoints.Array.data[3]._f_x_
-      value: 0.6
-      objectReference: {fileID: 0}
-    - target: {fileID: 3090013106338420035, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
-      propertyPath: curvePoints.Array.data[4]._f_x_
-      value: 0.4
-      objectReference: {fileID: 0}
-    - target: {fileID: 4204505828502385112, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
-      propertyPath: _AttcooldownCurve
-      value: 
-      objectReference: {fileID: 6755353934008130890}
-    - target: {fileID: 5614921957825579036, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
-      propertyPath: limitByMINMAX
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6770313562260628058, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
-      propertyPath: Name
-      value: "\u7267\u91CE\u6D41\u661F"
-      objectReference: {fileID: 0}
-    - target: {fileID: 6770313562260628058, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
-      propertyPath: _damageUsageCurve
-      value: 
-      objectReference: {fileID: 6755353934008130884}
-    - target: {fileID: 6770313562260628058, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
-      propertyPath: _damagePracticeCurve
-      value: 
-      objectReference: {fileID: 6755353934008130884}
-    - target: {fileID: 6770313562260628058, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
-      propertyPath: isDamageUpdatedWithUseTimes
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6770313562260628058, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
-      propertyPath: isCosumingEnegyProportionally
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6770313562260628058, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
-      propertyPath: singleShootEnegyConsumptionPercentage
-      value: 0.01
-      objectReference: {fileID: 0}
-    - target: {fileID: 6770313562260628058, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
-      propertyPath: "\u82E5\u6309\u6BD4\u4F8B\u6BCF\u53D1\u8017\u80FD_singleShootEnegyConsumptionPercentage"
-      value: 0.01
       objectReference: {fileID: 0}
     - target: {fileID: 7406021605194356953, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
       propertyPath: m_LocalPosition.x
@@ -8624,86 +8401,8 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 1678239912745874840, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
-      insertIndex: 4
-      addedObject: {fileID: 6755353934008130884}
-    - targetCorrespondingSourceObject: {fileID: 1678239912745874840, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
-      insertIndex: 6
-      addedObject: {fileID: 6755353934008130900}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
---- !u!1 &6755353934008130883 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1678239912745874840, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
-  m_PrefabInstance: {fileID: 6755353934008130882}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &6755353934008130884
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6755353934008130883}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8958e99c0ecfa3f43b447da29d73f136, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CurveName: "\u7267\u91CE\u6D41\u661F\u4F24\u5BB3-\u4F7F\u7528\u6B21\u6570\u66F2\u7EBF
-    damage-useCount Curve"
-  limitByMINMAX: 1
-  min: 0
-  max: 8000
-  curvePoints:
-  - _x: 0
-    _f_x_: 200
-  - _x: 10
-    _f_x_: 500
-  - _x: 25
-    _f_x_: 1500
-  - _x: 50
-    _f_x_: 4500
-  - _x: 100
-    _f_x_: 12000
---- !u!114 &6755353934008130890 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3090013106338420035, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
-  m_PrefabInstance: {fileID: 6755353934008130882}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6755353934008130883}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c23d02a21a4d905478d0839600f7dc23, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &6755353934008130900
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6755353934008130883}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8958e99c0ecfa3f43b447da29d73f136, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CurveName: "\u707C\u70E7\u4F24\u5BB3-\u4F7F\u7528\u6B21\u6570\u66F2\u7EBF damage-useCount
-    Curve"
-  limitByMINMAX: 1
-  min: 0
-  max: 8000
-  curvePoints:
-  - _x: 0
-    _f_x_: 100
-  - _x: 10
-    _f_x_: 400
-  - _x: 20
-    _f_x_: 800
-  - _x: 40
-    _f_x_: 2000
-  - _x: 100
-    _f_x_: 9000
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
