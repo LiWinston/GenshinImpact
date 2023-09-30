@@ -189,7 +189,7 @@ namespace Behavior.Skills
                 if (mstbhv != null)
                 {
                     if(hitAudioClip) SoundEffectManager.Instance.PlaySound(hitAudioClip, mstbhv.gameObject);
-                    mstbhv.TakeDamage(damage);
+                    mstbhv.TakeDamage(Damage);
                 }
                 // ThisPool.Release(gameObject);
             }
@@ -233,7 +233,7 @@ namespace Behavior.Skills
             if (mst)
             {
                 GetComponent<Rigidbody>().velocity = Vector3.zero;
-                var dmg = damage * Mathf.Pow(0.8f, bounceCount);
+                var dmg = Damage * Mathf.Pow(0.8f, bounceCount);
                 // Debug.Log("Hit" + other.name + "dmg = "+ dmg);
                 mst.TakeDamage(dmg);
                 if(hitAudioClip) SoundEffectManager.Instance.PlaySound(hitAudioClip, gameObject);
@@ -259,6 +259,16 @@ namespace Behavior.Skills
         }
 
         public Coroutine BounceCoroutine { get; set; }
+
+        public float Damage
+        {
+            get => CalculateDamage(damage);
+            set => damage = value;
+        }
+
+        private float CalculateDamage(float baseDmg){
+            return baseDmg;
+        }
 
         private IEnumerator Bounce()
         {

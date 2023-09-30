@@ -96,7 +96,7 @@ namespace Behavior
         internal State state;
         [SerializeField] private Transform sword;
         internal bool cheatMode = false;
-        private CriticalHitCurve _criticalHitCurve;
+        private PositiveProportionalCurve _criticalHitCurve;
         private static readonly int AttSpeedMult = Animator.StringToHash("AttSpeedMult");
         private static readonly int IsGrounded = Animator.StringToHash("isGrounded");
         private static readonly int Standing = Animator.StringToHash("Standing");
@@ -113,7 +113,7 @@ namespace Behavior
         private void Start()
         {
             audioSource = GetComponent<AudioSource>();
-            _criticalHitCurve = GetComponent<CriticalHitCurve>();
+            _criticalHitCurve = GetComponent<PositiveProportionalCurve>();
             if (!textMeshProComponent) textMeshProComponent = Find.FindDeepChild(transform, "PlayerHUD").GetComponent<TextMeshPro>();
             state = GetComponent<State>();
             rb = GetComponent<Rigidbody>();

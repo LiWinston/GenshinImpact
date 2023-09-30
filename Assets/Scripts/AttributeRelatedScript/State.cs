@@ -99,7 +99,7 @@ namespace AttributeRelatedScript
         [SerializeField] public float hurricaneKickKnockbackForce = 70;
         [SerializeField] public float hurricaneKickRange = 1.2f;
         [SerializeField] internal float criticalDmgRate = 4f;
-        private AttackCooldownCurve _AttcooldownCurve;
+        private InverseProportionalCurve _AttcooldownCurve;
         internal float attackSpeedRate;
 
         [Header("ZenMode(Recover)")] 
@@ -230,7 +230,7 @@ namespace AttributeRelatedScript
             currentExperience = 0;
             InitializeExperienceThresholds();
 
-            _AttcooldownCurve = GetComponent<AttackCooldownCurve>();
+            _AttcooldownCurve = GetComponent<InverseProportionalCurve>();
             if (!_AttcooldownCurve) Debug.LogError("AttackCooldownCurve NotFound");
             UpdateAttackCooldown();
             if (!UpdEffectTransform) UpdEffectTransform = Find.FindDeepChild(transform, "spine_01");

@@ -11,7 +11,7 @@ namespace AttributeRelatedScript
         public float chance;
     }
 
-    public class CriticalHitCurve : MonoBehaviour
+    public class PositiveProportionalCurve : MonoBehaviour
     {
         public List<CriticalHitCurvePoint> curvePoints = new List<CriticalHitCurvePoint>();
 
