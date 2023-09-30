@@ -73,6 +73,7 @@ namespace Behavior
             if (!state.ConsumeEnergy(state.maxEnergy * 0.2f)) return;
             SoundEffectManager.Instance.PlaySound(new List<string>(){"Music/音效/法术/JZZ1","Music/音效/法术/JZZ2"}, gameObject);
             _effectTimeManager.CreateEffectBar("JZZ", Color.cyan, 7f);
+            // GameObject.Find("Canvas").GetComponent<EffectTimeManager>().CreateEffectBar("JZZ", Color.cyan, 7f);
             state.isJZZ = true;
             var d = 7f;
             ParticleSystem JZZ = Resources.Load<ParticleSystem>("JZZ");
@@ -111,6 +112,7 @@ namespace Behavior
                 yield return null;
             }
             _effectTimeManager.StopEffect("JZZ");
+            // GameObject.Find("Canvas").GetComponent<EffectTimeManager>().StopEffect("JZZ");
             Destroy(pts.gameObject);
             yield return null;
         }
@@ -122,6 +124,8 @@ namespace Behavior
             yield return new WaitForSeconds(t);
             // 停止金钟罩效果
             state.isJZZ = false;
+            _effectTimeManager.StopEffect("JZZ");
+            // GameObject.Find("Canvas").GetComponent<EffectTimeManager>().StopEffect("JZZ");
         }
 
         private void CastSpell()
