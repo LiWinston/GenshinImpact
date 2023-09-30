@@ -5,6 +5,7 @@ using Behavior.Health;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Pool;
+using UnityEngine.Serialization;
 using Utility;
 using IPoolable = Utility.IPoolable;
 using Random = UnityEngine.Random;
@@ -44,7 +45,7 @@ namespace Behavior
         [SerializeField] private float aimDistance;
         [SerializeField] private float chaseDistance;
         // [SerializeField] private float stalkMstSpeed = 1f;
-        [SerializeField] private float MaxMstSpeed = 2f;
+        [FormerlySerializedAs("MaxMstSpeed")] [SerializeField] private float MaxSpeed = 2f;
         // [SerializeField] private float stalkAccRatio = 0.8f;
         [SerializeField] private float attackDistance = 1.5f;
         private bool isMoving;
@@ -134,7 +135,7 @@ namespace Behavior
             // 初始化怪物经验值和等级
             originalMoveForce = mstForwardForce;
             originalAttackCooldownInterval = attackCooldownInterval;
-            originalMaxMstSpeed = MaxMstSpeed;
+            originalMaxMstSpeed = MaxSpeed;
             // 初始化怪物经验值和等级
             InitializeMonsterLevel();
         
@@ -187,7 +188,7 @@ namespace Behavior
                     // 重置计时器
                     obstacleDetectionTimer = obstacleDetectionInterval;
                 }
-                if (rb.velocity.magnitude < MaxMstSpeed)
+                if (rb.velocity.magnitude < MaxSpeed)
                 {
                     rb.AddForce(transform.forward * mstForwardForce, ForceMode.Force);
                     moveForceTimerCounter = moveForceCooldownInterval;
@@ -324,7 +325,7 @@ namespace Behavior
         {
             freezeEffectCoroutine = StartCoroutine(FreezeEffectCoroutine(duration));
                     // 启动持续掉血的协程
-            StartCoroutine(Effect.Freeze.ContinuousDamage(health, continuousDamageAmount, duration ));
+            StartCoroutine(Effect.ContinuousDamage.MakeContinuousDamage(health, continuousDamageAmount, duration ));
             _effectTimeManager.CreateEffectBar("Freeze", Color.blue, duration);
         }
         internal Coroutine freezeEffectCoroutine { get; set; }
@@ -335,7 +336,7 @@ namespace Behavior
             // 恢复原始推力和攻击间隔
             mstForwardForce = originalMoveForce;
             attackCooldownInterval = originalAttackCooldownInterval;
-            MaxMstSpeed = originalMaxMstSpeed;
+            MaxSpeed = originalMaxMstSpeed;
             isFrozen = false;
             _effectTimeManager.StopEffect("Freeze");
         }
@@ -346,14 +347,14 @@ namespace Behavior
             // 减小加速推力和增加攻击间隔
             mstForwardForce *= 0.6f; // 降低至60%
             attackCooldownInterval *= 2f; // 增加至200%
-            MaxMstSpeed *= 0.36f;
+            MaxSpeed *= 0.36f;
             // 等待冰冻效果持续时间
             yield return new WaitForSeconds(duration);
 
             // 恢复原始推力和攻击间隔
             mstForwardForce = originalMoveForce;
             attackCooldownInterval = originalAttackCooldownInterval;
-            MaxMstSpeed = originalMaxMstSpeed;
+            MaxSpeed = originalMaxMstSpeed;
             isFrozen = false;
         }
 
@@ -373,7 +374,7 @@ namespace Behavior
             IsInSelfKill = false;
             _effectTimeManager.StopEffect("SelfKill");
             GetComponent<Target>().NeedBoxIndicator = false;
-            MaxMstSpeed = originalMaxMstSpeed;
+            MaxSpeed = originalMaxMstSpeed;
             if(!selfKillCoroutine.IsUnityNull()) StopCoroutine(selfKillCoroutine);
         }
         public Coroutine selfKillCoroutine { get; set; }
@@ -381,7 +382,7 @@ namespace Behavior
         private IEnumerator SelfKillCoroutine(float elapseT)
         {
             IsInSelfKill = true;
-            MaxMstSpeed *= 1.2f;
+            MaxSpeed *= 1.2f;
             
             // var orgTargetColor = targetComponent.targetColor;
             // Color startColor = Color.green;
