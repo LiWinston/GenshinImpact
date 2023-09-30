@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class NegativeEffectBarUI : MonoBehaviour
+public class EffectTimeBarUI : MonoBehaviour
 {
     [SerializeField] private Image fillImage;
     private float effectDuration;
@@ -30,7 +30,7 @@ public class NegativeEffectBarUI : MonoBehaviour
         {
             // 触发事件通知NegativeEffectManager
             OnEffectBarExpired?.Invoke(effectType);
-            Destroy(gameObject);
+            // Destroy(gameObject);
         }
     }
 }
