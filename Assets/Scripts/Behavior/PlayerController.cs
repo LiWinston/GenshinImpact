@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using AttributeRelatedScript;
 using Behavior.Health;
 using ItemSystem;
@@ -96,7 +97,7 @@ namespace Behavior
         internal State state;
         [SerializeField] private Transform sword;
         internal bool cheatMode = false;
-        private CriticalHitCurve _criticalHitCurve;
+        private PositiveProportionalCurve _criticalHitCurve;
         private static readonly int AttSpeedMult = Animator.StringToHash("AttSpeedMult");
         private static readonly int IsGrounded = Animator.StringToHash("isGrounded");
         private static readonly int Standing = Animator.StringToHash("Standing");
@@ -113,7 +114,9 @@ namespace Behavior
         private void Start()
         {
             audioSource = GetComponent<AudioSource>();
-            _criticalHitCurve = GetComponent<CriticalHitCurve>();
+            // _criticalHitCurve = GetComponent<PositiveProportionalCurve>();
+            _criticalHitCurve = GetComponents<Component>().OfType<PositiveProportionalCurve>().FirstOrDefault(curve => curve.CurveName == "CriticalHitCurve");
+            if(_criticalHitCurve == null) Debug.LogError("CriticalHitCurve not found!");
             if (!textMeshProComponent) textMeshProComponent = Find.FindDeepChild(transform, "PlayerHUD").GetComponent<TextMeshPro>();
             state = GetComponent<State>();
             rb = GetComponent<Rigidbody>();
@@ -314,7 +317,7 @@ namespace Behavior
             {
                 IsCrouching = false;
                 rb.velocity *= speed_Ratio_Attack;
-                float criticalHitChance = _criticalHitCurve.CalculateCriticalHitChance(state.GetCurrentLevel());
+                float criticalHitChance = _criticalHitCurve.CalculateValueAt(state.GetCurrentLevel());
                 // Debug.Log(state.GetCurrentLevel() + "级暴击率" + criticalHitChance*100 +"%");
 
                 var randomValue = Random.Range(0.0f, 1.0f);
@@ -441,7 +444,7 @@ namespace Behavior
         {
             if(state.ConsumePower(2f))
             {
-                float attackDuration = 0.75f * 1.25f / state.attackSpeedRate;
+                float attackDuration = 0.75f * 1.25f / state.attackAnimationSpeedRate;
                 yield return PerformAttack("AttackTrigger1", attackDuration);
             }
         }
@@ -450,7 +453,7 @@ namespace Behavior
         {
             if (state.ConsumePower(8f))
             {
-                float attackDuration = 0.875f / (0.75f * state.attackSpeedRate);
+                float attackDuration = 0.875f / (0.75f * state.attackAnimationSpeedRate);
                 yield return PerformAttack("AttackTrigger2", attackDuration);
             }
         }

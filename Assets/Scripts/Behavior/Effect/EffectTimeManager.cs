@@ -43,7 +43,7 @@ namespace Behavior.Effect
             _statusBars.Add(effectTimeBar);
 
             // 订阅事件，当Bar到期时从列表中移除
-            effectTimeBar.OnEffectBarExpired += RemoveExpiredEffectBar;
+            effectTimeBar.OnEffectBarExpired += StopEffect;
 
             // 调整状态条的位置
             AdjustStatusBarPositions();
@@ -56,6 +56,7 @@ namespace Behavior.Effect
 
             if (effectTimeBarToRemove != null)
             {
+                effectTimeBarToRemove.OnEffectBarExpired -= StopEffect;
                 _statusBars.Remove(effectTimeBarToRemove);
                 Destroy(effectTimeBarToRemove.transform.parent.gameObject);
 
@@ -63,20 +64,7 @@ namespace Behavior.Effect
                 AdjustStatusBarPositions();
             }
         }
-
-        private void RemoveExpiredEffectBar(string effectType)
-        {
-            EffectTimeBarUI effectTimeBarToRemove = _statusBars.Find(statusBar => statusBar.EffectType == effectType);
-
-            if (effectTimeBarToRemove != null)
-            {
-                _statusBars.Remove(effectTimeBarToRemove);
-                Destroy(effectTimeBarToRemove.transform.parent.gameObject);
-
-                // 调整状态条的位置
-                AdjustStatusBarPositions();
-            }
-        }
+        
         
         // 调整状态条的位置
         private void AdjustStatusBarPositions()
@@ -88,5 +76,7 @@ namespace Behavior.Effect
                 _statusBars[i].transform.position = newPosition;
             }
         }
+        
+        
     }
 }
