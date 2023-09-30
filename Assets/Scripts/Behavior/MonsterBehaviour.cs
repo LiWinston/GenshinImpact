@@ -14,7 +14,7 @@ using Target = UI.OffScreenIndicator.Target;
 
 namespace Behavior
 {
-    public class MonsterBehaviour : MonoBehaviour, IPoolable
+    public class MonsterBehaviour : MonoBehaviour, IFreezable, IPoolable
     {
         public PlayerController targetPlayer;
         private GameObject target;
@@ -45,7 +45,7 @@ namespace Behavior
         [SerializeField] private float aimDistance;
         [SerializeField] private float chaseDistance;
         // [SerializeField] private float stalkMstSpeed = 1f;
-        [FormerlySerializedAs("MaxMstSpeed")] [SerializeField] private float MaxSpeed = 2f;
+        [FormerlySerializedAs("MaxSpeed")] [FormerlySerializedAs("MaxMstSpeed")] [SerializeField] private float maxSpeed = 2f;
         // [SerializeField] private float stalkAccRatio = 0.8f;
         [SerializeField] private float attackDistance = 1.5f;
         private bool isMoving;
@@ -133,9 +133,9 @@ namespace Behavior
                 // UIManager.ShowMessage2("health 已找到.");
             }
             // 初始化怪物经验值和等级
-            originalMoveForce = mstForwardForce;
-            originalAttackCooldownInterval = attackCooldownInterval;
-            originalMaxMstSpeed = MaxSpeed;
+            OriginalMoveForce = mstForwardForce;
+            OriginalAttackCooldownInterval = attackCooldownInterval;
+            OriginalMaxMstSpeed = MaxSpeed;
             // 初始化怪物经验值和等级
             InitializeMonsterLevel();
         
@@ -320,42 +320,50 @@ namespace Behavior
             monsterExperience = Mathf.FloorToInt(monsterLevel * 1.2f);
             health.SetHealthMax(monsterLevel * 300 +100, true);//100
         }
-    
-        public void ActivateFreezeMode(float duration, float continuousDamageAmount)
+
+        public Rigidbody Rb => rb;
+        public bool IsFrozen { get => isFrozen; set => isFrozen = value; }
+        public float OriginalMaxMstSpeed { get => originalMaxMstSpeed; set => originalMaxMstSpeed = value; }
+        public float MaxSpeed { get => maxSpeed; set=> maxSpeed = value; }
+        public float OriginalMoveForce { get => originalMoveForce; set => originalMoveForce = value; }
+        public float OriginalAttackCooldownInterval { get => originalAttackCooldownInterval; set => originalAttackCooldownInterval = value; }
+
+        public void ActivateFreezeMode(float duration, float continuousDamageAmount, float instantVelocityMultiplier = 0.05f, float attackCooldownIntervalMultiplier = 2f, float MaxSpeedMultiplier = 0.18f)
         {
-            freezeEffectCoroutine = StartCoroutine(FreezeEffectCoroutine(duration));
+            freezeEffectCoroutine = StartCoroutine(FreezeEffectCoroutine(duration, instantVelocityMultiplier, attackCooldownIntervalMultiplier, MaxSpeedMultiplier));
                     // 启动持续掉血的协程
             StartCoroutine(Effect.ContinuousDamage.MakeContinuousDamage(health, continuousDamageAmount, duration ));
             _effectTimeManager.CreateEffectBar("Freeze", Color.blue, duration);
         }
-        internal Coroutine freezeEffectCoroutine { get; set; }
+        public Coroutine freezeEffectCoroutine { get; set; }
 
         public void DeactivateFreezeMode()
         {
             if(!freezeEffectCoroutine.IsUnityNull()) StopCoroutine(freezeEffectCoroutine);
             // 恢复原始推力和攻击间隔
-            mstForwardForce = originalMoveForce;
-            attackCooldownInterval = originalAttackCooldownInterval;
-            MaxSpeed = originalMaxMstSpeed;
-            isFrozen = false;
+            mstForwardForce = OriginalMoveForce;
+            attackCooldownInterval = OriginalAttackCooldownInterval;
+            MaxSpeed = OriginalMaxMstSpeed;
+            IsFrozen = false;
             _effectTimeManager.StopEffect("Freeze");
         }
-        private IEnumerator FreezeEffectCoroutine(float duration)
+        public IEnumerator FreezeEffectCoroutine(float duration, float instantVelocityMultiplier = 0.1f, float attackCooldownIntervalMultiplier = 2f, float MaxSpeedMultiplier = 0.36f)
         {
-            isFrozen = true;
-            rb.velocity *= 0.1f;
+            OriginalMoveForce = mstForwardForce;
+            IsFrozen = true;
+            Rb.velocity *= instantVelocityMultiplier;
             // 减小加速推力和增加攻击间隔
             mstForwardForce *= 0.6f; // 降低至60%
-            attackCooldownInterval *= 2f; // 增加至200%
-            MaxSpeed *= 0.36f;
+            attackCooldownInterval *= attackCooldownIntervalMultiplier; // 增加至200%
+            MaxSpeed *= MaxSpeedMultiplier;
             // 等待冰冻效果持续时间
             yield return new WaitForSeconds(duration);
 
             // 恢复原始推力和攻击间隔
             mstForwardForce = originalMoveForce;
-            attackCooldownInterval = originalAttackCooldownInterval;
-            MaxSpeed = originalMaxMstSpeed;
-            isFrozen = false;
+            attackCooldownInterval = OriginalAttackCooldownInterval;
+            MaxSpeed = OriginalMaxMstSpeed;
+            IsFrozen = false;
         }
 
 

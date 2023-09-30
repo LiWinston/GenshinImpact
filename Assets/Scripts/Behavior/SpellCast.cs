@@ -76,7 +76,7 @@ namespace Behavior
             // GameObject.Find("Canvas").GetComponent<EffectTimeManager>().CreateEffectBar("JZZ", Color.cyan, 7f);
             state.isJZZ = true;
             var d = 7f;
-            ParticleSystem JZZ = Resources.Load<ParticleSystem>("JZZ");
+            ParticleSystem JZZ = Resources.Load<ParticleSystem>("Prefab/Skills/JZZ");
             if(JZZ == null) Debug.LogError("NO JZZ");
             var jzzi = Instantiate(JZZ, innerSpellingTransform);
             jzzi.Play();
@@ -170,7 +170,7 @@ namespace Behavior
                     
                         float freezeRemainingTime = 3f + state.GetCurrentLevel() * 0.2f / 10f;
                         float continuousDamageAmount = damageAmount * 0.2f;
-                        enemy.GetComponent<MonsterBehaviour>().ActivateFreezeMode(freezeRemainingTime, continuousDamageAmount);
+                        enemy.GetComponent<IFreezable>().ActivateFreezeMode(freezeRemainingTime, continuousDamageAmount);
                     
                         // 播放特效
                         if (spellingPartTransform != null)
