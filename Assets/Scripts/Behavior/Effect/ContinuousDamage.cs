@@ -18,8 +18,8 @@ namespace Behavior.Effect
             
                 // 等待一帧
                 yield return null;
-            
                 timer += Time.deltaTime;
+                if (enemyHealth.IsDead()) break;
             }
         }
         public static IEnumerator MakeContinuousDamage(PlayerController ply, float damageAmount, float continuousDamageDuration = 3.0f)
@@ -34,7 +34,7 @@ namespace Behavior.Effect
             
                 // 等待一帧
                 yield return null;
-            
+                if (ply.state.IsEmptyHealth()) break;
                 timer += Time.deltaTime;
             }
         }

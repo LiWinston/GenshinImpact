@@ -281,7 +281,6 @@ namespace Behavior.Skills
         protected void BeginAiming()
         {
             if (isCasting) return;
-            _playerController.GetAnimator().SetTrigger(animatorTriggerName);
             if(_playerController.state.ConsumeEnergy(CalculateEnergyCost()))
             {
                 isCasting = true;
@@ -291,6 +290,7 @@ namespace Behavior.Skills
 
         protected IEnumerator EndAimingAndCast()
         {
+            _playerController.GetAnimator().SetTrigger(animatorTriggerName);
             SkillPreview.SetActive(false);
             if (!isCasting) yield break;
             if (canCast)
@@ -332,7 +332,7 @@ namespace Behavior.Skills
                 else
                 {
                     // out of spelling range, draw red circle
-                    SkillPreview.transform.position = new Vector3(castTrans.x, 0.5f, castTrans.z);
+                    SkillPreview.transform.position = new Vector3(castTrans.x, transform.position.y + 0.05f, castTrans.z);
 
                     // Ground height
                     float groundHeight = transform.position.y;
