@@ -1,3 +1,4 @@
+using AttributeRelatedScript;
 using UI;
 using UnityEngine;
 using UnityEngine.UI;

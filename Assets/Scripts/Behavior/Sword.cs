@@ -1,65 +1,61 @@
-using System;
 using System.Collections.Generic;
-using AttributeRelatedScript;
-using CodeMonkey.HealthSystemCM;
+using Behavior.Health;
 using UI;
-using Unity.VisualScripting;
 using UnityEngine;
 
-public class Sword : MonoBehaviour
+namespace Behavior
 {
-    private PlayerController pCtrl;
-    private Animator animator;
-    [SerializeField] private BoxCollider swordCollider;
-    private HashSet<Collider> hitEnemies = new HashSet<Collider>();
-
-    private void Start()
+    public class Sword : MonoBehaviour
     {
-        pCtrl = GameObject.Find("Player").GetComponent<PlayerController>();
-        if (pCtrl == null)
+        private PlayerController pCtrl;
+        private Animator animator;
+        [SerializeField] private BoxCollider swordCollider;
+        private HashSet<Collider> hitEnemies = new HashSet<Collider>();
+        private int enemyLayer;
+
+        private void Start()
         {
-            Debug.LogError("Player controller for sword not found!");
+            pCtrl = PlayerController.Instance;
+            if (pCtrl == null)
+            {
+                Debug.LogError("Player controller for sword not found!");
+            }
+
+            // 订阅结束攻击事件
+            pCtrl.OnAttackEnded += HandleAttackEnded;
+
+            animator = pCtrl.GetAnimator();
+            if (!swordCollider) swordCollider = GetComponent<BoxCollider>();
+            swordCollider.enabled = true;
+
+            // 获取敌人层级
+            enemyLayer = LayerMask.NameToLayer("Enemy");
         }
 
-        // 订阅结束攻击事件
-        pCtrl.OnAttackEnded += HandleAttackEnded;
-
-        animator = pCtrl.GetAnimator();
-        if (!swordCollider) swordCollider = GetComponent<BoxCollider>();
-        swordCollider.enabled = true;
-    }
-
-    private void Update()
-    {
-        if (!animator) animator = pCtrl.GetAnimator();
-    }
-
-    private void OnTriggerEnter(Collider enemyCollider)
-    {
-        if (!animator.GetBool("isAttacking")) return;
-        if (enemyCollider.CompareTag("Enemy") && !hitEnemies.Contains(enemyCollider))
+        private void Update()
         {
-            // 剑碰到敌人时执行的操作
-            // UI.UIManager.Instance.ShowMessage2("Taste My Sword !!!(While a little stupid)");
+            if (!animator) animator = pCtrl.GetAnimator();
+        }
 
-            HealthSystem healthSystem = enemyCollider.GetComponent<HealthSystemComponent>().GetHealthSystem();
+        private void OnTriggerEnter(Collider other)
+        {
+            if (!animator.GetBool("isAttacking") || other.gameObject.layer != enemyLayer || hitEnemies.Contains(other))
+                return;
+
+            HealthSystem healthSystem = other.GetComponent<HealthSystemComponent>()?.GetHealthSystem();
             if (healthSystem != null)
             {
                 var dmg = pCtrl.GetDamage();
                 UIManager.Instance.ShowMessage1("A " + dmg + " Cut~");
                 healthSystem.Damage(dmg); // Inflict damage on enemies
-                hitEnemies.Add(enemyCollider); // 记录已攻击过的敌人
+                hitEnemies.Add(other); // 记录已攻击过的敌人
             }
         }
-    }
 
-    // 当攻击结束时清空哈希表 Clear the hash table & SetBool False when the attack is over
-    private void HandleAttackEnded()
-    {
-        // UIManager.Instance.ShowMessage2("End了"); //END ATTACK SYMBOL
-        animator.SetBool("isAttacking", false);
-        hitEnemies.Clear();
+        private void HandleAttackEnded()
+        {
+            animator.SetBool("isAttacking", false);
+            hitEnemies.Clear();
+        }
     }
-
-    
 }
