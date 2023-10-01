@@ -295,6 +295,8 @@ namespace Behavior.Skills
             if (!isCasting) yield break;
             if (canCast)
             {
+                _playerController.GetAnimator().SetTrigger(animatorTriggerName);
+                
                 yield return new WaitForSeconds(animationGap);
                 
                 var throwStuff = _throwingsPool.Get();
