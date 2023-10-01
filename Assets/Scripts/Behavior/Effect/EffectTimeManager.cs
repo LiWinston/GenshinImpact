@@ -15,7 +15,7 @@ namespace Behavior.Effect
         [SerializeField] private Vector3 startPosOffset = new Vector3(0f, 0f, 0f);
         [SerializeField] private Vector3 transformNormalizer = new Vector3(1f, 1f, 1f);
         
-        private List<EffectTimeBarUI> _statusBars;
+        internal List<EffectTimeBarUI> _statusBars;
         
 
         public void Awake(){
@@ -76,7 +76,5 @@ namespace Behavior.Effect
                 _statusBars[i].transform.position = newPosition;
             }
         }
-        
-        
     }
 }
