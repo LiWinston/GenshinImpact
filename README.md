@@ -23,6 +23,17 @@ placeholder for it [here](GDD.md).
 ## Evaluation Plan
 
 TODO (due milestone 1) - see specification for details
+**Evaluation techniques:** Which evaluation techniques will you use and why? What tasks will you ask participants to perform?
+
+**Participants:** How will you recruit participants? What qualifying criteria will you use to ensure that they are representative of your target audience?
+
+**Data collection:** What sort of data is being collected? How will you collect the data? What tools will you use?
+
+**Data analysis:** How will you analyse the data? What metrics will you use to evaluate your game, and provide a basis for making changes?
+
+**Timeline:** What is your timeline for completing the evaluation? When will you make changes to the game?
+
+**Responsibilities:** Who is responsible for each task? How will you ensure that everyone contributes equally?
 
 ## Evaluation Report
 
@@ -39,7 +50,6 @@ TODO (due milestone 3) - see specification for details
 ## References and External Resources
 
 TODO (to be continuously updated) - see specification for details
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-24ddc0f5d75046c5622901739e7c5dd533143b0c8e959d652212380cedb1ea36.svg)](https://classroom.github.com/a/0n2F_Zha)
 
 # Game Design Document (GDD) Team - InfiniteStudio.
 
