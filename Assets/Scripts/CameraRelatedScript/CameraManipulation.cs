@@ -1,11 +1,11 @@
+using Behavior;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace CameraRelatedScript
 {
     public class CameraManipulation : MonoBehaviour
     {
-        [SerializeField] private Camera attachedCamera;
+        [SerializeField] private Camera TPCamera;
         [SerializeField] Camera FPCamera; // 备用相机
         [SerializeField] GameObject viewPoint;
         
@@ -31,7 +31,7 @@ namespace CameraRelatedScript
                 Debug.LogError("FPCamera not found!");
             }
 
-            plyctl = GetComponent<PlayerController>();
+            plyctl = PlayerController.Instance;
         }
 
         private void LateUpdate()
@@ -40,16 +40,16 @@ namespace CameraRelatedScript
 
             // 使用射线检测来避免相机被墙体阻挡
             RaycastHit hit;
-            Vector3 cameraToViewPoint = viewPoint.transform.position - attachedCamera.transform.position;
+            Vector3 cameraToViewPoint = viewPoint.transform.position - TPCamera.transform.position;
 
-            if (Physics.Raycast(attachedCamera.transform.position, cameraToViewPoint, out hit, cameraToViewPoint.magnitude, wallLayer))
+            if (Physics.Raycast(TPCamera.transform.position, cameraToViewPoint, out hit, cameraToViewPoint.magnitude, wallLayer))
             {
                 if (!obstacleInWay)
                 {
                     // 切换到备用相机
                     FPCamera.gameObject.SetActive(true);
                     plyctl.mycamera = FPCamera;
-                    attachedCamera.gameObject.SetActive(false);
+                    TPCamera.gameObject.SetActive(false);
                     obstacleInWay = true;
                 }
 
@@ -63,14 +63,14 @@ namespace CameraRelatedScript
                 {
                     // 切换回原相机
                     FPCamera.gameObject.SetActive(false);
-                    plyctl.mycamera = attachedCamera;
-                    attachedCamera.gameObject.SetActive(true);
+                    plyctl.mycamera = TPCamera;
+                    TPCamera.gameObject.SetActive(true);
                     obstacleInWay = false;
                 }
 
                 newPosition += transform.forward * forwardOffset + transform.up * upwardOffset;
                 // 平滑过渡到新位置
-                attachedCamera.transform.position = Vector3.Lerp(attachedCamera.transform.position, newPosition, Time.deltaTime * transitionSpeed);
+                TPCamera.transform.position = Vector3.Lerp(TPCamera.transform.position, newPosition, Time.deltaTime * transitionSpeed);
             }
         }
     }

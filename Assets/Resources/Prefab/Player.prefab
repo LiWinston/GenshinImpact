@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2944923949687073834}
   - component: {fileID: 1980264982740591841}
   m_Layer: 0
-  m_Name: ExpText
+  m_Name: PlayerHUD
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -101,7 +101,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: EXP 92
+  m_text: EXP 22
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 125cb55b44b24c4393181402bc6200e6, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 125cb55b44b24c4393181402bc6200e6, type: 2}
@@ -111,7 +111,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 6351213
-  m_fontColor: {r: 0.4257208, g: 0.9150943, b: 0.375534, a: 0.0040675765}
+  m_fontColor: {r: 0.4257208, g: 0.9150943, b: 0.375534, a: 0}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -212,7 +212,7 @@ GameObject:
   - component: {fileID: 1961631992508790801}
   - component: {fileID: 7394543303072179473}
   m_Layer: 0
-  m_Name: Audio Source
+  m_Name: BGM
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -339,6 +339,14 @@ GameObject:
   m_Component:
   - component: {fileID: 7406021605194356953}
   - component: {fileID: 3360135653076135481}
+  - component: {fileID: 2834326474299175777}
+  - component: {fileID: 6770313562260628058}
+  - component: {fileID: 1622994277371618379}
+  - component: {fileID: 8222747442629155031}
+  - component: {fileID: 4028037100520058962}
+  - component: {fileID: 1311987219512801190}
+  - component: {fileID: 8443738938356801097}
+  - component: {fileID: 737389524479703910}
   - component: {fileID: 5614921957825579036}
   - component: {fileID: 6844506482609387575}
   - component: {fileID: 9011349587138179888}
@@ -347,6 +355,7 @@ GameObject:
   - component: {fileID: 94393281984951438}
   - component: {fileID: 6507685321940979291}
   - component: {fileID: 4527048075143176695}
+  - component: {fileID: 5425240174318122119}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -382,7 +391,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1678239912745874840}
   serializedVersion: 4
-  m_Mass: 100
+  m_Mass: 400
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -401,6 +410,239 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 2
+--- !u!114 &2834326474299175777
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1678239912745874840}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 503a3207b00b4574b9054ea6a4e0eb77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  effectBarPrefab: {fileID: 5986491840916597951, guid: e375def76bffab1408f3cd22ab1e46d8, type: 3}
+  effectBarParent: {fileID: 7406021605194356953}
+  effectBarStartPos: {fileID: 1301686439504549740}
+  effectBarSpacing: 0.05625
+  effectBarOffset: 0.01
+  startPosOffset: {x: 0, y: -0.23, z: 0}
+  transformNormalizer: {x: 0.05, y: 0.05, z: 0.05}
+--- !u!114 &6770313562260628058
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1678239912745874840}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9012ec7ec793c144f9f905436e3a3714, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: "\u7267\u91CE\u6D41\u661F"
+  prefab: {fileID: 4084828893074943605, guid: f4375c2a167ed8a40ad845b0ee29c9b7, type: 3}
+  generatingOffset: {x: 0, y: 0.3, z: 0}
+  defaultCapacity: 100
+  maxCapacity: 100
+  countAll: 0
+  countActive: 0
+  countInactive: 0
+  castingDistance: 10
+  animatorTriggerName: Throw
+  animationGap: 0.2
+  key: 99
+  validColor: {r: 0, g: 1, b: 0, a: 1}
+  invalidColor: {r: 1, g: 0, b: 0, a: 1}
+  _damageUsageCurve: {fileID: 1622994277371618379}
+  damagePracticeCurveName: 
+  isAmountUpdatedWithLevel: 1
+  isDamageUpdatedWithUseTimes: 1
+  isCosumingEnegyProportionally: 1
+  "\u82E5\u6309\u6BD4\u4F8B\u6BCF\u53D1\u8017\u80FD_singleShootEnegyConsumptionPercentage": 0.01
+  maxThrowingsCount: 30
+  maxAngle_SingleSide: 30
+--- !u!114 &1622994277371618379
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1678239912745874840}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8958e99c0ecfa3f43b447da29d73f136, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CurveName: "\u7267\u91CE\u6D41\u661F\u4F24\u5BB3-\u4F7F\u7528\u6B21\u6570\u66F2\u7EBF
+    damage-useCount Curve"
+  limitByMINMAX: 1
+  min: 0
+  max: 8000
+  curvePoints:
+  - _x: 0
+    _f_x_: 200
+  - _x: 10
+    _f_x_: 500
+  - _x: 25
+    _f_x_: 1500
+  - _x: 50
+    _f_x_: 4500
+  - _x: 100
+    _f_x_: 12000
+--- !u!114 &8222747442629155031
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1678239912745874840}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8958e99c0ecfa3f43b447da29d73f136, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CurveName: "\u7267\u91CE\u6D41\u661F\u4F24\u5BB3-\u4F7F\u7528\u6B21\u6570\u66F2\u7EBF
+    damage-useCount Curve"
+  limitByMINMAX: 1
+  min: 0
+  max: 8000
+  curvePoints:
+  - _x: 0
+    _f_x_: 200
+  - _x: 10
+    _f_x_: 500
+  - _x: 25
+    _f_x_: 1500
+  - _x: 50
+    _f_x_: 4500
+  - _x: 100
+    _f_x_: 12000
+--- !u!114 &4028037100520058962
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1678239912745874840}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8958e99c0ecfa3f43b447da29d73f136, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CurveName: "\u707C\u70E7\u4F24\u5BB3-\u4F7F\u7528\u6B21\u6570\u66F2\u7EBF damage-useCount
+    Curve"
+  limitByMINMAX: 1
+  min: 0
+  max: 8000
+  curvePoints:
+  - _x: 0
+    _f_x_: 100
+  - _x: 10
+    _f_x_: 400
+  - _x: 20
+    _f_x_: 800
+  - _x: 40
+    _f_x_: 2000
+  - _x: 100
+    _f_x_: 9000
+--- !u!114 &1311987219512801190
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1678239912745874840}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9012ec7ec793c144f9f905436e3a3714, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: "\u707C\u70E7"
+  prefab: {fileID: 2353437418114724401, guid: 94a90d9048561e54da97e6c52674da07, type: 3}
+  generatingOffset: {x: 0, y: 0.5, z: 0}
+  defaultCapacity: 4
+  maxCapacity: 10
+  countAll: 0
+  countActive: 0
+  countInactive: 0
+  castingDistance: 11
+  animatorTriggerName: Cast
+  animationGap: 0.5
+  key: 102
+  validColor: {r: 1, g: 0.9914959, b: 0, a: 1}
+  invalidColor: {r: 1, g: 0, b: 0, a: 1}
+  _damageUsageCurve: {fileID: 1622994277371618379}
+  damagePracticeCurveName: 
+  isAmountUpdatedWithLevel: 0
+  isDamageUpdatedWithUseTimes: 1
+  isCosumingEnegyProportionally: 1
+  "\u82E5\u6309\u6BD4\u4F8B\u6BCF\u53D1\u8017\u80FD_singleShootEnegyConsumptionPercentage": 0.2
+  maxThrowingsCount: 0
+  maxAngle_SingleSide: 0
+--- !u!114 &8443738938356801097
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1678239912745874840}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8958e99c0ecfa3f43b447da29d73f136, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CurveName: "\u707C\u70E7\u4F24\u5BB3-\u4F7F\u7528\u6B21\u6570\u66F2\u7EBF damage-useCount
+    Curve"
+  limitByMINMAX: 1
+  min: 0
+  max: 8000
+  curvePoints:
+  - _x: 0
+    _f_x_: 100
+  - _x: 10
+    _f_x_: 400
+  - _x: 20
+    _f_x_: 800
+  - _x: 40
+    _f_x_: 2000
+  - _x: 100
+    _f_x_: 9000
+--- !u!114 &737389524479703910
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1678239912745874840}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9012ec7ec793c144f9f905436e3a3714, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Undefined
+  prefab: {fileID: 5633851335140538449, guid: ed076578aada9594d8d65138fa81b028, type: 3}
+  generatingOffset: {x: 0, y: 0.4, z: 0}
+  defaultCapacity: 6
+  maxCapacity: 12
+  countAll: 0
+  countActive: 0
+  countInactive: 0
+  castingDistance: 10
+  animatorTriggerName: AttackTrigger1
+  animationGap: 0.3
+  key: 103
+  validColor: {r: 0, g: 0.73154736, b: 1, a: 1}
+  invalidColor: {r: 1, g: 0, b: 0, a: 1}
+  _damageUsageCurve: {fileID: 0}
+  damagePracticeCurveName: 
+  isAmountUpdatedWithLevel: 0
+  isDamageUpdatedWithUseTimes: 0
+  isCosumingEnegyProportionally: 0
+  "\u82E5\u6309\u6BD4\u4F8B\u6BCF\u53D1\u8017\u80FD_singleShootEnegyConsumptionPercentage": 0
+  maxThrowingsCount: 30
+  maxAngle_SingleSide: 30
 --- !u!114 &5614921957825579036
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -413,25 +655,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8958e99c0ecfa3f43b447da29d73f136, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CurveName: CriticalHitCurve
+  limitByMINMAX: 1
+  min: 0
+  max: 1
   curvePoints:
-  - level: 1
-    chance: 0.05
-  - level: 10
-    chance: 0.2
-  - level: 20
-    chance: 0.3
-  - level: 30
-    chance: 0.4
-  - level: 40
-    chance: 0.48
-  - level: 50
-    chance: 0.55
-  - level: 80
-    chance: 0.6
-  - level: 90
-    chance: 0.64
-  - level: 100
-    chance: 0.75
+  - _x: 1
+    _f_x_: 0.05
+  - _x: 10
+    _f_x_: 0.2
+  - _x: 20
+    _f_x_: 0.3
+  - _x: 30
+    _f_x_: 0.4
+  - _x: 40
+    _f_x_: 0.48
+  - _x: 50
+    _f_x_: 0.55
+  - _x: 80
+    _f_x_: 0.6
+  - _x: 90
+    _f_x_: 0.64
+  - _x: 100
+    _f_x_: 0.75
 --- !u!114 &6844506482609387575
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -450,14 +696,16 @@ MonoBehaviour:
   MaxPlySpeed: 6
   sprintSpeedRate: 1.5
   mouseSensitivity: 100
-  forwardForce: 6000
+  forwardForce: 24000
   backwardRate: 0.9
-  jumpForce: 600
+  jumpForce: 6000
+  textMeshProComponent: {fileID: 0}
   mycamera: {fileID: 691092138744490856}
   MAX_ALLOWED_INTERACT_RANGE: 3
   moveForceTimer: 0.08
   moveForceTimerCounter: 0.08
-  swordTransform: {fileID: 5783294752404380237}
+  pickHandTransform: {fileID: 5496938358905939764}
+  swordObject: {fileID: 5783294752404380237}
   rotationFriction: 200
   sword: {fileID: 5662817349311532234}
 --- !u!114 &9011349587138179888
@@ -472,7 +720,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a70914eb44609ed4bab55d3624603748, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attachedCamera: {fileID: 691092138744490856}
+  TPCamera: {fileID: 691092138744490856}
   FPCamera: {fileID: 5796696678919834121}
   viewPoint: {fileID: 5496938358229847246}
   wallLayer:
@@ -495,17 +743,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c23d02a21a4d905478d0839600f7dc23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CurveName: AttackCooldownCurve
+  limitByMINMAX: 1
+  min: 0.4
+  max: 1.2
   curvePoints:
-  - level: 1
-    cooldown: 1.05
-  - level: 15
-    cooldown: 0.8
-  - level: 30
-    cooldown: 0.7
-  - level: 50
-    cooldown: 0.6
-  - level: 100
-    cooldown: 0.4
+  - _x: 1
+    _f_x_: 1.02
+  - _x: 15
+    _f_x_: 0.8
+  - _x: 30
+    _f_x_: 0.7
+  - _x: 50
+    _f_x_: 0.6
+  - _x: 100
+    _f_x_: 0.4
 --- !u!114 &4204505828502385112
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -544,7 +796,9 @@ MonoBehaviour:
   hurricaneKickKnockbackForce: 30
   hurricaneKickRange: 1.8
   criticalDmgRate: 8
+  _AttcooldownCurve: {fileID: 3090013106338420035}
   zenModeP2EConversionEfficiency: 0.5
+  JZZReduceMutiplier: 1.5
 --- !u!114 &94393281984951438
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -558,6 +812,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spellingPartTransform: {fileID: 5496938358071925957}
+  innerSpellingTransform: {fileID: 0}
   spellRange: 1.6
 --- !u!195 &6507685321940979291
 NavMeshAgent:
@@ -596,6 +851,102 @@ MonoBehaviour:
   particlePrefab: {fileID: 0}
   defaultDuration: 1.5
   autoDestroy: 1
+--- !u!82 &5425240174318122119
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1678239912745874840}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 0.8
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &6788492857406727715
 GameObject:
   m_ObjectHideFlags: 0
@@ -788,6 +1139,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7406021605194356953}
     m_Modifications:
+    - target: {fileID: 774839135263903808, guid: 2e1919b3058a29a40ab972890a296978, type: 3}
+      propertyPath: m_Mass
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3030912180037073426, guid: 2e1919b3058a29a40ab972890a296978, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4061112373666353820, guid: 2e1919b3058a29a40ab972890a296978, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.88
@@ -870,27 +1229,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5848477472335387676, guid: 2e1919b3058a29a40ab972890a296978, type: 3}
       propertyPath: m_AABB.m_Center.x
-      value: -0.008372128
+      value: NaN
       objectReference: {fileID: 0}
     - target: {fileID: 5848477472335387676, guid: 2e1919b3058a29a40ab972890a296978, type: 3}
       propertyPath: m_AABB.m_Center.y
-      value: 3.3431838
+      value: NaN
       objectReference: {fileID: 0}
     - target: {fileID: 5848477472335387676, guid: 2e1919b3058a29a40ab972890a296978, type: 3}
       propertyPath: m_AABB.m_Center.z
-      value: -0.0004621148
+      value: NaN
       objectReference: {fileID: 0}
     - target: {fileID: 5848477472335387676, guid: 2e1919b3058a29a40ab972890a296978, type: 3}
       propertyPath: m_AABB.m_Extent.x
-      value: 0.18146324
+      value: NaN
       objectReference: {fileID: 0}
     - target: {fileID: 5848477472335387676, guid: 2e1919b3058a29a40ab972890a296978, type: 3}
       propertyPath: m_AABB.m_Extent.y
-      value: 0.37536502
+      value: NaN
       objectReference: {fileID: 0}
     - target: {fileID: 5848477472335387676, guid: 2e1919b3058a29a40ab972890a296978, type: 3}
       propertyPath: m_AABB.m_Extent.z
-      value: 0.26743057
+      value: NaN
+      objectReference: {fileID: 0}
+    - target: {fileID: 5848477472335387676, guid: 2e1919b3058a29a40ab972890a296978, type: 3}
+      propertyPath: m_UpdateWhenOffscreen
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5848477473061255142, guid: 2e1919b3058a29a40ab972890a296978, type: 3}
       propertyPath: m_Name
@@ -936,6 +1299,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6657846821268126136, guid: 2e1919b3058a29a40ab972890a296978, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -959,6 +1326,11 @@ GameObject:
 --- !u!4 &5496938358676511541 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5848477472101346178, guid: 2e1919b3058a29a40ab972890a296978, type: 3}
+  m_PrefabInstance: {fileID: 2116967897113325751}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &5496938358905939764 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5848477471918708611, guid: 2e1919b3058a29a40ab972890a296978, type: 3}
   m_PrefabInstance: {fileID: 2116967897113325751}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &5496938359645849437 stripped

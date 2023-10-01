@@ -1,6 +1,7 @@
-﻿using System;
+﻿using Behavior;
 using UnityEngine;
-namespace CodeMonkey.HealthSystemCM {
+
+namespace CameraRelatedScript {
 
     /// <summary>
     /// Utility script to make a Transform look straight at the main camera
@@ -11,19 +12,7 @@ namespace CodeMonkey.HealthSystemCM {
     public class LookAtCamera : MonoBehaviour {
 
         [SerializeField] private bool invert;
-        private PlayerController pCtrl;
         // private Transform mainCameraTransform;
-
-
-        private void Start()
-        {
-            pCtrl = GameObject.Find("Player").GetComponent<PlayerController>();
-            if (pCtrl == null)
-            {
-                Debug.LogError("Player controller for sword not found!");
-            }
-            // mainCameraTransform = pCtrl.mycamera.transform;
-        }
 
         private void Update() {
             LookAt();
@@ -35,10 +24,10 @@ namespace CodeMonkey.HealthSystemCM {
 
         private void LookAt() {
             if (invert) {
-                Vector3 dir = (transform.position - pCtrl.mycamera.transform.position).normalized;
+                Vector3 dir = (transform.position - PlayerController.Instance.mycamera.transform.position).normalized;
                 transform.LookAt(transform.position + dir);
             } else {
-                transform.LookAt(pCtrl.mycamera.transform.position);
+                transform.LookAt(PlayerController.Instance.mycamera.transform.position);
             }
         }
 
