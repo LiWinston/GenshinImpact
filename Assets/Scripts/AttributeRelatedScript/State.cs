@@ -454,6 +454,8 @@ namespace AttributeRelatedScript
         {
             if (currentLevel < maxLevel) currentLevel += 1;
             LevelUpAction();
+            Heal(9999);
+            RestoreEnergy(99999);
         }
 
         // 获取当前经验值

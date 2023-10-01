@@ -218,15 +218,21 @@ namespace Behavior.Skills
             {
                 Debug.Log("ApplyDamageOverTime" + AOEDamage);
                 float duration = maxExistTime;
-                mstbhv._effectTimeManager.CreateEffectBar("Burn", Color.red, duration);
+                int id = GetInstanceID();
+                mstbhv._effectTimeManager.CreateEffectBar("Burn" + id, Color.red, duration);
                 float elapsed = 0f;
                 while (elapsed < duration)
                 {
                     mstbhv.TakeDamage(AOEDamage * Time.deltaTime);
                     elapsed += Time.deltaTime;
                     yield return null;
+                    if (mstbhv.health.IsDead())
+                    {
+                        mstbhv._effectTimeManager.StopEffect("Burn" + id);
+                        break;
+                    }
                 }
-                mstbhv._effectTimeManager.StopEffect("Burn");
+                mstbhv._effectTimeManager.StopEffect("Burn" + id);
             }
         }
 
