@@ -168,7 +168,7 @@ namespace Behavior
                     
                         // 计算持续掉血的总量（20％的伤害）
                     
-                        float freezeRemainingTime = 3f + state.GetCurrentLevel() * 0.2f / 10f;
+                        float freezeRemainingTime = 5f + state.GetCurrentLevel() * 0.2f / 10f;
                         float continuousDamageAmount = damageAmount * 0.2f;
                         enemy.GetComponent<IFreezable>().ActivateFreezeMode(freezeRemainingTime, continuousDamageAmount);
                     
@@ -244,7 +244,7 @@ namespace Behavior
             {
                 if (state.ConsumeEnergy(0.02f*state.CurrentEnergy))
                 {
-                    e.GetComponent<MonsterBehaviour>().ActivateSelfKillMode(10);
+                    e.GetComponent<MonsterBehaviour>().ActivateSelfKillMode(16);
                 }
             }
         }

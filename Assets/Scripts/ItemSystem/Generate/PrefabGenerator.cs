@@ -1,6 +1,8 @@
 using System.Collections;
+using Behavior;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.Pool;
 using IPoolable = Utility.IPoolable;
 using Random = UnityEngine.Random;
@@ -39,8 +41,14 @@ namespace ItemSystem.Generate
         }
         GameObject CreateFunc()
         {
-            Vector3 spawnPosition = targetPosition + new Vector3(Random.Range(-10f, 10f), spawnHeight, Random.Range(-10f, 10f));
-            var prfb = Instantiate(prefab, spawnPosition, Quaternion.identity);
+            var newPos = targetPosition + new Vector3(Random.Range(-10f, 10f), spawnHeight, Random.Range(-10f, 10f));
+            RaycastHit hit;
+            while (!Physics.Raycast(newPos, Vector3.down, out hit, 10, NavMesh.AllAreas))
+            {
+                newPos = targetPosition + new Vector3(Random.Range(-10f, 10f), spawnHeight, Random.Range(-10f, 10f));
+            }
+            var prfb = Instantiate(prefab, hit.point, Quaternion.identity);
+            
             prfb.GetComponent<IPoolable>().SetPool(objPool);
             // SetPoolForGeneratedObject(prfb);
             prfb.name = countAll.ToString();
@@ -50,7 +58,13 @@ namespace ItemSystem.Generate
         void actionOnGet(GameObject obj)
         {
             obj.GetComponent<IPoolable>().actionOnGet();
-            obj.transform.position = targetPosition + new Vector3(Random.Range(-10f, 10f), spawnHeight, Random.Range(-10f, 10f));
+            var newPos = targetPosition + new Vector3(Random.Range(-10f, 10f), spawnHeight, Random.Range(-10f, 10f));
+            RaycastHit hit;
+            while (!Physics.Raycast(newPos, Vector3.down, out hit, 10, NavMesh.AllAreas))
+            {
+                newPos = targetPosition + new Vector3(Random.Range(-10f, 10f), spawnHeight, Random.Range(-10f, 10f));
+            }
+            obj.transform.position = hit.point;
             obj.SetActive(true);
         }
 
