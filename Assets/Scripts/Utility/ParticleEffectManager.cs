@@ -168,7 +168,7 @@ namespace Utility
 
         private void StopParticleEffect()
         {
-            UIManager.Instance.ShowMessage2("StopParticleEffect()");
+            // UIManager.Instance.ShowMessage2("StopParticleEffect()");
             if (currentParticleEffect != null)
             {
                 Destroy(currentParticleEffect);
