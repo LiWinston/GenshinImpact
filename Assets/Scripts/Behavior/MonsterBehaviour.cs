@@ -180,7 +180,8 @@ namespace Behavior
             agent.speed = maxSpeed;
             agent.SetDestination(target.transform.position);
             agent.acceleration = mstForwardForce;
-                
+            // agent.angularSpeed = rotationSpeed;
+            
             isMoving = rb.velocity.magnitude > 0.01f;
             animator.SetBool("isMoving", isMoving);
 
@@ -238,13 +239,12 @@ namespace Behavior
             if (curDistance <= aimDistance) //追击距离内
             {
                 animator.SetBool("Near",true);
-                //
-                // var directionToPly = target.transform.position - transform.position;
-                // directionToPly.y = 0;
-                // directionToPly.Normalize();
-                // Quaternion targetRotation = Quaternion.LookRotation(directionToPly);
-                // transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime);
             }
+            var directionToPly = target.transform.position - transform.position;
+            directionToPly.y = 0;
+            directionToPly.Normalize();
+            Quaternion targetRotation = Quaternion.LookRotation(directionToPly);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime);
         }
         
         private GameObject PickAlly()
