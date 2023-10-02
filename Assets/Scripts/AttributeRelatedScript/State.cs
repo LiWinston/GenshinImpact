@@ -581,7 +581,7 @@ namespace AttributeRelatedScript
             // // 修改生命值恢复速度
             // healthRegenerationRate *= zenModeHealthRegenModifier; 已经挪到恢复逻辑中
             // 开始消耗体力并恢复能量
-            UIManager.Instance.ShowMessage2("禅");
+           plyctl.ShowPlayerHUD("ZenMode");
             StartCoroutine(P2EConvert_ZenMode());
         }
 
