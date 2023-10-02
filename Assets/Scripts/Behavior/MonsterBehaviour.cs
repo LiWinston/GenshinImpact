@@ -39,7 +39,7 @@ namespace Behavior
     
         public float rotationSpeed = 2f; // 调整旋转速度
      
-        // private float gameTime = Time.time;
+        // private float gameTime = Time.timeSinceLevelLoad;
         internal float monsterLevel;
         private int monsterExperience;
         [SerializeField] private float aimDistance;
@@ -315,7 +315,7 @@ namespace Behavior
         {
             // 计算怪物等级，使其在五分钟内逐渐增长到最大等级
             float maxGameTime = 300f; // 300秒
-            float progress = Mathf.Clamp01(Time.time / maxGameTime); // 游戏时间进度（0到1之间）
+            float progress = Mathf.Clamp01(Time.timeSinceLevelLoad / maxGameTime); // 游戏时间进度（0到1之间）
             monsterLevel = progress * 100 + 1; // 从1到100逐渐增长
             monsterExperience = Mathf.FloorToInt(monsterLevel * 1.2f);
             health.SetHealthMax(monsterLevel * 300 +100, true);//100
