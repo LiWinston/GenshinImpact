@@ -182,6 +182,7 @@ namespace Behavior.Skills
             {
                 if (Input.GetKeyDown(key))
                 {
+                    Energycost = CalculateEnergyCost();
                     BeginAiming();
                 }
                 else if (Input.GetKeyUp(key))
@@ -190,8 +191,6 @@ namespace Behavior.Skills
                     {
                         StopCoroutine(castingCoroutine);
                     }
-
-                    ++useTimes;
                     StartCoroutine(EndAimingAndCast());
                 }
             }
@@ -281,20 +280,23 @@ namespace Behavior.Skills
         protected void BeginAiming()
         {
             if (isCasting) return;
-            if(_playerController.state.ConsumeEnergy(CalculateEnergyCost()))
+            if(_playerController.state.ConsumeEnergy(Energycost))
             {
                 isCasting = true;
                 castingCoroutine = StartCoroutine(ImmediateCastAimingLogic());
             }
         }
 
+        public float Energycost { get; set; }
+
         protected IEnumerator EndAimingAndCast()
         {
-            _playerController.GetAnimator().SetTrigger(animatorTriggerName);
             SkillPreview.SetActive(false);
             if (!isCasting) yield break;
             if (canCast)
             {
+                
+                ++useTimes;
                 _playerController.GetAnimator().SetTrigger(animatorTriggerName);
                 
                 yield return new WaitForSeconds(animationGap);
@@ -307,6 +309,10 @@ namespace Behavior.Skills
                 {
                     SoundEffectManager.Instance.PlaySound(throwingsBehavior.startAudioClip, throwStuff);
                 }
+            }
+            else
+            {
+                _playerController.state.RestoreEnergy(Energycost);
             }
             isCasting = false;
         }
