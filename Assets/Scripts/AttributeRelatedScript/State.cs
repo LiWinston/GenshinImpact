@@ -579,8 +579,9 @@ namespace AttributeRelatedScript
         
 
             // // 修改生命值恢复速度
-            // healthRegenerationRate *= zenModeHealthRegenModifier;
+            // healthRegenerationRate *= zenModeHealthRegenModifier; 已经挪到恢复逻辑中
             // 开始消耗体力并恢复能量
+           plyctl.ShowPlayerHUD("ZenMode");
             StartCoroutine(P2EConvert_ZenMode());
         }
 
@@ -590,8 +591,8 @@ namespace AttributeRelatedScript
             isInZenMode = false;
             OnExitZenMode?.Invoke();//粒子系统停播
             StopAllCoroutines();
-            UIManager.Instance.ShowMessage2("ExitZenMode()");
-            // healthRegenerationRate = temporaryHealthRegenRate;
+            // UIManager.Instance.ShowMessage2("ExitZenMode()");
+            // healthRegenerationRate = temporaryHealthRegenRate; 已经挪到恢复逻辑中
             zenModeP2EConversionSpeed = 0f;
             isCrouchingCooldown = false;
         }
