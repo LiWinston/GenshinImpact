@@ -31,7 +31,7 @@ namespace Behavior
         private float attackCooldownTimer;
         [SerializeField] private float attackCooldownInterval = 2f;
         // private float moveForceTimerCounter;
-        [SerializeField] private float moveForceCooldownInterval = 0.05f;
+        // [SerializeField] private float moveForceCooldownInterval = 0.05f;
         private float obstacleDetectionTimer = 0f;
         public float obstacleDetectionInterval = 3f; // 检测间隔，每隔3秒检测一次
     
