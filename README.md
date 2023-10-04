@@ -29,8 +29,6 @@ placeholder for it [here](GDD.md).
     Timeline: What is your timeline for completing the evaluation? When will you make changes to the game?
     Responsibilities: Who is responsible for each task? How will you ensure that everyone contributes equally?
 
-TODO (due milestone 1) - see specification for details
-
 **1. Objectives and Scope:**
    1. The purpose of this Evaluation is to present the game's current state to beta tests, gather feedbacks and insights from testers about graphics, gameplay mechanics, audio, storyline, controls and UI. In particular, we are interested to understand how players feel about environment, monster, and other elements, whether these contribute positively to game immersion, or offer insufficient engagement for players to be motivated to continue the game.
    2. furthermore, we wish to gather feedback on QOL improvement that could be implemented to enhance game feedback, sense of control, and direction to the player. In the current design, the game is open world without a direct line of progression that forces players to undertake a certain route, concerns arises whether players could successfully complete the game with minimal level of hints currently available. Or that without clear goals or directives, players would feel like a headless chicken, not knowing what to do.
@@ -65,13 +63,15 @@ TODO (due milestone 1) - see specification for details
 
 **3. Evaluation Team:**
   - The evaluation team consist of 4 team members. Each with their unique responsibility.
-  - A is responsible for conducting post-playthrough interview, B is responsible for taking note during structured observation where participants would be invited to play the game without any guidance. The structure of the observation and interview will be mentioned in **Testing Methodologies**.
+  - A is responsible for conducting post-playthrough interview.
+  - B is responsible for taking note during structured observation where participants would be invited to play the game without any guidance. The structure of the observation and interview will be mentioned in **Testing Methodologies**.
   - C is responsible for coding the notes and interviews answers obtained, and deriving themes and condensing issues from obtained material.
   - D is respsonible for compiling obtained result into a report, highlighting common issues, and formulate possible fixes to the issues highlighted.
 
-**4. Recuritment & participants:**
+**4. Recuriting Participants:**
    - There would be at least 7 participants for each evaluation technique, combining for a minimum of 14 participants. 
    - Recuritment methods can be snowball or direct advertising. However, recurited participants must form a pool that have somewhat equal gender balance, have age distribution similar to the gaming community, comes from a vareity of backgrounds, including but not limited to game design and graphics design.
+   - Recruited participants would be rejected if they never played any RPG games; or if they are out side the age range between 14-60.
    - Participants will be asked to consent to being observed or recorded throughout their playthrough, participants will be asked whether they consent to having their recorded material and interview answers to be included in the evaluation report, data retained without consent for distribution would not be included in the evaluation report.
 
 **5. Testing Methodology:**
@@ -98,29 +98,39 @@ TODO (due milestone 1) - see specification for details
 
    3. Interview answers - we expect to have obtained interview answers from participants, these might be in the form of a physical note, digital word document or other medium.
 
-   All data collected from the evaluation process will be converted to digial format wherever possible, they would be stored centrally on a UniMelb student google drive, consent to these data collection from the participants would be stored side by side to the obtained material. These material could include but not limited to txt, word document, voice recording, video recording, scanned copy of written notes etc.
+   All data collected from the evaluation process will be converted to digial format wherever possible, they would be stored collectively on a UniMelb student google drive, consent to these data collection from the participants would be stored side by side to the obtained material. These material could include but not limited to txt, word document, voice recording, video recording, scanned copy of written notes etc.
 
 
 **7. Analysis and Evaluation:**
    
    The game will be evaluated with criteria listed in **Evaluation Criteria**. Participants will be asked questioned regarding aforementioned elements.
    
-   Coding would be applied to all textual response, common themes would be identified where significant number of participants reported issues. Problems would be aggregated into archtypes and subtypes which can faciliate designing solutions that can address these issues systematically rather than on a case by case basis. Analysis is expected to be derived from quotes generated from participants' mention of issues regarding any elements in the game.
+   Coding would be applied to all textual response, common themes would be identified where significant number of participants reported issues. Problems would be aggregated into archtypes and subtypes which can faciliate designing solutions that can address these issues systematically rather than on a case by case basis. 
+   
+   Analysis is expected to be derived from quotes generated from participants' mention of issues regarding any elements in the game. For example, gameplay is overtly repetitve, where participants raise issues like not enough diverse character movements, not enough custom abilities etc, the development team would attempt to address the issue through first looking at how much space is avaliable for changes and reworks. Most importantly, trade offs should be carefully considered between participant suggestions that would alter game mechanics flavour beyond what was initially intended and the benefits implementing these changes would bring to players to better enjoy the game. Given the feedback, we aim to find the core issue that is causing pains to the game experience, and seeks to address them.
 
-   Playthrough recording will be watched by relevant design 
+   Basic elements like replayability, engagement, interesting design etc will be rated through a Likert Scale from strongly disagree to strongly agree. The interview will ask participant whether they agree above elements are properly implemented in the game. Where a certain element consistently rated negatively among the participants, it would be subject to reworks. Direction of rework depends on participant feedback provided from open-ended questions in the interview.
 
-**8. Feedback and Recommendations:**
-   - Provide actionable feedback to the developers, including suggestions for improvements.
-   - Offer recommendations for potential target audience adjustments, marketing strategies, or release plans.
+**8. Post-Evaluation Activities:**
+   - Redesign elements that are raised as significant difficulties or impediments to a fluid gaming experience. 
+   - Trial implementation of altered designs, interal tests conducted by other team members, compare difference between two versions, if the benefit could be ascertained, the changes would be accepted and moved into final product.
+   - Analyse which deisgn decisions contributed to creating the issue, changes to the design process could be implemented to avoid future repeition of similar problems.
 
-**9. Post-Evaluation Activities:**
-   - Share your evaluation findings with relevant stakeholders, such as developers, publishers, or the gaming community.
-   - Monitor how your feedback is implemented and whether it positively impacts the game.
+**9. Timelines:**
 
-**10. Timelines:**
+Stage 1. Recuritment. Finish recruiting participants and filter out participants not suitable for this evaluation process. - Due 9th Oct.
 
-Remember that the specific details of your evaluation plan may vary depending on the game, its stage of development, and your objectives. Flexibility and adaptability are essential to ensure a thorough and effective evaluation. 
+Stage 2. Scheduling Sessions, scheduling available time with participant to begin playthrough. 
 
+Stage 3. Began evaluation. Starting Structured Observation &  interviews with participants, gather participant consent when they accept scheduled time.
+
+Stage 4. Filter results. Aggregate all results and feedbacks gathered from evaluation, began coding and analysing feedbacks.
+
+Stage 5. Conclude evaluation process. Due 15th Oct. 
+
+Stage 6. Compling report. List out areas subject for changes and fixes. Compiling Evaluation report. Due 15th Oct.
+
+Stage 7. Implementing changes. Implement changes and play test changes, accept or reject changes depend on result. Due 20th Oct.
 
 
 ## Evaluation Report
