@@ -12,7 +12,7 @@ public class Buttons : MonoBehaviour
 
     public void PlayGame()
     {
-        SceneManager.LoadScene("StartScene");
+        SceneManager.LoadScene("GameScene");
     }
     public void QuitGame0()
     {
@@ -21,11 +21,11 @@ public class Buttons : MonoBehaviour
 
     public void RestartGame()
     {
-        SceneManager.LoadScene("StartScene");
+        SceneManager.LoadScene("GameScene");
     }
 
     public void QuitGame()
     {
-        SceneManager.LoadScene("WinScene");
+        SceneManager.LoadScene("StartScene");
     }
 }
