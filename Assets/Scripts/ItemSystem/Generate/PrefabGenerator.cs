@@ -2,6 +2,7 @@ using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Pool;
+using UnityEngine.Serialization;
 using IPoolable = Utility.IPoolable;
 using Random = UnityEngine.Random;
 
@@ -29,7 +30,8 @@ namespace ItemSystem.Generate
         public int countAll;
         public int countActive;
         public int countInactive;
-    
+        [FormerlySerializedAs("XMax")] [SerializeField] private float MaxOffsetXZ = 10;
+
         private void Start()
         {
             targetPosition = transform.position;
@@ -39,7 +41,7 @@ namespace ItemSystem.Generate
         }
         GameObject CreateFunc()
         {
-            Vector3 spawnPosition = targetPosition + new Vector3(Random.Range(-10f, 10f), spawnHeight, Random.Range(-10f, 10f));
+            Vector3 spawnPosition = targetPosition + new Vector3(Random.Range(-MaxOffsetXZ, MaxOffsetXZ), spawnHeight, Random.Range(-MaxOffsetXZ, MaxOffsetXZ));
             var prfb = Instantiate(prefab, spawnPosition, Quaternion.identity);
             prfb.GetComponent<IPoolable>().SetPool(objPool);
             // SetPoolForGeneratedObject(prfb);
@@ -50,7 +52,7 @@ namespace ItemSystem.Generate
         void actionOnGet(GameObject obj)
         {
             obj.GetComponent<IPoolable>().actionOnGet();
-            obj.transform.position = targetPosition + new Vector3(Random.Range(-10f, 10f), spawnHeight, Random.Range(-10f, 10f));
+            obj.transform.position = targetPosition + new Vector3(Random.Range(MaxOffsetXZ, MaxOffsetXZ), spawnHeight, Random.Range(-MaxOffsetXZ, MaxOffsetXZ));
             obj.SetActive(true);
         }
 
