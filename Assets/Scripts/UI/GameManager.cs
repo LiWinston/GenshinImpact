@@ -1,3 +1,4 @@
+using System.Collections;
 using Behavior;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -14,6 +15,7 @@ namespace UI
         private bool isFinalBattle = false;
         public float ElapsedTime;
         public float RemainingTime;
+        public AudioSource BGM;
 
         private void Start()
         {
@@ -34,16 +36,16 @@ namespace UI
                 // 更新倒计时文本
                 UpdateTimerText(RemainingTime);
 
-                if (ElapsedTime >= 4) // 240秒 = 4分钟
+                if (ElapsedTime >= 10) // 240秒 = 4分钟
                 {
                     if (!isFinalBattle)
                     {
                         // 触发决战事件，将玩家传送至指定位置
                         UIManager.Instance.ShowMessage2("The decisive battle is coming! Hold on!");
-                        TeleportPlayerToFloorLarge();
+                        StartCoroutine(TeleportPlayerToFloorLarge());
                     }
                     
-                    if (ElapsedTime >= 10) // 300秒 = 5分钟
+                    if (ElapsedTime >= 40) // 300秒 = 5分钟
                     {
                         ElapsedTime = -1f;
                         // 游戏胜利，加载WinScene场景
@@ -64,14 +66,32 @@ namespace UI
             }
             else
             {
-                timerText.text = "Hold On till 1 minute ends: " + seconds.ToString("00") + " s";
+                timerText.text = "Hold On Final: " + seconds.ToString("00") + " s";
             }
         }
 
-        private void TeleportPlayerToFloorLarge()
+        private IEnumerator TeleportPlayerToFloorLarge()
         {
-            PlayerController.Instance.transform.position = bossRoom.position + Vector3.up * 2f;
             isFinalBattle = true;
+            
+            ParticleSystem transfer = Resources.Load<ParticleSystem>("Liberate_04.1_Darkness");
+            if (transfer == null) Debug.LogError("NO transfer");
+            var transferi = new ParticleSystem[8];
+            for (int x = 0; x < 8; ++x)
+            {
+                transferi[x] = Instantiate(transfer, PlayerController.Instance.transform.position, Quaternion.identity);
+            }
+            yield return new WaitForSeconds(2f);
+            for (int x = 0; x < 8; ++x)
+            {
+                transferi[x].Stop();
+                Destroy(transferi[x].gameObject);
+            }
+            PlayerController.Instance.transform.position = bossRoom.position + Vector3.up * 2f;
+            
+            if(!BGM) BGM = GameObject.Find("BGM").GetComponent<AudioSource>();
+            BGM.clip = Resources.Load<AudioClip>("Music/沙场");
+            BGM.Play();
         }
 
         private void LoadWinScene()
