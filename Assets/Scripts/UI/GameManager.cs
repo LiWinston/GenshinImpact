@@ -12,6 +12,8 @@ namespace UI
         private bool gameEnded = false;
         public Transform bossRoom;
         private bool isFinalBattle = false;
+        public float ElapsedTime;
+        public float RemainingTime;
 
         private void Start()
         {
@@ -24,15 +26,15 @@ namespace UI
             if (!gameEnded)
             {
                 // 计算从场景加载开始经过的时间
-                float elapsedTime = Time.timeSinceLevelLoad - startTime;
+                ElapsedTime = Time.timeSinceLevelLoad - startTime;
 
                 // 计算剩余时间
-                float remainingTime = 240 - elapsedTime; // 300秒 = 5分钟
+                RemainingTime = 240 - ElapsedTime;
 
                 // 更新倒计时文本
-                UpdateTimerText(remainingTime);
+                UpdateTimerText(RemainingTime);
 
-                if (elapsedTime >= 4) // 240秒 = 4分钟
+                if (ElapsedTime >= 4) // 240秒 = 4分钟
                 {
                     if (!isFinalBattle)
                     {
@@ -42,8 +44,9 @@ namespace UI
                         TeleportPlayerToFloorLarge();
                     }
                     
-                    if (elapsedTime >= 10) // 300秒 = 5分钟
+                    if (ElapsedTime >= 10) // 300秒 = 5分钟
                     {
+                        ElapsedTime = -1f;
                         // 游戏胜利，加载WinScene场景
                         LoadWinScene();
                     }

@@ -11647,7 +11647,6 @@ GameObject:
   - component: {fileID: 522256354}
   - component: {fileID: 522256353}
   - component: {fileID: 522256352}
-  - component: {fileID: 522256351}
   m_Layer: 0
   m_Name: Sword
   m_TagString: Untagged
@@ -11671,19 +11670,6 @@ Transform:
   - {fileID: 1904789590}
   m_Father: {fileID: 1557689344}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &522256351
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 522256349}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d31433fae05f52d41b7f55fe2703714d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  swordCollider: {fileID: 522256354}
 --- !u!136 &522256352
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -41201,7 +41187,8 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1357130661304080346, guid: e29a93c4fa6fa54459fc54c380691d61, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 7941714610460800065, guid: e29a93c4fa6fa54459fc54c380691d61, type: 3}
@@ -49815,6 +49802,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 861486009999884852, guid: ed2d24531a5d879488e943e7ecc3c2c8, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 861486010741380154, guid: ed2d24531a5d879488e943e7ecc3c2c8, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2190244646906483413, guid: ed2d24531a5d879488e943e7ecc3c2c8, type: 3}
       propertyPath: m_Enabled
       value: 0
