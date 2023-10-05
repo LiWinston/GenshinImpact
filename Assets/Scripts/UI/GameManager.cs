@@ -39,7 +39,6 @@ namespace UI
                     if (!isFinalBattle)
                     {
                         // 触发决战事件，将玩家传送至指定位置
-                        UIManager.Instance.UIMessage_2MSG.messageText.text = "";
                         UIManager.Instance.ShowMessage2("The decisive battle is coming! Hold on!");
                         TeleportPlayerToFloorLarge();
                     }
