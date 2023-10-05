@@ -5,8 +5,8 @@ namespace UI
     public class UIManager : MonoBehaviour
     {
         private static UIManager instance; // 单例引用器
-        private StreamMessager UIMessage_1MSG;
-        private StreamMessager UIMessage_2MSG;
+        internal StreamMessager UIMessage_1MSG;
+        internal StreamMessager UIMessage_2MSG;
 
         // 获取单例实例的静态属性
         public static UIManager Instance
