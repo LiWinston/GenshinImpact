@@ -291,6 +291,7 @@ namespace Behavior.Skills
 
         protected IEnumerator EndAimingAndCast()
         {
+            _playerController.GetAnimator().SetTrigger(animatorTriggerName);
             SkillPreview.SetActive(false);
             if (!isCasting) yield break;
             if (canCast)
