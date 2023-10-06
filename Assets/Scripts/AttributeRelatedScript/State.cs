@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Linq;
 using Behavior;
 using UI;
 using UnityEngine;
@@ -99,8 +100,9 @@ namespace AttributeRelatedScript
         [SerializeField] public float hurricaneKickKnockbackForce = 70;
         [SerializeField] public float hurricaneKickRange = 1.2f;
         [SerializeField] internal float criticalDmgRate = 4f;
-        private AttackCooldownCurve _AttcooldownCurve;
-        internal float attackSpeedRate;
+        [SerializeField] private InverseProportionalCurve _AttcooldownCurve;
+        internal float attackAnimationSpeedRate;
+        private float _baseAtkCd;//基础攻速,Should be final constant once initialized
 
         [Header("ZenMode(Recover)")] 
         [SerializeField]private float zenModeP2EConversionEfficiency = 0.6f; // 禅模式下的体力转化率
@@ -118,6 +120,7 @@ namespace AttributeRelatedScript
         //JZZ
         public bool isJZZ { get; set; }
         [SerializeField]internal float JZZReduceMutiplier = 1.5f;
+        
 
         public float CurrentHealth
         {
@@ -230,9 +233,18 @@ namespace AttributeRelatedScript
             currentExperience = 0;
             InitializeExperienceThresholds();
 
-            _AttcooldownCurve = GetComponent<AttackCooldownCurve>();
-            if (!_AttcooldownCurve) Debug.LogError("AttackCooldownCurve NotFound");
+            // _AttcooldownCurve = GetComponent<InverseProportionalCurve>();
+
+
+            if (!_AttcooldownCurve)
+            {
+                _AttcooldownCurve = GetComponents<Component>().OfType<InverseProportionalCurve>().FirstOrDefault(curve => curve.CurveName == "AttackCooldownCurve");
+                if(!_AttcooldownCurve) Debug.LogError("No AttackCooldownCurve!");
+            }
+            // _baseAtkCd = _AttcooldownCurve.curvePoints[0]._f_x_;
+            _baseAtkCd = _AttcooldownCurve.CalculateValueAt(1);
             UpdateAttackCooldown();
+            
             if (!UpdEffectTransform) UpdEffectTransform = Find.FindDeepChild(transform, "spine_01");
             // if(0 !=_shakeBeforeZenMode) GetComponentInChildren<Animator>().SetFloat("_shakeBeforeZenMode",_shakeBeforeZenMode);
         
@@ -442,6 +454,8 @@ namespace AttributeRelatedScript
         {
             if (currentLevel < maxLevel) currentLevel += 1;
             LevelUpAction();
+            Heal(9999);
+            RestoreEnergy(99999);
         }
 
         // 获取当前经验值
@@ -534,12 +548,12 @@ namespace AttributeRelatedScript
         {
             if (currentLevel <= maxLevel)
             {
-                AttackCooldown = _AttcooldownCurve.CalculateAttackCooldown(currentLevel);
-                attackSpeedRate = _AttcooldownCurve.curvePoints[0].cooldown / AttackCooldown;
+                AttackCooldown = _AttcooldownCurve.CalculateValueAt(currentLevel);
+                attackAnimationSpeedRate = _baseAtkCd / AttackCooldown;
                 //通知player controller更新动画时间参数
-                PlayerController.Instance.UpdateAttackAnimationTime(attackSpeedRate);
+                PlayerController.Instance.UpdateAttackAnimationTime(attackAnimationSpeedRate);
             
-                // Debug.Log(currentLevel + "级攻速" + AttackCooldown + "秒，动画倍速 " + attackSpeedRate);
+                Debug.Log(currentLevel + "级攻速" + AttackCooldown + "秒，动画倍速 " + attackAnimationSpeedRate);
             }
         }
 
@@ -565,8 +579,9 @@ namespace AttributeRelatedScript
         
 
             // // 修改生命值恢复速度
-            // healthRegenerationRate *= zenModeHealthRegenModifier;
+            // healthRegenerationRate *= zenModeHealthRegenModifier; 已经挪到恢复逻辑中
             // 开始消耗体力并恢复能量
+           plyctl.ShowPlayerHUD("ZenMode");
             StartCoroutine(P2EConvert_ZenMode());
         }
 
@@ -576,8 +591,8 @@ namespace AttributeRelatedScript
             isInZenMode = false;
             OnExitZenMode?.Invoke();//粒子系统停播
             StopAllCoroutines();
-            UIManager.Instance.ShowMessage2("ExitZenMode()");
-            // healthRegenerationRate = temporaryHealthRegenRate;
+            // UIManager.Instance.ShowMessage2("ExitZenMode()");
+            // healthRegenerationRate = temporaryHealthRegenRate; 已经挪到恢复逻辑中
             zenModeP2EConversionSpeed = 0f;
             isCrouchingCooldown = false;
         }

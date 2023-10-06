@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using AttributeRelatedScript;
+using Behavior.Effect;
 using Behavior.Health;
 using UnityEngine;
 using Utility;
@@ -14,7 +15,12 @@ namespace Behavior
         [SerializeField] internal Transform innerSpellingTransform; // 施法的腰子
         [SerializeField] private float spellRange = 1.6f;
         private State state;
+        private EffectTimeManager _effectTimeManager;
 
+
+        private void Awake(){
+            _effectTimeManager = GetComponent<EffectTimeManager>();
+        }
 
         void Start()
         {
@@ -66,9 +72,11 @@ namespace Behavior
         {
             if (!state.ConsumeEnergy(state.maxEnergy * 0.2f)) return;
             SoundEffectManager.Instance.PlaySound(new List<string>(){"Music/音效/法术/JZZ1","Music/音效/法术/JZZ2"}, gameObject);
+            _effectTimeManager.CreateEffectBar("JZZ", Color.cyan, 7f);
+            // GameObject.Find("Canvas").GetComponent<EffectTimeManager>().CreateEffectBar("JZZ", Color.cyan, 7f);
             state.isJZZ = true;
             var d = 7f;
-            ParticleSystem JZZ = Resources.Load<ParticleSystem>("JZZ");
+            ParticleSystem JZZ = Resources.Load<ParticleSystem>("Prefab/Skills/JZZ");
             if(JZZ == null) Debug.LogError("NO JZZ");
             var jzzi = Instantiate(JZZ, innerSpellingTransform);
             jzzi.Play();
@@ -94,6 +102,7 @@ namespace Behavior
                 {
                     state.isJZZ = false;
                     StopCoroutine(c);
+                    _effectTimeManager.StopEffect("JZZ");
                     if (pts != null)
                     {
                         Destroy(pts.gameObject);
@@ -102,6 +111,8 @@ namespace Behavior
 
                 yield return null;
             }
+            _effectTimeManager.StopEffect("JZZ");
+            // GameObject.Find("Canvas").GetComponent<EffectTimeManager>().StopEffect("JZZ");
             Destroy(pts.gameObject);
             yield return null;
         }
@@ -113,6 +124,8 @@ namespace Behavior
             yield return new WaitForSeconds(t);
             // 停止金钟罩效果
             state.isJZZ = false;
+            _effectTimeManager.StopEffect("JZZ");
+            // GameObject.Find("Canvas").GetComponent<EffectTimeManager>().StopEffect("JZZ");
         }
 
         private void CastSpell()
@@ -157,7 +170,7 @@ namespace Behavior
                     
                         float freezeRemainingTime = 3f + state.GetCurrentLevel() * 0.2f / 10f;
                         float continuousDamageAmount = damageAmount * 0.2f;
-                        enemy.GetComponent<MonsterBehaviour>().ActivateFreezeMode(freezeRemainingTime, continuousDamageAmount);
+                        enemy.GetComponent<IFreezable>().ActivateFreezeMode(freezeRemainingTime, continuousDamageAmount);
                     
                         // 播放特效
                         if (spellingPartTransform != null)
@@ -210,7 +223,7 @@ namespace Behavior
                     if (enemyHealth != null)
                     {
                         // 对敌人造成伤害
-                        enemyHealth.Damage(state.CurrentDamage * 2);
+                        enemyHealth.Damage(state.CurrentDamage * 0.5f);
                         // 播放特效
                         if (spellingPartTransform != null)
                         {

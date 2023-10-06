@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Behavior.Effect;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Pool;
@@ -31,6 +32,9 @@ namespace Behavior.Skills
         [SerializeField] internal float triggerRange = 0.5f;
         [SerializeField] internal float damage = 500;
         [SerializeField] internal float AOEDamage = 300f;
+        //若技能释放处勾选了随次数变强，此处的伤害值将会被忽略，而使用按表求得的伤害值
+        //If the RemoteSpelling bool is set to increase with number of times,
+        //the damage value here will be ignored and the damage value calculated according to the table will be used
         [SerializeField] internal float AOERange = 1.5f;
         [SerializeField] internal PositionalCategory positionalCategory;
         [SerializeField] internal EffectCategory _effectCategory = EffectCategory.Explosion;
@@ -54,8 +58,10 @@ namespace Behavior.Skills
         [InspectorLabel("Sound Customization -- 音效自定义")]
         [SerializeField] public AudioClip startAudioClip;
         [SerializeField] public AudioClip hitAudioClip;
+        private EffectTimeManager _effectTimeManager;
 
         private void Awake(){
+            _effectTimeManager = GetComponent<EffectTimeManager>();
             enemyLayer = LayerMask.NameToLayer("Enemy");
         }
 
@@ -88,9 +94,15 @@ namespace Behavior.Skills
                 StopCoroutine(existCoroutine);
                 existCoroutine = null;
             }
+            if(BounceCoroutine != null){
+                _effectTimeManager.StopEffect("Bounce");
+                StopCoroutine(BounceCoroutine);
+                BounceCoroutine = null;
+            }
             IsExisting = false;
             target = null;
             // StartCoroutine(checkRelease());
+            GetComponent<AudioSource>().Stop();
         }
 
         // private void OnBecameInvisible()
@@ -132,7 +144,6 @@ namespace Behavior.Skills
                     hasAppliedAOE = true;
                     if (_effectCategory == EffectCategory.Explosion)
                     {
-                        if(hitAudioClip != null) SoundEffectManager.Instance.PlaySound(hitAudioClip, gameObject);
                         ThisPool.Release(gameObject);
                     }
                 }
@@ -172,15 +183,16 @@ namespace Behavior.Skills
             else if (_effectCategory == EffectCategory.Bouncing)
             {
                 target = other.gameObject;//Damn, finally found the culprit.
+                transform.position = target.transform.position + Vector3.up * Random.Range(0.3f,1.2f);
                 ApplyBouncingDamage(other.gameObject);
             }
             else if (_effectCategory == EffectCategory.Explosion)
             {
                 var mstbhv = other.GetComponent<MonsterBehaviour>();
-                if (mstbhv != null)
-                {
-                    mstbhv.TakeDamage(damage);
-                }
+                if (mstbhv == null) return;
+                if(hitAudioClip) SoundEffectManager.Instance.PlaySound(hitAudioClip, mstbhv.gameObject);
+                mstbhv.TakeDamage(damage);
+                // Debug.Log("Hit" + other.name + "dmg = "+ damage);
                 // ThisPool.Release(gameObject);
             }
         }
@@ -204,20 +216,28 @@ namespace Behavior.Skills
             var mstbhv = other.GetComponent<MonsterBehaviour>();
             if (mstbhv != null)
             {
+                Debug.Log("ApplyDamageOverTime" + AOEDamage);
                 float duration = maxExistTime;
+                int id = GetInstanceID();
+                mstbhv._effectTimeManager.CreateEffectBar("Burn" + id, Color.red, duration);
                 float elapsed = 0f;
                 while (elapsed < duration)
                 {
                     mstbhv.TakeDamage(AOEDamage * Time.deltaTime);
                     elapsed += Time.deltaTime;
                     yield return null;
+                    if (mstbhv.health.IsDead())
+                    {
+                        mstbhv._effectTimeManager.StopEffect("Burn" + id);
+                        break;
+                    }
                 }
+                mstbhv._effectTimeManager.StopEffect("Burn" + id);
             }
         }
 
         private void ApplyBouncingDamage(GameObject other)
         {
-            SoundEffectManager.Instance.PlaySound(hitAudioClip, other);
             var mst = other.GetComponent<MonsterBehaviour>();
             if (mst)
             {
@@ -225,26 +245,36 @@ namespace Behavior.Skills
                 var dmg = damage * Mathf.Pow(0.8f, bounceCount);
                 // Debug.Log("Hit" + other.name + "dmg = "+ dmg);
                 mst.TakeDamage(dmg);
+                if(hitAudioClip) SoundEffectManager.Instance.PlaySound(hitAudioClip, gameObject);
                 hitEnemies.Add(mst.gameObject);
                 bounceCount++;
                 // if (bounceCount > 10 || Mathf.Pow(0.8f, bounceCount) < 0.06f)
-                if (Mathf.Pow(0.8f, bounceCount) < 0.06f) ThisPool.Release(gameObject);
+                if (Mathf.Pow(0.8f, bounceCount) < 0.06f)
+                {
+                    ThisPool.Release(gameObject);
+                    _effectTimeManager.StopEffect("Bounce");
+                }
             }
             GameObject nextTarget = GetBounceTarget();
             if (nextTarget != target && nextTarget != null)
             {
+                //球子第一次加计时条
+                if(bounceCount == 1) _effectTimeManager.CreateEffectBar("Bounce", Color.magenta, 3f);
                 target = nextTarget;
                 transform.LookAt(target.transform);
-                StartCoroutine(Bounce());
+                BounceCoroutine = StartCoroutine(Bounce());
                 // Debug.Log("择取下一个："+nextTarget);
             }else ThisPool.Release(gameObject);
         }
+
+        public Coroutine BounceCoroutine { get; set; }
+        
+        
 
         private IEnumerator Bounce()
         {
             float duration = 0.3f; // total Bounce time
             float startTime = Time.time;
-
             // Debug.Log("Bouncing");
             while (Time.time - startTime < duration)
             {

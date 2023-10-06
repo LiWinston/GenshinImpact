@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using AttributeRelatedScript;
 using Behavior.Health;
 using ItemSystem;
@@ -89,13 +90,14 @@ namespace Behavior
         public float moveForceTimer = 0.05f;
         public float moveForceTimerCounter = 0.05f;
     
+        [FormerlySerializedAs("handTransform")] [SerializeField] internal Transform pickHandTransform;
         [FormerlySerializedAs("swordTransform")] [SerializeField] internal GameObject swordObject;
         private float speed_Ratio_Attack = 0.1f;
         public float rotationFriction = 4000f; // 调整旋转摩擦力的大小
         internal State state;
         [SerializeField] private Transform sword;
         internal bool cheatMode = false;
-        private CriticalHitCurve _criticalHitCurve;
+        private PositiveProportionalCurve _criticalHitCurve;
         private static readonly int AttSpeedMult = Animator.StringToHash("AttSpeedMult");
         private static readonly int IsGrounded = Animator.StringToHash("isGrounded");
         private static readonly int Standing = Animator.StringToHash("Standing");
@@ -112,7 +114,9 @@ namespace Behavior
         private void Start()
         {
             audioSource = GetComponent<AudioSource>();
-            _criticalHitCurve = GetComponent<CriticalHitCurve>();
+            // _criticalHitCurve = GetComponent<PositiveProportionalCurve>();
+            _criticalHitCurve = GetComponents<Component>().OfType<PositiveProportionalCurve>().FirstOrDefault(curve => curve.CurveName == "CriticalHitCurve");
+            if(_criticalHitCurve == null) Debug.LogError("CriticalHitCurve not found!");
             if (!textMeshProComponent) textMeshProComponent = Find.FindDeepChild(transform, "PlayerHUD").GetComponent<TextMeshPro>();
             state = GetComponent<State>();
             rb = GetComponent<Rigidbody>();
@@ -312,8 +316,9 @@ namespace Behavior
             if (Input.GetMouseButtonDown(0) && Time.time - lastAttackTime >= state.AttackCooldown)
             {
                 IsCrouching = false;
+                isMoving = false;
                 rb.velocity *= speed_Ratio_Attack;
-                float criticalHitChance = _criticalHitCurve.CalculateCriticalHitChance(state.GetCurrentLevel());
+                float criticalHitChance = _criticalHitCurve.CalculateValueAt(state.GetCurrentLevel());
                 // Debug.Log(state.GetCurrentLevel() + "级暴击率" + criticalHitChance*100 +"%");
 
                 var randomValue = Random.Range(0.0f, 1.0f);
@@ -438,19 +443,31 @@ namespace Behavior
 
         private IEnumerator NormalAttack()
         {
-            if(state.ConsumePower(2f))
+
+            float attackDuration = 0.9375f / state.attackAnimationSpeedRate;
+            if (Random.Range(0f, 1f) >= 0.5f)
             {
-                float attackDuration = 0.75f * 1.25f / state.attackSpeedRate;
-                yield return PerformAttack("AttackTrigger1", attackDuration);
+                //范围较大的普通攻击 消耗一定体力
+                if (state.ConsumePower(2f))
+                {
+                    // float attackDuration = 0.75f * 1.25f / state.attackAnimationSpeedRate;
+                    yield return PerformAttack("AttackTrigger1", attackDuration);
+                }
+            }
+            else
+            {
+                //反手胸前刺，不消耗体力
+                // float attackDuration = 0.75f * 1.25f / state.attackAnimationSpeedRate;
+                yield return PerformAttack("AttackTrigger2", attackDuration);
             }
         }
 
         private IEnumerator CriticalAttack()
         {
-            if (state.ConsumePower(8f))
+            if (state.ConsumePower(6f))
             {
-                float attackDuration = 0.875f / (0.75f * state.attackSpeedRate);
-                yield return PerformAttack("AttackTrigger2", attackDuration);
+                float attackDuration = 0.875f / (0.75f * state.attackAnimationSpeedRate);
+                yield return PerformAttack("CriticalAttackTrigger", attackDuration);
             }
         }
 
@@ -521,13 +538,6 @@ namespace Behavior
             // 设置最大旋转角度
             float maxRotationAngle = 360f; // 调整最大旋转角度
 
-            // 触发"Picking"动画
-            animator.SetTrigger("Picking");
-
-            // 获取动画的长度
-            AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
-            float animationLength = stateInfo.length;
-
             // 旋转到目标方向
             while (Quaternion.Angle(transform.rotation, targetRotation) > 0.1f)
             {
@@ -540,9 +550,15 @@ namespace Behavior
                 yield return null;
             }
 
-            // 等待动画播放完毕
-            yield return new WaitForSeconds(animationLength);
+            // 触发"Picking"动画
+            animator.SetTrigger("Picking");
 
+            // 获取动画的长度
+            AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+            float animationLength = stateInfo.length;
+            
+            // 等待动画播放一半
+            yield return new WaitForSeconds(animationLength);
             // 执行捡取操作
             immediateUseItems.Pick();
         }

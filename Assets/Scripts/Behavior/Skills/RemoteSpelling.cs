@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections;
+using System.Linq;
+using AttributeRelatedScript;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Pool;
+using UnityEngine.Serialization;
 using IPoolable = Utility.IPoolable;
 using Quaternion = UnityEngine.Quaternion;
 using Vector3 = UnityEngine.Vector3;
@@ -17,7 +20,7 @@ namespace Behavior.Skills
     
         [InspectorLabel("生成--GenerationInfo")]
         public GameObject prefab;
-        [SerializeField] private float maxExistTime = 10f;
+        // [SerializeField] private float maxExistTime = 10f;
         internal LayerMask castingLayer;
         [SerializeField] protected Vector3 generatingOffset = Vector3.up * 0.4f;
     
@@ -49,25 +52,61 @@ namespace Behavior.Skills
         [SerializeField] private KeyCode key = KeyCode.F;
         [SerializeField] private Color validColor = Color.green;
         [SerializeField] private Color invalidColor = Color.red;
+        [FormerlySerializedAs("_damagePracticeCurve")] [SerializeField] PositiveProportionalCurve _damageUsageCurve;
+        [SerializeField] string damagePracticeCurveName;
 
+        [FormerlySerializedAs("isUpdatedWithLevel")]
         [InspectorLabel("Throwing Customization -- 投掷自定义")]
-        [SerializeField] public bool isUpdatedWithLevel = false;
-    
+        [SerializeField] public bool isAmountUpdatedWithLevel = false;
+        
+        [SerializeField] public bool isDamageUpdatedWithUseTimes = false;
+        [SerializeField] private bool isCosumingEnegyProportionally;
+        [SerializeField] public float 若按比例每发耗能_singleShootEnegyConsumptionPercentage;
+        
+        [InspectorLabel("Internal Use -- 内部数据")]
+        internal short useTimes = 0;
+        float baseDmg;
+        [SerializeField] private int maxThrowingsCount = 30;
+        private int minThrowingsCount = 1;
+        [SerializeField] private float maxAngle_SingleSide = 30f;
+        private float minAngle = 0f;
+        //updated by CalculateShootNum_AngleInc in CalculateEnergyCost()
+        private int numberToThrow;
+        private float angleIncrement;
+        
+
+
         private void Start(){
-            string randomName;
-            do
+            throwingsBehavior = prefab.GetComponent<RemoteThrowingsBehavior>();
+
+            if (throwingsBehavior.positionalCategory ==
+                RemoteThrowingsBehavior.PositionalCategory.ImmediatelyInPosition)
             {
-                randomName = UnityEngine.Random.Range(0, 100000).ToString();
-            } while (GameObject.Find(randomName) != null);
-            SkillPreview = new GameObject(randomName);
-            SkillPreview.transform.SetParent(this.transform);
+                string randomName;
+                do
+                {
+                    randomName = UnityEngine.Random.Range(0, 100000).ToString();
+                } while (GameObject.Find(randomName) != null);
+                SkillPreview = new GameObject(randomName);
+            }
+            
+            // 首推直接拖进来，也可以用名字找曲线。用名字找曲线时曲线名字不能重复
+            //You can directly drag it in first, or you can use the name to find the curve. When searching for a curve by name, the curve name cannot be repeated.
+            if(_damageUsageCurve == null && isDamageUpdatedWithUseTimes)
+                _damageUsageCurve = GetComponents<Component>().OfType<PositiveProportionalCurve>().FirstOrDefault(curve => curve.CurveName == damagePracticeCurveName);
+            if (_damageUsageCurve == null && isDamageUpdatedWithUseTimes)
+            {
+                Debug.LogException(new Exception("启用了技能修炼，但没有绑定修炼曲线！Skill cultivation is enabled, but no binding cultivation curve!"));
+            }
+            baseDmg = isDamageUpdatedWithUseTimes ? CalculateDamage(1) : throwingsBehavior.damage;
             _spellCast = GetComponent<SpellCast>();
             _playerController = GetComponent<PlayerController>();
             _throwingsPool = new ObjectPool<GameObject>(CreateFunc, actionOnGet, actionOnRelease, actionOnDestroy,
                 true, defaultCapacity, maxCapacity);
             castingLayer = LayerMask.GetMask("Wall", "Floor");
-            throwingsBehavior = prefab.GetComponent<RemoteThrowingsBehavior>();
-
+            
+            SkillPreview.transform.SetParent(this.transform);
+            
             // 初始化 LineRenderer
             lineRenderer = SkillPreview.AddComponent<LineRenderer>();
             lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
@@ -95,6 +134,13 @@ namespace Behavior.Skills
         }
 
         private void actionOnGet(GameObject obj){
+            if (isDamageUpdatedWithUseTimes)
+            {
+                var objBhv = obj.GetComponent<RemoteThrowingsBehavior>();
+                var newdmg = CalculateDamage(useTimes);
+                objBhv.AOEDamage *= newdmg / objBhv.damage;
+                objBhv.damage = newdmg;
+            }
             obj.GetComponent<IPoolable>().actionOnGet();
         }
 
@@ -118,10 +164,17 @@ namespace Behavior.Skills
             {
                 if (Input.GetKeyDown(key))
                 {
-                    if(isUpdatedWithLevel) StartCoroutine(Throw_LevelUpdated());
-                    else
+                    _playerController.GetAnimator().SetTrigger(animatorTriggerName = "Throw");
+                    
+                    var ec = isDamageUpdatedWithUseTimes ? CalculateEnergyCost() : throwingsBehavior._energyCost;
+                    if (_playerController.state.ConsumeEnergy(ec))
                     {
-                        StartCoroutine(Throw());
+                        ++useTimes;
+                        if(isAmountUpdatedWithLevel) StartCoroutine(Throw_LevelUpdated());
+                        else
+                        {
+                            StartCoroutine(Throw());
+                        }
                     }
                 }
             }
@@ -129,6 +182,7 @@ namespace Behavior.Skills
             {
                 if (Input.GetKeyDown(key))
                 {
+                    Energycost = CalculateEnergyCost();
                     BeginAiming();
                 }
                 else if (Input.GetKeyUp(key))
@@ -142,8 +196,37 @@ namespace Behavior.Skills
             }
         }
 
+        // 勾选了技能修炼（伤害随使用次数增加）时应用
+        private float CalculateEnergyCost(){
+            if (throwingsBehavior.positionalCategory ==
+                RemoteThrowingsBehavior.PositionalCategory.ImmediatelyInPosition)
+            {
+                if(isCosumingEnegyProportionally) return 若按比例每发耗能_singleShootEnegyConsumptionPercentage 
+                                                         * _playerController.state.maxEnergy * (float)(Math.Log(useTimes) / Math.Log(baseDmg));
+                return throwingsBehavior._energyCost * CalculateDamage(useTimes) / baseDmg;
+            }
+            (numberToThrow, angleIncrement) = CalculateShootNum_AngleInc(maxThrowingsCount, minThrowingsCount, maxAngle_SingleSide, minAngle);
+            if(isCosumingEnegyProportionally) return 若按比例每发耗能_singleShootEnegyConsumptionPercentage * numberToThrow * _playerController.state.maxEnergy;
+            //按比例耗费
+            return throwingsBehavior._energyCost * numberToThrow;
+        }
+
+        //应仅在勾选了技能修炼（伤害随使用次数增加）时应用
+        private float CalculateDamage(int useTime){
+            return _damageUsageCurve.CalculateValueAt(useTime);
+            //用什么机制来使新生成的剑气应用此伤害，事件？还是直接在生成时就赋值？生成赋值写好几遍，事件似乎不能在实例化（get）之前有效地生效
+            //update:似乎直接在onget里赋值就可以了
+        }
+        private (int,float) CalculateShootNum_AngleInc( int maxThrowingsCount, int minThrowingsCount, float maxAngle, float minAngle)
+        {
+            // if(throwingsBehavior.positionalCategory == RemoteThrowingsBehavior.PositionalCategory.ImmediatelyInPosition)
+            //     return (1,0f);
+            int playerLevel = _playerController.state.GetCurrentLevel(); 
+            int numberToThrow = Mathf.Clamp(playerLevel / 2, minThrowingsCount, maxThrowingsCount); // Calculate the number based on player level
+            float angleIncrement = (maxAngle - minAngle) / (numberToThrow - 1); // Calculate angle increment
+            return (numberToThrow, angleIncrement);
+        }
         private IEnumerator Throw_LevelUpdated(){
-            _playerController.GetAnimator().SetTrigger(animatorTriggerName = "Throw");
             _playerController.isCrouching = false;
             _playerController.rb.velocity = Vector3.zero;
             yield return new WaitForSeconds(animationGap);
@@ -153,31 +236,23 @@ namespace Behavior.Skills
                 SoundEffectManager.Instance.PlaySound(throwingsBehavior.startAudioClip, _playerController.swordObject);
             }
             
-            int maxThrowingsCount = 30;
-            int minThrowingsCount = 1;
-            float maxAngle = 30f;
-            float minAngle = 0f;
-
-            int playerLevel = _playerController.state.GetCurrentLevel(); 
-            int swordCount = Mathf.Clamp(playerLevel / 2, minThrowingsCount, maxThrowingsCount); // Calculate the number based on player level
-            float angleIncrement = (maxAngle - minAngle) / (swordCount - 1); // Calculate angle increment
-
-            if (swordCount == 1)
+            if (numberToThrow == 1)
             {
                 var th = _throwingsPool.Get();
+                
                 th.transform.position = _playerController.swordObject.transform.position;
                 th.transform.forward = transform.forward;
                 th.GetComponent<Rigidbody>().velocity = transform.forward * throwingsBehavior.throwingSpeed;
             }
             else
             {
-                for (int i = 0; i < swordCount; i++)
+                for (int i = 0; i < numberToThrow; i++)
                 {
                     var throwStuff = _throwingsPool.Get();
                     throwStuff.transform.position = _playerController.swordObject.transform.position;
 
                     // 计算剑气的角度
-                    float angle = minAngle + i * angleIncrement - (maxAngle - minAngle) / 2f;
+                    float angle = minAngle + i * angleIncrement - (maxAngle_SingleSide - minAngle) / 2f;
                     Vector3 direction = Quaternion.Euler(0, angle, 0) * _playerController.transform.forward;
                     throwStuff.transform.forward = direction;
 
@@ -188,7 +263,6 @@ namespace Behavior.Skills
         }
 
         protected IEnumerator Throw(){
-            _playerController.GetAnimator().SetTrigger(animatorTriggerName = "Throw");
             _playerController.isCrouching = false;
             _playerController.rb.velocity = Vector3.zero;
             yield return new WaitForSeconds(animationGap);
@@ -206,27 +280,40 @@ namespace Behavior.Skills
         protected void BeginAiming()
         {
             if (isCasting) return;
-            isCasting = true;
-            castingCoroutine = StartCoroutine(ImmediateCastAimingLogic());
+            if(_playerController.state.ConsumeEnergy(Energycost))
+            {
+                isCasting = true;
+                castingCoroutine = StartCoroutine(ImmediateCastAimingLogic());
+            }
         }
+
+        public float Energycost { get; set; }
 
         protected IEnumerator EndAimingAndCast()
         {
+            _playerController.GetAnimator().SetTrigger(animatorTriggerName);
             SkillPreview.SetActive(false);
             if (!isCasting) yield break;
             if (canCast)
             {
-                _playerController.GetAnimator().SetTrigger(animatorTriggerName);
-                yield return new WaitForSeconds(animationGap);
                 
-                if (throwingsBehavior.startAudioClip != null)
-                {
-                    SoundEffectManager.Instance.PlaySound(throwingsBehavior.startAudioClip);
-                }
+                ++useTimes;
+                _playerController.GetAnimator().SetTrigger(animatorTriggerName);
+                
+                yield return new WaitForSeconds(animationGap);
                 
                 var throwStuff = _throwingsPool.Get();
                 throwStuff.transform.position = hitTarget + generatingOffset;
                 throwStuff.transform.rotation = transform.rotation;
+                
+                if (throwingsBehavior.startAudioClip != null)
+                {
+                    SoundEffectManager.Instance.PlaySound(throwingsBehavior.startAudioClip, throwStuff);
+                }
+            }
+            else
+            {
+                _playerController.state.RestoreEnergy(Energycost);
             }
             isCasting = false;
         }
@@ -254,7 +341,7 @@ namespace Behavior.Skills
                 else
                 {
                     // out of spelling range, draw red circle
-                    SkillPreview.transform.position = new Vector3(castTrans.x, 0.5f, castTrans.z);
+                    SkillPreview.transform.position = new Vector3(castTrans.x, transform.position.y + 0.05f, castTrans.z);
 
                     // Ground height
                     float groundHeight = transform.position.y;

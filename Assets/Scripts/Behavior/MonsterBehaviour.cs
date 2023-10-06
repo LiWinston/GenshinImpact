@@ -1,17 +1,20 @@
 using System.Collections;
+using Behavior.Effect;
 using Behavior.Health;
-using UI.OffScreenIndicator;
+
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Pool;
+using UnityEngine.Serialization;
 using Utility;
 using IPoolable = Utility.IPoolable;
 using Random = UnityEngine.Random;
 using State = AttributeRelatedScript.State;
+using Target = UI.OffScreenIndicator.Target;
 
 namespace Behavior
 {
-    public class MonsterBehaviour : MonoBehaviour, IPoolable
+    public class MonsterBehaviour : MonoBehaviour, IFreezable, IPoolable
     {
         public PlayerController targetPlayer;
         private GameObject target;
@@ -36,13 +39,13 @@ namespace Behavior
     
         public float rotationSpeed = 2f; // 调整旋转速度
      
-        // private float gameTime = Time.time;
+        // private float gameTime = Time.timeSinceLevelLoad;
         internal float monsterLevel;
         private int monsterExperience;
         [SerializeField] private float aimDistance;
         [SerializeField] private float chaseDistance;
         // [SerializeField] private float stalkMstSpeed = 1f;
-        [SerializeField] private float MaxMstSpeed = 2f;
+        [FormerlySerializedAs("MaxSpeed")] [FormerlySerializedAs("MaxMstSpeed")] [SerializeField] private float maxSpeed = 2f;
         // [SerializeField] private float stalkAccRatio = 0.8f;
         [SerializeField] private float attackDistance = 1.5f;
         private bool isMoving;
@@ -56,9 +59,10 @@ namespace Behavior
         private float originalMaxMstSpeed;
     
         
-        private Target targetComponent;
+        private Target _targetComponent;
         private static readonly int Die = Animator.StringToHash("Die");
         [SerializeField] private string DieEffectName = "MonsterDie";
+        internal EffectTimeManager _effectTimeManager;
 
         public ObjectPool<GameObject> ThisPool { get; set; }
         public bool IsExisting { get; set; }
@@ -78,9 +82,10 @@ namespace Behavior
 
         public void actionOnRelease()
         {
+            rb.velocity = Vector3.zero;
             if(!freezeEffectCoroutine.IsUnityNull())StopCoroutine(freezeEffectCoroutine);
             IsInSelfKill = false;
-            targetComponent.targetColor = Color.red;
+            _targetComponent.targetColor = Color.red;
         }
 
         public void Release()
@@ -91,10 +96,11 @@ namespace Behavior
 
         private void Awake()
         {
+            _effectTimeManager = GetComponent<EffectTimeManager>();
             target = PlayerController.Instance.gameObject;
             enemyLayer = LayerMask.GetMask("Enemy");
             playerLayer = LayerMask.GetMask("Player");
-            targetComponent = GetComponent<Target>();
+            _targetComponent = GetComponent<Target>();
         }
     
         private void Start()
@@ -102,6 +108,7 @@ namespace Behavior
             target = PlayerController.Instance.gameObject;
             targetPlayer = PlayerController.Instance;
 
+            if(_effectTimeManager == null) _effectTimeManager = GetComponent<EffectTimeManager>();
             if (targetPlayer == null)
             {
                 Debug.LogWarning("No GameObject with the name 'Player' found in the scene.");
@@ -127,9 +134,9 @@ namespace Behavior
                 // UIManager.ShowMessage2("health 已找到.");
             }
             // 初始化怪物经验值和等级
-            originalMoveForce = mstForwardForce;
-            originalAttackCooldownInterval = attackCooldownInterval;
-            originalMaxMstSpeed = MaxMstSpeed;
+            OriginalMoveForce = mstForwardForce;
+            OriginalAttackCooldownInterval = attackCooldownInterval;
+            OriginalMaxMstSpeed = MaxSpeed;
             // 初始化怪物经验值和等级
             InitializeMonsterLevel();
         
@@ -182,7 +189,7 @@ namespace Behavior
                     // 重置计时器
                     obstacleDetectionTimer = obstacleDetectionInterval;
                 }
-                if (rb.velocity.magnitude < MaxMstSpeed)
+                if (rb.velocity.magnitude < MaxSpeed)
                 {
                     rb.AddForce(transform.forward * mstForwardForce, ForceMode.Force);
                     moveForceTimerCounter = moveForceCooldownInterval;
@@ -308,59 +315,75 @@ namespace Behavior
         private void InitializeMonsterLevel()
         {
             // 计算怪物等级，使其在五分钟内逐渐增长到最大等级
-            float maxGameTime = 400f; // 300秒
-            float progress = Mathf.Clamp01(Time.time / maxGameTime); // 游戏时间进度（0到1之间）
+            float maxGameTime = 300f; // 300秒
+            float progress = Mathf.Clamp01(Time.timeSinceLevelLoad / maxGameTime); // 游戏时间进度（0到1之间）
             monsterLevel = progress * 100 + 1; // 从1到100逐渐增长
             monsterExperience = Mathf.FloorToInt(monsterLevel * 1.2f);
-            health.SetHealthMax(monsterLevel * 100 +100, true);
+            health.SetHealthMax(monsterLevel * 300 +100, true);//100
         }
-    
-        public void ActivateFreezeMode(float duration, float continuousDamageAmount)
+
+        public Rigidbody Rb => rb;
+        public bool IsFrozen { get => isFrozen; set => isFrozen = value; }
+        public float OriginalMaxMstSpeed { get => originalMaxMstSpeed; set => originalMaxMstSpeed = value; }
+        public float MaxSpeed { get => maxSpeed; set=> maxSpeed = value; }
+        public float OriginalMoveForce { get => originalMoveForce; set => originalMoveForce = value; }
+        public float OriginalAttackCooldownInterval { get => originalAttackCooldownInterval; set => originalAttackCooldownInterval = value; }
+
+        public void ActivateFreezeMode(float duration, float continuousDamageAmount, float instantVelocityMultiplier = 0.05f, float attackCooldownIntervalMultiplier = 2f, float MaxSpeedMultiplier = 0.18f)
         {
-            freezeEffectCoroutine = StartCoroutine(FreezeEffectCoroutine(duration));
+            freezeEffectCoroutine = StartCoroutine(FreezeEffectCoroutine(duration, instantVelocityMultiplier, attackCooldownIntervalMultiplier, MaxSpeedMultiplier));
                     // 启动持续掉血的协程
-            StartCoroutine(Effect.Freeze.ContinuousDamage(health, continuousDamageAmount, duration ));
+            StartCoroutine(Effect.ContinuousDamage.MakeContinuousDamage(health, continuousDamageAmount, duration ));
+            _effectTimeManager.CreateEffectBar("Freeze", Color.blue, duration);
         }
-        internal Coroutine freezeEffectCoroutine { get; set; }
+        public Coroutine freezeEffectCoroutine { get; set; }
 
         public void DeactivateFreezeMode()
         {
             if(!freezeEffectCoroutine.IsUnityNull()) StopCoroutine(freezeEffectCoroutine);
             // 恢复原始推力和攻击间隔
-            mstForwardForce = originalMoveForce;
-            attackCooldownInterval = originalAttackCooldownInterval;
-            MaxMstSpeed = originalMaxMstSpeed;
-            isFrozen = false;
+            mstForwardForce = OriginalMoveForce;
+            attackCooldownInterval = OriginalAttackCooldownInterval;
+            MaxSpeed = OriginalMaxMstSpeed;
+            IsFrozen = false;
+            _effectTimeManager.StopEffect("Freeze");
         }
-        private IEnumerator FreezeEffectCoroutine(float duration)
+        public IEnumerator FreezeEffectCoroutine(float duration, float instantVelocityMultiplier = 0.1f, float attackCooldownIntervalMultiplier = 2f, float MaxSpeedMultiplier = 0.36f)
         {
-            isFrozen = true;
-            rb.velocity *= 0.1f;
+            OriginalMoveForce = mstForwardForce;
+            IsFrozen = true;
+            Rb.velocity *= instantVelocityMultiplier;
             // 减小加速推力和增加攻击间隔
             mstForwardForce *= 0.6f; // 降低至60%
-            attackCooldownInterval *= 2f; // 增加至200%
-            MaxMstSpeed *= 0.36f;
+            attackCooldownInterval *= attackCooldownIntervalMultiplier; // 增加至200%
+            MaxSpeed *= MaxSpeedMultiplier;
             // 等待冰冻效果持续时间
             yield return new WaitForSeconds(duration);
 
             // 恢复原始推力和攻击间隔
             mstForwardForce = originalMoveForce;
-            attackCooldownInterval = originalAttackCooldownInterval;
-            MaxMstSpeed = originalMaxMstSpeed;
-            isFrozen = false;
+            attackCooldownInterval = OriginalAttackCooldownInterval;
+            MaxSpeed = OriginalMaxMstSpeed;
+            IsFrozen = false;
         }
 
 
     
         public void ActivateSelfKillMode(float elapseT)
         {
+            if(IsInSelfKill) StopCoroutine(selfKillCoroutine);
             selfKillCoroutine = StartCoroutine(SelfKillCoroutine(elapseT));
+            // Debug.Log("SelfKillMode Activated");
+            _effectTimeManager.CreateEffectBar("SelfKill", Color.white, elapseT);
+            // Debug.Log("SelfKill timerCpn Activated");
         }
 
         public void DeactivateSelfKillMode()
         {
             IsInSelfKill = false;
-            MaxMstSpeed = originalMaxMstSpeed;
+            _effectTimeManager.StopEffect("SelfKill");
+            GetComponent<Target>().NeedBoxIndicator = false;
+            MaxSpeed = originalMaxMstSpeed;
             if(!selfKillCoroutine.IsUnityNull()) StopCoroutine(selfKillCoroutine);
         }
         public Coroutine selfKillCoroutine { get; set; }
@@ -368,22 +391,23 @@ namespace Behavior
         private IEnumerator SelfKillCoroutine(float elapseT)
         {
             IsInSelfKill = true;
-            MaxMstSpeed *= 1.2f;
-            var orgTargetColor = targetComponent.targetColor;
-            Color startColor = Color.green;
+            MaxSpeed *= 1.2f;
+            
+            // var orgTargetColor = targetComponent.targetColor;
+            // Color startColor = Color.green;
             float elapsedTime = 0f;
 
             while (elapsedTime < elapseT)
             {
-                float t = Mathf.Clamp01(elapsedTime / elapseT);
-                targetComponent.targetColor = Color.Lerp(startColor, orgTargetColor, t);
+                // float t = Mathf.Clamp01(elapsedTime / elapseT);
+                // targetComponent.targetColor = Color.Lerp(startColor, orgTargetColor, t);
 
                 yield return new WaitForSeconds(1f); // 等待1秒钟
                 elapsedTime += 1f;
             }
 
             // Ensure the final color is exactly the original color.
-            targetComponent.targetColor = orgTargetColor;
+            // targetComponent.targetColor = orgTargetColor;
 
             yield return null; // 保证协程执行完整
 
