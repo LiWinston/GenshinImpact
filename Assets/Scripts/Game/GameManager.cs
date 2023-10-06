@@ -1,10 +1,11 @@
 using System.Collections;
 using Behavior;
+using UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-namespace UI
+namespace Game
 {
     public class GameManager : MonoBehaviour
     {
@@ -12,6 +13,7 @@ namespace UI
         private float startTime;
         private bool gameEnded = false;
         public Transform bossRoom;
+        public Transform lookat;
         private bool isFinalBattle = false;
         public float ElapsedTime;
         public float RemainingTime;
@@ -21,6 +23,7 @@ namespace UI
         {
             // 获取当前场景加载的时间
             startTime = 0;
+            if(!lookat) lookat = GameObject.Find("SM_Prop_Table_04").transform;
         }
 
         private void Update()
@@ -88,6 +91,7 @@ namespace UI
                 Destroy(transferi[x].gameObject);
             }
             PlayerController.Instance.transform.position = bossRoom.position + Vector3.up * 2f;
+            PlayerController.Instance.transform.forward =lookat.position - PlayerController.Instance.transform.position;
             
             if(!BGM) BGM = GameObject.Find("BGM").GetComponent<AudioSource>();
             BGM.clip = Resources.Load<AudioClip>("Music/沙场");
