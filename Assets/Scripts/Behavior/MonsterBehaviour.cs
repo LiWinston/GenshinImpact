@@ -74,6 +74,8 @@ namespace Behavior
         public void actionOnGet()
         {
             gameObject.SetActive(true);
+            _effectTimeManager.StopEffect("SelfKill");
+            _effectTimeManager.StopEffect("Freeze");
             InitializeMonsterLevel();
             target = PlayerController.Instance.gameObject;
             health.SetHealthMax(monsterLevel * 100 +100, true);
