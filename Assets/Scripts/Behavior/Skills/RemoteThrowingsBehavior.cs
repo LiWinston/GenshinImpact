@@ -245,6 +245,9 @@ namespace Behavior.Skills
                 var dmg = damage * Mathf.Pow(0.8f, bounceCount);
                 // Debug.Log("Hit" + other.name + "dmg = "+ dmg);
                 mst.TakeDamage(dmg);
+                //加强 ： 弹人能升级
+                PlayerController.Instance.state.AddExperience(20);
+                
                 if(hitAudioClip) SoundEffectManager.Instance.PlaySound(hitAudioClip, gameObject);
                 hitEnemies.Add(mst.gameObject);
                 bounceCount++;
