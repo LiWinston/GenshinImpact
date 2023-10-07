@@ -452,10 +452,11 @@ namespace AttributeRelatedScript
 
         public void CheatLevelUp()
         {
-            if (currentLevel < maxLevel) currentLevel += 1;
+            if (currentLevel < maxLevel) currentLevel += 10;
             LevelUpAction();
             Heal(9999);
             RestoreEnergy(99999);
+            RestorePower(99999);
         }
 
         // 获取当前经验值

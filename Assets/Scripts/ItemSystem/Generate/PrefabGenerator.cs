@@ -53,7 +53,7 @@ namespace ItemSystem.Generate
             
             prfb.GetComponent<IPoolable>().SetPool(objPool);
             // SetPoolForGeneratedObject(prfb);
-            prfb.name = countAll.ToString();
+            prfb.name = prefab.name + countAll.ToString();
             return prfb;
         }
     
@@ -93,11 +93,14 @@ namespace ItemSystem.Generate
                 spawnTimer = 0f;
                 // Accelerate the generation speed, but do not exceed the minimum interval
                 spawnInterval = Mathf.Max(minSpawnInterval, spawnInterval - accelerationRate);
-            
-                GameObject prfb = objPool.Get();
-                if (isToDestroy)
+
+                if (countActive < maxCapacity)
                 {
-                    StartCoroutine(ReturnToPoolDelayed(prfb, maxExistTime));
+                    GameObject prfb = objPool.Get();
+                    if (isToDestroy)
+                    {
+                        StartCoroutine(ReturnToPoolDelayed(prfb, maxExistTime));
+                    }
                 }
             }
         }

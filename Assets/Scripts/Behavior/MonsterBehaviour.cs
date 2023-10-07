@@ -21,7 +21,7 @@ namespace Behavior
         internal GameObject target;
         private LayerMask enemyLayer;
         private LayerMask playerLayer;
-    
+        public bool isBoss = false;
 
         private Rigidbody rb;
         internal NavMeshAgent agent;
@@ -343,6 +343,16 @@ namespace Behavior
         //TODO:逻辑待更新。
         private void InitializeMonsterLevel()
         {
+            if (isBoss)
+            {
+                //TODO : boss的等级和经验值
+                monsterLevel = 100;
+                health.SetHealthMax(999999, true);
+                monsterExperience = 0;
+                minAttackPower = 40;
+                maxAttackPower = 55;
+                return;
+            }
             // 计算怪物等级，使其在五分钟内逐渐增长到最大等级
             float maxGameTime = 300f; // 300秒
             float progress = Mathf.Clamp01(Time.timeSinceLevelLoad / maxGameTime); // 游戏时间进度（0到1之间）

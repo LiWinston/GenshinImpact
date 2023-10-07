@@ -41,13 +41,21 @@ namespace Game
                 // 更新倒计时文本
                 UpdateTimerText(RemainingTime);
 
-                if (ElapsedTime >= 240) // 240秒 = 4分钟
+                if (ElapsedTime >= 20) // 240秒 = 4分钟
                 {
                     if (!isFinalBattle)
                     {
+                        GameObject boosPrfb = Resources.Load<GameObject>("Prefab/BossSpawner");
+                        if (boosPrfb == null) Debug.LogError("NO BossGenerator");
+                        var boosPrfbi = Instantiate(boosPrfb, lookat.position + Vector3.up, Quaternion.identity);
+                        
                         // 触发决战事件，将玩家传送至指定位置
-                        PlayerController.Instance.ShowPlayerHUD("The decisive battle is coming! Hold on!");
+                        PlayerController.Instance.ShowPlayerHUD("Final battle is coming!");
                         StartCoroutine(TeleportPlayerToFloorLarge());
+                        PlayerController.Instance.state.CurrentHealth = PlayerController.Instance.state.maxHealth;
+                        PlayerController.Instance.state.CurrentEnergy = PlayerController.Instance.state.maxEnergy;
+                        PlayerController.Instance.state.CurrentPower = PlayerController.Instance.state.maxPower;
+                        
                     }
                     
                     if (ElapsedTime >= 300) // 300秒 = 5分钟
@@ -101,6 +109,7 @@ namespace Game
             // 旋转到目标方向
             playerController.transform.rotation = targetRotation;
             
+            PlayerController.Instance.ShowPlayerHUD("Hold On!");
             
             if(!BGM) BGM = GameObject.Find("BGM").GetComponent<AudioSource>();
             BGM.clip = Resources.Load<AudioClip>("Music/沙场");
