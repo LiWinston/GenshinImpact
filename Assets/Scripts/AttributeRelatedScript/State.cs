@@ -452,8 +452,9 @@ namespace AttributeRelatedScript
 
         public void CheatLevelUp()
         {
-            if (currentLevel < maxLevel) currentLevel += 10;
-            LevelUpAction();
+            var updLV = 10;
+            if (currentLevel < maxLevel) currentLevel += updLV;
+            for(int i = 0; i < updLV; i++) LevelUpAction();
             Heal(9999);
             RestoreEnergy(99999);
             RestorePower(99999);
