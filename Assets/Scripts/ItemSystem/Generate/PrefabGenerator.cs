@@ -19,7 +19,7 @@ namespace ItemSystem.Generate
         [SerializeField] private float minSpawnInterval = 0.1f;
         [SerializeField] private float spawnHeight = 1f;
         [SerializeField] private float accelerationRate = 0.1f;
-        [SerializeField] private float maxExistTime = MaxOffsetXZ;
+        [SerializeField] private float maxExistTime = 10f;
     
         private float spawnTimer = 0f;
         private float spawnInterval;

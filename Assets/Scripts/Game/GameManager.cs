@@ -34,17 +34,17 @@ namespace Game
                 ElapsedTime = Time.timeSinceLevelLoad - startTime;
 
                 // 计算剩余时间
-                RemainingTime = 240 - ElapsedTime;
+                RemainingTime = 300 - ElapsedTime;
 
                 // 更新倒计时文本
                 UpdateTimerText(RemainingTime);
 
-                if (ElapsedTime >= 240) // 240秒 = 4分钟
+                if (ElapsedTime >= 237) // 240秒 = 4分钟
                 {
                     if (!isFinalBattle)
                     {
                         // 触发决战事件，将玩家传送至指定位置
-                        UIManager.Instance.ShowMessage2("The decisive battle is coming! Hold on!");
+                        PlayerController.Instance.ShowPlayerHUD("The decisive battle is coming! Hold on!");
                         StartCoroutine(TeleportPlayerToFloorLarge());
                     }
                     
@@ -60,8 +60,8 @@ namespace Game
 
         private void UpdateTimerText(float remainingTime)
         {
-            int minutes = Mathf.FloorToInt(remainingTime / 60);
-            int seconds = Mathf.FloorToInt(remainingTime % 60);
+            int minutes = Mathf.FloorToInt((remainingTime - 60) / 60);
+            int seconds = Mathf.FloorToInt((remainingTime - 60) / 60);
 
             if (remainingTime >= 60)
             {
