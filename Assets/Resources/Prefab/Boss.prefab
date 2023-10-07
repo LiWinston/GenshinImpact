@@ -527,10 +527,10 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: -334000983
   m_Radius: 0.18
-  m_Speed: 0
+  m_Speed: 9999
   m_Acceleration: 20
   avoidancePriority: 50
-  m_AngularSpeed: 0
+  m_AngularSpeed: 9999
   m_StoppingDistance: 1.1
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
@@ -1743,7 +1743,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0.84280014}
+  m_AnchoredPosition: {x: 0, y: 0.761}
   m_SizeDelta: {x: 40, y: 2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &1479317147325187027

@@ -1,5 +1,8 @@
 using System.Collections;
+using System.Linq;
+using AttributeRelatedScript;
 using Behavior;
+using Behavior.Skills;
 using UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -45,6 +48,7 @@ namespace Game
                 {
                     if (!isFinalBattle)
                     {
+                        PlayerController.Instance.GetComponents<Component>().OfType<RemoteSpelling>().FirstOrDefault(rs => rs.Name == "牧野流星")!.isCosumingEnegyProportionally = false;
                         GameObject boosPrfb = Resources.Load<GameObject>("Prefab/BossSpawner");
                         if (boosPrfb == null) Debug.LogError("NO BossGenerator");
                         var boosPrfbi = Instantiate(boosPrfb, lookat.position + Vector3.up, Quaternion.identity);
@@ -109,7 +113,8 @@ namespace Game
             // 旋转到目标方向
             playerController.transform.rotation = targetRotation;
             
-            PlayerController.Instance.ShowPlayerHUD("Hold On!");
+            UIManager.Instance.ShowMessage2("Meadow Meteor Energy Cost Reduced");
+            PlayerController.Instance.ShowPlayerHUD("Hold On for 60S!");
             
             if(!BGM) BGM = GameObject.Find("BGM").GetComponent<AudioSource>();
             BGM.clip = Resources.Load<AudioClip>("Music/沙场");
