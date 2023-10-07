@@ -39,7 +39,7 @@ namespace Game
                 // 更新倒计时文本
                 UpdateTimerText(RemainingTime);
 
-                if (ElapsedTime >= 10) // 240秒 = 4分钟
+                if (ElapsedTime >= 240) // 240秒 = 4分钟
                 {
                     if (!isFinalBattle)
                     {
@@ -48,7 +48,7 @@ namespace Game
                         StartCoroutine(TeleportPlayerToFloorLarge());
                     }
                     
-                    if (ElapsedTime >= 40) // 300秒 = 5分钟
+                    if (ElapsedTime >= 300) // 300秒 = 5分钟
                     {
                         ElapsedTime = -1f;
                         // 游戏胜利，加载WinScene场景
