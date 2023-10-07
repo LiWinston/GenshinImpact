@@ -29,6 +29,15 @@ namespace Game
             // 获取当前场景加载的时间
             startTime = Time.timeSinceLevelLoad;
             if(!lookat) lookat = GameObject.Find("SM_Prop_Table_04").transform;
+            if (Random.Range(0f, 1f) < 0.5f)
+            {
+                BGM.clip = Resources.Load<AudioClip>("Music/幻境_战斗");
+            }
+            else
+            {
+                BGM.clip = Resources.Load<AudioClip>("Music/史诗");
+            }
+            BGM.Play();
         }
 
         private void Update()
