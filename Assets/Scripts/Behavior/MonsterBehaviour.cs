@@ -330,9 +330,12 @@ namespace Behavior
 
         public void ActivateFreezeMode(float duration, float continuousDamageAmount, float instantVelocityMultiplier = 0.05f, float attackCooldownIntervalMultiplier = 2f, float MaxSpeedMultiplier = 0.18f)
         {
+            // if(!freezeEffectCoroutine.IsUnityNull()) StopCoroutine(freezeEffectCoroutine);
+            DeactivateFreezeMode();
             freezeEffectCoroutine = StartCoroutine(FreezeEffectCoroutine(duration, instantVelocityMultiplier, attackCooldownIntervalMultiplier, MaxSpeedMultiplier));
                     // 启动持续掉血的协程
             StartCoroutine(Effect.ContinuousDamage.MakeContinuousDamage(health, continuousDamageAmount, duration ));
+            _effectTimeManager.StopEffect("Freeze");
             _effectTimeManager.CreateEffectBar("Freeze", Color.blue, duration);
         }
         public Coroutine freezeEffectCoroutine { get; set; }
@@ -370,9 +373,11 @@ namespace Behavior
     
         public void ActivateSelfKillMode(float elapseT)
         {
+            DeactivateSelfKillMode();
             if(IsInSelfKill) StopCoroutine(selfKillCoroutine);
             selfKillCoroutine = StartCoroutine(SelfKillCoroutine(elapseT));
             // Debug.Log("SelfKillMode Activated");
+            _effectTimeManager.StopEffect("SelfKill");
             _effectTimeManager.CreateEffectBar("SelfKill", Color.white, elapseT);
             // Debug.Log("SelfKill timerCpn Activated");
         }
