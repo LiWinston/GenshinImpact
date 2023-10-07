@@ -243,7 +243,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 3bdaaba7c408d1d4f8c307034be04932, type: 3}
+  m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 0.35
   m_Pitch: 1
@@ -460,7 +460,7 @@ MonoBehaviour:
   isAmountUpdatedWithLevel: 1
   isDamageUpdatedWithUseTimes: 1
   isCosumingEnegyProportionally: 1
-  "\u82E5\u6309\u6BD4\u4F8B\u6BCF\u53D1\u8017\u80FD_singleShootEnegyConsumptionPercentage": 0.01
+  "\u82E5\u6309\u6BD4\u4F8B\u6BCF\u53D1\u8017\u80FD_singleShootEnegyConsumptionPercentage": 0.008
   maxThrowingsCount: 30
   maxAngle_SingleSide: 30
 --- !u!114 &1622994277371618379
@@ -578,7 +578,7 @@ MonoBehaviour:
   isAmountUpdatedWithLevel: 0
   isDamageUpdatedWithUseTimes: 1
   isCosumingEnegyProportionally: 1
-  "\u82E5\u6309\u6BD4\u4F8B\u6BCF\u53D1\u8017\u80FD_singleShootEnegyConsumptionPercentage": 0.2
+  "\u82E5\u6309\u6BD4\u4F8B\u6BCF\u53D1\u8017\u80FD_singleShootEnegyConsumptionPercentage": 0.05
   maxThrowingsCount: 0
   maxAngle_SingleSide: 0
 --- !u!114 &8443738938356801097
@@ -1212,6 +1212,10 @@ PrefabInstance:
       propertyPath: m_AABB.m_Extent.z
       value: 0.0041592186
       objectReference: {fileID: 0}
+    - target: {fileID: 5848477471783444966, guid: 2e1919b3058a29a40ab972890a296978, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5848477471783444967, guid: 2e1919b3058a29a40ab972890a296978, type: 3}
       propertyPath: m_Height
       value: 0.9484169
@@ -1259,6 +1263,10 @@ PrefabInstance:
     - target: {fileID: 5848477473061255142, guid: 2e1919b3058a29a40ab972890a296978, type: 3}
       propertyPath: m_Name
       value: Model
+      objectReference: {fileID: 0}
+    - target: {fileID: 5848477473061255144, guid: 2e1919b3058a29a40ab972890a296978, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5848477473061255146, guid: 2e1919b3058a29a40ab972890a296978, type: 3}
       propertyPath: m_LocalPosition.x

@@ -44,7 +44,7 @@ namespace Behavior
      
         // private float gameTime = Time.timeSinceLevelLoad;
         internal float monsterLevel;
-        private int monsterExperience;
+        internal int monsterExperience;
         [SerializeField] private float aimDistance;
         [SerializeField] private float chaseDistance;
         // [SerializeField] private float stalkMstSpeed = 1f;
@@ -65,6 +65,8 @@ namespace Behavior
         private Target _targetComponent;
         private static readonly int Die = Animator.StringToHash("Die");
         internal EffectTimeManager _effectTimeManager;
+        
+        private bool _hasAppliedDeathEffect = false;
 
         public ObjectPool<GameObject> ThisPool { get; set; }
         public bool IsExisting { get; set; }
@@ -80,6 +82,7 @@ namespace Behavior
             _effectTimeManager.StopEffect("SelfKill");
             _effectTimeManager.StopEffect("Freeze");
             InitializeMonsterLevel();
+            _hasAppliedDeathEffect = false;
             target = PlayerController.Instance.gameObject;
             health.SetHealthMax(monsterLevel * 100 +100, true);
             initialAgent1();
@@ -172,8 +175,9 @@ namespace Behavior
 
         private void Update()
         {
-            if (health.IsDead())
+            if (health.IsDead() && !_hasAppliedDeathEffect)
             {
+                _hasAppliedDeathEffect = true;
                 _state.AddExperience(this.monsterExperience);
                 targetPlayer.ShowPlayerHUD("EXP " + this.monsterExperience);
                 DeactiveAllEffect();

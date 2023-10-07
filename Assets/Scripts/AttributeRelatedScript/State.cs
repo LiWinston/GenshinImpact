@@ -255,9 +255,9 @@ namespace AttributeRelatedScript
         private void InitializeExperienceThresholds()
         {
             experienceThresholds = new int[maxLevel];
-            int baseExperience = 100; // 初始等级所需经验值
+            int baseExperience = 30; // 初始等级所需经验值
             experienceThresholds[0] = baseExperience;
-            float experienceGrowthFactor = 1.25f; // 经验值增长因子
+            float experienceGrowthFactor = 1.04f; // 经验值增长因子
 
             for (int level = 2; level <= maxLevel; level++)
             {
