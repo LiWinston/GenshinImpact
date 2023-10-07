@@ -155,10 +155,14 @@ namespace Behavior.Skills
 
             if (positionalCategory == PositionalCategory.Throwing && other.gameObject.layer == LayerMask.NameToLayer("Wall") )
             {
-                if (_effectCategory != EffectCategory.Existing)
+                if (_effectCategory == EffectCategory.Explosion)
                 {
                     ApplyAOEEffect();
                     ThisPool.Release(gameObject);
+                }
+                else if (_effectCategory == EffectCategory.Bouncing)
+                {
+                    if(!GetBounceTarget()) ThisPool.Release(gameObject);
                 }
             }
         }
