@@ -5,6 +5,8 @@ using Behavior.Health;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Pool;
+using UnityEngine.AI;
+using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using Utility;
 using IPoolable = Utility.IPoolable;
@@ -17,19 +19,20 @@ namespace Behavior
     public class MonsterBehaviour : MonoBehaviour, IFreezable, IPoolable
     {
         public PlayerController targetPlayer;
-        private GameObject target;
+        internal GameObject target;
         private LayerMask enemyLayer;
         private LayerMask playerLayer;
-    
+        public bool isBoss = false;
 
         private Rigidbody rb;
+        internal NavMeshAgent agent;
         public Animator animator;
         internal HealthSystem health;
-        [SerializeField] private float mstForwardForce = 200;
+        [FormerlySerializedAs("mstForwardForce")] [SerializeField] private float mstAcceleration = 200;
         private float attackCooldownTimer;
         [SerializeField] private float attackCooldownInterval = 2f;
-        private float moveForceTimerCounter;
-        [SerializeField] private float moveForceCooldownInterval = 0.05f;
+        // private float moveForceTimerCounter;
+        // [SerializeField] private float moveForceCooldownInterval = 0.05f;
         private float obstacleDetectionTimer = 0f;
         public float obstacleDetectionInterval = 3f; // 检测间隔，每隔3秒检测一次
     
@@ -41,7 +44,7 @@ namespace Behavior
      
         // private float gameTime = Time.timeSinceLevelLoad;
         internal float monsterLevel;
-        private int monsterExperience;
+        internal int monsterExperience;
         [SerializeField] private float aimDistance;
         [SerializeField] private float chaseDistance;
         // [SerializeField] private float stalkMstSpeed = 1f;
@@ -54,7 +57,7 @@ namespace Behavior
 
         [InspectorLabel("Freeze")]
         private bool isFrozen; // 表示怪物是否处于冰冻状态
-        private float originalMoveForce;
+        private float originalAcceleration;
         private float originalAttackCooldownInterval;
         private float originalMaxMstSpeed;
     
@@ -62,6 +65,8 @@ namespace Behavior
         private Target _targetComponent;
         private static readonly int Die = Animator.StringToHash("Die");
         internal EffectTimeManager _effectTimeManager;
+        
+        private bool _hasAppliedDeathEffect = false;
 
         public ObjectPool<GameObject> ThisPool { get; set; }
         public bool IsExisting { get; set; }
@@ -77,8 +82,11 @@ namespace Behavior
             _effectTimeManager.StopEffect("SelfKill");
             _effectTimeManager.StopEffect("Freeze");
             InitializeMonsterLevel();
+            _hasAppliedDeathEffect = false;
             target = PlayerController.Instance.gameObject;
             health.SetHealthMax(monsterLevel * 100 +100, true);
+            initialAgent1();
+            
         }
 
         public void actionOnRelease()
@@ -109,6 +117,8 @@ namespace Behavior
             target = PlayerController.Instance.gameObject;
             targetPlayer = PlayerController.Instance;
 
+            initialAgent1();
+            
             if(_effectTimeManager == null) _effectTimeManager = GetComponent<EffectTimeManager>();
             if (targetPlayer == null)
             {
@@ -135,31 +145,56 @@ namespace Behavior
                 // UIManager.ShowMessage2("health 已找到.");
             }
             // 初始化怪物经验值和等级
-            OriginalMoveForce = mstForwardForce;
+            OriginalMoveForce = mstAcceleration;
             OriginalAttackCooldownInterval = attackCooldownInterval;
             OriginalMaxMstSpeed = MaxSpeed;
             // 初始化怪物经验值和等级
             InitializeMonsterLevel();
-        
+            
         }
 
+        public IEnumerator initialAgent(){
+            // yield return new WaitForSeconds(0.1f);
+            yield return null;
+            if(agent == null) agent = GetComponent<NavMeshAgent>();
+            agent.enabled = true;
+            agent.SetDestination(target.transform.position);
+            agent.angularSpeed = rotationSpeed;
+            
+        }
+        public void initialAgent1(){
+            // yield return new WaitForSeconds(0.1f);
+            // yield return null;
+            if(agent == null) agent = GetComponent<NavMeshAgent>();
+            agent.enabled = true;
+            agent.SetDestination(target.transform.position);
+            agent.angularSpeed = rotationSpeed;
+            if (isBoss) agent.angularSpeed = 99999;
+
+        }
 
         private void Update()
         {
-            if (health.IsDead())
+            if (health.IsDead() && !_hasAppliedDeathEffect)
             {
+                _hasAppliedDeathEffect = true;
                 _state.AddExperience(this.monsterExperience);
                 targetPlayer.ShowPlayerHUD("EXP " + this.monsterExperience);
                 DeactiveAllEffect();
                 StartCoroutine(nameof(PlayDeathEffects));
                 return;
             }
-        
+            
+            agent.speed = maxSpeed;
+            agent.SetDestination(target.transform.position);
+            agent.acceleration = mstAcceleration;
+            // agent.angularSpeed = rotationSpeed;
+            
             isMoving = rb.velocity.magnitude > 0.01f;
             animator.SetBool("isMoving", isMoving);
 
             // Decrease the move force cooldown timer
-            moveForceTimerCounter -= Time.deltaTime;
+            // moveForceTimerCounter -= Time.deltaTime;
 
             // Decrease the attack cooldown timer
             attackCooldownTimer -= Time.deltaTime;
@@ -190,11 +225,11 @@ namespace Behavior
                     // 重置计时器
                     obstacleDetectionTimer = obstacleDetectionInterval;
                 }
-                if (rb.velocity.magnitude < MaxSpeed)
-                {
-                    rb.AddForce(transform.forward * mstForwardForce, ForceMode.Force);
-                    moveForceTimerCounter = moveForceCooldownInterval;
-                }
+                // if (rb.velocity.magnitude < MaxSpeed)
+                // {
+                //     // rb.AddForce(transform.forward * mstForwardForce, ForceMode.Force);
+                //     moveForceTimerCounter = moveForceCooldownInterval;
+                // }
             }
             else if (target && curDistance < attackDistance && attackCooldownTimer <= 0)
             {
@@ -207,6 +242,19 @@ namespace Behavior
             }
         }
 
+        void FixedUpdate()
+        {
+            if (curDistance <= aimDistance) //追击距离内
+            {
+                animator.SetBool("Near",true);
+            }
+            var directionToPly = target.transform.position - transform.position;
+            directionToPly.y = 0;
+            directionToPly.Normalize();
+            Quaternion targetRotation = Quaternion.LookRotation(directionToPly);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime);
+        }
+        
         private GameObject PickAlly()
         {
             if (target.layer == enemyLayer && !target.GetComponent<MonsterBehaviour>().health.IsDead())
@@ -260,24 +308,10 @@ namespace Behavior
             {
                 // 如果检测到障碍物，施加向上的力以跳跃
                 rb.AddForce(Vector3.up * 1000, ForceMode.Impulse); // 添加跳跃力
-                rb.AddForce(transform.forward * mstForwardForce, ForceMode.Impulse); // 添加向前的力
+                rb.AddForce(transform.forward * mstAcceleration, ForceMode.Impulse); // 添加向前的力
             }
         }
-
-
-        void FixedUpdate()
-        {
-            if (curDistance <= aimDistance) //追击距离内
-            {
-                animator.SetBool("Near",true);
-            
-                var directionToPly = target.transform.position - transform.position;
-                directionToPly.y = 0;
-                directionToPly.Normalize();
-                Quaternion targetRotation = Quaternion.LookRotation(directionToPly);
-                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime);
-            }
-        }
+        
     
         private void Attack()
         {
@@ -309,12 +343,24 @@ namespace Behavior
             ParticleEffectManager.Instance.PlayParticleEffect("MonsterDie", this.gameObject, Quaternion.identity, Color.red, Color.black, 1.2f);
             yield return new WaitForSeconds(1.2f);
             // Destroy(this.gameObject);
+            if (isBoss) SceneManager.LoadScene("WinScene");
+            
             Release();
         }
 
         //TODO:逻辑待更新。
         private void InitializeMonsterLevel()
         {
+            if (isBoss)
+            {
+                //TODO : boss的等级和经验值
+                monsterLevel = 100;
+                health.SetHealthMax(999999, true);
+                monsterExperience = 0;
+                minAttackPower = 40;
+                maxAttackPower = 55;
+                return;
+            }
             // 计算怪物等级，使其在五分钟内逐渐增长到最大等级
             float maxGameTime = 300f; // 300秒
             float progress = Mathf.Clamp01(Time.timeSinceLevelLoad / maxGameTime); // 游戏时间进度（0到1之间）
@@ -327,7 +373,7 @@ namespace Behavior
         public bool IsFrozen { get => isFrozen; set => isFrozen = value; }
         public float OriginalMaxMstSpeed { get => originalMaxMstSpeed; set => originalMaxMstSpeed = value; }
         public float MaxSpeed { get => maxSpeed; set=> maxSpeed = value; }
-        public float OriginalMoveForce { get => originalMoveForce; set => originalMoveForce = value; }
+        public float OriginalMoveForce { get => originalAcceleration; set => originalAcceleration = value; }
         public float OriginalAttackCooldownInterval { get => originalAttackCooldownInterval; set => originalAttackCooldownInterval = value; }
 
         public void ActivateFreezeMode(float duration, float continuousDamageAmount, float instantVelocityMultiplier = 0.05f, float attackCooldownIntervalMultiplier = 2f, float MaxSpeedMultiplier = 0.18f)
@@ -346,26 +392,27 @@ namespace Behavior
         {
             if(!freezeEffectCoroutine.IsUnityNull()) StopCoroutine(freezeEffectCoroutine);
             // 恢复原始推力和攻击间隔
-            mstForwardForce = OriginalMoveForce;
+            mstAcceleration = OriginalMoveForce;
             attackCooldownInterval = OriginalAttackCooldownInterval;
             MaxSpeed = OriginalMaxMstSpeed;
             IsFrozen = false;
+            
             _effectTimeManager.StopEffect("Freeze");
         }
         public IEnumerator FreezeEffectCoroutine(float duration, float instantVelocityMultiplier = 0.1f, float attackCooldownIntervalMultiplier = 2f, float MaxSpeedMultiplier = 0.36f)
         {
-            OriginalMoveForce = mstForwardForce;
+            OriginalMoveForce = mstAcceleration;
             IsFrozen = true;
             Rb.velocity *= instantVelocityMultiplier;
             // 减小加速推力和增加攻击间隔
-            mstForwardForce *= 0.6f; // 降低至60%
+            mstAcceleration *= 0.6f; // 降低至60%
             attackCooldownInterval *= attackCooldownIntervalMultiplier; // 增加至200%
             MaxSpeed *= MaxSpeedMultiplier;
             // 等待冰冻效果持续时间
             yield return new WaitForSeconds(duration);
 
             // 恢复原始推力和攻击间隔
-            mstForwardForce = originalMoveForce;
+            mstAcceleration = originalAcceleration;
             attackCooldownInterval = OriginalAttackCooldownInterval;
             MaxSpeed = OriginalMaxMstSpeed;
             IsFrozen = false;

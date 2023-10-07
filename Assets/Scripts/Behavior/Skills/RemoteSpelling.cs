@@ -60,7 +60,7 @@ namespace Behavior.Skills
         [SerializeField] public bool isAmountUpdatedWithLevel = false;
         
         [SerializeField] public bool isDamageUpdatedWithUseTimes = false;
-        [SerializeField] private bool isCosumingEnegyProportionally;
+        [SerializeField] public bool isCosumingEnegyProportionally;
         [SerializeField] public float 若按比例每发耗能_singleShootEnegyConsumptionPercentage;
         
         [InspectorLabel("Internal Use -- 内部数据")]
@@ -291,7 +291,6 @@ namespace Behavior.Skills
 
         protected IEnumerator EndAimingAndCast()
         {
-            _playerController.GetAnimator().SetTrigger(animatorTriggerName);
             SkillPreview.SetActive(false);
             if (!isCasting) yield break;
             if (canCast)

@@ -245,6 +245,10 @@ namespace Behavior.Skills
                 var dmg = damage * Mathf.Pow(0.8f, bounceCount);
                 // Debug.Log("Hit" + other.name + "dmg = "+ dmg);
                 mst.TakeDamage(dmg);
+                //加强 ： 弹人能升级
+                PlayerController.Instance.state.AddExperience(mst.monsterExperience);
+                PlayerController.Instance.ShowPlayerHUD("Bounce EXP + " + mst.monsterExperience);
+                
                 if(hitAudioClip) SoundEffectManager.Instance.PlaySound(hitAudioClip, gameObject);
                 hitEnemies.Add(mst.gameObject);
                 bounceCount++;
@@ -273,7 +277,7 @@ namespace Behavior.Skills
 
         private IEnumerator Bounce()
         {
-            float duration = 0.3f; // total Bounce time
+            float duration = 0.25f; // total Bounce time
             float startTime = Time.time;
             // Debug.Log("Bouncing");
             while (Time.time - startTime < duration)

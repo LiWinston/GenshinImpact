@@ -8,6 +8,7 @@ using TMPro;
 using UI;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using Utility;
@@ -240,21 +241,28 @@ namespace Behavior
                         {
                             enemyHealth.Damage(state.HurricaneKickDamage);
                             // UI.UIManager.Instance.ShowMessage2("What a Hurricane Kick!");
+                            
+                            // NavMeshAgent enemyNavMeshAgent = cld.GetComponent<NavMeshAgent>();
+                            // if (enemyNavMeshAgent)
+                            // {
+                            //     enemyNavMeshAgent.velocity = knockbackDirection * state.hurricaneKickKnockbackForce;
+                            // }
+                            
                             Rigidbody enemyRigidbody = cld.GetComponent<Rigidbody>();
                             if (enemyRigidbody != null)
                             {
                                 enemyRigidbody.AddForce(knockbackDirection * state.hurricaneKickKnockbackForce,
                                     ForceMode.VelocityChange);
                                 // 计算随机切向方向（左或右）
-                                Vector3 randomTangentDirection =
-                                    Quaternion.Euler(0, Random.Range(-90f, 90f), 0) * knockbackDirection;
-
+                                // Vector3 randomTangentDirection =
+                                //     Quaternion.Euler(0, Random.Range(-90f, 90f), 0) * knockbackDirection;
+                            
                                 // 计算旋转摩擦力，不依赖于当前角速度
-                                Vector3 rotationFrictionForce = randomTangentDirection * rotationFriction;
-
+                                // Vector3 rotationFrictionForce = randomTangentDirection * rotationFriction;
+                            
                                 // 将旋转摩擦力施加到切向方向
-                                enemyRigidbody.AddTorque(rotationFrictionForce * Random.Range(0.5f, 1.5f),
-                                    ForceMode.Impulse);
+                                // enemyRigidbody.AddTorque(rotationFrictionForce * Random.Range(0.5f, 1.5f),
+                                //     ForceMode.Impulse);
                             }
                         }
                     }

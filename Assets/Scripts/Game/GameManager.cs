@@ -1,5 +1,8 @@
 using System.Collections;
+using System.Linq;
+using AttributeRelatedScript;
 using Behavior;
+using Behavior.Skills;
 using UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -26,6 +29,15 @@ namespace Game
             // 获取当前场景加载的时间
             startTime = Time.timeSinceLevelLoad;
             if(!lookat) lookat = GameObject.Find("SM_Prop_Table_04").transform;
+            if (Random.Range(0f, 1f) < 0.5f)
+            {
+                BGM.clip = Resources.Load<AudioClip>("Music/幻境_战斗");
+            }
+            else
+            {
+                BGM.clip = Resources.Load<AudioClip>("Music/史诗");
+            }
+            BGM.Play();
         }
 
         private void Update()
@@ -45,9 +57,20 @@ namespace Game
                 {
                     if (!isFinalBattle)
                     {
+                        PlayerController.Instance.GetComponents<Component>().OfType<RemoteSpelling>().FirstOrDefault(rs => rs.Name == "牧野流星")!.isCosumingEnegyProportionally = false;
+                        PlayerController.Instance.GetComponent<SpellCast>().JZZCostRate = 0.05f;
+                        
+                        GameObject boosPrfb = Resources.Load<GameObject>("Prefab/BossSpawner");
+                        if (boosPrfb == null) Debug.LogError("NO BossGenerator");
+                        var boosPrfbi = Instantiate(boosPrfb, lookat.position + Vector3.up, Quaternion.identity);
+                        
                         // 触发决战事件，将玩家传送至指定位置
-                        PlayerController.Instance.ShowPlayerHUD("The decisive battle is coming! Hold on!");
+                        PlayerController.Instance.ShowPlayerHUD("Final battle is coming!");
                         StartCoroutine(TeleportPlayerToFloorLarge());
+                        PlayerController.Instance.state.CurrentHealth = PlayerController.Instance.state.maxHealth;
+                        PlayerController.Instance.state.CurrentEnergy = PlayerController.Instance.state.maxEnergy;
+                        PlayerController.Instance.state.CurrentPower = PlayerController.Instance.state.maxPower;
+                        
                     }
                     
                     if (ElapsedTime >= 300) // 300秒 = 5分钟
@@ -101,6 +124,10 @@ namespace Game
             // 旋转到目标方向
             playerController.transform.rotation = targetRotation;
             
+            UIManager.Instance.ShowMessage2("Meadow Meteor Energy Cost Reduced");
+            UIManager.Instance.ShowMessage2("golden bell Energy Cost Reduced");
+            
+            PlayerController.Instance.ShowPlayerHUD("Hold On for 60S!");
             
             if(!BGM) BGM = GameObject.Find("BGM").GetComponent<AudioSource>();
             BGM.clip = Resources.Load<AudioClip>("Music/沙场");
