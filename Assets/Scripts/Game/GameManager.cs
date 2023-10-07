@@ -44,7 +44,7 @@ namespace Game
                 // 更新倒计时文本
                 UpdateTimerText(RemainingTime);
 
-                if (ElapsedTime >= 20) // 240秒 = 4分钟
+                if (ElapsedTime >= 240) // 240秒 = 4分钟
                 {
                     if (!isFinalBattle)
                     {
