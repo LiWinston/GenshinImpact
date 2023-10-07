@@ -49,13 +49,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 932865806192016074, guid: 129b0652518cb7a47a918ed79ca4fd4e, type: 3}
-  initialSpawnInterval: 2
-  minSpawnInterval: 2
+  initialSpawnInterval: 1
+  minSpawnInterval: 0.7
   spawnHeight: 1.2
   accelerationRate: 0.09
   maxExistTime: 40
-  defaultCapacity: 40
-  maxCapacity: 100
+  defaultCapacity: 20
+  maxCapacity: 25
   countAll: 0
   countActive: 0
   countInactive: 0
