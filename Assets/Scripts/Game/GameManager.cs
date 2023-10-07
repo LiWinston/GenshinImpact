@@ -97,18 +97,9 @@ namespace Game
             // PlayerController.Instance.transform.forward =lookat.position - PlayerController.Instance.transform.position;
             Vector3 targetDirection = lookat.transform.position - playerController.transform.position;
             targetDirection.y = 0f; // 将Y轴分量置零，以确保只在水平面上旋转
-            float maxRotationAngle = 360f; // 调整最大旋转角度
             Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
             // 旋转到目标方向
-            while (Quaternion.Angle(playerController.transform.rotation, targetRotation) > 0.1f)
-            {
-                // 计算旋转步长
-                float step = maxRotationAngle * Time.deltaTime;
-
-                // 使用RotateTowards旋转
-                playerController.transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, step);
-                yield return null;
-            }
+            playerController.transform.rotation = targetRotation;
             
             
             if(!BGM) BGM = GameObject.Find("BGM").GetComponent<AudioSource>();
