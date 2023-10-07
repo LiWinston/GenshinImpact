@@ -6,6 +6,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Pool;
 using UnityEngine.AI;
+using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using Utility;
 using IPoolable = Utility.IPoolable;
@@ -165,7 +166,8 @@ namespace Behavior
             agent.enabled = true;
             agent.SetDestination(target.transform.position);
             agent.angularSpeed = rotationSpeed;
-            
+            if (isBoss) agent.angularSpeed = 99999;
+
         }
 
         private void Update()
@@ -337,6 +339,8 @@ namespace Behavior
             ParticleEffectManager.Instance.PlayParticleEffect("MonsterDie", this.gameObject, Quaternion.identity, Color.red, Color.black, 1.2f);
             yield return new WaitForSeconds(1.2f);
             // Destroy(this.gameObject);
+            if (isBoss) SceneManager.LoadScene("WinScene");
+            
             Release();
         }
 
