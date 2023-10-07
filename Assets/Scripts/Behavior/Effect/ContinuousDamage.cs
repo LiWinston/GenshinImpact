@@ -6,6 +6,17 @@ namespace Behavior.Effect
 {
     public static class ContinuousDamage
     {
+        public static IEnumerator MakeContinuousDamage(GameObject obj, float damageAmount, float continuousDamageDuration = 3.0f)
+        {
+            switch (obj.tag)
+            {
+                case "Player":
+                    return MakeContinuousDamage(obj.GetComponent<PlayerController>(), damageAmount, continuousDamageDuration);
+                case "Enemy":
+                    return MakeContinuousDamage(obj.GetComponent<MonsterBehaviour>().health , damageAmount, continuousDamageDuration);
+            }
+            return null;
+        }
         public static IEnumerator MakeContinuousDamage(HealthSystem enemyHealth, float damageAmount, float continuousDamageDuration = 3.0f)
         {
             // 持续掉血的时间，可以根据需要进行调整

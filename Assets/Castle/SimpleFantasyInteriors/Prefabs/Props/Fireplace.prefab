@@ -9,7 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 318029102258457529}
-  m_Layer: 0
+  - component: {fileID: -8776742248906906504}
+  - component: {fileID: 6573198199969802528}
+  m_Layer: 6
   m_Name: Fireplace
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -37,6 +39,41 @@ Transform:
   - {fileID: 6025175198151377930}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 5.905, z: 0}
+--- !u!114 &-8776742248906906504
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6067045835555574444}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03787a444be77364c90727bf29eea00d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!136 &6573198199969802528
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6067045835555574444}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 136
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.8187088
+  m_Height: 4.9117546
+  m_Direction: 1
+  m_Center: {x: -0.005775333, y: 1.5898719, z: -0.061552286}
 --- !u!1 &6408046962457308169
 GameObject:
   m_ObjectHideFlags: 0
