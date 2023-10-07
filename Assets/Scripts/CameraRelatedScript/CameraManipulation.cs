@@ -1,5 +1,6 @@
 using Behavior;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace CameraRelatedScript
 {
@@ -9,7 +10,7 @@ namespace CameraRelatedScript
         [SerializeField] Camera FPCamera; // 备用相机
         [SerializeField] GameObject viewPoint;
         
-        [SerializeField] private LayerMask wallLayer; // 墙体的Layer
+        [FormerlySerializedAs("wallLayer")] [SerializeField] private LayerMask CameraObstacleLayer; // 墙体的Layer
         [SerializeField] private PlayerController plyctl;
 
         [SerializeField] private float forwardOffset;
@@ -42,7 +43,7 @@ namespace CameraRelatedScript
             RaycastHit hit;
             Vector3 cameraToViewPoint = viewPoint.transform.position - TPCamera.transform.position;
 
-            if (Physics.Raycast(TPCamera.transform.position, cameraToViewPoint, out hit, cameraToViewPoint.magnitude, wallLayer))
+            if (Physics.Raycast(TPCamera.transform.position, cameraToViewPoint, out hit, cameraToViewPoint.magnitude, CameraObstacleLayer))
             {
                 if (!obstacleInWay)
                 {
