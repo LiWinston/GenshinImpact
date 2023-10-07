@@ -53,12 +53,26 @@ namespace Game
                 // 更新倒计时文本
                 UpdateTimerText(RemainingTime);
 
-                if (ElapsedTime >= 240) // 240秒 = 4分钟
+                if (ElapsedTime >= 240 || Input.GetKey("`")) // 240秒 = 4分钟
                 {
                     if (!isFinalBattle)
                     {
                         PlayerController.Instance.GetComponents<Component>().OfType<RemoteSpelling>().FirstOrDefault(rs => rs.Name == "牧野流星")!.isCosumingEnegyProportionally = false;
-                        PlayerController.Instance.GetComponent<SpellCast>().JZZCostRate = 0.05f;
+                        // PlayerController.Instance.GetComponents<Component>().OfType<RemoteSpelling>().FirstOrDefault(rs => rs.Name == "魂牵梦萦")!.isAmountUpdatedWithLevel = true;
+                        // PlayerController.Instance.GetComponents<Component>().OfType<RemoteSpelling>().FirstOrDefault(rs => rs.Name == "魂牵梦萦")!.maxAngle_SingleSide = 10f;
+                        
+                        var bouncePersistentReverie = PlayerController.Instance.GetComponents<Component>()
+                            .OfType<RemoteSpelling>()
+                            .FirstOrDefault(rs => rs.Name == "魂牵梦萦");
+
+                        if (bouncePersistentReverie != null)
+                        {
+                            bouncePersistentReverie.isAmountUpdatedWithLevel = true;
+                            bouncePersistentReverie.maxAngle_SingleSide = 10f;
+                        }
+
+                        
+                        PlayerController.Instance.GetComponent<SpellCast>().JZZCostRate = 0.12f;
                         
                         GameObject boosPrfb = Resources.Load<GameObject>("Prefab/BossSpawner");
                         if (boosPrfb == null) Debug.LogError("NO BossGenerator");
@@ -124,14 +138,16 @@ namespace Game
             // 旋转到目标方向
             playerController.transform.rotation = targetRotation;
             
-            UIManager.Instance.ShowMessage2("Meadow Meteor Energy Cost Reduced");
-            UIManager.Instance.ShowMessage2("golden bell Energy Cost Reduced");
-            
-            PlayerController.Instance.ShowPlayerHUD("Hold On for 60S!");
-            
             if(!BGM) BGM = GameObject.Find("BGM").GetComponent<AudioSource>();
             BGM.clip = Resources.Load<AudioClip>("Music/沙场");
             BGM.Play();
+            UIManager.Instance.ShowMessage2("Meadow Meteor Energy Cost Reduced");
+            yield return new WaitForSeconds(1f);
+            UIManager.Instance.ShowMessage2("golden bell Energy Cost Reduced");
+            yield return new WaitForSeconds(1f);
+            UIManager.Instance.ShowMessage2("Persistent Reverie Amount Increased");
+            yield return new WaitForSeconds(1f);
+            PlayerController.Instance.ShowPlayerHUD("Survive in the Boss Battle!");
         }
 
         private void LoadWinScene()

@@ -502,9 +502,12 @@ namespace AttributeRelatedScript
             maxHealth += addMaxHealthOnUpdate;
             // maxEnergy += addMaxEnergyOnUpdate;
             maxEnergy += CurrentDamage * 3;
+            maxPower += 2;
+            
             CurrentHealth += addHealthOnUpdate;
             // CurrentEnergy += addEnergyOnUpdate;
             CurrentEnergy += CurrentDamage * 2.5f;
+            IsInCombat = false;
             ParticleEffectManager.Instance.PlayParticleEffect("UpLevel", UpdEffectTransform.gameObject, Quaternion.identity,
                 Color.clear, Color.clear, 1.8f);
             UpdateAttackCooldown();

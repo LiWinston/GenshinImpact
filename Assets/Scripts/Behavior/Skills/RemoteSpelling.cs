@@ -66,9 +66,9 @@ namespace Behavior.Skills
         [InspectorLabel("Internal Use -- 内部数据")]
         internal short useTimes = 0;
         float baseDmg;
-        [SerializeField] private int maxThrowingsCount = 30;
+        [SerializeField] internal int maxThrowingsCount = 30;
         private int minThrowingsCount = 1;
-        [SerializeField] private float maxAngle_SingleSide = 30f;
+        [SerializeField] internal float maxAngle_SingleSide = 30f;
         private float minAngle = 0f;
         //updated by CalculateShootNum_AngleInc in CalculateEnergyCost()
         private int numberToThrow;
@@ -166,7 +166,7 @@ namespace Behavior.Skills
                 {
                     _playerController.GetAnimator().SetTrigger(animatorTriggerName = "Throw");
                     
-                    var ec = isDamageUpdatedWithUseTimes ? CalculateEnergyCost() : throwingsBehavior._energyCost;
+                    var ec = CalculateEnergyCost();
                     if (_playerController.state.ConsumeEnergy(ec))
                     {
                         ++useTimes;
@@ -205,10 +205,14 @@ namespace Behavior.Skills
                                                          * _playerController.state.maxEnergy * (float)(Math.Log(useTimes) / Math.Log(baseDmg));
                 return throwingsBehavior._energyCost * CalculateDamage(useTimes) / baseDmg;
             }
-            (numberToThrow, angleIncrement) = CalculateShootNum_AngleInc(maxThrowingsCount, minThrowingsCount, maxAngle_SingleSide, minAngle);
-            if(isCosumingEnegyProportionally) return 若按比例每发耗能_singleShootEnegyConsumptionPercentage * numberToThrow * _playerController.state.maxEnergy;
-            //按比例耗费
-            return throwingsBehavior._energyCost * numberToThrow;
+            
+            //发射型
+            (numberToThrow, angleIncrement) = isAmountUpdatedWithLevel ? 
+                CalculateShootNum_AngleInc(maxThrowingsCount, minThrowingsCount, maxAngle_SingleSide, minAngle) : (1,0f);
+            return 
+                isCosumingEnegyProportionally ? 
+                    若按比例每发耗能_singleShootEnegyConsumptionPercentage * _playerController.state.maxEnergy * numberToThrow
+                    :throwingsBehavior._energyCost * numberToThrow;
         }
 
         //应仅在勾选了技能修炼（伤害随使用次数增加）时应用
