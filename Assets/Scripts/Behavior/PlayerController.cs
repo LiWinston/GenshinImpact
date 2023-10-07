@@ -324,6 +324,7 @@ namespace Behavior
             if (Input.GetMouseButtonDown(0) && Time.time - lastAttackTime >= state.AttackCooldown)
             {
                 IsCrouching = false;
+                isMoving = false;
                 rb.velocity *= speed_Ratio_Attack;
                 float criticalHitChance = _criticalHitCurve.CalculateValueAt(state.GetCurrentLevel());
                 // Debug.Log(state.GetCurrentLevel() + "级暴击率" + criticalHitChance*100 +"%");
@@ -450,19 +451,31 @@ namespace Behavior
 
         private IEnumerator NormalAttack()
         {
-            if(state.ConsumePower(2f))
+
+            float attackDuration = 0.9375f / state.attackAnimationSpeedRate;
+            if (Random.Range(0f, 1f) >= 0.5f)
             {
-                float attackDuration = 0.75f * 1.25f / state.attackAnimationSpeedRate;
-                yield return PerformAttack("AttackTrigger1", attackDuration);
+                //范围较大的普通攻击 消耗一定体力
+                if (state.ConsumePower(2f))
+                {
+                    // float attackDuration = 0.75f * 1.25f / state.attackAnimationSpeedRate;
+                    yield return PerformAttack("AttackTrigger1", attackDuration);
+                }
+            }
+            else
+            {
+                //反手胸前刺，不消耗体力
+                // float attackDuration = 0.75f * 1.25f / state.attackAnimationSpeedRate;
+                yield return PerformAttack("AttackTrigger2", attackDuration);
             }
         }
 
         private IEnumerator CriticalAttack()
         {
-            if (state.ConsumePower(8f))
+            if (state.ConsumePower(6f))
             {
                 float attackDuration = 0.875f / (0.75f * state.attackAnimationSpeedRate);
-                yield return PerformAttack("AttackTrigger2", attackDuration);
+                yield return PerformAttack("CriticalAttackTrigger", attackDuration);
             }
         }
 

@@ -4,6 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Pool;
+using UnityEngine.Serialization;
 using IPoolable = Utility.IPoolable;
 using Random = UnityEngine.Random;
 
@@ -18,7 +19,7 @@ namespace ItemSystem.Generate
         [SerializeField] private float minSpawnInterval = 0.1f;
         [SerializeField] private float spawnHeight = 1f;
         [SerializeField] private float accelerationRate = 0.1f;
-        [SerializeField] private float maxExistTime = 10f;
+        [SerializeField] private float maxExistTime = MaxOffsetXZ;
     
         private float spawnTimer = 0f;
         private float spawnInterval;
@@ -31,7 +32,8 @@ namespace ItemSystem.Generate
         public int countAll;
         public int countActive;
         public int countInactive;
-    
+        [FormerlySerializedAs("XMax")] [SerializeField] private float MaxOffsetXZ = 10;
+
         private void Start()
         {
             targetPosition = transform.position;
@@ -41,11 +43,11 @@ namespace ItemSystem.Generate
         }
         GameObject CreateFunc()
         {
-            var newPos = targetPosition + new Vector3(Random.Range(-10f, 10f), spawnHeight, Random.Range(-10f, 10f));
+            var newPos = targetPosition + new Vector3(Random.Range(-MaxOffsetXZ, MaxOffsetXZ), spawnHeight, Random.Range(-MaxOffsetXZ, MaxOffsetXZ));
             RaycastHit hit;
             while (!Physics.Raycast(newPos, Vector3.down, out hit, 10, NavMesh.AllAreas))
             {
-                newPos = targetPosition + new Vector3(Random.Range(-10f, 10f), spawnHeight, Random.Range(-10f, 10f));
+                newPos = targetPosition + new Vector3(Random.Range(-MaxOffsetXZ, MaxOffsetXZ), spawnHeight, Random.Range(-MaxOffsetXZ, MaxOffsetXZ));
             }
             var prfb = Instantiate(prefab, hit.point, Quaternion.identity);
             
@@ -58,11 +60,11 @@ namespace ItemSystem.Generate
         void actionOnGet(GameObject obj)
         {
             obj.GetComponent<IPoolable>().actionOnGet();
-            var newPos = targetPosition + new Vector3(Random.Range(-10f, 10f), spawnHeight, Random.Range(-10f, 10f));
+            var newPos = targetPosition + new Vector3(Random.Range(-MaxOffsetXZ, MaxOffsetXZ), spawnHeight, Random.Range(-MaxOffsetXZ, MaxOffsetXZ));
             RaycastHit hit;
             while (!Physics.Raycast(newPos, Vector3.down, out hit, 10, NavMesh.AllAreas))
             {
-                newPos = targetPosition + new Vector3(Random.Range(-10f, 10f), spawnHeight, Random.Range(-10f, 10f));
+                newPos = targetPosition + new Vector3(Random.Range(-MaxOffsetXZ, MaxOffsetXZ), spawnHeight, Random.Range(-MaxOffsetXZ, MaxOffsetXZ));
             }
             obj.transform.position = hit.point;
             obj.SetActive(true);
