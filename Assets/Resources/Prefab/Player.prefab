@@ -797,7 +797,7 @@ MonoBehaviour:
   hurricaneKickRange: 1.8
   criticalDmgRate: 8
   _AttcooldownCurve: {fileID: 3090013106338420035}
-  zenModeP2EConversionEfficiency: 0.5
+  zenModeP2EConversionEfficiency: 0.8
   JZZReduceMutiplier: 1.5
 --- !u!114 &94393281984951438
 MonoBehaviour:
@@ -814,6 +814,7 @@ MonoBehaviour:
   spellingPartTransform: {fileID: 5496938358071925957}
   innerSpellingTransform: {fileID: 0}
   spellRange: 4
+  JZZCostRate: 0.2
 --- !u!195 &6507685321940979291
 NavMeshAgent:
   m_ObjectHideFlags: 0

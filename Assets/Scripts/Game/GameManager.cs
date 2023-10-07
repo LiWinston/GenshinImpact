@@ -49,6 +49,8 @@ namespace Game
                     if (!isFinalBattle)
                     {
                         PlayerController.Instance.GetComponents<Component>().OfType<RemoteSpelling>().FirstOrDefault(rs => rs.Name == "牧野流星")!.isCosumingEnegyProportionally = false;
+                        PlayerController.Instance.GetComponent<SpellCast>().JZZCostRate = 0.05f;
+                        
                         GameObject boosPrfb = Resources.Load<GameObject>("Prefab/BossSpawner");
                         if (boosPrfb == null) Debug.LogError("NO BossGenerator");
                         var boosPrfbi = Instantiate(boosPrfb, lookat.position + Vector3.up, Quaternion.identity);
@@ -114,6 +116,8 @@ namespace Game
             playerController.transform.rotation = targetRotation;
             
             UIManager.Instance.ShowMessage2("Meadow Meteor Energy Cost Reduced");
+            UIManager.Instance.ShowMessage2("golden bell Energy Cost Reduced");
+            
             PlayerController.Instance.ShowPlayerHUD("Hold On for 60S!");
             
             if(!BGM) BGM = GameObject.Find("BGM").GetComponent<AudioSource>();
