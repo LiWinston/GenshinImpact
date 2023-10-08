@@ -56,7 +56,7 @@ MonoBehaviour:
   positionalCategory: 0
   _effectCategory: 0
   maxExistTime: 0.78
-  _energyCost: 100
+  _energyCost: 50
   throwingSpeed: 100
   startAudioClip: {fileID: 8300000, guid: a37afa6b219111e43b6a532b8f7fae21, type: 3}
   hitAudioClip: {fileID: 8300000, guid: bd8ce360bd28a24469b490a3dc0987a3, type: 3}
@@ -82,7 +82,7 @@ CapsuleCollider:
   m_Radius: 1
   m_Height: 1
   m_Direction: 0
-  m_Center: {x: 0, y: 0, z: 1}
+  m_Center: {x: 0, y: 0, z: 0.620999}
 --- !u!54 &794199488013558291
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -127,7 +127,7 @@ CapsuleCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.1
   m_Height: 1

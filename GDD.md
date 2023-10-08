@@ -265,6 +265,31 @@ A two stage development process is followed, the first stage creates a tradition
 (Map: [castle layout](https://lucid.app/lucidchart/a4aa4f39-a2ca-41cd-9aba-a0a8643d0b69/edit?viewport_loc=-6581%2C-912%2C13217%2C5291%2C0_0&invitationId=inv_f9e4d67f-d6b5-4315-ad86-f823718a01fd))\
 Stage 1：The map consists of a castle. The castle is located centered in the map. The castle is an imitation of a typical medieval style castle. The layout consists of two parts, the guest rooms and private rooms. Each section has their own entrance, however, they are interconnected through main corridors or secret corridors.
 Monsters spawn from fixed locations, the stronger spawn from private bedrooms and main residences, while weaker mobs spawn from the kitchen or the balcony. 
+
+#### Stage 1 development notes 05/10/23 ####
+Base scene: [Slavic medieval environment](https://assetstore.unity.com/packages/3d/environments/fantasy/free-slavic-medieval-environment-town-interior-and-exterior-167010). 
+<div  align = center>
+  <img src="https://assetstorev1-prd-cdn.unity3d.com/package-screenshot/056851fd-e336-4aec-a22f-8b16e4ffd04a.webp">
+</div>
+
+**Game Scene**: Utilising the starting scene in the base pack to serve as the foundation. The town across the river is removed entirely, foundation is paved and a castle is erected on the premise.
+
+**Statics castle**: it is decided most walls and furniture remains statics. While static furnitures reduce the level of environment responsiveness and interactiveness. There is a concern that it could negatively impact the combat experience if furnitures flying around would act as distraction rather than feature.
+
+**Flat design**: The castle is without different levels, given that the game is only 5 mins, a flat level design would add less mental strain to the player, if they have to remeber what level they are on, which corner they turned before, and which they should take next, it is not our intention to build a labyrinth.
+
+One of the asset packs we used offer stairs and long hallways. Considerations arise that because player character is not the only characters that will be passing through, if the hallway is culstered with hoards of minions, it could create a blockage where the player could neither move forward or backward, thereby have zero counter play possible, and that would not be fun or engaging.
+<div  align = center>
+  <img src="https://assetstorev1-prd-cdn.unity3d.com/package-screenshot/23161f83-b539-4009-a5c0-007b07c9a0c9.webp">
+</div>
+
+**interior lighting**:
+One of the biggest problem we've had is with interior lighting, too bright and it loses the horror feel, and too dark means the player could not see the pathway clearly. It remains a challenge to have the right amount of light sources per room and at the right level of intensity.
+
+Furthermore, we intend to have light that ebbs and flows a bit to add a sense of time flow to the game, current concern is the added load might cripple fps, leading to a quite laggy suituation.
+
+**pathing**: While we designed the map to be open world, we still intend the player to explore as much of the castle as they can, therefore rooms in the castle are connected, sometimes with corrdiors connecting them. If the player want, they could even exit the castle and fight in the island, if that is their wish.
+
 #### +++ Stage 2 +++
 Stage 2: (if development time allows), a second floor is planned with more intricate pathing, more living space open for exploration. The second floor will be expansion upon the traditional castle, it will be a underground floor with rooms dedicated to the use of blood engineering.
 * prisions 
@@ -417,6 +442,26 @@ A strong sense of dread and suspense pervades, with ghostly whispers and eerie u
 In the GDD phase, assets are undetermined, but we have compiled a list of available assets, categorized into scene elements and character (monster) models, UI along with animation controllers.
 
 #### +++ Scene +++
+
+**Currently in use assets**：
+
+[Simple Fantasy Interiors - Cartoon Assets](https://assetstore.unity.com/packages/3d/environments/fantasy/simple-fantasy-interiors-cartoon-assets-76478):
+
+This is the primary castle interior decor material, all furnitures used originate from this asset package.
+<div  align = center>
+  <img src="https://assetstorev1-prd-cdn.unity3d.com/package-screenshot/b4996755-67f4-47cf-b02d-65c06433a9e0.webp">
+</div>
+
+[Low Poly Dungeons](https://assetstore.unity.com/packages/3d/environments/dungeons/low-poly-dungeons-176350): 
+
+This package was used in providing some furnitures not included in the first pack.
+
+[Lowpoly Castle Dungeon Tileset](https://assetstore.unity.com/packages/3d/environments/dungeons/lowpoly-castle-dungeon-tileset-195730)
+
+[FREE Slavic Medieval Environment Town Interior and exterior](https://assetstore.unity.com/packages/3d/environments/fantasy/free-slavic-medieval-environment-town-interior-and-exterior-167010)
+
+
+
 
 - Medieval Castle Interior Game Level: (High Resolution)
   <div align="center">

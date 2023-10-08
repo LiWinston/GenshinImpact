@@ -8,6 +8,7 @@ using TMPro;
 using UI;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using Utility;
@@ -240,21 +241,28 @@ namespace Behavior
                         {
                             enemyHealth.Damage(state.HurricaneKickDamage);
                             // UI.UIManager.Instance.ShowMessage2("What a Hurricane Kick!");
+                            
+                            // NavMeshAgent enemyNavMeshAgent = cld.GetComponent<NavMeshAgent>();
+                            // if (enemyNavMeshAgent)
+                            // {
+                            //     enemyNavMeshAgent.velocity = knockbackDirection * state.hurricaneKickKnockbackForce;
+                            // }
+                            
                             Rigidbody enemyRigidbody = cld.GetComponent<Rigidbody>();
                             if (enemyRigidbody != null)
                             {
                                 enemyRigidbody.AddForce(knockbackDirection * state.hurricaneKickKnockbackForce,
                                     ForceMode.VelocityChange);
                                 // 计算随机切向方向（左或右）
-                                Vector3 randomTangentDirection =
-                                    Quaternion.Euler(0, Random.Range(-90f, 90f), 0) * knockbackDirection;
-
+                                // Vector3 randomTangentDirection =
+                                //     Quaternion.Euler(0, Random.Range(-90f, 90f), 0) * knockbackDirection;
+                            
                                 // 计算旋转摩擦力，不依赖于当前角速度
-                                Vector3 rotationFrictionForce = randomTangentDirection * rotationFriction;
-
+                                // Vector3 rotationFrictionForce = randomTangentDirection * rotationFriction;
+                            
                                 // 将旋转摩擦力施加到切向方向
-                                enemyRigidbody.AddTorque(rotationFrictionForce * Random.Range(0.5f, 1.5f),
-                                    ForceMode.Impulse);
+                                // enemyRigidbody.AddTorque(rotationFrictionForce * Random.Range(0.5f, 1.5f),
+                                //     ForceMode.Impulse);
                             }
                         }
                     }
@@ -316,6 +324,7 @@ namespace Behavior
             if (Input.GetMouseButtonDown(0) && Time.time - lastAttackTime >= state.AttackCooldown)
             {
                 IsCrouching = false;
+                isMoving = false;
                 rb.velocity *= speed_Ratio_Attack;
                 float criticalHitChance = _criticalHitCurve.CalculateValueAt(state.GetCurrentLevel());
                 // Debug.Log(state.GetCurrentLevel() + "级暴击率" + criticalHitChance*100 +"%");
@@ -442,19 +451,31 @@ namespace Behavior
 
         private IEnumerator NormalAttack()
         {
-            if(state.ConsumePower(2f))
+
+            float attackDuration = 0.9375f / state.attackAnimationSpeedRate;
+            if (Random.Range(0f, 1f) >= 0.5f)
             {
-                float attackDuration = 0.75f * 1.25f / state.attackAnimationSpeedRate;
-                yield return PerformAttack("AttackTrigger1", attackDuration);
+                //范围较大的普通攻击 消耗一定体力
+                if (state.ConsumePower(1.5f))
+                {
+                    // float attackDuration = 0.75f * 1.25f / state.attackAnimationSpeedRate;
+                    yield return PerformAttack("AttackTrigger1", attackDuration);
+                }
+            }
+            else
+            {
+                //反手胸前刺，不消耗体力
+                // float attackDuration = 0.75f * 1.25f / state.attackAnimationSpeedRate;
+                yield return PerformAttack("AttackTrigger2", attackDuration);
             }
         }
 
         private IEnumerator CriticalAttack()
         {
-            if (state.ConsumePower(8f))
+            if (state.ConsumePower(3.66f))
             {
                 float attackDuration = 0.875f / (0.75f * state.attackAnimationSpeedRate);
-                yield return PerformAttack("AttackTrigger2", attackDuration);
+                yield return PerformAttack("CriticalAttackTrigger", attackDuration);
             }
         }
 

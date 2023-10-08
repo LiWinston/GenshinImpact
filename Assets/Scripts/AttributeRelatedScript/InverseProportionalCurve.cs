@@ -23,7 +23,7 @@ namespace AttributeRelatedScript
         public List<AttackCooldownCurvePoint> curvePoints = new List<AttackCooldownCurvePoint>();
         
 
-        public float CalculateValueAt(int playerLevel)
+        public float CalculateValueAt(float playerLevel)
         {
             if (curvePoints.Count == 0)
             {

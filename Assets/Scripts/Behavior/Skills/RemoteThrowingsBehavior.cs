@@ -155,10 +155,14 @@ namespace Behavior.Skills
 
             if (positionalCategory == PositionalCategory.Throwing && other.gameObject.layer == LayerMask.NameToLayer("Wall") )
             {
-                if (_effectCategory != EffectCategory.Existing)
+                if (_effectCategory == EffectCategory.Explosion)
                 {
                     ApplyAOEEffect();
                     ThisPool.Release(gameObject);
+                }
+                else if (_effectCategory == EffectCategory.Bouncing)
+                {
+                    if(!GetBounceTarget()) ThisPool.Release(gameObject);
                 }
             }
         }
@@ -216,7 +220,7 @@ namespace Behavior.Skills
             var mstbhv = other.GetComponent<MonsterBehaviour>();
             if (mstbhv != null)
             {
-                Debug.Log("ApplyDamageOverTime" + AOEDamage);
+                // Debug.Log("ApplyDamageOverTime" + AOEDamage);
                 float duration = maxExistTime;
                 int id = GetInstanceID();
                 mstbhv._effectTimeManager.CreateEffectBar("Burn" + id, Color.red, duration);
@@ -245,6 +249,10 @@ namespace Behavior.Skills
                 var dmg = damage * Mathf.Pow(0.8f, bounceCount);
                 // Debug.Log("Hit" + other.name + "dmg = "+ dmg);
                 mst.TakeDamage(dmg);
+                //加强 ： 弹人能升级
+                PlayerController.Instance.state.AddExperience(mst.monsterExperience);
+                PlayerController.Instance.ShowPlayerHUD("Bounce EXP + " + mst.monsterExperience);
+                
                 if(hitAudioClip) SoundEffectManager.Instance.PlaySound(hitAudioClip, gameObject);
                 hitEnemies.Add(mst.gameObject);
                 bounceCount++;
@@ -273,7 +281,7 @@ namespace Behavior.Skills
 
         private IEnumerator Bounce()
         {
-            float duration = 0.3f; // total Bounce time
+            float duration = 0.25f; // total Bounce time
             float startTime = Time.time;
             // Debug.Log("Bouncing");
             while (Time.time - startTime < duration)

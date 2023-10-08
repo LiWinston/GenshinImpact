@@ -1,7 +1,10 @@
 using System.Collections;
+using Behavior;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.Pool;
+using UnityEngine.Serialization;
 using IPoolable = Utility.IPoolable;
 using Random = UnityEngine.Random;
 
@@ -24,12 +27,13 @@ namespace ItemSystem.Generate
 
         [InspectorLabel("对象池--ObjectPool")]
         [SerializeField]private int defaultCapacity = 40;
-        [SerializeField]private int maxCapacity = 100;
+        [SerializeField]internal int maxCapacity = 100;
         private ObjectPool<GameObject> objPool;
         public int countAll;
         public int countActive;
         public int countInactive;
-    
+        [FormerlySerializedAs("XMax")] [SerializeField] private float MaxOffsetXZ = 10;
+
         private void Start()
         {
             targetPosition = transform.position;
@@ -39,18 +43,30 @@ namespace ItemSystem.Generate
         }
         GameObject CreateFunc()
         {
-            Vector3 spawnPosition = targetPosition + new Vector3(Random.Range(-10f, 10f), spawnHeight, Random.Range(-10f, 10f));
-            var prfb = Instantiate(prefab, spawnPosition, Quaternion.identity);
+            var newPos = targetPosition + new Vector3(Random.Range(-MaxOffsetXZ, MaxOffsetXZ), spawnHeight, Random.Range(-MaxOffsetXZ, MaxOffsetXZ));
+            RaycastHit hit;
+            while (!Physics.Raycast(newPos, Vector3.down, out hit, 10, NavMesh.AllAreas))
+            {
+                newPos = targetPosition + new Vector3(Random.Range(-MaxOffsetXZ, MaxOffsetXZ), spawnHeight, Random.Range(-MaxOffsetXZ, MaxOffsetXZ));
+            }
+            var prfb = Instantiate(prefab, hit.point, Quaternion.identity);
+            
             prfb.GetComponent<IPoolable>().SetPool(objPool);
             // SetPoolForGeneratedObject(prfb);
-            prfb.name = countAll.ToString();
+            prfb.name = prefab.name + countAll.ToString();
             return prfb;
         }
     
         void actionOnGet(GameObject obj)
         {
             obj.GetComponent<IPoolable>().actionOnGet();
-            obj.transform.position = targetPosition + new Vector3(Random.Range(-10f, 10f), spawnHeight, Random.Range(-10f, 10f));
+            var newPos = targetPosition + new Vector3(Random.Range(-MaxOffsetXZ, MaxOffsetXZ), spawnHeight, Random.Range(-MaxOffsetXZ, MaxOffsetXZ));
+            RaycastHit hit;
+            while (!Physics.Raycast(newPos, Vector3.down, out hit, 10, NavMesh.AllAreas))
+            {
+                newPos = targetPosition + new Vector3(Random.Range(-MaxOffsetXZ, MaxOffsetXZ), spawnHeight, Random.Range(-MaxOffsetXZ, MaxOffsetXZ));
+            }
+            obj.transform.position = hit.point;
             obj.SetActive(true);
         }
 
@@ -77,11 +93,14 @@ namespace ItemSystem.Generate
                 spawnTimer = 0f;
                 // Accelerate the generation speed, but do not exceed the minimum interval
                 spawnInterval = Mathf.Max(minSpawnInterval, spawnInterval - accelerationRate);
-            
-                GameObject prfb = objPool.Get();
-                if (isToDestroy)
+
+                if (countActive < maxCapacity)
                 {
-                    StartCoroutine(ReturnToPoolDelayed(prfb, maxExistTime));
+                    GameObject prfb = objPool.Get();
+                    if (isToDestroy)
+                    {
+                        StartCoroutine(ReturnToPoolDelayed(prfb, maxExistTime));
+                    }
                 }
             }
         }
