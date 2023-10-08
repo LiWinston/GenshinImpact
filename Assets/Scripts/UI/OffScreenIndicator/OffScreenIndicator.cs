@@ -7,6 +7,7 @@ namespace UI.OffScreenIndicator
 {
     /// <summary>
     /// Attach the script to the off screen indicator panel.
+    /// Improved Window size Customization By @YongchunLi
     /// </summary>
     [DefaultExecutionOrder(-1)]
     public class OffScreenIndicator : MonoBehaviour
@@ -21,6 +22,7 @@ namespace UI.OffScreenIndicator
         private List<Target> targets = new List<Target>();
 
         public static Action<Target, bool> TargetStateChanged;
+        private const double TOLERANCE = 0.1f;//Improved Window size Customization By @YongchunLi
 
         void Awake()
         {
@@ -31,9 +33,17 @@ namespace UI.OffScreenIndicator
             TargetStateChanged += HandleTargetStateChanged;
         }
 
-        void LateUpdate()
+        void Update()
         {
             DrawIndicators();
+        }
+        void LateUpdate()
+        {
+            if(Math.Abs(Screen.width - screenCentre.x) > TOLERANCE || Math.Abs(Screen.height - screenCentre.y) > TOLERANCE)
+            {
+                screenCentre = new Vector3(Screen.width, Screen.height, 0) / 2;
+                screenBounds = screenCentre * screenBoundOffset;
+            }
         }
 
         /// <summary>

@@ -20,7 +20,7 @@ namespace AttributeRelatedScript
         public float max = 1f;
         public List<CriticalHitCurvePoint> curvePoints = new List<CriticalHitCurvePoint>();
 
-        public float CalculateValueAt(int playerLevel)
+        public float CalculateValueAt(float playerLevel)
         {
             if (curvePoints.Count == 0)
             {

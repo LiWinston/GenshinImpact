@@ -16,6 +16,8 @@ namespace Behavior
         [SerializeField] private float spellRange = 1.6f;
         private State state;
         private EffectTimeManager _effectTimeManager;
+        
+        [SerializeField] internal float JZZCostRate = 0.2f;
 
 
         private void Awake(){
@@ -70,7 +72,7 @@ namespace Behavior
 
         private void StartJZZ()
         {
-            if (!state.ConsumeEnergy(state.maxEnergy * 0.2f)) return;
+            if (!state.ConsumeEnergy(state.maxEnergy * JZZCostRate)) return;
             SoundEffectManager.Instance.PlaySound(new List<string>(){"Music/音效/法术/JZZ1","Music/音效/法术/JZZ2"}, gameObject);
             _effectTimeManager.CreateEffectBar("JZZ", Color.cyan, 7f);
             // GameObject.Find("Canvas").GetComponent<EffectTimeManager>().CreateEffectBar("JZZ", Color.cyan, 7f);
@@ -168,17 +170,13 @@ namespace Behavior
                     
                         // 计算持续掉血的总量（20％的伤害）
                     
-                        float freezeRemainingTime = 3f + state.GetCurrentLevel() * 0.2f / 10f;
+                        float freezeRemainingTime = 5f + state.GetCurrentLevel() * 0.2f / 10f;
                         float continuousDamageAmount = damageAmount * 0.2f;
                         enemy.GetComponent<IFreezable>().ActivateFreezeMode(freezeRemainingTime, continuousDamageAmount);
                     
                         // 播放特效
-                        if (spellingPartTransform != null)
-                        {
-                            Transform spineTransform = Find.FindDeepChild(enemy.transform, "spine_01");
-                            ParticleEffectManager.Instance.PlayParticleEffect("HitBySpell", (spineTransform != null ? spineTransform : enemy.transform).gameObject, 
-                                Quaternion.identity, Color.red, Color.black, freezeRemainingTime);
-                        }
+                        //挪到mst里了
+                        
                     }
                 }
             }
@@ -244,7 +242,7 @@ namespace Behavior
             {
                 if (state.ConsumeEnergy(0.02f*state.CurrentEnergy))
                 {
-                    e.GetComponent<MonsterBehaviour>().ActivateSelfKillMode(10);
+                    e.GetComponent<MonsterBehaviour>().ActivateSelfKillMode(16);
                 }
             }
         }
