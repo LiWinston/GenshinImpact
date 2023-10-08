@@ -1,4 +1,7 @@
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Pool;
+using IPoolable = Utility.IPoolable;
 
 namespace Behavior.Skills
 {
@@ -6,23 +9,53 @@ namespace Behavior.Skills
     {
         public GameObject projectilePrefab; // 远程投射物的预制体
         public Transform projectileSpawnPoint; // 投射物生成点
-        // public float attackCooldown = 3f; // 攻击冷却时间（每次攻击之间的间隔）
+        public float attackCooldown = 0.8f; // 攻击冷却时间（每次攻击之间的间隔）
         public float aimDistance = 10f; // 瞄准玩家的距离
         private float atkDistance;
         private Transform playerTransform;
         private float attackCooldownTimer;
         public MonsterBehaviour _monsterBehaviour;
+        protected ObjectPool<GameObject> _throwingsPool;
+        [SerializeField] private int defaultCapacity = 8;
+        [SerializeField] private int maxCapacity = 12;
 
         private void Awake()
         {
             _monsterBehaviour = GetComponent<MonsterBehaviour>();
+            attackCooldownTimer = attackCooldown;
         }
 
         private void Start()
         {
+            _throwingsPool = new ObjectPool<GameObject>(CreateFunc, actionOnGet, actionOnRelease, actionOnDestroy,
+                true, defaultCapacity, maxCapacity);
             // 获取玩家的Transform
             playerTransform = PlayerController.Instance.transform;
             atkDistance = _monsterBehaviour.attackDistance;
+        }
+        private GameObject CreateFunc(){
+            GameObject throwing = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
+            actionOnGet(throwing);
+            throwing.GetComponent<IPoolable>().SetPool(_throwingsPool);
+            return throwing.GameObject();
+        }
+
+        private void actionOnGet(GameObject obj){
+            obj.transform.position = projectileSpawnPoint.position;
+            obj.transform.forward = _monsterBehaviour.transform.forward;
+            obj.GetComponent<IPoolable>().actionOnGet();
+            obj.GetComponent<MonsterProjectile>()._monsterBehaviour = _monsterBehaviour;
+        }
+
+        private void actionOnRelease(GameObject obj)
+        {
+            obj.GetComponent<IPoolable>().actionOnRelease();
+            obj.SetActive(false);
+        }
+
+        void actionOnDestroy(GameObject obj)
+        {
+            // Destroy(obj);
         }
 
         private void Update()
@@ -38,12 +71,11 @@ namespace Behavior.Skills
 
                 // 重置攻击冷却计时器
                 // attackCooldownTimer = _monsterBehaviour.attackCooldownInterval;
-                attackCooldownTimer = 1f;
             }
             else
             {
                 // 减少攻击冷却计时器
-                attackCooldownTimer -= Time.deltaTime;
+                attackCooldownTimer -= Time.fixedDeltaTime;
             }
         }
 
@@ -54,7 +86,7 @@ namespace Behavior.Skills
             {
                 return false;
             }
-
+            attackCooldownTimer = attackCooldown;
             // 检查Boss与玩家之间的距离是否小于瞄准距离
             float distanceToPlayer = Vector3.Distance(transform.position, playerTransform.position);
             return distanceToPlayer <= aimDistance && distanceToPlayer >= atkDistance;
@@ -77,8 +109,8 @@ namespace Behavior.Skills
             // 生成远程投射物
             if (projectilePrefab != null && projectileSpawnPoint != null)
             {
-                GameObject projectile = Instantiate(projectilePrefab, projectileSpawnPoint.position, projectileSpawnPoint.rotation);
-                projectile.GetComponent<MonsterProjectile>()._monsterBehaviour = _monsterBehaviour;
+                // GameObject projectile = Instantiate(projectilePrefab, projectileSpawnPoint.position, projectileSpawnPoint.rotation);
+                var projectile = _throwingsPool.Get();
             }
         }
     }

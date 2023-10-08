@@ -310,8 +310,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   projectilePrefab: {fileID: 4084828893074943605, guid: f9d952c3d8b89b844be344c7838370c0, type: 3}
   projectileSpawnPoint: {fileID: 6461823985792254834}
+  attackCooldown: 0.6
   aimDistance: 30
   _monsterBehaviour: {fileID: 5353251570761854213}
+  defaultCapacity: 8
+  maxCapacity: 12
 --- !u!114 &1913477348650689022
 MonoBehaviour:
   m_ObjectHideFlags: 0
