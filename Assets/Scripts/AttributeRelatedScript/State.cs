@@ -386,9 +386,10 @@ namespace AttributeRelatedScript
 
 
 
-        public void TakeDamage(float damage)
+        public void TakeDamage(float damage, bool ignoreReduction = false)
         {
             var actualDamage = isInZenMode ? damage * (1 - damageReduction) : damage * 1.5f;
+            if(ignoreReduction) actualDamage = damage;
             if(actualDamage > 5e-2) PlayerController.Instance.GetAnimator().SetTrigger("Hurt");
             CurrentHealth -= actualDamage <= maxHealth ? actualDamage : CurrentHealth; //vulnerable during zenMode
             IsInCombat = true;

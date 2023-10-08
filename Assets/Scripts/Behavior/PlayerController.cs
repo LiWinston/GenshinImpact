@@ -615,7 +615,7 @@ namespace Behavior
             textMesh.gameObject.SetActive(false);
         }
 
-        public void TakeDamage(float dmg)
+        public void TakeDamage(float dmg, bool ignoreReduction = false)
         {
             if (state.IsEmptyHealth())
             {
@@ -629,6 +629,12 @@ namespace Behavior
             
 
                 StartCoroutine(GameOver());
+                return;
+            }
+
+            if (ignoreReduction)
+            {
+                state.TakeDamage(dmg,ignoreReduction);
                 return;
             }
             switch (state.isJZZ)

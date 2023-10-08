@@ -41,7 +41,7 @@ namespace Behavior.Effect
             while (timer < continuousDamageDuration)
             {
                 // 对敌人造成持续伤害
-                ply.TakeDamage(damageAmount * Time.deltaTime);
+                ply.TakeDamage(damageAmount * Time.deltaTime, true);
             
                 // 等待一帧
                 yield return null;
