@@ -32,13 +32,13 @@ namespace Behavior
         internal HealthSystem health;
         [FormerlySerializedAs("mstForwardForce")] [SerializeField] private float mstAcceleration = 200;
         private float attackCooldownTimer;
-        [SerializeField] private float attackCooldownInterval = 2f;
+        [SerializeField] internal float attackCooldownInterval = 2f;
         // private float moveForceTimerCounter;
         // [SerializeField] private float moveForceCooldownInterval = 0.05f;
         private float obstacleDetectionTimer = 0f;
         public float obstacleDetectionInterval = 3f; // 检测间隔，每隔3秒检测一次
     
-        [SerializeField] private float minAttackPower = 5;
+        [SerializeField] internal float minAttackPower = 5;
         [SerializeField] private float maxAttackPower = 10;
     
     
@@ -54,7 +54,7 @@ namespace Behavior
         // [SerializeField] private float stalkMstSpeed = 1f;
         [FormerlySerializedAs("MaxSpeed")] [FormerlySerializedAs("MaxMstSpeed")] [SerializeField] private float maxSpeed = 2f;
         // [SerializeField] private float stalkAccRatio = 0.8f;
-        [SerializeField] private float attackDistance = 1.5f;
+        [SerializeField] internal float attackDistance = 1.5f;
         private bool isMoving;
         private State _state;
         private float curDistance;
