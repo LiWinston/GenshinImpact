@@ -266,6 +266,7 @@ GameObject:
   - component: {fileID: 1913477348650689022}
   - component: {fileID: 5229209441144740808}
   - component: {fileID: 5353251570761854213}
+  - component: {fileID: 5575488506010218772}
   - component: {fileID: 1725506762452342574}
   - component: {fileID: 1928511585271000626}
   - component: {fileID: 3207376126136473266}
@@ -341,10 +342,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetPlayer: {fileID: 0}
+  isBoss: 0
   animator: {fileID: 0}
-  mstForwardForce: 4
+  mstAcceleration: 4
   attackCooldownInterval: 1
-  moveForceCooldownInterval: 0.05
   obstacleDetectionInterval: 3
   minAttackPower: 4
   maxAttackPower: 9
@@ -353,6 +354,35 @@ MonoBehaviour:
   chaseDistance: 12
   maxSpeed: 4
   attackDistance: 1.1
+--- !u!114 &5575488506010218772
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 932865806192016074}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8958e99c0ecfa3f43b447da29d73f136, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CurveName: MonsterHealthLevelCurve
+  limitByMINMAX: 0
+  min: 0
+  max: 0
+  curvePoints:
+  - _x: 1
+    _f_x_: 100
+  - _x: 2
+    _f_x_: 180
+  - _x: 3
+    _f_x_: 330
+  - _x: 10
+    _f_x_: 6000
+  - _x: 50
+    _f_x_: 45000
+  - _x: 100
+    _f_x_: 100000
 --- !u!114 &1725506762452342574
 MonoBehaviour:
   m_ObjectHideFlags: 0

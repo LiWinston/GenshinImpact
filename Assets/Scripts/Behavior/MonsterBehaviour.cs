@@ -13,6 +13,8 @@ using IPoolable = Utility.IPoolable;
 using Random = UnityEngine.Random;
 using State = AttributeRelatedScript.State;
 using Target = UI.OffScreenIndicator.Target;
+using AttributeRelatedScript;
+using System.Linq;
 
 namespace Behavior
 {
@@ -45,6 +47,8 @@ namespace Behavior
         // private float gameTime = Time.timeSinceLevelLoad;
         internal float monsterLevel;
         internal int monsterExperience;
+        internal PositiveProportionalCurve healthCurve;
+
         [SerializeField] private float aimDistance;
         [SerializeField] private float chaseDistance;
         // [SerializeField] private float stalkMstSpeed = 1f;
@@ -149,6 +153,7 @@ namespace Behavior
             OriginalAttackCooldownInterval = attackCooldownInterval;
             OriginalMaxMstSpeed = MaxSpeed;
             // 初始化怪物经验值和等级
+            healthCurve = GetComponents<Component>().OfType<PositiveProportionalCurve>().FirstOrDefault(curve => curve.CurveName == "MonsterHealthLevelCurve");
             InitializeMonsterLevel();
             
         }
@@ -355,7 +360,7 @@ namespace Behavior
             {
                 //TODO : boss的等级和经验值
                 monsterLevel = 100;
-                health.SetHealthMax(999999, true);
+                health.SetHealthMax(1500000, true);
                 monsterExperience = 0;
                 minAttackPower = 40;
                 maxAttackPower = 55;
@@ -366,7 +371,8 @@ namespace Behavior
             float progress = Mathf.Clamp01(Time.timeSinceLevelLoad / maxGameTime); // 游戏时间进度（0到1之间）
             monsterLevel = progress * 100 + 1; // 从1到100逐渐增长
             monsterExperience = Mathf.FloorToInt(monsterLevel * 1.2f);
-            health.SetHealthMax(monsterLevel * 300 +100, true);//100
+            // health.SetHealthMax(monsterLevel * 300 +100, true);//100
+            health.SetHealthMax(healthCurve.CalculateValueAt(monsterLevel), true);
         }
 
         public Rigidbody Rb => rb;
