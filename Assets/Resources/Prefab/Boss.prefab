@@ -263,6 +263,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4835178461767978829}
+  - component: {fileID: -5581726014947971162}
   - component: {fileID: 1913477348650689022}
   - component: {fileID: 5229209441144740808}
   - component: {fileID: 5353251570761854213}
@@ -295,6 +296,22 @@ Transform:
   - {fileID: 364399976659127809}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-5581726014947971162
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 932865806192016074}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 739a950bec0c9724c9ed702ca3ef3fb9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  projectilePrefab: {fileID: 4084828893074943605, guid: f9d952c3d8b89b844be344c7838370c0, type: 3}
+  projectileSpawnPoint: {fileID: 6461823985792254834}
+  attackCooldown: 2
+  aimDistance: 10
 --- !u!114 &1913477348650689022
 MonoBehaviour:
   m_ObjectHideFlags: 0

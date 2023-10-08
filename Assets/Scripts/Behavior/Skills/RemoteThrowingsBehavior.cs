@@ -220,7 +220,7 @@ namespace Behavior.Skills
             var mstbhv = other.GetComponent<MonsterBehaviour>();
             if (mstbhv != null)
             {
-                Debug.Log("ApplyDamageOverTime" + AOEDamage);
+                // Debug.Log("ApplyDamageOverTime" + AOEDamage);
                 float duration = maxExistTime;
                 int id = GetInstanceID();
                 mstbhv._effectTimeManager.CreateEffectBar("Burn" + id, Color.red, duration);
