@@ -86,6 +86,8 @@ namespace Behavior
             gameObject.SetActive(true);
             _effectTimeManager.StopEffect("SelfKill");
             _effectTimeManager.StopEffect("Freeze");
+            //Debug RT error, health Curve Init on get
+            healthCurve = GetComponents<Component>().OfType<PositiveProportionalCurve>().FirstOrDefault(curve => curve.CurveName == "MonsterHealthLevelCurve");
             InitializeMonsterLevel();
             _hasAppliedDeathEffect = false;
             target = PlayerController.Instance.gameObject;
