@@ -266,10 +266,12 @@ GameObject:
   - component: {fileID: 1913477348650689022}
   - component: {fileID: 5229209441144740808}
   - component: {fileID: 5353251570761854213}
+  - component: {fileID: 5575488506010218772}
   - component: {fileID: 1725506762452342574}
   - component: {fileID: 1928511585271000626}
   - component: {fileID: 3207376126136473266}
   - component: {fileID: -9168318566561915745}
+  - component: {fileID: 2532821833711216819}
   m_Layer: 7
   m_Name: MST
   m_TagString: Enemy
@@ -286,7 +288,7 @@ Transform:
   m_GameObject: {fileID: 932865806192016074}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.632, y: 0, z: 7.02}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -340,18 +342,47 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetPlayer: {fileID: 0}
+  isBoss: 0
   animator: {fileID: 0}
-  mstForwardForce: 3000
+  mstAcceleration: 4
   attackCooldownInterval: 1
-  moveForceCooldownInterval: 0.05
   obstacleDetectionInterval: 3
   minAttackPower: 4
   maxAttackPower: 9
-  rotationSpeed: 8
+  rotationSpeed: 360
   aimDistance: 30
   chaseDistance: 12
-  MaxMstSpeed: 2.2
+  maxSpeed: 4
   attackDistance: 1.1
+--- !u!114 &5575488506010218772
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 932865806192016074}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8958e99c0ecfa3f43b447da29d73f136, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CurveName: MonsterHealthLevelCurve
+  limitByMINMAX: 0
+  min: 0
+  max: 0
+  curvePoints:
+  - _x: 1
+    _f_x_: 100
+  - _x: 2
+    _f_x_: 180
+  - _x: 3
+    _f_x_: 330
+  - _x: 10
+    _f_x_: 6000
+  - _x: 50
+    _f_x_: 45000
+  - _x: 100
+    _f_x_: 100000
 --- !u!114 &1725506762452342574
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -417,9 +448,9 @@ CapsuleCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.20577502
-  m_Height: 0.8650289
+  m_Height: 0.8407435
   m_Direction: 1
-  m_Center: {x: -0.012136459, y: 0.419153, z: -0.007977247}
+  m_Center: {x: -0.012136459, y: 0.43129572, z: -0.007977247}
 --- !u!82 &-9168318566561915745
 AudioSource:
   m_ObjectHideFlags: 0
@@ -440,7 +471,7 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 1
+  MinDistance: 0.44378552
   MaxDistance: 500
   Pan2D: 0
   rolloffMode: 0
@@ -516,6 +547,28 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!195 &2532821833711216819
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 932865806192016074}
+  m_Enabled: 1
+  m_AgentTypeID: -334000983
+  m_Radius: 0.23
+  m_Speed: 0
+  m_Acceleration: 20
+  avoidancePriority: 50
+  m_AngularSpeed: 0
+  m_StoppingDistance: 1.1
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 0.86
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!1 &986807896210216346
 GameObject:
   m_ObjectHideFlags: 0
@@ -1474,7 +1527,6 @@ GameObject:
   m_Component:
   - component: {fileID: 730206568510945220}
   - component: {fileID: 4541293356200346583}
-  - component: {fileID: 2096398471944650907}
   m_Layer: 0
   m_Name: Monster
   m_TagString: Enemy
@@ -1526,28 +1578,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!195 &2096398471944650907
-NavMeshAgent:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3779376138837907370}
-  m_Enabled: 0
-  m_AgentTypeID: 0
-  m_Radius: 0.5
-  m_Speed: 3.5
-  m_Acceleration: 8
-  avoidancePriority: 50
-  m_AngularSpeed: 120
-  m_StoppingDistance: 0
-  m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
-  m_AutoRepath: 1
-  m_Height: 2
-  m_BaseOffset: 0
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
 --- !u!1 &3815221507373978544
 GameObject:
   m_ObjectHideFlags: 0

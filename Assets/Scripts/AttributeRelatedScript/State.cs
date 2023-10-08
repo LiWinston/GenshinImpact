@@ -107,9 +107,9 @@ namespace AttributeRelatedScript
         [Header("ZenMode(Recover)")] 
         [SerializeField]private float zenModeP2EConversionEfficiency = 0.6f; // 禅模式下的体力转化率
         private bool isCrouchingCooldown; // 用于记录下蹲后的冷却状态
-        private float _shakeBeforeZenMode = 1.5f; // 下蹲冷却时长施法前摇
+        private float _shakeBeforeZenMode = 1.5f; // 下蹲冷却时长施法前摇 要跟动画器中下蹲delay同步修改
         internal bool isInZenMode; // 是否处于禅模式
-        private float zenModeHealthRegenModifier = 4f; // 禅模式下的生命值恢复速度修改器
+        private float zenModeHealthRegenModifier = 12f; // 禅模式下的生命值恢复速度修改器
         private float zenModeP2EConversionSpeed; // 禅模式下的体力转化率
         private PlayerController plyctl;
         private static readonly int IsCrouching = Animator.StringToHash("isCrouching");
@@ -255,9 +255,9 @@ namespace AttributeRelatedScript
         private void InitializeExperienceThresholds()
         {
             experienceThresholds = new int[maxLevel];
-            int baseExperience = 100; // 初始等级所需经验值
+            int baseExperience = 30; // 初始等级所需经验值
             experienceThresholds[0] = baseExperience;
-            float experienceGrowthFactor = 1.25f; // 经验值增长因子
+            float experienceGrowthFactor = 1.04f; // 经验值增长因子
 
             for (int level = 2; level <= maxLevel; level++)
             {
@@ -452,10 +452,12 @@ namespace AttributeRelatedScript
 
         public void CheatLevelUp()
         {
-            if (currentLevel < maxLevel) currentLevel += 1;
-            LevelUpAction();
+            var updLV = 10;
+            if (currentLevel < maxLevel) currentLevel += updLV;
+            for(int i = 0; i < updLV; i++) LevelUpAction();
             Heal(9999);
             RestoreEnergy(99999);
+            RestorePower(99999);
         }
 
         // 获取当前经验值
@@ -500,9 +502,12 @@ namespace AttributeRelatedScript
             maxHealth += addMaxHealthOnUpdate;
             // maxEnergy += addMaxEnergyOnUpdate;
             maxEnergy += CurrentDamage * 3;
+            maxPower += 2;
+            
             CurrentHealth += addHealthOnUpdate;
             // CurrentEnergy += addEnergyOnUpdate;
             CurrentEnergy += CurrentDamage * 2.5f;
+            IsInCombat = false;
             ParticleEffectManager.Instance.PlayParticleEffect("UpLevel", UpdEffectTransform.gameObject, Quaternion.identity,
                 Color.clear, Color.clear, 1.8f);
             UpdateAttackCooldown();
