@@ -385,12 +385,14 @@ namespace Behavior
         public void ActivateFreezeMode(float duration, float continuousDamageAmount, float instantVelocityMultiplier = 0.05f, float attackCooldownIntervalMultiplier = 2f, float MaxSpeedMultiplier = 0.18f)
         {
             // if(!freezeEffectCoroutine.IsUnityNull()) StopCoroutine(freezeEffectCoroutine);
+            var time = duration;
+            if(isBoss) time = duration/3;
             DeactivateFreezeMode();
-            freezeEffectCoroutine = StartCoroutine(FreezeEffectCoroutine(duration, instantVelocityMultiplier, attackCooldownIntervalMultiplier, MaxSpeedMultiplier));
+            freezeEffectCoroutine = StartCoroutine(FreezeEffectCoroutine(time, instantVelocityMultiplier, attackCooldownIntervalMultiplier, MaxSpeedMultiplier));
                     // 启动持续掉血的协程
-            StartCoroutine(Effect.ContinuousDamage.MakeContinuousDamage(health, continuousDamageAmount, duration ));
+            StartCoroutine(Effect.ContinuousDamage.MakeContinuousDamage(health, continuousDamageAmount, time ));
             _effectTimeManager.StopEffect("Freeze");
-            _effectTimeManager.CreateEffectBar("Freeze", Color.blue, duration);
+            _effectTimeManager.CreateEffectBar("Freeze", Color.blue, time);
         }
         public Coroutine freezeEffectCoroutine { get; set; }
 
@@ -429,11 +431,13 @@ namespace Behavior
         public void ActivateSelfKillMode(float elapseT)
         {
             DeactivateSelfKillMode();
+            var time = elapseT;
+            if(isBoss) time = elapseT/4;
             if(IsInSelfKill) StopCoroutine(selfKillCoroutine);
-            selfKillCoroutine = StartCoroutine(SelfKillCoroutine(elapseT));
+            selfKillCoroutine = StartCoroutine(SelfKillCoroutine(time));
             // Debug.Log("SelfKillMode Activated");
             _effectTimeManager.StopEffect("SelfKill");
-            _effectTimeManager.CreateEffectBar("SelfKill", Color.white, elapseT);
+            _effectTimeManager.CreateEffectBar("SelfKill", Color.white, time);
             // Debug.Log("SelfKill timerCpn Activated");
         }
 

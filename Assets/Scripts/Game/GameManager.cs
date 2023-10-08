@@ -3,6 +3,7 @@ using System.Linq;
 using AttributeRelatedScript;
 using Behavior;
 using Behavior.Skills;
+using ItemSystem.Generate;
 using UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -22,6 +23,8 @@ namespace Game
         public float RemainingTime;
         public AudioSource BGM;
 
+        public GameObject stuffGenerator;
+
         private void Start()
         {
             gameEnded = false;
@@ -38,6 +41,8 @@ namespace Game
                 BGM.clip = Resources.Load<AudioClip>("Music/史诗");
             }
             BGM.Play();
+
+            if(!stuffGenerator) stuffGenerator = GameObject.Find("Stuff生成");
         }
 
         private void Update()
@@ -48,7 +53,7 @@ namespace Game
                 ElapsedTime = Time.timeSinceLevelLoad - startTime;
 
                 // 计算剩余时间
-                RemainingTime = 300 - ElapsedTime;
+                RemainingTime = 320 - ElapsedTime;
 
                 // 更新倒计时文本
                 UpdateTimerText(RemainingTime);
@@ -57,6 +62,12 @@ namespace Game
                 {
                     if (!isFinalBattle)
                     {
+                        //Stop Generating normal mst
+                        stuffGenerator.GetComponents<Component>().OfType<PrefabGenerator>().FirstOrDefault(pg => pg.prefab.name == "MST")!.maxCapacity = 0;
+                        stuffGenerator.GetComponents<Component>().OfType<PrefabGenerator>().FirstOrDefault(pg => pg.prefab.name == "蓝包_EnergySupplyItem")!.maxCapacity = 0;
+                        stuffGenerator.GetComponents<Component>().OfType<PrefabGenerator>().FirstOrDefault(pg => pg.prefab.name == "血包_HealthSupplyItem")!.maxCapacity = 0;
+                        stuffGenerator.GetComponents<Component>().OfType<PrefabGenerator>().FirstOrDefault(pg => pg.prefab.name == "DamageIncreaseItem")!.maxCapacity = 0;
+
                         PlayerController.Instance.GetComponents<Component>().OfType<RemoteSpelling>().FirstOrDefault(rs => rs.Name == "牧野流星")!.isCosumingEnegyProportionally = false;
                         // PlayerController.Instance.GetComponents<Component>().OfType<RemoteSpelling>().FirstOrDefault(rs => rs.Name == "魂牵梦萦")!.isAmountUpdatedWithLevel = true;
                         // PlayerController.Instance.GetComponents<Component>().OfType<RemoteSpelling>().FirstOrDefault(rs => rs.Name == "魂牵梦萦")!.maxAngle_SingleSide = 10f;
@@ -68,7 +79,7 @@ namespace Game
                         if (bouncePersistentReverie != null)
                         {
                             bouncePersistentReverie.isAmountUpdatedWithLevel = true;
-                            bouncePersistentReverie.maxAngle_SingleSide = 10f;
+                            bouncePersistentReverie.maxAngle_SingleSide = 5f;
                         }
 
                         
@@ -87,7 +98,7 @@ namespace Game
                         
                     }
                     
-                    if (ElapsedTime >= 300) // 300秒 = 5分钟
+                    if (ElapsedTime >= 320) // 300秒 = 5分钟
                     {
                         ElapsedTime = -1f;
                         // 游戏胜利，加载WinScene场景
@@ -102,7 +113,7 @@ namespace Game
             int minutes = Mathf.FloorToInt((remainingTime - 60) / 60);
             int seconds = Mathf.FloorToInt(remainingTime % 60);
 
-            if (remainingTime >= 60)
+            if (remainingTime >= 80)
             {
                 timerText.text = "Countdown to the decisive battle: " + minutes.ToString("00") + " Min " + seconds.ToString("00") + " s";
             }
@@ -141,12 +152,13 @@ namespace Game
             if(!BGM) BGM = GameObject.Find("BGM").GetComponent<AudioSource>();
             BGM.clip = Resources.Load<AudioClip>("Music/沙场");
             BGM.Play();
+            UIManager.Instance.UIMessage_2MSG.Clear();
             UIManager.Instance.ShowMessage2("Meadow Meteor Energy Cost Reduced");
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(1.2f);
             UIManager.Instance.ShowMessage2("golden bell Energy Cost Reduced");
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(1.1f);
             UIManager.Instance.ShowMessage2("Persistent Reverie Amount Increased");
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(1.05f);
             PlayerController.Instance.ShowPlayerHUD("Survive in the Boss Battle!");
         }
 

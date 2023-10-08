@@ -27,7 +27,7 @@ namespace ItemSystem.Generate
 
         [InspectorLabel("对象池--ObjectPool")]
         [SerializeField]private int defaultCapacity = 40;
-        [SerializeField]private int maxCapacity = 100;
+        [SerializeField]internal int maxCapacity = 100;
         private ObjectPool<GameObject> objPool;
         public int countAll;
         public int countActive;

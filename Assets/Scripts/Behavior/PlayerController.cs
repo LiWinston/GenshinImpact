@@ -456,7 +456,7 @@ namespace Behavior
             if (Random.Range(0f, 1f) >= 0.5f)
             {
                 //范围较大的普通攻击 消耗一定体力
-                if (state.ConsumePower(2f))
+                if (state.ConsumePower(1.5f))
                 {
                     // float attackDuration = 0.75f * 1.25f / state.attackAnimationSpeedRate;
                     yield return PerformAttack("AttackTrigger1", attackDuration);
@@ -472,7 +472,7 @@ namespace Behavior
 
         private IEnumerator CriticalAttack()
         {
-            if (state.ConsumePower(6f))
+            if (state.ConsumePower(3.66f))
             {
                 float attackDuration = 0.875f / (0.75f * state.attackAnimationSpeedRate);
                 yield return PerformAttack("CriticalAttackTrigger", attackDuration);

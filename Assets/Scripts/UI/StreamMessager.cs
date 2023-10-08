@@ -107,5 +107,9 @@ namespace UI
 
             isDisplayingMessage = false;
         }
+
+        public void Clear(){
+            messageQueue.Clear();
+        }
     }
 }
