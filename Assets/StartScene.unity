@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2227,9 +2227,9 @@ MonoBehaviour:
       m_Calls: []
   m_text: "WASD-Button: Normal Movement\nShift + WASD -Button: Speed Up\nRight click:
     Extreme Cold\nLeft click: Normal Attack(Sword)\nLeft Control key: Crouch\nV-Button:
-    Whirlwind Kick\nQ-Button: Ultimate Skill \nR-Button: Admiralty Shield\nE-Button:
+    Hurricane Kick\nQ-Button: Mind Control \nR-Button: Golden Bell (Defense)\nE-Button:
     Pick Up Items\nC-Button: Meadow Meteor\nG-Button: Persistent Reverie\nF-BUtton:
-    Fire\n\n\n"
+    Fire Burn\n\n\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
   m_sharedMaterial: {fileID: 2140032, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
@@ -2868,7 +2868,7 @@ AudioSource:
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
