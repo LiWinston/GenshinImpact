@@ -4,6 +4,7 @@ namespace Behavior.Skills
 {
     public class MonsterProjectile : MonoBehaviour
     {
+        [SerializeField] private float rotateSpeed = 30f;
         public float projectileSpeed = 10f; // 投射物速度
         public float damage = 10f; // 投射物伤害
 
@@ -11,6 +12,7 @@ namespace Behavior.Skills
         // private Vector3 initialPosition; // 投射物初始位置
         private bool _hasHit = false;
         public MonsterBehaviour _monsterBehaviour;
+        
 
         private void Start()
         {
@@ -31,7 +33,7 @@ namespace Behavior.Skills
 
                     // 使用球形插值来平滑调整投射物方向
                     Quaternion rotation = Quaternion.LookRotation(direction);
-                    transform.rotation = Quaternion.Slerp(transform.rotation, rotation, 100 * Time.deltaTime);
+                    transform.rotation = Quaternion.Slerp(transform.rotation, rotation, rotateSpeed * Time.deltaTime);
 
                     // 让投射物向前移动
                     transform.Translate(Vector3.forward * (projectileSpeed * Time.fixedDeltaTime));
