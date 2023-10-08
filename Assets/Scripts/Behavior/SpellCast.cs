@@ -175,12 +175,8 @@ namespace Behavior
                         enemy.GetComponent<IFreezable>().ActivateFreezeMode(freezeRemainingTime, continuousDamageAmount);
                     
                         // 播放特效
-                        if (spellingPartTransform != null)
-                        {
-                            Transform spineTransform = Find.FindDeepChild(enemy.transform, "spine_01");
-                            ParticleEffectManager.Instance.PlayParticleEffect("HitBySpell", (spineTransform != null ? spineTransform : enemy.transform).gameObject, 
-                                Quaternion.identity, Color.red, Color.black, freezeRemainingTime);
-                        }
+                        //挪到mst里了
+                        
                     }
                 }
             }

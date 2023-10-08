@@ -64,6 +64,7 @@ namespace Behavior
         private float originalAcceleration;
         private float originalAttackCooldownInterval;
         private float originalMaxMstSpeed;
+        Transform spineTransform;
     
         
         private Target _targetComponent;
@@ -114,6 +115,7 @@ namespace Behavior
             enemyLayer = LayerMask.GetMask("Enemy");
             playerLayer = LayerMask.GetMask("Player");
             _targetComponent = GetComponent<Target>();
+            spineTransform = Find.FindDeepChild(transform, "spine_01");
         }
     
         private void Start()
@@ -391,6 +393,9 @@ namespace Behavior
             freezeEffectCoroutine = StartCoroutine(FreezeEffectCoroutine(time, instantVelocityMultiplier, attackCooldownIntervalMultiplier, MaxSpeedMultiplier));
                     // 启动持续掉血的协程
             StartCoroutine(Effect.ContinuousDamage.MakeContinuousDamage(health, continuousDamageAmount, time ));
+                        ParticleEffectManager.Instance.PlayParticleEffect("HitBySpell", (spineTransform != null ? spineTransform : transform).gameObject, 
+                            Quaternion.identity, Color.red, Color.black, time);
+
             _effectTimeManager.StopEffect("Freeze");
             _effectTimeManager.CreateEffectBar("Freeze", Color.blue, time);
         }
