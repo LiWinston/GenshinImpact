@@ -110,8 +110,8 @@ namespace Game
 
         private void UpdateTimerText(float remainingTime)
         {
-            int minutes = Mathf.FloorToInt((remainingTime - 60) / 60);
-            int seconds = Mathf.FloorToInt(remainingTime % 60);
+            int minutes = Mathf.FloorToInt((remainingTime - 80) / 80);
+            int seconds = Mathf.FloorToInt(remainingTime % 80);
 
             if (remainingTime >= 80)
             {
