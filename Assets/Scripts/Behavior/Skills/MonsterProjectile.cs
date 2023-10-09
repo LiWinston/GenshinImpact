@@ -35,7 +35,7 @@ namespace Behavior.Skills
 
         public void actionOnRelease()
         {
-            GetComponent<Rigidbody>().velocity = Vector3.zero;
+            // GetComponent<Rigidbody>().velocity = Vector3.zero;
             _hasHit = false;
             if(existCoroutine != null){
                 StopCoroutine(existCoroutine);
@@ -96,7 +96,6 @@ namespace Behavior.Skills
         private void HitPlayer()
         {
             // 玩家受到伤害
-            PlayerController.Instance.animator.SetTrigger("AttackTrigger");
             PlayerController.Instance.TakeDamage(_monsterBehaviour.monsterLevel/20 *Random.Range(_monsterBehaviour.minAttackPower, _monsterBehaviour.maxAttackPower));
             
         
