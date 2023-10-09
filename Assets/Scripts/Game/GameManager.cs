@@ -114,8 +114,8 @@ namespace Game
 
         private void UpdateTimerText(float remainingTime)
         {
-            int minutes = Mathf.FloorToInt((remainingTime - finalBattleSeconds) / finalBattleSeconds);
-            int seconds = Mathf.FloorToInt(remainingTime % finalBattleSeconds);
+            int minutes = Mathf.FloorToInt((remainingTime - 60) / 60);
+            int seconds = Mathf.FloorToInt(remainingTime % 60);
 
             if (remainingTime >= finalBattleSeconds)
             {
