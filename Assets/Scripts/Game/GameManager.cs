@@ -7,6 +7,7 @@ using ItemSystem.Generate;
 using UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace Game
@@ -24,6 +25,9 @@ namespace Game
         public AudioSource BGM;
 
         public GameObject stuffGenerator;
+        [SerializeField] private float totalGameSeconds = 310;
+        [SerializeField] private float finalBattleSeconds = 75;
+        
 
         private void Start()
         {
@@ -53,7 +57,7 @@ namespace Game
                 ElapsedTime = Time.timeSinceLevelLoad - startTime;
 
                 // 计算剩余时间
-                RemainingTime = 320 - ElapsedTime;
+                RemainingTime = totalGameSeconds - ElapsedTime;
 
                 // 更新倒计时文本
                 UpdateTimerText(RemainingTime);
@@ -98,7 +102,7 @@ namespace Game
                         
                     }
                     
-                    if (ElapsedTime >= 320) // 300秒 = 5分钟
+                    if (ElapsedTime >= totalGameSeconds) // 300秒 = 5分钟
                     {
                         ElapsedTime = -1f;
                         // 游戏胜利，加载WinScene场景
@@ -113,7 +117,7 @@ namespace Game
             int minutes = Mathf.FloorToInt((remainingTime - 60) / 60);
             int seconds = Mathf.FloorToInt(remainingTime % 60);
 
-            if (remainingTime >= 80)
+            if (remainingTime >= finalBattleSeconds)
             {
                 timerText.text = "Countdown to the decisive battle: " + minutes.ToString("00") + " Min " + seconds.ToString("00") + " s";
             }

@@ -558,7 +558,7 @@ namespace AttributeRelatedScript
                 //通知player controller更新动画时间参数
                 PlayerController.Instance.UpdateAttackAnimationTime(attackAnimationSpeedRate);
             
-                Debug.Log(currentLevel + "级攻速" + AttackCooldown + "秒，动画倍速 " + attackAnimationSpeedRate);
+                // Debug.Log(currentLevel + "级攻速" + AttackCooldown + "秒，动画倍速 " + attackAnimationSpeedRate);
             }
         }
 

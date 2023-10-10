@@ -39,7 +39,7 @@ namespace Behavior
         public float obstacleDetectionInterval = 3f; // 检测间隔，每隔3秒检测一次
     
         [SerializeField] internal float minAttackPower = 5;
-        [SerializeField] private float maxAttackPower = 10;
+        [SerializeField] internal float maxAttackPower = 10;
     
     
         public float rotationSpeed = 2f; // 调整旋转速度
@@ -86,6 +86,8 @@ namespace Behavior
             gameObject.SetActive(true);
             _effectTimeManager.StopEffect("SelfKill");
             _effectTimeManager.StopEffect("Freeze");
+            //Debug RT error, health Curve Init on get
+            healthCurve = GetComponents<Component>().OfType<PositiveProportionalCurve>().FirstOrDefault(curve => curve.CurveName == "MonsterHealthLevelCurve");
             InitializeMonsterLevel();
             _hasAppliedDeathEffect = false;
             target = PlayerController.Instance.gameObject;
@@ -364,8 +366,8 @@ namespace Behavior
                 monsterLevel = 100;
                 health.SetHealthMax(1500000, true);
                 monsterExperience = 0;
-                minAttackPower = 40;
-                maxAttackPower = 55;
+                minAttackPower = 25;
+                maxAttackPower = 42f;
                 return;
             }
             // 计算怪物等级，使其在五分钟内逐渐增长到最大等级
