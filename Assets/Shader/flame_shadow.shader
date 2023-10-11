@@ -54,7 +54,8 @@ Shader "Unlit/testing"
             v2f vert (appdata v)
             {
                 v2f o;
-                // this cause flame shadow to occillate.
+                // moves up and down, by sin,
+                _Speed += 0.2*sin(_Time);
                 v.vertex.y += tan(_Time.y * _Speed) * _Distance * _Amount;
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
@@ -63,13 +64,13 @@ Shader "Unlit/testing"
             }
 
             fixed4 frag (v2f i) : SV_Target
-            {                     
-                // this using the colour gradient   
+            {             
+
                 float gray = tex2D(_MainTex, i.uv).r;
 				// get scrolling        
 				float scroll = frac(gray + _Time.x*_Speed);
                 // sample the texture
-                fixed4 col = tex2D(_GradientTex, float2(scroll,0.8));
+                fixed4 col = tex2D(_GradientTex, float2(scroll,1.5));
                 col.a = _Transparency;
                 return col;
             }
