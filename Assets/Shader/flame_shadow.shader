@@ -55,7 +55,6 @@ Shader "Unlit/testing"
             {
                 v2f o;
                 // moves up and down, by sin,
-                _Speed += 0.2*sin(_Time);
                 v.vertex.y += tan(_Time.y * _Speed) * _Distance * _Amount;
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
