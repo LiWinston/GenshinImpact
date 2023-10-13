@@ -536,7 +536,7 @@ AnimatorState:
   m_PrefabAsset: {fileID: 0}
   m_Name: Run_With_Sword
   m_Speed: 1
-  m_CycleOffset: 1
+  m_CycleOffset: 0
   m_Transitions:
   - {fileID: 823155131756356014}
   m_StateMachineBehaviours:
@@ -551,10 +551,10 @@ AnimatorState:
   m_TimeParameterActive: 0
   m_Motion: {fileID: -203655887218126122, guid: cebe818a0b08fb74ea531d0fdb1dd371, type: 3}
   m_Tag: 
-  m_SpeedParameter: 
+  m_SpeedParameter: AttSpeedMult
   m_MirrorParameter: 
-  m_CycleOffsetParameter: 
-  m_TimeParameter: 
+  m_CycleOffsetParameter: AttSpeedMult
+  m_TimeParameter: AttSpeedMult
 --- !u!1101 &-2788078008333500513
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -730,7 +730,7 @@ AnimatorStateTransition:
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1679733869788767203}
-  m_Solo: 1
+  m_Solo: 0
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
@@ -1823,7 +1823,7 @@ AnimatorStateMachine:
     m_Position: {x: 690, y: -220, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -3052613542846887095}
-    m_Position: {x: 510, y: 0, z: 0}
+    m_Position: {x: 550, y: 30, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -5620312481604472723}
     m_Position: {x: 190, y: -190, z: 0}
