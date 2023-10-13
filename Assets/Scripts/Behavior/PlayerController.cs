@@ -354,7 +354,8 @@ namespace Behavior
                 }
             
             }
-
+            
+            // enabling cheat mode.
             if (Input.GetKeyDown(KeyCode.Delete))
             {
                 if (cheatMode == false)
@@ -368,7 +369,7 @@ namespace Behavior
                     cheatMode = false;
                 }
             }
-
+            // levels up the player using L.
             if (Input.GetKeyDown(KeyCode.L))
             {
                 if (cheatMode)
@@ -380,7 +381,7 @@ namespace Behavior
             {
                 if (cheatMode)
                 {
-                    // 如果作弊模式开启，对玩家造成最大生命值的伤害
+                    // enabling cheat code dealts max dmg to player, this becomes the suicide button
                     state.TakeDamage(999999999f);
                 }
             }
@@ -389,7 +390,7 @@ namespace Behavior
 
             if (Input.GetKey(KeyCode.W))
             {
-                moveDirection += transform.forward;
+                moveDirection += transform.forward * 1f;
             }
             if (Input.GetKey(KeyCode.S))
             {
@@ -397,21 +398,21 @@ namespace Behavior
             }
             if (Input.GetKey(KeyCode.A))
             {
-                moveDirection -= transform.right;
+                moveDirection -= transform.right* 1f;
             }
             if (Input.GetKey(KeyCode.D))
             {
-                moveDirection += transform.right;
+                moveDirection += transform.right* 1f;
             }
 
-            if (moveDirection.magnitude > 1f)
+            if (moveDirection.magnitude > 2f)
             {
                 moveDirection.Normalize();
             }
         
             if (!Input.GetKey(KeyCode.LeftShift))
             {
-                // 您的现有移动逻辑
+                // current lo
                 moveForceTimerCounter -= Time.deltaTime;
                 if (!(moveForceTimerCounter <= 0))
                 {
