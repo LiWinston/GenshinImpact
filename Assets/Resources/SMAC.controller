@@ -33,6 +33,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 1
     m_ConditionEvent: Throw
     m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: isDead
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 6951249530894746518}
   m_Solo: 0
@@ -154,6 +157,9 @@ AnimatorStateTransition:
     m_EventTreshold: 0
   - m_ConditionMode: 1
     m_ConditionEvent: Standing
+    m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: isDead
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -3428752309325856319}
@@ -668,6 +674,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 1
     m_ConditionEvent: ULT
     m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: isDead
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -6841382849018173177}
   m_Solo: 0
@@ -743,15 +752,18 @@ AnimatorStateTransition:
   - m_ConditionMode: 1
     m_ConditionEvent: Cast
     m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: isDead
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -1044302115136518615}
   m_Solo: 0
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.25
+  m_TransitionDuration: 0.2500001
   m_TransitionOffset: 0
-  m_ExitTime: 0.75
+  m_ExitTime: 0.11940492
   m_HasExitTime: 0
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
@@ -898,6 +910,9 @@ AnimatorStateTransition:
   m_Conditions:
   - m_ConditionMode: 1
     m_ConditionEvent: RunningJump
+    m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: isDead
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1679733869788767203}
@@ -2091,7 +2106,7 @@ AnimatorStateMachine:
     m_Position: {x: -370, y: 370, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -5620312481604472723}
-    m_Position: {x: 450, y: 110, z: 0}
+    m_Position: {x: 300, y: 20, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 5904816836823268118}
     m_Position: {x: 660, y: 280, z: 0}
@@ -2309,6 +2324,9 @@ AnimatorStateTransition:
   m_Conditions:
   - m_ConditionMode: 1
     m_ConditionEvent: Picking
+    m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: isDead
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 5904816836823268118}
