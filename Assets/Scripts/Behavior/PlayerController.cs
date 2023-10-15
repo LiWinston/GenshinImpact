@@ -398,11 +398,11 @@ namespace Behavior
             }
             if (Input.GetKey(KeyCode.A))
             {
-                moveDirection -= transform.right;
+                moveDirection -= transform.right * 0.7f;
             }
             if (Input.GetKey(KeyCode.D))
             {
-                moveDirection += transform.right;
+                moveDirection += transform.right * 0.7f;
             }
 
             if (moveDirection.magnitude > 2f)
