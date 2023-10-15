@@ -431,7 +431,8 @@ namespace Behavior
                     if(state.ConsumePower(4 * Time.deltaTime))
                     {
                         float sprintSpeed = sprintSpeedRate * (isCrouching ? MaxCrouchPlySpeed : MaxPlySpeed);
-                        rb.velocity = moveDirection * sprintSpeed;
+                        var v = moveDirection * sprintSpeed;
+                        rb.velocity = new Vector3(v.x,rb.velocity.y , v.z);
                     }
                 }
             }
