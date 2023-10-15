@@ -38,11 +38,11 @@ namespace Game
             if(!lookat) lookat = GameObject.Find("SM_Prop_Table_04").transform;
             if (Random.Range(0f, 1f) < 0.5f)
             {
-                BGM.clip = Resources.Load<AudioClip>("Music/幻境_战斗");
+                BGM.clip = Resources.Load<AudioClip>("Music/haunted_house");
             }
             else
             {
-                BGM.clip = Resources.Load<AudioClip>("Music/史诗");
+                BGM.clip = Resources.Load<AudioClip>("Music/haunted_house");
             }
             BGM.Play();
 
@@ -53,13 +53,13 @@ namespace Game
         {
             if (!gameEnded)
             {
-                // 计算从场景加载开始经过的时间
+                // calculate elasped time since level is loaded
                 ElapsedTime = Time.timeSinceLevelLoad - startTime;
 
-                // 计算剩余时间
+                // calculating remaining time
                 RemainingTime = totalGameSeconds - ElapsedTime;
 
-                // 更新倒计时文本
+                // update remaining time
                 UpdateTimerText(RemainingTime);
 
                 if (ElapsedTime >= 240 || Input.GetKey("`")) // 240秒 = 4分钟
@@ -93,8 +93,8 @@ namespace Game
                         if (boosPrfb == null) Debug.LogError("NO BossGenerator");
                         var boosPrfbi = Instantiate(boosPrfb, lookat.position + Vector3.up, Quaternion.identity);
                         
-                        // 触发决战事件，将玩家传送至指定位置
-                        PlayerController.Instance.ShowPlayerHUD("Final battle is coming!");
+                        // End of Game
+                        PlayerController.Instance.ShowPlayerHUD("The Elder is awakening!!");
                         StartCoroutine(TeleportPlayerToFloorLarge());
                         PlayerController.Instance.state.CurrentHealth = PlayerController.Instance.state.maxHealth;
                         PlayerController.Instance.state.CurrentEnergy = PlayerController.Instance.state.maxEnergy;
@@ -119,11 +119,11 @@ namespace Game
 
             if (remainingTime >= finalBattleSeconds)
             {
-                timerText.text = "Countdown to the decisive battle: " + minutes.ToString("00") + " Min " + seconds.ToString("00") + " s";
+                timerText.text = "Survive!! " + minutes.ToString("00") + " Min " + seconds.ToString("00") + " s to Elder awakes";
             }
             else
             {
-                timerText.text = "Hold On Final: " + seconds.ToString("00") + " s";
+                timerText.text = "The Elder wakes in: " + seconds.ToString("00") + " s";
             }
         }
 
@@ -154,7 +154,7 @@ namespace Game
             playerController.transform.rotation = targetRotation;
             
             if(!BGM) BGM = GameObject.Find("BGM").GetComponent<AudioSource>();
-            BGM.clip = Resources.Load<AudioClip>("Music/沙场");
+            BGM.clip = Resources.Load<AudioClip>("Music/final_boss");
             BGM.Play();
             UIManager.Instance.UIMessage_2MSG.Clear();
             UIManager.Instance.ShowMessage2("Meadow Meteor Energy Cost Reduced");
@@ -168,7 +168,7 @@ namespace Game
 
         private void LoadWinScene()
         {
-            // 游戏胜利，加载WinScene场景
+            // loading win scene if boss is defeated
             SceneManager.LoadScene("WinScene");
             gameEnded = true;
         }

@@ -52,7 +52,7 @@ namespace Behavior
         [SerializeField] private float aimDistance;
         [SerializeField] private float chaseDistance;
         // [SerializeField] private float stalkMstSpeed = 1f;
-        [FormerlySerializedAs("MaxSpeed")] [FormerlySerializedAs("MaxMstSpeed")] [SerializeField] private float maxSpeed = 2f;
+        [FormerlySerializedAs("MaxSpeed")] [FormerlySerializedAs("MaxMstSpeed")] [SerializeField] private float maxSpeed = 3f;
         // [SerializeField] private float stalkAccRatio = 0.8f;
         [SerializeField] internal float attackDistance = 1.5f;
         private bool isMoving;
@@ -202,7 +202,7 @@ namespace Behavior
             isMoving = rb.velocity.magnitude > 0.01f;
             animator.SetBool("isMoving", isMoving);
 
-            // Decrease the move force cooldown timer
+            // Decrease the move force cooldown timer  
             // moveForceTimerCounter -= Time.deltaTime;
 
             // Decrease the attack cooldown timer
@@ -268,21 +268,21 @@ namespace Behavior
         {
             if (target.layer == enemyLayer && !target.GetComponent<MonsterBehaviour>().health.IsDead())
             {
-                Debug.LogWarning("保持原敌");
+                Debug.LogWarning("keep on target");
                 return target;
             }
-            // 获取所有在怪物周围的敌人
+            // get all enemies near the player
             Collider[] nearEnemies = Physics.OverlapSphere(transform.position, chaseDistance, enemyLayer);
 
-            // 初始化最近敌人和最近距离
+            // initialise the nearest enemy to the player
             GameObject nearestEnemy = null;
             float nearestDistance = float.MaxValue;
 
-            // 遍历所有附近的敌人
+            // cycle through all enemy
             foreach (Collider enemyCollider in nearEnemies)
             {
                 if (enemyCollider.gameObject == gameObject) continue;
-                // 检查敌人是否存活
+                //  check if enemy is still alive
                 MonsterBehaviour enemyMonster = enemyCollider.GetComponent<MonsterBehaviour>();
                 if (enemyMonster != null && !enemyMonster.health.IsDead())
                 {
@@ -324,7 +324,7 @@ namespace Behavior
     
         private void Attack()
         {
-            // UIManager.Instance.ShowMessage1("揍你！");
+            // UIManager.Instance.ShowMessage1("One Punch!");
             if (!IsInSelfKill)
             {
                 animator.SetTrigger("AttackTrigger");
