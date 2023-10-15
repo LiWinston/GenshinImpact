@@ -394,7 +394,7 @@ namespace Behavior
             }
             if (Input.GetKey(KeyCode.S))
             {
-                moveDirection -= transform.forward * backwardRate;
+                moveDirection -= transform.forward * 0.7f;
             }
             if (Input.GetKey(KeyCode.A))
             {
@@ -622,14 +622,12 @@ namespace Behavior
             if (state.IsEmptyHealth())
             {
                 _isDead = true;
-                // animator.Play("Flying Back Death");
-                animator.SetBool(Standing, false);
-                animator.SetBool(IsAttacking, false);
-                animator.SetBool(IsMoving, false);
-                animator.SetBool(IsGrounded, false);
+                animator.Play("Flying Back Death");
+                //animator.SetBool(Standing, false);
+                //animator.SetBool(IsAttacking, false);
+                //animator.SetBool(IsMoving, false);
+                //animator.SetBool(IsGrounded, false);
                 animator.SetBool(IsDead,_isDead);
-            
-
                 StartCoroutine(GameOver());
                 return;
             }
