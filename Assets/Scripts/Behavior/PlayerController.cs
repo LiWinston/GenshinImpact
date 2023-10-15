@@ -45,7 +45,7 @@ namespace Behavior
         [Header("Movement Settings")]
         public float crouchForceRate = 0.95f;
         [SerializeField] private float MaxCrouchPlySpeed = 1f;
-        [SerializeField] private float MaxPlySpeed = 2f;
+        [SerializeField] private float MaxPlySpeed = 1.5f;
         [SerializeField] private float sprintSpeedRate = 1.5f;
     
         [Header("Mouse Look Settings")]
@@ -55,8 +55,8 @@ namespace Behavior
         internal bool isJumping = false;
         internal bool isCrouching = false;
         public float forwardForce = 100;
-        public float backwardRate = 0.9f;
-        public float jumpForce = 800;
+        public float backwardRate = 0.7f;
+        public float jumpForce = 200;
     
     
         // private bool isClimbing = false;
