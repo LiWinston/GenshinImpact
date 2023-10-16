@@ -45,7 +45,7 @@ namespace Behavior
         [Header("Movement Settings")]
         public float crouchForceRate = 0.95f;
         [SerializeField] private float MaxCrouchPlySpeed = 1f;
-        [SerializeField] private float MaxPlySpeed = 2f;
+        [SerializeField] private float MaxPlySpeed = 1.5f;
         [SerializeField] private float sprintSpeedRate = 1.5f;
     
         [Header("Mouse Look Settings")]
@@ -55,8 +55,8 @@ namespace Behavior
         internal bool isJumping = false;
         internal bool isCrouching = false;
         public float forwardForce = 100;
-        public float backwardRate = 0.9f;
-        public float jumpForce = 800;
+        public float backwardRate = 0.7f;
+        public float jumpForce = 200;
     
     
         // private bool isClimbing = false;
@@ -394,15 +394,15 @@ namespace Behavior
             }
             if (Input.GetKey(KeyCode.S))
             {
-                moveDirection -= transform.forward * backwardRate;
+                moveDirection -= transform.forward * 0.7f;
             }
             if (Input.GetKey(KeyCode.A))
             {
-                moveDirection -= transform.right;
+                moveDirection -= transform.right * 0.7f;
             }
             if (Input.GetKey(KeyCode.D))
             {
-                moveDirection += transform.right;
+                moveDirection += transform.right * 0.7f;
             }
 
             if (moveDirection.magnitude > 2f)
@@ -622,14 +622,12 @@ namespace Behavior
             if (state.IsEmptyHealth())
             {
                 _isDead = true;
-                // animator.Play("Flying Back Death");
-                animator.SetBool(Standing, false);
-                animator.SetBool(IsAttacking, false);
-                animator.SetBool(IsMoving, false);
-                animator.SetBool(IsGrounded, false);
+                animator.Play("Flying Back Death");
+                //animator.SetBool(Standing, false);
+                //animator.SetBool(IsAttacking, false);
+                //animator.SetBool(IsMoving, false);
+                //animator.SetBool(IsGrounded, false);
                 animator.SetBool(IsDead,_isDead);
-            
-
                 StartCoroutine(GameOver());
                 return;
             }
