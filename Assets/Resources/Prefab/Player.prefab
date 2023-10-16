@@ -637,9 +637,9 @@ MonoBehaviour:
   crouchForceRate: 0.95
   MaxCrouchPlySpeed: 2.7
   MaxPlySpeed: 6
-  sprintSpeedRate: 1.5
+  sprintSpeedRate: 1.75
   mouseSensitivity: 100
-  forwardForce: 24000
+  forwardForce: 27000
   backwardRate: 0.9
   jumpForce: 6000
   textMeshProComponent: {fileID: 0}
@@ -713,8 +713,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc327f1ef722365468467861957eeb61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 300
-  currentHealth: 300
+  maxHealth: 500
+  currentHealth: 500
   addHealthOnUpdate: 50
   addMaxHealthOnUpdate: 25
   maxEnergy: 200
@@ -1229,6 +1229,10 @@ PrefabInstance:
     - target: {fileID: 5848477473061255142, guid: 2e1919b3058a29a40ab972890a296978, type: 3}
       propertyPath: m_Name
       value: Model
+      objectReference: {fileID: 0}
+    - target: {fileID: 5848477473061255143, guid: 2e1919b3058a29a40ab972890a296978, type: 3}
+      propertyPath: m_CastShadows
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5848477473061255144, guid: 2e1919b3058a29a40ab972890a296978, type: 3}
       propertyPath: m_Enabled

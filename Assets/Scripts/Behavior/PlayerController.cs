@@ -45,7 +45,7 @@ namespace Behavior
         [Header("Movement Settings")]
         public float crouchForceRate = 0.95f;
         [SerializeField] private float MaxCrouchPlySpeed = 1f;
-        [SerializeField] private float MaxPlySpeed = 2f;
+        [SerializeField] private float MaxPlySpeed = 1.5f;
         [SerializeField] private float sprintSpeedRate = 1.5f;
     
         [Header("Mouse Look Settings")]
@@ -55,8 +55,8 @@ namespace Behavior
         internal bool isJumping = false;
         internal bool isCrouching = false;
         public float forwardForce = 100;
-        public float backwardRate = 0.9f;
-        public float jumpForce = 800;
+        public float backwardRate = 0.7f;
+        public float jumpForce = 200;
     
     
         // private bool isClimbing = false;
@@ -354,7 +354,8 @@ namespace Behavior
                 }
             
             }
-
+            
+            // enabling cheat mode.
             if (Input.GetKeyDown(KeyCode.Delete))
             {
                 if (cheatMode == false)
@@ -368,7 +369,7 @@ namespace Behavior
                     cheatMode = false;
                 }
             }
-
+            // levels up the player using L.
             if (Input.GetKeyDown(KeyCode.L))
             {
                 if (cheatMode)
@@ -380,7 +381,7 @@ namespace Behavior
             {
                 if (cheatMode)
                 {
-                    // 如果作弊模式开启，对玩家造成最大生命值的伤害
+                    // enabling cheat code dealts max dmg to player, this becomes the suicide button
                     state.TakeDamage(999999999f);
                 }
             }
@@ -389,29 +390,29 @@ namespace Behavior
 
             if (Input.GetKey(KeyCode.W))
             {
-                moveDirection += transform.forward;
+                moveDirection += transform.forward * 1f;
             }
             if (Input.GetKey(KeyCode.S))
             {
-                moveDirection -= transform.forward * backwardRate;
+                moveDirection -= transform.forward * 0.7f;
             }
             if (Input.GetKey(KeyCode.A))
             {
-                moveDirection -= transform.right;
+                moveDirection -= transform.right * 0.7f;
             }
             if (Input.GetKey(KeyCode.D))
             {
-                moveDirection += transform.right;
+                moveDirection += transform.right * 0.7f;
             }
 
-            if (moveDirection.magnitude > 1f)
+            if (moveDirection.magnitude > 2f)
             {
                 moveDirection.Normalize();
             }
         
             if (!Input.GetKey(KeyCode.LeftShift))
             {
-                // 您的现有移动逻辑
+                // current lo
                 moveForceTimerCounter -= Time.deltaTime;
                 if (!(moveForceTimerCounter <= 0))
                 {
@@ -431,7 +432,8 @@ namespace Behavior
                     if(state.ConsumePower(4 * Time.deltaTime))
                     {
                         float sprintSpeed = sprintSpeedRate * (isCrouching ? MaxCrouchPlySpeed : MaxPlySpeed);
-                        rb.velocity = moveDirection * sprintSpeed;
+                        var v = moveDirection * sprintSpeed;
+                        rb.velocity = new Vector3(v.x,rb.velocity.y , v.z);
                     }
                 }
             }
@@ -620,14 +622,12 @@ namespace Behavior
             if (state.IsEmptyHealth())
             {
                 _isDead = true;
-                // animator.Play("Flying Back Death");
-                animator.SetBool(Standing, false);
-                animator.SetBool(IsAttacking, false);
-                animator.SetBool(IsMoving, false);
-                animator.SetBool(IsGrounded, false);
+                animator.Play("Flying Back Death");
+                //animator.SetBool(Standing, false);
+                //animator.SetBool(IsAttacking, false);
+                //animator.SetBool(IsMoving, false);
+                //animator.SetBool(IsGrounded, false);
                 animator.SetBool(IsDead,_isDead);
-            
-
                 StartCoroutine(GameOver());
                 return;
             }

@@ -1,9 +1,13 @@
+using System.Collections;
 using UnityEngine;
+using UnityEngine.Pool;
+using Utility;
 
 namespace Behavior.Skills
 {
-    public class MonsterProjectile : MonoBehaviour
+    public class MonsterProjectile : MonoBehaviour, Utility.IPoolable
     {
+        [SerializeField] private float rotateSpeed = 30f;
         public float projectileSpeed = 10f; // 投射物速度
         public float damage = 10f; // 投射物伤害
 
@@ -11,16 +15,46 @@ namespace Behavior.Skills
         // private Vector3 initialPosition; // 投射物初始位置
         private bool _hasHit = false;
         public MonsterBehaviour _monsterBehaviour;
+        private Coroutine existCoroutine;
+        [SerializeField] private float maxExistTime = 5f;
 
+
+        public ObjectPool<GameObject> ThisPool { get; set; }
+        public bool IsExisting { get; set; }
+        
+
+        public void actionOnGet()
+        {
+            _hasHit = false;
+            gameObject.SetActive(true);
+            // GetComponent<Rigidbody>().velocity = _monsterBehaviour.transform.forward * projectileSpeed;
+            existCoroutine = StartCoroutine(ReturnToPoolDelayed(maxExistTime));
+            IsExisting = true;
+            GetComponent<AudioSource>().Play();
+        }
+
+        public void actionOnRelease()
+        {
+            // GetComponent<Rigidbody>().velocity = Vector3.zero;
+            _hasHit = false;
+            if(existCoroutine != null){
+                StopCoroutine(existCoroutine);
+                existCoroutine = null;
+            }
+            IsExisting = false;
+            GetComponent<AudioSource>().Stop();
+        }
+        
         private void Start()
         {
             // initialPosition = transform.position;
-            _target = PlayerController.Instance.pickHandTransform; // 获取玩家对象
+            _target = Find.FindDeepChild(PlayerController.Instance.transform, "neck_01"); // 获取玩家对象
         }
 
         private void Update()
         {
-            if (!_hasHit)
+            // if(GetComponent<Rigidbody>().velocity.magnitude < 0.01f) ThisPool.Release(gameObject);
+            if (!_hasHit && IsExisting)
             {
                 if (_target != null)
                 {
@@ -31,7 +65,7 @@ namespace Behavior.Skills
 
                     // 使用球形插值来平滑调整投射物方向
                     Quaternion rotation = Quaternion.LookRotation(direction);
-                    transform.rotation = Quaternion.Slerp(transform.rotation, rotation, 100 * Time.deltaTime);
+                    transform.rotation = Quaternion.Slerp(transform.rotation, rotation, rotateSpeed * Time.deltaTime);
 
                     // 让投射物向前移动
                     transform.Translate(Vector3.forward * (projectileSpeed * Time.fixedDeltaTime));
@@ -39,7 +73,7 @@ namespace Behavior.Skills
                 else
                 {
                     // 如果目标丢失，销毁投射物
-                    Destroy(gameObject);
+                    ThisPool.Release(gameObject);
                 }
             }
         }
@@ -55,16 +89,14 @@ namespace Behavior.Skills
             if (other.gameObject.layer == LayerMask.GetMask("Wall", "Floor")) Destroy(this.gameObject);
             if (other.gameObject.layer== LayerMask.NameToLayer("Wall") || other.gameObject.layer == LayerMask.NameToLayer("Floor"))
             {
-                Debug.Log("Hit Wall");
-                Destroy(this.gameObject);
+                ThisPool.Release(gameObject);
             }
         }
     
         private void HitPlayer()
         {
             // 玩家受到伤害
-        
-            PlayerController.Instance.TakeDamage(_monsterBehaviour.minAttackPower * Random.Range(1f, 1.5f));
+            PlayerController.Instance.TakeDamage(_monsterBehaviour.monsterLevel/20 *Random.Range(_monsterBehaviour.minAttackPower, _monsterBehaviour.maxAttackPower));
             
         
 
@@ -75,7 +107,17 @@ namespace Behavior.Skills
             // 例如，你可以播放粒子效果来表示怪物攻击击中了玩家
 
             // 销毁投射物
-            Destroy(gameObject);
+            ThisPool.Release(gameObject);
+        }
+        
+        private IEnumerator ReturnToPoolDelayed(float delay)
+        {
+            yield return new WaitForSeconds(delay);
+            // Return the object to the object pool
+            if (IsExisting)
+            {
+                ThisPool.Release(gameObject);
+            }
         }
     }
 }

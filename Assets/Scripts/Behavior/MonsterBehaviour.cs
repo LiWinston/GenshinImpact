@@ -39,7 +39,7 @@ namespace Behavior
         public float obstacleDetectionInterval = 3f; // 检测间隔，每隔3秒检测一次
     
         [SerializeField] internal float minAttackPower = 5;
-        [SerializeField] private float maxAttackPower = 10;
+        [SerializeField] internal float maxAttackPower = 10;
     
     
         public float rotationSpeed = 2f; // 调整旋转速度
@@ -52,7 +52,7 @@ namespace Behavior
         [SerializeField] private float aimDistance;
         [SerializeField] private float chaseDistance;
         // [SerializeField] private float stalkMstSpeed = 1f;
-        [FormerlySerializedAs("MaxSpeed")] [FormerlySerializedAs("MaxMstSpeed")] [SerializeField] private float maxSpeed = 2f;
+        [FormerlySerializedAs("MaxSpeed")] [FormerlySerializedAs("MaxMstSpeed")] [SerializeField] private float maxSpeed = 3f;
         // [SerializeField] private float stalkAccRatio = 0.8f;
         [SerializeField] internal float attackDistance = 1.5f;
         private bool isMoving;
@@ -86,6 +86,8 @@ namespace Behavior
             gameObject.SetActive(true);
             _effectTimeManager.StopEffect("SelfKill");
             _effectTimeManager.StopEffect("Freeze");
+            //Debug RT error, health Curve Init on get
+            healthCurve = GetComponents<Component>().OfType<PositiveProportionalCurve>().FirstOrDefault(curve => curve.CurveName == "MonsterHealthLevelCurve");
             InitializeMonsterLevel();
             _hasAppliedDeathEffect = false;
             target = PlayerController.Instance.gameObject;
@@ -200,7 +202,7 @@ namespace Behavior
             isMoving = rb.velocity.magnitude > 0.01f;
             animator.SetBool("isMoving", isMoving);
 
-            // Decrease the move force cooldown timer
+            // Decrease the move force cooldown timer  
             // moveForceTimerCounter -= Time.deltaTime;
 
             // Decrease the attack cooldown timer
@@ -266,21 +268,21 @@ namespace Behavior
         {
             if (target.layer == enemyLayer && !target.GetComponent<MonsterBehaviour>().health.IsDead())
             {
-                Debug.LogWarning("保持原敌");
+                Debug.LogWarning("keep on target");
                 return target;
             }
-            // 获取所有在怪物周围的敌人
+            // get all enemies near the player
             Collider[] nearEnemies = Physics.OverlapSphere(transform.position, chaseDistance, enemyLayer);
 
-            // 初始化最近敌人和最近距离
+            // initialise the nearest enemy to the player
             GameObject nearestEnemy = null;
             float nearestDistance = float.MaxValue;
 
-            // 遍历所有附近的敌人
+            // cycle through all enemy
             foreach (Collider enemyCollider in nearEnemies)
             {
                 if (enemyCollider.gameObject == gameObject) continue;
-                // 检查敌人是否存活
+                //  check if enemy is still alive
                 MonsterBehaviour enemyMonster = enemyCollider.GetComponent<MonsterBehaviour>();
                 if (enemyMonster != null && !enemyMonster.health.IsDead())
                 {
@@ -322,7 +324,7 @@ namespace Behavior
     
         private void Attack()
         {
-            // UIManager.Instance.ShowMessage1("揍你！");
+            // UIManager.Instance.ShowMessage1("One Punch!");
             if (!IsInSelfKill)
             {
                 animator.SetTrigger("AttackTrigger");
@@ -364,8 +366,8 @@ namespace Behavior
                 monsterLevel = 100;
                 health.SetHealthMax(1500000, true);
                 monsterExperience = 0;
-                minAttackPower = 40;
-                maxAttackPower = 55;
+                minAttackPower = 25;
+                maxAttackPower = 42f;
                 return;
             }
             // 计算怪物等级，使其在五分钟内逐渐增长到最大等级
