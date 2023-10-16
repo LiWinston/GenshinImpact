@@ -390,7 +390,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1678239912745874840}
   serializedVersion: 4
-  m_Mass: 400
+  m_Mass: 300
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -459,7 +459,7 @@ MonoBehaviour:
   isAmountUpdatedWithLevel: 1
   isDamageUpdatedWithUseTimes: 1
   isCosumingEnegyProportionally: 1
-  "\u82E5\u6309\u6BD4\u4F8B\u6BCF\u53D1\u8017\u80FD_singleShootEnegyConsumptionPercentage": 0.008
+  "\u82E5\u6309\u6BD4\u4F8B\u6BCF\u53D1\u8017\u80FD_singleShootEnegyConsumptionPercentage": 0.0025
   maxThrowingsCount: 30
   maxAngle_SingleSide: 30
 --- !u!114 &1622994277371618379
@@ -564,7 +564,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9012ec7ec793c144f9f905436e3a3714, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Name: Undefined
+  Name: "\u9B42\u7275\u68A6\u8426"
   prefab: {fileID: 5633851335140538449, guid: ed076578aada9594d8d65138fa81b028, type: 3}
   generatingOffset: {x: 0, y: 0.4, z: 0}
   defaultCapacity: 6
@@ -641,7 +641,7 @@ MonoBehaviour:
   mouseSensitivity: 100
   forwardForce: 27000
   backwardRate: 0.9
-  jumpForce: 6000
+  jumpForce: 2800
   textMeshProComponent: {fileID: 0}
   mycamera: {fileID: 691092138744490856}
   MAX_ALLOWED_INTERACT_RANGE: 3
@@ -765,7 +765,7 @@ NavMeshAgent:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1678239912745874840}
-  m_Enabled: 1
+  m_Enabled: 0
   m_AgentTypeID: 0
   m_Radius: 1.17
   m_Speed: 3.5
