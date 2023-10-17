@@ -623,14 +623,14 @@ namespace Behavior
             {
                 _isDead = true;
                 animator.Play("Flying Back Death");
-                //animator.SetBool(Standing, false);
-                //animator.SetBool(IsAttacking, false);
-                //animator.SetBool(IsMoving, false);
-                //animator.SetBool(IsGrounded, false);
+                swordObject.GetComponent<Sword>().BehaviourOnHolderDie();
+                // HeadOff();
+                
                 animator.SetBool(IsDead,_isDead);
                 StartCoroutine(GameOver());
                 return;
             }
+            
             switch (state.isJZZ)
             {
                 case true:
