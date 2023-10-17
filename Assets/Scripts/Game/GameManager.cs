@@ -20,19 +20,20 @@ namespace Game
         public Transform bossRoom;
         public Transform lookat;
         private bool isFinalBattle = false;
-        public float ElapsedTime;
+        [FormerlySerializedAs("ElapsedTime")] public float _realElapsedTime;
         public float RemainingTime;
         public AudioSource BGM;
 
         public GameObject stuffGenerator;
         [SerializeField] private float totalGameSeconds = 310;
         [SerializeField] private float finalBattleSeconds = 75;
-        
+        private float finalBattleStartTimeStamp = 0f;
+
 
         private void Start()
         {
             gameEnded = false;
-            ElapsedTime = 0f;
+            _realElapsedTime = 0f;
             // 获取当前场景加载的时间
             startTime = Time.timeSinceLevelLoad;
             if(!lookat) lookat = GameObject.Find("SM_Prop_Table_04").transform;
@@ -53,16 +54,27 @@ namespace Game
         {
             if (!gameEnded)
             {
-                // calculate elasped time since level is loaded
-                ElapsedTime = Time.timeSinceLevelLoad - startTime;
-
-                // calculating remaining time
-                RemainingTime = totalGameSeconds - ElapsedTime;
-
                 // update remaining time
-                UpdateTimerText(RemainingTime);
+                if (!isFinalBattle)
+                {
+                    // calculate elasped time since level is loaded
+                    _realElapsedTime = Time.timeSinceLevelLoad - startTime;
+                    RemainingTime = totalGameSeconds - _realElapsedTime;
+                    UpdateTimerText(RemainingTime - finalBattleSeconds);
+                }
+                else
+                {
+                    RemainingTime = finalBattleSeconds - (Time.timeSinceLevelLoad - finalBattleStartTimeStamp);
+                    UpdateTimerText(RemainingTime);
+                }
+                if (RemainingTime <= 0f)
+                {
+                    // _realElapsedTime = -1f;
+                    // 游戏胜利，加载WinScene场景
+                    LoadWinScene();
+                }
 
-                if (ElapsedTime >= 240 || Input.GetKey("`")) // 240秒 = 4分钟
+                if (_realElapsedTime >= totalGameSeconds - finalBattleSeconds || Input.GetKey("`"))
                 {
                     if (!isFinalBattle)
                     {
@@ -101,36 +113,32 @@ namespace Game
                         PlayerController.Instance.state.CurrentPower = PlayerController.Instance.state.maxPower;
                         
                     }
-                    
-                    if (ElapsedTime >= totalGameSeconds) // 300秒 = 5分钟
-                    {
-                        ElapsedTime = -1f;
-                        // 游戏胜利，加载WinScene场景
-                        LoadWinScene();
-                    }
                 }
             }
         }
 
         private void UpdateTimerText(float remainingTime)
         {
-            int minutes = Mathf.FloorToInt((remainingTime - 60) / 60);
+            int minutes = Mathf.FloorToInt(remainingTime / 60);
             int seconds = Mathf.FloorToInt(remainingTime % 60);
-
-            if (remainingTime >= finalBattleSeconds)
+            string timeStr = minutes.ToString("00") + " Min " + seconds.ToString("00") + " s";
+            // if (remainingTime >= finalBattleSeconds)
+            if(!isFinalBattle)
             {
-                timerText.text = "Survive!! " + minutes.ToString("00") + " Min " + seconds.ToString("00") + " s to Elder awakes";
+                timerText.text = "Survive!! " + timeStr + " to Elder awakes";
             }
             else
             {
-                timerText.text = "The Elder wakes in: " + seconds.ToString("00") + " s";
+                timerText.text = "Survive for " + timeStr + "OR Kill the Elder!";
             }
         }
 
         private IEnumerator TeleportPlayerToFloorLarge()
         {
             isFinalBattle = true;
-            
+            // finalBattleTimer = finalBattleSeconds;
+            finalBattleStartTimeStamp = Time.timeSinceLevelLoad;
+                
             ParticleSystem transfer = Resources.Load<ParticleSystem>("Liberate_04.1_Darkness");
             if (transfer == null) Debug.LogError("NO transfer");
             var transferi = new ParticleSystem[8];
@@ -146,6 +154,7 @@ namespace Game
                 Destroy(transferi[x].gameObject);
             }
             playerController.transform.position = bossRoom.position + Vector3.up * 2f;
+            
             // PlayerController.Instance.transform.forward =lookat.position - PlayerController.Instance.transform.position;
             Vector3 targetDirection = lookat.transform.position - playerController.transform.position;
             targetDirection.y = 0f; // 将Y轴分量置零，以确保只在水平面上旋转
