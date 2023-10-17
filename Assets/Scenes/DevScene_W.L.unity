@@ -6306,6 +6306,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 357082100983638266, guid: 705a0aa5ac66b2f42b8577a6b33a634d, type: 3}
   m_PrefabInstance: {fileID: 1606173549}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1619204496 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8443738938356801097, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
+  m_PrefabInstance: {fileID: 6755353934008130882}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8958e99c0ecfa3f43b447da29d73f136, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1658567919
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8551,6 +8562,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1311987219512801190, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
+      propertyPath: _damageUsageCurve
+      value: 
+      objectReference: {fileID: 1619204496}
+    - target: {fileID: 1311987219512801190, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
+      propertyPath: "\u82E5\u6309\u6BD4\u4F8B\u6BCF\u53D1\u8017\u80FD_singleShootEnegyConsumptionPercentage"
+      value: 0.04
+      objectReference: {fileID: 0}
     - target: {fileID: 1678239912745874840, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
       propertyPath: m_Name
       value: Player
@@ -8594,6 +8613,50 @@ PrefabInstance:
     - target: {fileID: 7406021605194356953, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8443738938356801097, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
+      propertyPath: max
+      value: 10000
+      objectReference: {fileID: 0}
+    - target: {fileID: 8443738938356801097, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
+      propertyPath: limitByMINMAX
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8443738938356801097, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
+      propertyPath: curvePoints.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8443738938356801097, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
+      propertyPath: curvePoints.Array.data[0]._x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8443738938356801097, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
+      propertyPath: curvePoints.Array.data[1]._x
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 8443738938356801097, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
+      propertyPath: curvePoints.Array.data[2]._x
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 8443738938356801097, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
+      propertyPath: curvePoints.Array.data[3]._x
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 8443738938356801097, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
+      propertyPath: curvePoints.Array.data[0]._f_x_
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 8443738938356801097, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
+      propertyPath: curvePoints.Array.data[1]._f_x_
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 8443738938356801097, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
+      propertyPath: curvePoints.Array.data[2]._f_x_
+      value: 4000
+      objectReference: {fileID: 0}
+    - target: {fileID: 8443738938356801097, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
+      propertyPath: curvePoints.Array.data[3]._f_x_
+      value: 8000
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
