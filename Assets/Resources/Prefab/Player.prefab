@@ -517,12 +517,12 @@ MonoBehaviour:
   key: 102
   validColor: {r: 1, g: 0.9914959, b: 0, a: 1}
   invalidColor: {r: 1, g: 0, b: 0, a: 1}
-  _damageUsageCurve: {fileID: 1622994277371618379}
+  _damageUsageCurve: {fileID: 8443738938356801097}
   damagePracticeCurveName: 
   isAmountUpdatedWithLevel: 0
   isDamageUpdatedWithUseTimes: 1
   isCosumingEnegyProportionally: 1
-  "\u82E5\u6309\u6BD4\u4F8B\u6BCF\u53D1\u8017\u80FD_singleShootEnegyConsumptionPercentage": 0.05
+  "\u82E5\u6309\u6BD4\u4F8B\u6BCF\u53D1\u8017\u80FD_singleShootEnegyConsumptionPercentage": 0.04
   maxThrowingsCount: 0
   maxAngle_SingleSide: 0
 --- !u!114 &8443738938356801097
@@ -541,18 +541,16 @@ MonoBehaviour:
     Curve"
   limitByMINMAX: 1
   min: 0
-  max: 8000
+  max: 10000
   curvePoints:
   - _x: 0
-    _f_x_: 100
-  - _x: 10
-    _f_x_: 400
+    _f_x_: 40
   - _x: 20
-    _f_x_: 800
-  - _x: 40
-    _f_x_: 2000
+    _f_x_: 500
   - _x: 100
-    _f_x_: 9000
+    _f_x_: 4000
+  - _x: 500
+    _f_x_: 8000
 --- !u!114 &737389524479703910
 MonoBehaviour:
   m_ObjectHideFlags: 0
