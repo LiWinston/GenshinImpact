@@ -345,6 +345,7 @@ GameObject:
   - component: {fileID: 1311987219512801190}
   - component: {fileID: 8443738938356801097}
   - component: {fileID: 737389524479703910}
+  - component: {fileID: 5724020550957427962}
   - component: {fileID: 5614921957825579036}
   - component: {fileID: 6844506482609387575}
   - component: {fileID: 9011349587138179888}
@@ -578,14 +579,38 @@ MonoBehaviour:
   key: 103
   validColor: {r: 0, g: 0.73154736, b: 1, a: 1}
   invalidColor: {r: 1, g: 0, b: 0, a: 1}
-  _damageUsageCurve: {fileID: 0}
+  _damageUsageCurve: {fileID: 5724020550957427962}
   damagePracticeCurveName: 
   isAmountUpdatedWithLevel: 0
-  isDamageUpdatedWithUseTimes: 0
-  isCosumingEnegyProportionally: 0
-  "\u82E5\u6309\u6BD4\u4F8B\u6BCF\u53D1\u8017\u80FD_singleShootEnegyConsumptionPercentage": 0
+  isDamageUpdatedWithUseTimes: 1
+  isCosumingEnegyProportionally: 1
+  "\u82E5\u6309\u6BD4\u4F8B\u6BCF\u53D1\u8017\u80FD_singleShootEnegyConsumptionPercentage": 0.25
   maxThrowingsCount: 30
   maxAngle_SingleSide: 30
+--- !u!114 &5724020550957427962
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1678239912745874840}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8958e99c0ecfa3f43b447da29d73f136, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CurveName: "\u9B42\u7275\u68A6\u8426\u4F24\u5BB3-\u4F7F\u7528\u6B21\u6570\u66F2\u7EBF
+    damage-useCount Curve"
+  limitByMINMAX: 1
+  min: 0
+  max: 8000
+  curvePoints:
+  - _x: 0
+    _f_x_: 80
+  - _x: 20
+    _f_x_: 2500
+  - _x: 64
+    _f_x_: 10000
 --- !u!114 &5614921957825579036
 MonoBehaviour:
   m_ObjectHideFlags: 0
