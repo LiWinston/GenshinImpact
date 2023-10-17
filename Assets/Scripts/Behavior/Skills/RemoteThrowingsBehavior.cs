@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Behavior.Effect;
+using Game;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Pool;
@@ -43,6 +44,7 @@ namespace Behavior.Skills
         private bool detectedEnemy = false; // Flag whether an enemy has been detected
         private GameObject target = null;
         private int bounceCount = 0;
+        private int BouncingEXP = 0;
         private bool hasAppliedFirstDamage = false;
         private bool hasAppliedAOE;
         private HashSet<GameObject> hitEnemies;
@@ -59,6 +61,7 @@ namespace Behavior.Skills
         [SerializeField] public AudioClip startAudioClip;
         [SerializeField] public AudioClip hitAudioClip;
         private EffectTimeManager _effectTimeManager;
+        
 
         private void Awake(){
             _effectTimeManager = GetComponent<EffectTimeManager>();
@@ -80,6 +83,7 @@ namespace Behavior.Skills
             // hasEnemyInside = false;
             detectedEnemy = false;
             bounceCount = 0;
+            BouncingEXP = 0;
             IsExisting = true;
             hasAppliedAOE = false;
             hasAppliedFirstDamage = false;
@@ -98,6 +102,10 @@ namespace Behavior.Skills
                 _effectTimeManager.StopEffect("Bounce");
                 StopCoroutine(BounceCoroutine);
                 BounceCoroutine = null;
+            }
+            if(_effectCategory == EffectCategory.Bouncing && !GameManager.Instance.IsFinalBattle){
+                PlayerController.Instance.ShowPlayerHUD("Extract EXP + " + BouncingEXP);
+                PlayerController.Instance.state.AddExperience(BouncingEXP);
             }
             IsExisting = false;
             target = null;
@@ -250,8 +258,9 @@ namespace Behavior.Skills
                 // Debug.Log("Hit" + other.name + "dmg = "+ dmg);
                 mst.TakeDamage(dmg);
                 //加强 ： 弹人能升级
-                PlayerController.Instance.state.AddExperience(mst.monsterExperience);
-                PlayerController.Instance.ShowPlayerHUD("Bounce EXP + " + mst.monsterExperience);
+                // PlayerController.Instance.state.AddExperience(mst.monsterExperience);
+                // PlayerController.Instance.ShowPlayerHUD("Bounce EXP + " + mst.monsterExperience);
+                BouncingEXP += mst.monsterExperience;
                 
                 if(hitAudioClip) SoundEffectManager.Instance.PlaySound(hitAudioClip, gameObject);
                 hitEnemies.Add(mst.gameObject);
@@ -272,7 +281,11 @@ namespace Behavior.Skills
                 transform.LookAt(target.transform);
                 BounceCoroutine = StartCoroutine(Bounce());
                 // Debug.Log("择取下一个："+nextTarget);
-            }else ThisPool.Release(gameObject);
+            }
+            else
+            {
+                ThisPool.Release(gameObject);
+            }
         }
 
         public Coroutine BounceCoroutine { get; set; }
