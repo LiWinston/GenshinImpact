@@ -29,6 +29,32 @@ namespace Game
         [SerializeField] private float finalBattleSeconds = 75;
         private float finalBattleStartTimeStamp = 0f;
 
+        private static GameManager instance;
+        
+        public static GameManager Instance
+        {
+            get
+            {
+            if (instance == null)
+            {
+                instance = FindObjectOfType<GameManager>();
+                
+                if (instance == null)
+                {
+                    GameObject gameObject = new GameObject("GameManager");
+                    instance = gameObject.AddComponent<GameManager>();
+                }
+            }
+
+            return instance;
+            }
+        }
+
+        public bool IsFinalBattle
+        {
+            get => isFinalBattle;
+            set { isFinalBattle = value; }
+        }
 
         private void Start()
         {
@@ -55,7 +81,7 @@ namespace Game
             if (!gameEnded)
             {
                 // update remaining time
-                if (!isFinalBattle)
+                if (!IsFinalBattle)
                 {
                     // calculate elasped time since level is loaded
                     _realElapsedTime = Time.timeSinceLevelLoad - startTime;
@@ -76,7 +102,7 @@ namespace Game
 
                 if (_realElapsedTime >= totalGameSeconds - finalBattleSeconds || Input.GetKey("`"))
                 {
-                    if (!isFinalBattle)
+                    if (!IsFinalBattle)
                     {
                         //Stop Generating normal mst
                         stuffGenerator.GetComponents<Component>().OfType<PrefabGenerator>().FirstOrDefault(pg => pg.prefab.name == "MST")!.maxCapacity = 0;
@@ -123,7 +149,7 @@ namespace Game
             int seconds = Mathf.FloorToInt(remainingTime % 60);
             string timeStr = minutes.ToString("00") + " Min " + seconds.ToString("00") + " s";
             // if (remainingTime >= finalBattleSeconds)
-            if(!isFinalBattle)
+            if(!IsFinalBattle)
             {
                 timerText.text = "Survive!! " + timeStr + " to Elder awakes";
             }
@@ -135,7 +161,7 @@ namespace Game
 
         private IEnumerator TeleportPlayerToFloorLarge()
         {
-            isFinalBattle = true;
+            IsFinalBattle = true;
             // finalBattleTimer = finalBattleSeconds;
             finalBattleStartTimeStamp = Time.timeSinceLevelLoad;
                 
