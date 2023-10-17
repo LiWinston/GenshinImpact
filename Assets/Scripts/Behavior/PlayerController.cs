@@ -651,7 +651,7 @@ namespace Behavior
 
         private IEnumerator GameOver()
         {
-            yield return new WaitForSeconds(2.7f);
+            yield return new WaitForSeconds(1.9f);
             SceneManager.LoadScene("LoseScene"); 
         }
 
