@@ -400,6 +400,7 @@ GameObject:
   - component: {fileID: 3207376126136473266}
   - component: {fileID: -9168318566561915745}
   - component: {fileID: 2532821833711216819}
+  - component: {fileID: -2114460677680238331}
   m_Layer: 7
   m_Name: MST
   m_TagString: Enemy
@@ -698,6 +699,25 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &-2114460677680238331
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 932865806192016074}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 739a950bec0c9724c9ed702ca3ef3fb9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  projectilePrefab: {fileID: 4084828893074943605, guid: 81f7b580366e20c49a308d4af4e1f158, type: 3}
+  projectileSpawnPoint: {fileID: 6461823985792254834}
+  attackCooldown: 4
+  aimDistance: 10
+  _monsterBehaviour: {fileID: 0}
+  defaultCapacity: 3
+  maxCapacity: 5
 --- !u!1 &986807896210216346
 GameObject:
   m_ObjectHideFlags: 0
