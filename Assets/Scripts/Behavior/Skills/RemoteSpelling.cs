@@ -205,15 +205,27 @@ namespace Behavior.Skills
                                                          * _playerController.state.maxEnergy * (float)(Math.Log(useTimes) / Math.Log(baseDmg));
                 return throwingsBehavior._energyCost * CalculateDamage(useTimes) / baseDmg;
             }
-            
+
             //发射型
             (numberToThrow, angleIncrement) = isAmountUpdatedWithLevel ? 
-                CalculateShootNum_AngleInc(maxThrowingsCount, minThrowingsCount, maxAngle_SingleSide, minAngle) : (1,0f);
-            return 
-                isCosumingEnegyProportionally ? 
-                    若按比例每发耗能_singleShootEnegyConsumptionPercentage * _playerController.state.maxEnergy * numberToThrow
-                    :throwingsBehavior._energyCost * numberToThrow;
+                CalculateShootNum_AngleInc(maxThrowingsCount, minThrowingsCount, maxAngle_SingleSide, minAngle) : (1, 0f);
+    
+            if (isAmountUpdatedWithLevel) {
+                float energyExponent = 1.0f; // 默认为1
+                if (numberToThrow > 1 && numberToThrow <= maxThrowingsCount) {
+                    float transitionFraction = (float)(numberToThrow - 1) / (maxThrowingsCount - 1); // 用于线性过渡的分数
+                    energyExponent = 1.0f + (0.8f - 1.0f) * transitionFraction; // 计算指数
+                }
+                return isCosumingEnegyProportionally ? 
+                    若按比例每发耗能_singleShootEnegyConsumptionPercentage * _playerController.state.maxEnergy * (float)(Math.Pow(numberToThrow, energyExponent)) :
+                    throwingsBehavior._energyCost * (float)(Math.Pow(numberToThrow, energyExponent));
+            } else {
+                return isCosumingEnegyProportionally ? 
+                    若按比例每发耗能_singleShootEnegyConsumptionPercentage * _playerController.state.maxEnergy * numberToThrow :
+                    throwingsBehavior._energyCost * numberToThrow;
+            }
         }
+
 
         //应仅在勾选了技能修炼（伤害随使用次数增加）时应用
         private float CalculateDamage(int useTime){
