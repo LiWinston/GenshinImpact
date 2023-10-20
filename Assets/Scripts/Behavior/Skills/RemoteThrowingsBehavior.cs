@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Behavior.Effect;
+using Behavior.Health;
 using Game;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -215,7 +216,7 @@ namespace Behavior.Skills
             // Debug.Log("AOE involved counter:" + colliders.Length);
             foreach (var collider in colliders)
             {
-                var mstbhv = collider.GetComponent<MonsterBehaviour>();
+                var mstbhv = collider.GetComponent<IDamageable>();
                 if (mstbhv != null)
                 {
                     mstbhv.TakeDamage(AOEDamage);
