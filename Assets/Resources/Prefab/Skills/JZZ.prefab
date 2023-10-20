@@ -184,7 +184,8 @@ GameObject:
   - component: {fileID: 401380}
   - component: {fileID: 19847858}
   - component: {fileID: 114078210856944960}
-  m_Layer: 0
+  - component: {fileID: 2272518971647515443}
+  m_Layer: 11
   m_Name: JZZ
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3795,7 +3796,7 @@ ParticleSystem:
   CollisionModule:
     enabled: 0
     serializedVersion: 4
-    type: 0
+    type: 1
     collisionMode: 0
     colliderForce: 0
     multiplyColliderForceByParticleSize: 0
@@ -4957,3 +4958,26 @@ MonoBehaviour:
   x: 0
   y: 1
   z: 0
+--- !u!136 &2272518971647515443
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 173736}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.3
+  m_Height: 1.3
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}

@@ -74,7 +74,7 @@ namespace Behavior.Skills
                 if (_target != null)
                 {
                     var distance = _target.position - transform.position;
-                    if(distance.magnitude < 0.25f) HitTarget();
+                    if(distance.magnitude < 0.5f) HitTarget();
                     // 计算朝向玩家的方向
                     var direction = distance.normalized;
 
@@ -95,6 +95,14 @@ namespace Behavior.Skills
 
         private void OnTriggerEnter(Collider other)
         {
+            if(other.GetComponent<ParticleSystem>().gameObject.layer == LayerMask.NameToLayer("PlayerShield"))
+            {
+                if (!_monsterBehaviour.isBoss)
+                {
+                    _target = Find.FindDeepChild(_monsterBehaviour.transform, "head");
+                    _damageable = _monsterBehaviour.target.GetComponent<IDamageable>();
+                }
+            }
             // // if(other.gameObject.layer == LayerMask.NameToLayer("Player"))
             // if(other.gameObject.CompareTag("Player"))
             // {
