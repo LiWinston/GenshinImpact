@@ -95,12 +95,20 @@ namespace Behavior.Skills
 
         private void OnTriggerEnter(Collider other)
         {
-            if(other.GetComponent<ParticleSystem>().gameObject.layer == LayerMask.NameToLayer("PlayerShield"))
+            if(other.gameObject.layer == LayerMask.NameToLayer("PlayerShield"))
             {
                 if (!_monsterBehaviour.isBoss)
                 {
-                    _target = Find.FindDeepChild(_monsterBehaviour.transform, "head");
-                    _damageable = _monsterBehaviour.target.GetComponent<IDamageable>();
+                    // _target = Find.FindDeepChild(_monsterBehaviour.transform, "head");
+                    Transform[] childTransforms = _monsterBehaviour.GetComponentsInChildren<Transform>();
+
+                    // 随机选择一个子对象作为目标
+                    int randomChildIndex = Random.Range(0, childTransforms.Length);
+                    _target = childTransforms[randomChildIndex];
+                    
+                    _damageable = _monsterBehaviour;
+                    transform.rotation = Quaternion.LookRotation(_target.position - transform.position);
+                    dmg = PlayerController.Instance.state.GetCurrentLevel() * 10 * _monsterBehaviour.monsterLevel/20 *Random.Range(_monsterBehaviour.minAttackPower, _monsterBehaviour.maxAttackPower);
                 }
             }
             // // if(other.gameObject.layer == LayerMask.NameToLayer("Player"))
