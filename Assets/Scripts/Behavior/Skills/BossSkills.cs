@@ -43,8 +43,8 @@ namespace Behavior.Skills
         private void actionOnGet(GameObject obj){
             obj.transform.position = projectileSpawnPoint.position;
             obj.transform.forward = _monsterBehaviour.transform.forward;
-            obj.GetComponent<IPoolable>().actionOnGet();
             obj.GetComponent<MonsterProjectile>()._monsterBehaviour = _monsterBehaviour;
+            obj.GetComponent<IPoolable>().actionOnGet();
         }
 
         private void actionOnRelease(GameObject obj)
