@@ -36,6 +36,7 @@ namespace Behavior.Skills
             
             if (_monsterBehaviour.target.layer == LayerMask.NameToLayer("Player"))
             {
+                // setRandomChildTransformFromObjAsTarget(PlayerController.Instance.gameObject);
                 _target = Find.FindDeepChild(PlayerController.Instance.transform, "neck_01"); // 获取玩家对象
                 _damageable = PlayerController.Instance;
                 dmg = _monsterBehaviour.monsterLevel/20 *Random.Range(_monsterBehaviour.minAttackPower, _monsterBehaviour.maxAttackPower) *
@@ -43,7 +44,8 @@ namespace Behavior.Skills
             }
             else
             {
-                _target = Find.FindDeepChild(_monsterBehaviour.target.transform, "head"); 
+                setRandomChildTransformFromObjAsTarget(_monsterBehaviour.target.gameObject);
+                // _target = Find.FindDeepChild(_monsterBehaviour.target.transform, "head"); 
                 _damageable = _monsterBehaviour.target.GetComponent<IDamageable>();
             }
         }
@@ -99,14 +101,11 @@ namespace Behavior.Skills
             {
                 if (!_monsterBehaviour.isBoss)
                 {
-                    // _target = Find.FindDeepChild(_monsterBehaviour.transform, "head");
-                    Transform[] childTransforms = _monsterBehaviour.GetComponentsInChildren<Transform>();
-
-                    // 随机选择一个子对象作为目标
-                    int randomChildIndex = Random.Range(0, childTransforms.Length);
-                    _target = childTransforms[randomChildIndex];
-                    
                     _damageable = _monsterBehaviour;
+                    // _target = Find.FindDeepChild(_monsterBehaviour.transform, "head");
+                    setRandomChildTransformFromObjAsTarget(_monsterBehaviour.gameObject);
+                    
+                    
                     transform.rotation = Quaternion.LookRotation(_target.position - transform.position);
                     dmg = PlayerController.Instance.state.GetCurrentLevel() * 10 * _monsterBehaviour.monsterLevel/20 *Random.Range(_monsterBehaviour.minAttackPower, _monsterBehaviour.maxAttackPower);
                 }
@@ -146,6 +145,15 @@ namespace Behavior.Skills
             {
                 ThisPool.Release(gameObject);
             }
+        }
+
+        private void setRandomChildTransformFromObjAsTarget(GameObject obj)
+        {
+            Transform[] childTransforms = obj.GetComponentsInChildren<Transform>();
+
+            // 随机选择一个子对象作为目标
+            int randomChildIndex = Random.Range(0, childTransforms.Length);
+            _target = childTransforms[randomChildIndex];
         }
     }
 }
