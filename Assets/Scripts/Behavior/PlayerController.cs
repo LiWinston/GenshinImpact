@@ -2,11 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using AttributeRelatedScript;
+using Behavior.Effect;
 using Behavior.Health;
 using ItemSystem;
 using TMPro;
 using UI;
 using Unity.Mathematics;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.SceneManagement;
@@ -14,11 +16,12 @@ using UnityEngine.Serialization;
 using Utility;
 using Cursor = UnityEngine.Cursor;
 using Random = UnityEngine.Random;
+using State = AttributeRelatedScript.State;
 
 
 namespace Behavior
 {
-    public class PlayerController : MonoBehaviour, IDamageable
+    public class PlayerController : MonoBehaviour, IDamageable, IFreezable
     {
         private static PlayerController _instance;
         public static PlayerController Instance
@@ -36,6 +39,8 @@ namespace Behavior
 
         public void Awake()
         {
+            spineTransform = Find.FindDeepChild(transform, "clavicle_l");
+            _effectTimeManager = GetComponent<EffectTimeManager>();
             _instance = this;
         }
 
@@ -79,6 +84,14 @@ namespace Behavior
         public delegate void OnAttackEndedHandler();
         public event OnAttackEndedHandler OnAttackEnded;
 
+        [InspectorLabel("Freeze")]
+        private bool isFrozen;
+        private float originalAcceleration;
+        private float originalAttackCooldownInterval;
+        private float originalMaxPlySpeed;
+        Transform spineTransform;
+        private EffectTimeManager _effectTimeManager;
+        
         public bool IsCrouching
         {
             get { return isCrouching; }
@@ -148,6 +161,13 @@ namespace Behavior
             if (Camera.main != null) Camera.main.transform.rotation = Quaternion.identity; // 正前方
             animator.SetFloat("AttSpeedMult",1f);
             animator.Play("Getting_Up");
+            
+            
+            
+            //Freeze
+            originalAcceleration = forwardForce;
+            originalAttackCooldownInterval = state.AttackCooldown;
+            originalMaxPlySpeed = MaxPlySpeed;
         }
 
         private void Update()
@@ -431,7 +451,7 @@ namespace Behavior
                 {
                     if(state.ConsumePower(4 * Time.deltaTime))
                     {
-                        float sprintSpeed = sprintSpeedRate * (isCrouching ? MaxCrouchPlySpeed : MaxPlySpeed);
+                        float sprintSpeed = sprintSpeedRate * (isCrouching ? MaxCrouchPlySpeed : MaxPlySpeed) * (isFrozen ? 0.6f : 1f);
                         var v = moveDirection * sprintSpeed;
                         rb.velocity = new Vector3(v.x,rb.velocity.y , v.z);
                     }
@@ -673,6 +693,64 @@ namespace Behavior
         public void UpdateAttackAnimationTime(float attackSpeedRate)
         {
             animator.SetFloat(AttSpeedMult,attackSpeedRate);
+        }
+
+        public Rigidbody Rb => rb;
+
+        public bool IsFrozen { get => isFrozen; set => isFrozen = value; }
+        public float OriginalMaxMstSpeed { get => originalMaxPlySpeed; set => originalMaxPlySpeed = value; }
+        public float MaxSpeed { get => MaxPlySpeed; set=> MaxPlySpeed = value; }
+        public float OriginalMoveForce { get => originalAcceleration; set => originalAcceleration = value; }
+        public float OriginalAttackCooldownInterval { get => originalAttackCooldownInterval; set => originalAttackCooldownInterval = value; }
+
+        public void ActivateFreezeMode(float duration, float continuousDamageAmount, float instantVelocityMultiplier = 0.05f, float attackCooldownIntervalMultiplier = 2f, float MaxSpeedMultiplier = 0.18f)
+        {
+            // if(!freezeEffectCoroutine.IsUnityNull()) StopCoroutine(freezeEffectCoroutine);
+            var time = duration;
+            // if(isBoss) time = duration/3;
+            DeactivateFreezeMode();
+            freezeEffectCoroutine = StartCoroutine(FreezeEffectCoroutine(time, instantVelocityMultiplier, attackCooldownIntervalMultiplier, MaxSpeedMultiplier));
+            // 启动持续掉血的协程
+            StartCoroutine(Effect.ContinuousDamage.MakeContinuousDamage(this, continuousDamageAmount, time ));
+            _effectTimeManager.StopEffect("Freeze");
+            _effectTimeManager.CreateEffectBar("Freeze", new Color(153, 0, 255), time);
+            
+            ParticleEffectManager.Instance.PlayParticleEffect("Charge_03.1 Rave Party", spineTransform.gameObject, 
+                Quaternion.identity, Color.red, Color.black, time);
+            Debug.Log("Charge_03.1 Rave Party");
+        }
+        public Coroutine freezeEffectCoroutine { get; set; }
+
+        public void DeactivateFreezeMode()
+        {
+            if(!freezeEffectCoroutine.IsUnityNull()) StopCoroutine(freezeEffectCoroutine);
+            // 恢复原始推力和攻击间隔
+            forwardForce = OriginalMoveForce;
+            // attackCooldownInterval = OriginalAttackCooldownInterval;
+            MaxSpeed = OriginalMaxMstSpeed;
+            IsFrozen = false;
+            
+            _effectTimeManager.StopEffect("Freeze");
+        }
+
+        public IEnumerator FreezeEffectCoroutine(float duration, float instantVelocityMultiplier = 0.25f, float attackCooldownIntervalMultiplier = 2f, float MaxSpeedMultiplier = 0.36f)
+        {
+            OriginalMoveForce = forwardForce;
+            IsFrozen = true;
+            Rb.velocity *= instantVelocityMultiplier;
+            // 减小加速推力和增加攻击间隔
+            forwardForce *= 0.95f; // 降低至60%
+            // attackCooldownInterval *= attackCooldownIntervalMultiplier; // 增加至200%
+            OriginalMaxMstSpeed = MaxSpeed;
+            MaxSpeed *= MaxSpeedMultiplier;
+            // 等待冰冻效果持续时间
+            yield return new WaitForSeconds(duration);
+
+            // 恢复原始推力和攻击间隔
+            forwardForce = originalAcceleration;
+            // attackCooldownInterval = OriginalAttackCooldownInterval;
+            MaxSpeed = OriginalMaxMstSpeed;
+            IsFrozen = false;
         }
     }
 }
