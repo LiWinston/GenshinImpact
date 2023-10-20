@@ -18,8 +18,10 @@ namespace Behavior
         private EffectTimeManager _effectTimeManager;
         
         [SerializeField] internal float JZZCostRate = 0.2f;
-
-
+        Coroutine jzzCoroutine = null;
+        ParticleSystem jzzi = null;
+        
+        
         private void Awake(){
             _effectTimeManager = GetComponent<EffectTimeManager>();
         }
@@ -80,10 +82,12 @@ namespace Behavior
             var d = 7f;
             ParticleSystem JZZ = Resources.Load<ParticleSystem>("Prefab/Skills/JZZ");
             if(JZZ == null) Debug.LogError("NO JZZ");
-            var jzzi = Instantiate(JZZ, innerSpellingTransform);
+            
+            jzzi = Instantiate(JZZ, innerSpellingTransform);
             jzzi.Play();
-            Coroutine c = StartCoroutine(StopJZZAfterDuration(d));
-            StartCoroutine(ObservePower(d, c, jzzi));
+            
+            jzzCoroutine = StartCoroutine(StopJZZAfterDuration(d));
+            StartCoroutine(ObservePower(d, jzzCoroutine, jzzi));
         }
 
         //JZZ observer, once power too low exit JZZ mode
@@ -102,6 +106,7 @@ namespace Behavior
 
                 if (state.CurrentPower < 10)
                 {
+                    ReturnEnergy();
                     state.isJZZ = false;
                     StopCoroutine(c);
                     _effectTimeManager.StopEffect("JZZ");
@@ -130,6 +135,27 @@ namespace Behavior
             // GameObject.Find("Canvas").GetComponent<EffectTimeManager>().StopEffect("JZZ");
         }
 
+        public void StopJZZ(bool returnEnergy = false)
+        {
+            if (state.isJZZ)
+            {
+                //若已放完 不再返还能量 否则按比例返还
+                if(returnEnergy) ReturnEnergy();
+                
+                state.isJZZ = false;
+                _effectTimeManager.StopEffect("JZZ");
+                if(jzzCoroutine != null) StopCoroutine(jzzCoroutine);
+                if (jzzi != null)
+                {
+                    Destroy(jzzi.gameObject);
+                }
+            }
+        }
+        private void ReturnEnergy()
+        {
+            state.CurrentEnergy += state.maxEnergy * JZZCostRate *_effectTimeManager.GetEffectProgress("JZZ");
+        }
+        
         private void CastSpell()
         {
             //TODO:更新此机制。

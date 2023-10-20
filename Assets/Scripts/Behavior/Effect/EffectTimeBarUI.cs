@@ -33,4 +33,9 @@ public class EffectTimeBarUI : MonoBehaviour
             // Destroy(gameObject);
         }
     }
+    
+    public float GetEffectProgress()
+    {
+        return 1 - timer / effectDuration;
+    }
 }
