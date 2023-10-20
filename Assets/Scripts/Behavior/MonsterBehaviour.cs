@@ -300,9 +300,6 @@ namespace Behavior
             GameObject nearestEnemy = null;
             float nearestDistance = float.MaxValue;
 
-            // 定义一个随机数，它将决定是否选择最近的敌人
-            float randomChance = Random.value;
-
             // cycle through all enemy
             foreach (Collider enemyCollider in nearEnemies)
             {
@@ -314,8 +311,8 @@ namespace Behavior
                     // 计算距离
                     float distance = Vector3.Distance(transform.position, enemyCollider.transform.position);
 
-                    // 如果找到更近的敌人，以一定概率更新最近敌人和距离
-                    if (distance < nearestDistance && (randomChance > 0.35f || distance < nearestDistance))
+                    // 如果找到更近的敌人，更新最近敌人和距离
+                    if (distance < nearestDistance)
                     {
                         nearestEnemy = enemyCollider.gameObject;
                         nearestDistance = distance;
