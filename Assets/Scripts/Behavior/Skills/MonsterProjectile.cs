@@ -1,4 +1,5 @@
 using System.Collections;
+using Behavior.Effect;
 using Behavior.Health;
 using UnityEngine;
 using UnityEngine.Pool;
@@ -102,20 +103,32 @@ namespace Behavior.Skills
                 if (!_monsterBehaviour.isBoss)
                 {
                     _damageable = _monsterBehaviour;
-                    // _target = Find.FindDeepChild(_monsterBehaviour.transform, "head");
-                    setRandomChildTransformFromObjAsTarget(_monsterBehaviour.gameObject);
+                    _target = Find.FindDeepChild(_monsterBehaviour.transform, "head");
+                    // setRandomChildTransformFromObjAsTarget(_monsterBehaviour.gameObject);
                     
                     
                     transform.rotation = Quaternion.LookRotation(_target.position - transform.position);
                     dmg = PlayerController.Instance.state.GetCurrentLevel() * 10 * _monsterBehaviour.monsterLevel/20 *Random.Range(_monsterBehaviour.minAttackPower, _monsterBehaviour.maxAttackPower);
                 }
+                else
+                {
+                    int minReflectChance = 5;
+                    int maxReflectChance = 70;
+                    int reflectChance = Random.Range(minReflectChance, maxReflectChance + 1);
+                    if (Random.Range(0, 100) < reflectChance)
+                    {
+                        _damageable = _monsterBehaviour;
+                        // _target = Find.FindDeepChild(_monsterBehaviour.transform, "head");
+                        setRandomChildTransformFromObjAsTarget(_monsterBehaviour.gameObject);
+                    
+                    
+                        transform.rotation = Quaternion.LookRotation(_target.position - transform.position);
+                        dmg = PlayerController.Instance.state.GetCurrentLevel() * 2 * _monsterBehaviour.monsterLevel/20 *Random.Range(_monsterBehaviour.minAttackPower, _monsterBehaviour.maxAttackPower);
+                    }
+                }
             }
-            // // if(other.gameObject.layer == LayerMask.NameToLayer("Player"))
-            // if(other.gameObject.CompareTag("Player"))
-            // {
-            //     Debug.Log("Hit Player");
-            //     HitPlayer();
-            // }
+            
+            
             if (other.gameObject.layer == LayerMask.GetMask("Wall", "Floor")) Destroy(this.gameObject);
             if (other.gameObject.layer== LayerMask.NameToLayer("Wall") || other.gameObject.layer == LayerMask.NameToLayer("Floor"))
             {
@@ -125,7 +138,15 @@ namespace Behavior.Skills
     
         private void HitTarget()
         {
-            
+            if (_monsterBehaviour.isBoss && _damageable is PlayerController)
+            {
+                if(Random.Range(0, 100) > PlayerController.Instance.state.GetCurrentLevel())
+                {
+                    Debug.Log("Freeze Player");
+                    if (_damageable is IFreezable freezable) freezable.ActivateFreezeMode(2f, dmg / 2, 0.15f, 0f, 0.8f);
+                    PlayerController.Instance.GetComponent<SpellCast>().StopJZZ(true);
+                }
+            }
             _damageable.TakeDamage(dmg);
             // 标记为已击中，以避免重复伤害
             _hasHit = true;
