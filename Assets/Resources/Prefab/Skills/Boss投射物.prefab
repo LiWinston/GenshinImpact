@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8098975487059622607}
   - component: {fileID: 794199488013558291}
   - component: {fileID: -9134203783187763682}
-  m_Layer: 7
+  m_Layer: 10
   m_Name: "Boss\u6295\u5C04\u7269"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -50,7 +50,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rotateSpeed: 50
   projectileSpeed: 10
-  damage: 50
   _monsterBehaviour: {fileID: 0}
   maxExistTime: 5
 --- !u!136 &8098975487059622607
@@ -207,9 +206,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6134846360754243859}
     m_Modifications:
+    - target: {fileID: 100000, guid: bcf46e46336114145b09deb1db11d480, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 100004, guid: bcf46e46336114145b09deb1db11d480, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 100006, guid: bcf46e46336114145b09deb1db11d480, type: 3}
       propertyPath: m_Name
       value: Spark
+      objectReference: {fileID: 0}
+    - target: {fileID: 100006, guid: bcf46e46336114145b09deb1db11d480, type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 400006, guid: bcf46e46336114145b09deb1db11d480, type: 3}
       propertyPath: m_LocalPosition.x

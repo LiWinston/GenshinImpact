@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8098975487059622607}
   - component: {fileID: 794199488013558291}
   - component: {fileID: -9134203783187763682}
-  m_Layer: 7
+  m_Layer: 10
   m_Name: "MST\u6295\u5C04\u7269"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -207,6 +207,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6134846360754243859}
     m_Modifications:
+    - target: {fileID: 100000, guid: 44dd4fdbb6f10429a844c51183a4c84e, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 100002, guid: 44dd4fdbb6f10429a844c51183a4c84e, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 100004, guid: 44dd4fdbb6f10429a844c51183a4c84e, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 100004, guid: 44dd4fdbb6f10429a844c51183a4c84e, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -214,6 +226,18 @@ PrefabInstance:
     - target: {fileID: 100006, guid: 44dd4fdbb6f10429a844c51183a4c84e, type: 3}
       propertyPath: m_Name
       value: energyBlast
+      objectReference: {fileID: 0}
+    - target: {fileID: 100006, guid: 44dd4fdbb6f10429a844c51183a4c84e, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 100008, guid: 44dd4fdbb6f10429a844c51183a4c84e, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 100010, guid: 44dd4fdbb6f10429a844c51183a4c84e, type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 100010, guid: 44dd4fdbb6f10429a844c51183a4c84e, type: 3}
       propertyPath: m_IsActive
@@ -304,6 +328,10 @@ PrefabInstance:
     - target: {fileID: 2383856398854297926, guid: dd33955e783d1ce48a4eec3111ad41d5, type: 3}
       propertyPath: m_Name
       value: Trail
+      objectReference: {fileID: 0}
+    - target: {fileID: 2383856398854297926, guid: dd33955e783d1ce48a4eec3111ad41d5, type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 3100531679981690981, guid: dd33955e783d1ce48a4eec3111ad41d5, type: 3}
       propertyPath: m_LocalScale.x
