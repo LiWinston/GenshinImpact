@@ -3107,7 +3107,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3030407638572315631, guid: 21277aa7501c5574bba5727c26be4d14, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4076851779599106015, guid: 21277aa7501c5574bba5727c26be4d14, type: 3}
       propertyPath: m_LocalPosition.x
@@ -8573,6 +8573,54 @@ PrefabInstance:
     - target: {fileID: 1678239912745874840, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 4204505828502385112, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
+      propertyPath: maxPower
+      value: 100000000
+      objectReference: {fileID: 0}
+    - target: {fileID: 4204505828502385112, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
+      propertyPath: maxEnergy
+      value: 100000000
+      objectReference: {fileID: 0}
+    - target: {fileID: 4204505828502385112, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
+      propertyPath: maxHealth
+      value: 100000000
+      objectReference: {fileID: 0}
+    - target: {fileID: 4204505828502385112, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
+      propertyPath: currentPower
+      value: 100000000
+      objectReference: {fileID: 0}
+    - target: {fileID: 4204505828502385112, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
+      propertyPath: currentEnergy
+      value: 100000000
+      objectReference: {fileID: 0}
+    - target: {fileID: 4204505828502385112, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
+      propertyPath: currentHealth
+      value: 100000000
+      objectReference: {fileID: 0}
+    - target: {fileID: 4204505828502385112, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
+      propertyPath: addEnergyOnUpdate
+      value: 100000000
+      objectReference: {fileID: 0}
+    - target: {fileID: 4204505828502385112, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
+      propertyPath: addHealthOnUpdate
+      value: 100000000
+      objectReference: {fileID: 0}
+    - target: {fileID: 4204505828502385112, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
+      propertyPath: currentExperience
+      value: 9999999
+      objectReference: {fileID: 0}
+    - target: {fileID: 4204505828502385112, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
+      propertyPath: addMaxEnergyOnUpdate
+      value: 100000000
+      objectReference: {fileID: 0}
+    - target: {fileID: 4204505828502385112, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
+      propertyPath: addMaxHealthOnUpdate
+      value: 100000000
+      objectReference: {fileID: 0}
+    - target: {fileID: 4204505828502385112, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
+      propertyPath: powerRegenerationRate
+      value: 100000000
       objectReference: {fileID: 0}
     - target: {fileID: 7406021605194356953, guid: 0b6b7f4b78ad9d14c9f605f14a7d90c9, type: 3}
       propertyPath: m_LocalPosition.x
