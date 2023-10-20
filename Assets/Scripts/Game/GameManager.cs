@@ -122,6 +122,8 @@ namespace Game
                         {
                             bouncePersistentReverie.isAmountUpdatedWithLevel = true;
                             bouncePersistentReverie.maxAngle_SingleSide = 5f;
+                            bouncePersistentReverie.isCosumingEnegyProportionally = false;
+                            bouncePersistentReverie.prefab.GetComponent<RemoteThrowingsBehavior>()._energyCost = 800f;
                         }
 
                         

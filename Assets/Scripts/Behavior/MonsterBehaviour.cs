@@ -365,7 +365,7 @@ namespace Behavior
                 //TODO : boss的等级和经验值
                 monsterLevel = 100;
                 health.SetHealthMax(1500000, true);
-                monsterExperience = 0;
+                monsterExperience = 9999;
                 minAttackPower = 25;
                 maxAttackPower = 42f;
                 return;
