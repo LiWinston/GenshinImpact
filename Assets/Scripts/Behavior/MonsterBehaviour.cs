@@ -18,7 +18,7 @@ using System.Linq;
 
 namespace Behavior
 {
-    public class MonsterBehaviour : MonoBehaviour, IFreezable, IPoolable
+    public class MonsterBehaviour : MonoBehaviour, IFreezable, IPoolable, IDamageable
     {
         public PlayerController targetPlayer;
         internal GameObject target;
@@ -275,8 +275,33 @@ namespace Behavior
             Collider[] nearEnemies = Physics.OverlapSphere(transform.position, chaseDistance, enemyLayer);
 
             // initialise the nearest enemy to the player
+            // GameObject nearestEnemy = null;
+            // float nearestDistance = float.MaxValue;
+            //
+            // // cycle through all enemy
+            // foreach (Collider enemyCollider in nearEnemies)
+            // {
+            //     if (enemyCollider.gameObject == gameObject) continue;
+            //     //  check if enemy is still alive
+            //     MonsterBehaviour enemyMonster = enemyCollider.GetComponent<MonsterBehaviour>();
+            //     if (enemyMonster != null && !enemyMonster.health.IsDead())
+            //     {
+            //         // 计算距离
+            //         float distance = Vector3.Distance(transform.position, enemyCollider.transform.position);
+            //
+            //         // 如果找到更近的敌人，更新最近敌人和距离
+            //         if (distance < nearestDistance)
+            //         {
+            //             nearestEnemy = enemyCollider.gameObject;
+            //             nearestDistance = distance;
+            //         }
+            //     }
+            // }
             GameObject nearestEnemy = null;
             float nearestDistance = float.MaxValue;
+
+            // 定义一个随机数，它将决定是否选择最近的敌人
+            float randomChance = Random.value;
 
             // cycle through all enemy
             foreach (Collider enemyCollider in nearEnemies)
@@ -289,14 +314,15 @@ namespace Behavior
                     // 计算距离
                     float distance = Vector3.Distance(transform.position, enemyCollider.transform.position);
 
-                    // 如果找到更近的敌人，更新最近敌人和距离
-                    if (distance < nearestDistance)
+                    // 如果找到更近的敌人，以一定概率更新最近敌人和距离
+                    if (distance < nearestDistance && (randomChance > 0.35f || distance < nearestDistance))
                     {
                         nearestEnemy = enemyCollider.gameObject;
                         nearestDistance = distance;
                     }
                 }
             }
+
             curDistance = nearestDistance;
         
             if (nearestEnemy != null)
@@ -336,11 +362,11 @@ namespace Behavior
                 {
                     animator.SetTrigger("AttackTrigger");
                 }
-                target.GetComponent<MonsterBehaviour>().TakeDamage(70 + monsterLevel/20 * Random.Range(minAttackPower, maxAttackPower));
+                target.GetComponent<IDamageable>().TakeDamage(70 + monsterLevel/20 * Random.Range(minAttackPower, maxAttackPower));
             }
         }
 
-        internal void TakeDamage(float dmg)
+        public void TakeDamage(float dmg)
         {
             animator.SetTrigger("Hurt");
             health.Damage(dmg);
@@ -491,4 +517,5 @@ namespace Behavior
             DeactivateFreezeMode();
         }
     }
+    
 }

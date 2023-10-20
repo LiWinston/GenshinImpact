@@ -18,7 +18,7 @@ using Random = UnityEngine.Random;
 
 namespace Behavior
 {
-    public class PlayerController : MonoBehaviour
+    public class PlayerController : MonoBehaviour, IDamageable
     {
         private static PlayerController _instance;
         public static PlayerController Instance

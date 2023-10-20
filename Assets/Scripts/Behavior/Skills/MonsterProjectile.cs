@@ -1,4 +1,5 @@
 using System.Collections;
+using Behavior.Health;
 using UnityEngine;
 using UnityEngine.Pool;
 using Utility;
@@ -9,14 +10,15 @@ namespace Behavior.Skills
     {
         [SerializeField] private float rotateSpeed = 30f;
         public float projectileSpeed = 10f; // 投射物速度
-        public float damage = 10f; // 投射物伤害
 
         private Transform _target; // 玩家对象的引用
+        private IDamageable _damageable;
         // private Vector3 initialPosition; // 投射物初始位置
         private bool _hasHit = false;
         public MonsterBehaviour _monsterBehaviour;
         private Coroutine existCoroutine;
         [SerializeField] private float maxExistTime = 5f;
+        private float dmg;
 
 
         public ObjectPool<GameObject> ThisPool { get; set; }
@@ -31,6 +33,19 @@ namespace Behavior.Skills
             existCoroutine = StartCoroutine(ReturnToPoolDelayed(maxExistTime));
             IsExisting = true;
             GetComponent<AudioSource>().Play();
+            
+            if (_monsterBehaviour.target.layer == LayerMask.NameToLayer("Player"))
+            {
+                _target = Find.FindDeepChild(PlayerController.Instance.transform, "neck_01"); // 获取玩家对象
+                _damageable = PlayerController.Instance;
+                dmg = _monsterBehaviour.monsterLevel/20 *Random.Range(_monsterBehaviour.minAttackPower, _monsterBehaviour.maxAttackPower) *
+                      (_monsterBehaviour.isBoss ? 1 : Random.Range(0.1f, 0.5f));//双标对待玩家和同类
+            }
+            else
+            {
+                _target = Find.FindDeepChild(_monsterBehaviour.target.transform, "head"); 
+                _damageable = _monsterBehaviour.target.GetComponent<IDamageable>();
+            }
         }
 
         public void actionOnRelease()
@@ -47,8 +62,8 @@ namespace Behavior.Skills
         
         private void Start()
         {
-            // initialPosition = transform.position;
-            _target = Find.FindDeepChild(PlayerController.Instance.transform, "neck_01"); // 获取玩家对象
+            
+            
         }
 
         private void Update()
@@ -59,7 +74,7 @@ namespace Behavior.Skills
                 if (_target != null)
                 {
                     var distance = _target.position - transform.position;
-                    if(distance.magnitude < 0.5f) HitPlayer();
+                    if(distance.magnitude < 0.25f) HitTarget();
                     // 计算朝向玩家的方向
                     var direction = distance.normalized;
 
@@ -93,13 +108,10 @@ namespace Behavior.Skills
             }
         }
     
-        private void HitPlayer()
+        private void HitTarget()
         {
-            // 玩家受到伤害
-            PlayerController.Instance.TakeDamage(_monsterBehaviour.monsterLevel/20 *Random.Range(_monsterBehaviour.minAttackPower, _monsterBehaviour.maxAttackPower));
             
-        
-
+            _damageable.TakeDamage(dmg);
             // 标记为已击中，以避免重复伤害
             _hasHit = true;
 
