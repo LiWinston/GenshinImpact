@@ -138,13 +138,24 @@ namespace Behavior.Skills
     
         private void HitTarget()
         {
-            if (_monsterBehaviour.isBoss && _damageable is PlayerController)
+            if (_monsterBehaviour.isBoss)
             {
-                if(Random.Range(0, 100) > PlayerController.Instance.state.GetCurrentLevel())
+                if (_damageable is PlayerController)
                 {
-                    Debug.Log("Freeze Player");
-                    if (_damageable is IFreezable freezable) freezable.ActivateFreezeMode(2f, dmg / 2, 0.15f, 0f, 0.8f);
-                    PlayerController.Instance.GetComponent<SpellCast>().StopJZZ(true);
+                    if(Random.Range(0, 100) > PlayerController.Instance.state.GetCurrentLevel())
+                    {
+                        Debug.Log("Freeze Player");
+                        if (_damageable is IFreezable freezable) freezable.ActivateFreezeMode(1.5f, dmg / 2, 0.15f, 0f, 0.8f);
+                        PlayerController.Instance.GetComponent<SpellCast>().StopJZZ(true);
+                    }
+                }
+                if(_damageable is MonsterBehaviour)
+                {
+                    if(Random.Range(0, 100) < PlayerController.Instance.state.GetCurrentLevel())
+                    {
+                        Debug.Log("Freeze Monster");
+                        if (_damageable is IFreezable freezable) freezable.ActivateFreezeMode(4.5f, dmg);
+                    }
                 }
             }
             _damageable.TakeDamage(dmg);
