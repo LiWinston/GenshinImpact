@@ -430,22 +430,7 @@ namespace Behavior
                 moveDirection.Normalize();
             }
         
-            if (!Input.GetKey(KeyCode.LeftShift))
-            {
-                // current lo
-                moveForceTimerCounter -= Time.deltaTime;
-                if (!(moveForceTimerCounter <= 0))
-                {
-                    return;
-                }
-                moveForceTimerCounter += moveForceTimer;
-                var f = isCrouching ? crouchForceRate * forwardForce : forwardForce;
-
-                rb.AddForce(moveDirection * f, ForceMode.Force);
-                float maxSpeed = isCrouching ? MaxCrouchPlySpeed : MaxPlySpeed;
-                rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxSpeed);
-            }
-            else
+            if (Input.GetKey(KeyCode.LeftShift))
             {
                 if (Vector3.zero != moveDirection)
                 {
@@ -454,9 +439,23 @@ namespace Behavior
                         float sprintSpeed = sprintSpeedRate * (isCrouching ? MaxCrouchPlySpeed : MaxPlySpeed) * (isFrozen ? 0.6f : 1f);
                         var v = moveDirection * sprintSpeed;
                         rb.velocity = new Vector3(v.x,rb.velocity.y , v.z);
+                        return;
                     }
                 }
             }
+            // current lo
+            moveForceTimerCounter -= Time.deltaTime;
+            if (!(moveForceTimerCounter <= 0))
+            {
+                return;
+            }
+
+            moveForceTimerCounter += moveForceTimer;
+            var f = isCrouching ? crouchForceRate * forwardForce : forwardForce;
+
+            rb.AddForce(moveDirection * f, ForceMode.Force);
+            float maxSpeed = isCrouching ? MaxCrouchPlySpeed : MaxPlySpeed;
+            rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxSpeed);
         }
 
         public bool _isDead { get; set; }
