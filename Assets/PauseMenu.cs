@@ -25,6 +25,7 @@ public class PauseMenu : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Debug.Log("Escape key detected. Current pause state: " + GameIsPaused);
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             if (GameIsPaused)
@@ -66,6 +67,21 @@ public class PauseMenu : MonoBehaviour
         }
     }
 
+    void OnEnable()
+{
+    SceneManager.sceneLoaded += OnSceneLoaded;
+}
+
+void OnDisable()
+{
+    SceneManager.sceneLoaded -= OnSceneLoaded;
+}
+
+private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+{
+    GameIsPaused = false;  // Reset the game state when a new scene is loaded
+}
+
     public void Resume()
     {
         pauseMenuUI.SetActive(false);
@@ -98,17 +114,21 @@ public class PauseMenu : MonoBehaviour
     }
 
     void UpdateButtonSelection()
-    {
+{
     Color selectedColor = Color.red; // 选中时的颜色
     Color normalColor = Color.white; // 未选中时的颜色
 
-        for (int i = 0; i < buttons.Length; i++)
-        {
+    for (int i = 0; i < buttons.Length; i++)
+    {
         Text buttonText = buttons[i].GetComponentInChildren<Text>(); // 假设按钮的文本是它的子对象
-            if (buttonText != null) // 确保找到了 Text 组件
-            {
+        if (buttonText != null) // 确保找到了 Text 组件
+        {
             buttonText.color = (i == selectedIndex) ? selectedColor : normalColor;
-            }
+        }
+        else
+        {
+            Debug.LogError("No Text component found for button at index " + i);
         }
     }
+}
 }
