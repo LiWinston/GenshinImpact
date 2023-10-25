@@ -68,19 +68,19 @@ public class PauseMenu : MonoBehaviour
     }
 
     void OnEnable()
-{
-    SceneManager.sceneLoaded += OnSceneLoaded;
-}
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
 
-void OnDisable()
-{
-    SceneManager.sceneLoaded -= OnSceneLoaded;
-}
+    void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
 
-private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-{
-    GameIsPaused = false;  // Reset the game state when a new scene is loaded
-}
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        GameIsPaused = false;  // Reset the game state when a new scene is loaded
+    }
 
     public void Resume()
     {
@@ -114,21 +114,21 @@ private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     }
 
     void UpdateButtonSelection()
-{
+    {
     Color selectedColor = Color.red; // 选中时的颜色
     Color normalColor = Color.white; // 未选中时的颜色
 
-    for (int i = 0; i < buttons.Length; i++)
-    {
-        Text buttonText = buttons[i].GetComponentInChildren<Text>(); // 假设按钮的文本是它的子对象
-        if (buttonText != null) // 确保找到了 Text 组件
+        for (int i = 0; i < buttons.Length; i++)
         {
-            buttonText.color = (i == selectedIndex) ? selectedColor : normalColor;
-        }
-        else
-        {
-            Debug.LogError("No Text component found for button at index " + i);
+            Text buttonText = buttons[i].GetComponentInChildren<Text>(); // 假设按钮的文本是它的子对象
+            if (buttonText != null) // 确保找到了 Text 组件
+            {
+                buttonText.color = (i == selectedIndex) ? selectedColor : normalColor;
+            }
+            else
+            {
+                Debug.LogError("No Text component found for button at index " + i);
+            }
         }
     }
-}
 }
