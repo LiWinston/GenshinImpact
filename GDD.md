@@ -472,13 +472,7 @@ This package was used in providing some furnitures not included in the first pac
     </div>
   </div>
 
-- Fantasy Castles Pack(Medium Poly)
-  <div align="center">
-    <div style="display: flex; justify-content: center;">
-      <img src="Images/4.png" alt="Fantasy Castles Pack(Medium Poly)" width="350" style="margin-right: 5px;">
-      <img src="Images/5.png" alt="Fantasy Castles Pack(Medium Poly)" width="350">
-    </div>
-  </div>
+- 
 
 - Lowpoly Castle Dungeon Tileset(Lowpoly)
   <div align="center">
@@ -488,13 +482,7 @@ This package was used in providing some furnitures not included in the first pac
     </div>
   </div>
 
-- Victorian Interior:(Exquisite yet affordable)
-  <div align="center">
-    <div style="display: flex; justify-content: center;">
-      <img src="Images/8.png" alt="Victorian Interior:(Exquisite yet affordable)" width="300" style="margin-right: 5px;">
-      <img src="Images/9.png" alt="Victorian Interior:(Exquisite yet affordable)" width="300">
-    </div>
-  </div>
+
 
 #### +++ Character +++
 
@@ -502,41 +490,16 @@ This package was used in providing some furnitures not included in the first pac
   <div align="center">
     <div style="display: flex; justify-content: center;">
       <img src="Images/10.png" alt="Monster_4 low-poly" width="300" style="margin-right: 5px;">
-      <img src="Images/11.png" alt="Monster_4 low-poly" width="300">
     </div>
   </div>
 
-- Demoness / Succubus & Dark Mage / Sorceress
-  <div align="center">
-    <div style="display: flex; justify-content: center;">
-      <img src="Images/12.png" alt="Demoness / Succubus & Dark Mage / Sorceress" width="300" style="margin-right: 5px;">
-      <img src="Images/13.png" alt="Demoness / Succubus & Dark Mage / Sorceress" width="300">
-    </div>
-  </div>
 
-- Fantastic Creature #1
-  <div align="center">
-    <img src="Images/14.png" alt="Fantastic Creature #1" width="300">
-  </div>
-
-- Pirate Customized
-  <div align="center">
-    <img src="Images/15.png" alt="Pirate Customized" width="300">
-  </div>
 
 #### +++ assets for UI +++ 
 
-- 3D Modern Menu UI
-  <div align="center">
-    <img src="Images/16.png" alt="3D Modern Menu UI" width="300">
-  </div>
 - RPG Unitframes #1 — POWERFUL METAL
 <div align="center">
     <img src="Images/17.png" alt="RPG Unitframes #1 — POWERFUL METAL" width="300"  >
-  </div>
-- Sword & Shield Motion Pack(Animation controller)
-  <div align="center">
-    <img src="Images/18.png" alt="Sword & Shield Motion Pack(Animation controller)" width="300">
   </div>
 
 
