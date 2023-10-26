@@ -205,8 +205,47 @@ TODO (due milestone 3) - see specification for details
 11. [](): Downloaded from ____
 
 
-### References ###
+### Resources involved in program development and descriptions of their use ###
 
+**Monster and Boss Models**
+- Monster and Boss models are available at this [link](https://assetstore.unity.com/packages/3d/characters/creatures/monster-4-low-poly-208684). The built-in animator functionality has been deprecated. Existing animations are sourced from Mixamo ([link](https://www.mixamo.com/), following links omitted). We have independently compressed and processed the textures to suit low-performance platforms.
+
+**Player Character Model**
+- The player character model can be found [here](https://assetstore.unity.com/packages/3d/characters/humanoids/fantasy/swordsman-170111#content). It exclusively utilizes the model with animations sourced from Mixamo, while the animator is entirely self-developed. This material does not provide any code; all player scripts have been developed in-house. We've also independently compressed and processed textures to ensure compatibility with low-performance platforms. The internal hierarchy structure has been adjusted accordingly.
+
+**Player's Sword**
+- The player's sword model can be found [here](https://assetstore.unity.com/packages/3d/props/weapons/demonic-sword-222519). It solely utilizes the model, and the "Sword" script is self-implemented, primarily for real-time attack detection relying on collision checks.
+
+**Monster Health Bar - Code Monkey: Health System (Includes Learning Video)**
+- For the monster's health bar, we've utilized the Code Monkey's Health System available [here](https://assetstore.unity.com/packages/tools/utilities/health-system-includes-learning-video-211787). The code involves IGetHealthSystem, HealthSystem, HealthSystemComponent, with some elements being modified. This primarily pertains to health bar smoothing and the addition of one-time setting to full functionality. State bars for entities other than the player also employ graphical assets from this package, but their specific functionalities are managed by our self-developed code, including EffectTimeBarUI and EffectTimeManager.
+
+**target-indicator**
+- The "target-indicator" is used for displaying the boss's orientation. This material provides code located under UI.OffScreenIndicator, with some partial rewrites. Mainly, these modifications address the issue of delayed screen size updates for drawing areas and attempts to implement more in-game text hints. Color changes over time for controlled monsters were also explored but ultimately not applied due to performance considerations. Secondary development involves Indicator, OffScreenIndicator, Target, and OffScreenIndicatorCore, with direct application of BoxObjectPool and ArrowObjectPool.
+
+**TextMeshPro**
+- TextMeshPro is a Unity built-in component used for informational prompts and displaying text in certain scenes.
+
+**Low Poly Food Lite Models (Food, Damage-Boosting Knife, Frying Pan, and Plate)**
+- Low Poly Food Lite assets are used for pickable items and have been combined into existing items by our development team. You can find them [here](https://assetstore.unity.com/packages/3d/props/food/low-poly-food-lite-258693).
+
+**Spell Effects**
+- Some visual particle effects within spell prefabs make use of the majority of effects from the "ky-magic-effects-free" package. However, all in-game effects for the spells themselves are self-developed. You can find these effects [here](https://assetstore.unity.com/packages/vfx/particles/spells/ky-magic-effects-free-21927).
+
+**Player's Bottom Left Avatar, Health Bar, and Mana Bar Display**
+- The game utilizes art assets and prefab structures from "rpg-unitframes-1-powerful-metal-95252." The logic for displaying health and other information is self-developed. This material does not provide any code. You can find these assets [here](https://assetstore.unity.com/packages/2d/gui/icons/rpg-unitframes-1-powerful-metal-95252).
+
+**Particle Ribbon**
+- Particle Ribbon is employed for particle effects in upgrades, attribute enhancements, health and mana restoration, freezing spell casting, player freezing, monster deaths, and other special effects. While there are minimal secondary developments, mainly concerning size, effect adjustments, and color changes, this package was not significantly modified. Related scripts such as ParticleEffectManager are self-developed. You can find Particle Ribbon [here](https://assetstore.unity.com/packages/vfx/particles/spells/particle-ribbon-42866).
+
+**Game Sound Effects and Some Music**
+- The game sound effects and some music are sourced from the game "New Swordsman" by Xishanju. The materials used are from online sources and are exclusively for educational purposes. As the game was released around 2000, specific links are no longer available. A Wikipedia entry on the game can be found [here](https://zh.wikipedia.org/wiki/%E5%89%91%E4%BE%A0%E6%83%85%E7%BC%98%E7%B3%BB%E5%88%97).
+
+### Other ###
+**Stylized Game Intro Image**
+- The stylized game intro image was generated by [SeaArt.ai](https://www.seaart.ai/) under our guidance.
+
+**Portrait of Xianzhong Zhang**
+- The image of Xianzhong Zhang is sourced from an anonymous user on Xiaohongshu (Little Red Book). Xianzhong Zhang, being a historical figure, does not possess portrait rights.
 
 
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-24ddc0f5d75046c5622901739e7c5dd533143b0c8e959d652212380cedb1ea36.svg)](https://classroom.github.com/a/0n2F_Zha)
