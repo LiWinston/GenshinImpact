@@ -139,7 +139,34 @@ TODO (due milestone 3) - see specification for details
 
 ## Shaders and Special Effects
 
-TODO (due milestone 3) - see specification for details
+**1. Particle Effect** 
+
+In this game, shaders applied to objects and ability special effects are mostly imported material from packages source from unity's store. Except three, where it was custom written for this assignment to bring a sense of liveliness to the game. 
+
+**1.1 Candle Flame**
+
+Effect:
+<div  align = center>
+  <video src="images/candle_flame.mp4" height="200" autoplay=on>
+</div>
+
+Material used: **[Candle_flame_2](https://github.com/COMP30019/project-2-infinitegame-studio/blob/main/Assets/GameEnvironment/Castle/Materials/Candle_flame.mat)**
+
+Particle System settings: **[SM_Prop_CandleFlame_with_light.prefab](https://github.com/COMP30019/project-2-infinitegame-studio/blob/main/Assets/GameEnvironment/Castle/Prefabs/SM_Prop_CandleFlame_with_light.prefab)** - start @ Line 69.
+
+The candle flame prefab imported from Simple Fantasy interior is a static object. While the candle tip itself is configured to glow, compounded with strong point light, the candle itself is very nicely done. However, the candle flame itself is still a static object that does not move, which was a bit lacking, given that candle is the most widely used lighting source utilitised in the game, we thought to give it a bit flair adds to the detail of the game.
+
+<div  align = center>
+  <img src="images/candle.png" height="200">  
+  <img src="images/in-game candle.png" height="200"> 
+</div>
+
+The least resource draining method that we can implement is to have a static flame image hollowed out, set to move about rapidly within a small boundary. This would create the illusion that a live flame is burning. The particle system regulates the boundary, frequency, shape, velocity, colour, and rendering mode.
+
+<div  align = center>
+  <img src="Assets\GameEnvironment\Castle\Textures/candle_light.png" height="200">
+</div>
+Above is the root image for this flame.
 
 ## Summary of Contributions
 
@@ -147,5 +174,39 @@ TODO (due milestone 3) - see specification for details
 
 ## References and External Resources
 
-TODO (to be continuously updated) - see specification for details
+### External Resources
+#### Prefab packages 
+1. [Simple Fantasy Interiors - Cartoon Assets](https://assetstore.unity.com/packages/3d/environments/fantasy/simple-fantasy-interiors-cartoon-assets-76478): Bought from unity asset store.
+2. [Low Poly Dungeons](https://assetstore.unity.com/packages/3d/environments/dungeons/low-poly-dungeons-176350): Bought from unity asset store.
+3. [Lowpoly Castle Dungeon Tileset](https://assetstore.unity.com/packages/3d/environments/dungeons/lowpoly-castle-dungeon-tileset-195730): Bought from unity asset store.
+4. [FREE Slavic Medieval Environment](https://assetstore.unity.com/packages/3d/environments/fantasy/free-slavic-medieval-environment-town-interior-and-exterior-167010): Bought from unity asset store.
+5. [Modular Fantasy Castle pack - demo](https://assetstore.unity.com/packages/3d/environments/modular-fantasy-castle-pack-demo-189505): Bought from unity asset store.
+6. [](): Downloaded from ____
+7. [](): Downloaded from ____
+8. [](): Downloaded from ____
+9. [](): Downloaded from ____
+10. [](): Downloaded from ____
+11. [](): Downloaded from ____
+12. [](): Downloaded from ____
+13. [](): Downloaded from ____
+14. [](): Downloaded from ____
+
+#### Music
+1.  BGM: /Assets/Resources/Music/final_boss.mp3: [Apocalypse](https://pixabay.com/music/build-up-scenes-apocalypse-128378/) -  Downloaded from Pixabay.com
+2. /Assets/Resources/Music/haunted_house.mp3: [Haunted house ambiance](https://cdn.pixabay.com/download/audio/2022/03/01/audio_d7675feb0e.mp3?filename=haunted-house-ambience-21831.mp3&g-recaptcha-response=03AFcWeA4SS0BKySkEQlWcWQIc9-WL38gdlTAIvJdXO98lz4iSALoI2QDNGk3a8HgLup4Sc0yvFtK1dd29pqEzV0fReaCtXkCeW_gu_PNpe0M1tprbhwMwsVWG8krtRYZM0u7p3NiAjvwzfxsqBxZEEvB4jGdTRpJqLJPmC3PYQK8qt56O26QyutP20b2IokXKTcHgxKA4JbNhwyXk9foRFKimXXKkdMKzMbUyHeeshXUIBFUCQLCSqEcorrePnyI1JX6kbjjpplMM6DSERzuftSfebNyui0GZfSjtBevwMR3ShhKaDJnIMt-uhttGqM1RLZo3QimDs1rDchhzBsjWwAC7CIc-5-y3fy926b1_xEM4DVUWcn1L8Dqf6oJwi6m1ZutkFOwT7fEijr0u8GPTILM-jQcDfDHRIiWQP_IF5QucibxQjcEwf7iMfRnxc_paG4-ICh6uSiq1QyMefVRC11uGljNMqvj-5qeuDCXvU4kk2Fs6kIrPU6hOnBFnyAfFfHovVLSNPUjb0AyUk8JquAmlptmwFKXKXQ&remote_template=1) - Downloaded from Pixabay.com
+3. [](): Downloaded from ____
+4. [](): Downloaded from ____
+5. [](): Downloaded from ____
+6. [](): Downloaded from ____
+7. [](): Downloaded from ____
+8. [](): Downloaded from ____
+9. [](): Downloaded from ____
+10. [](): Downloaded from ____
+11. [](): Downloaded from ____
+
+
+### References ###
+
+
+
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-24ddc0f5d75046c5622901739e7c5dd533143b0c8e959d652212380cedb1ea36.svg)](https://classroom.github.com/a/0n2F_Zha)
