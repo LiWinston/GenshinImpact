@@ -188,9 +188,25 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2192229744088940670, guid: 1d0f68b0fce2c4145b247b690d390d93, type: 3}
+      propertyPath: playOnAwake
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2192229744088940670, guid: 1d0f68b0fce2c4145b247b690d390d93, type: 3}
+      propertyPath: SizeModule.enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2192229744088940670, guid: 1d0f68b0fce2c4145b247b690d390d93, type: 3}
+      propertyPath: ClampVelocityModule.enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2192229744088940670, guid: 1d0f68b0fce2c4145b247b690d390d93, type: 3}
+      propertyPath: InitialModule.gravitySource
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6876983459043713837, guid: 1d0f68b0fce2c4145b247b690d390d93, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 24.159
+      value: 24.801
       objectReference: {fileID: 0}
     - target: {fileID: 6876983459043713837, guid: 1d0f68b0fce2c4145b247b690d390d93, type: 3}
       propertyPath: m_LocalPosition.y
@@ -198,7 +214,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6876983459043713837, guid: 1d0f68b0fce2c4145b247b690d390d93, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -21.47
+      value: -21.221
       objectReference: {fileID: 0}
     - target: {fileID: 6876983459043713837, guid: 1d0f68b0fce2c4145b247b690d390d93, type: 3}
       propertyPath: m_LocalRotation.w
@@ -533,10 +549,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3157444215369040023, guid: 19fab9f4390d0b64fbb9b50b46d9e72f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: a8af55d2a0bfd5740887b4e62bae900c, type: 2}
     - target: {fileID: 6067045835555574444, guid: 19fab9f4390d0b64fbb9b50b46d9e72f, type: 3}
       propertyPath: m_Name
       value: Fireplace
       objectReference: {fileID: 0}
+    - target: {fileID: 8256614553167184785, guid: 19fab9f4390d0b64fbb9b50b46d9e72f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 97c38e609528498459346ca5100f0392, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

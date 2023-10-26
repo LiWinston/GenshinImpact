@@ -139,34 +139,55 @@ TODO (due milestone 3) - see specification for details
 
 ## Shaders and Special Effects
 
-**1. Particle Effect** 
+### **1. Particle Effect - Candle Flame** 
 
 In this game, shaders applied to objects and ability special effects are mostly imported material from packages source from unity's store. Except three, where it was custom written for this assignment to bring a sense of liveliness to the game. 
 
-**1.1 Candle Flame**
-
-Effect:
+### Final Effect:
 <div  align = center>
-  <video src="images/candle_flame.mp4" height="200" autoplay=on>
+  <img src="Images/candle_flame.gif" height="200">
 </div>
 
 Material used: **[Candle_flame_2](https://github.com/COMP30019/project-2-infinitegame-studio/blob/main/Assets/GameEnvironment/Castle/Materials/Candle_flame.mat)**
 
 Particle System settings: **[SM_Prop_CandleFlame_with_light.prefab](https://github.com/COMP30019/project-2-infinitegame-studio/blob/main/Assets/GameEnvironment/Castle/Prefabs/SM_Prop_CandleFlame_with_light.prefab)** - start @ Line 69.
 
-The candle flame prefab imported from Simple Fantasy interior is a static object. While the candle tip itself is configured to glow, compounded with strong point light, the candle itself is very nicely done. However, the candle flame itself is still a static object that does not move, which was a bit lacking, given that candle is the most widely used lighting source utilitised in the game, we thought to give it a bit flair adds to the detail of the game.
 
+
+The candle flame prefab imported from Simple Fantasy interior is a static object. While the candle tip itself is configured to glow, compounded with strong point light, the candle itself is very nicely done. However, the candle flame itself is still a static object that does not move, which was a bit lacking, given that candle is the most widely used lighting source utilitised in the game, we thought to give it a bit flair adds to the detail of the game.
 <div  align = center>
   <img src="images/candle.png" height="200">  
   <img src="images/in-game candle.png" height="200"> 
 </div>
 
-The least resource draining method that we can implement is to have a static flame image hollowed out, set to move about rapidly within a small boundary. This would create the illusion that a live flame is burning. The particle system regulates the boundary, frequency, shape, velocity, colour, and rendering mode.
+The least resource draining method that we can implement is to have a static flame image hollowed out, set to move about rapidly within a small boundary. This would create the illusion that a live flame is burning. The particle system regulates the boundary, frequency, shape, velocity, colour, and rendering mode. Using the flame img from below as a standalone particle, have a tight and small spread of flames that moves vertically upwards creates the illusion of a live flame. Additionally, set the particle to shift its colour from yellow to red to improve realism.
 
 <div  align = center>
   <img src="Assets\GameEnvironment\Castle\Textures/candle_light.png" height="200">
 </div>
 Above is the root image for this flame.
+
+The particle system is set to have a tight small box shape, emits from the candle wick, the flame image moves vertically before shortly disappear. Have a box shape creates a spread, which allows the tip of the expiring image that have turned red to have some differentiation from other copies of itself.
+
+This implementation requires primarily vertex calculation for vertical movement calculation, and Pixel Shader calculations for colour over lifetime adjustments. Since this particle system is not expected to have physical interaction with any other object, its emitor mode could be set to **Transforms** rather than **rigid body**, this could further reduce computation load.
+
+### **2. Shader - Fireplace** 
+### Final Effect:
+<div  align = center>
+  <img src="Images/fireplace.gif" height="200">
+</div>
+
+Shader used: **[flame_shadow](https://github.com/COMP30019/project-2-infinitegame-studio/blob/main/Assets/GameEnvironment/Castle/Shader/flame_shadow.shader)** - this creates the flame that changes colour over time, and moves occassionally upwards.
+
+Shader used: **[yellow_flame](https://github.com/COMP30019/project-2-infinitegame-studio/blob/main/Assets/GameEnvironment/Castle/Shader/yellow_flame.shader)** - this creates the flame in the center, that moves side by side.
+
+This flame is a composite of multiple flames stacked on top of one another, it is an approximation that would not significantly strain the system. At earlier development stages, the framerates was abysmally low, we intended to have a live flame imported from somewhere else that would emulate a burning fire that would occassionally spits out bits of fire at the player, painted in blue, like a ghost flame. However, the burden to the framerate at that time proved this solution was non-viable, therefore, the task was to simulate a flame using minimal animations and particle generation. 
+
+This shader implements two simple functionalities, transformation and colour change over time. Having the time moves by sine or cos waves proved too predictable and strange, therefore we opted for a tan curve. This creates additional problems like clipping through the firepalce at times, which was mitigated, somewhat, by reducing the range of movement, increasing the frequency, and tuning the speed to be faster, the probability where the flame would clip through the fireplace is greatly reduced.
+
+
+
+
 
 ## Summary of Contributions
 
