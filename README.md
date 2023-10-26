@@ -154,9 +154,8 @@ Material used: **[Candle_flame_2](https://github.com/COMP30019/project-2-infinit
 
 Particle System settings: **[SM_Prop_CandleFlame_with_light.prefab](https://github.com/COMP30019/project-2-infinitegame-studio/blob/main/Assets/GameEnvironment/Castle/Prefabs/SM_Prop_CandleFlame_with_light.prefab)** - start @ Line 69.
 
-
-
 The candle flame prefab imported from Simple Fantasy interior is a static object. While the candle tip itself is configured to glow, compounded with strong point light, the candle itself is very nicely done. However, the candle flame itself is still a static object that does not move, which was a bit lacking, given that candle is the most widely used lighting source utilitised in the game, we thought to give it a bit flair adds to the detail of the game.
+
 <div  align = center>
   <img src="images/candle.png" height="200">  
   <img src="images/in-game candle.png" height="200"> 
