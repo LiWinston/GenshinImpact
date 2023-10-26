@@ -214,7 +214,7 @@ namespace Behavior.Skills
                 float energyExponent = 1.0f; // 默认为1
                 if (numberToThrow > 1 && numberToThrow <= maxThrowingsCount) {
                     float transitionFraction = (float)(numberToThrow - 1) / (maxThrowingsCount - 1); // 用于线性过渡的分数
-                    energyExponent = 1.0f + (0.8f - 1.0f) * transitionFraction; // 计算指数
+                    energyExponent = 1.0f + (0.5f - 1.0f) * transitionFraction; // 计算指数 第一个是最高数量时的每发耗能折扣，第二个是最基础每发耗能折扣（一般地，置1）
                 }
                 return isCosumingEnegyProportionally ? 
                     若按比例每发耗能_singleShootEnegyConsumptionPercentage * _playerController.state.maxEnergy * (float)(Math.Pow(numberToThrow, energyExponent)) :
