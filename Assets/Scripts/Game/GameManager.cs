@@ -30,7 +30,8 @@ namespace Game
         private float finalBattleStartTimeStamp = 0f;
 
         private static GameManager instance;
-        
+        private string BGMSeries = "Horror";
+
         public static GameManager Instance
         {
             get
@@ -63,13 +64,21 @@ namespace Game
             // 获取当前场景加载的时间
             startTime = Time.timeSinceLevelLoad;
             if(!lookat) lookat = GameObject.Find("SM_Prop_Table_04").transform;
-            if (Random.Range(0f, 1f) < 0.5f)
+            var random = Random.Range(0f, 1f);
+            if (random < 0.33f)
             {
                 BGM.clip = Resources.Load<AudioClip>("Music/haunted_house");
+                BGMSeries = "Horror";
             }
-            else
+            else if (random < 0.66f)
             {
-                BGM.clip = Resources.Load<AudioClip>("Music/haunted_house");
+                BGM.clip = Resources.Load<AudioClip>("Music/史诗");
+                BGMSeries = "Epic";
+            }
+            else if (random < 1f)
+            {
+                BGM.clip = Resources.Load<AudioClip>("Music/幻境");
+                BGMSeries = "Fantasy";
             }
             BGM.Play();
 
@@ -191,7 +200,14 @@ namespace Game
             playerController.transform.rotation = targetRotation;
             
             if(!BGM) BGM = GameObject.Find("BGM").GetComponent<AudioSource>();
-            BGM.clip = Resources.Load<AudioClip>("Music/final_boss");
+            BGM.clip = BGMSeries switch
+                {
+                    "Horror" => Resources.Load<AudioClip>("Music/final_boss"),
+                    "Epic" => Resources.Load<AudioClip>("Music/史诗_战斗"),
+                    "Fantasy" => Resources.Load<AudioClip>("Music/幻境_战斗"),
+                    _ => BGM.clip
+                };
+            // BGM.clip = Resources.Load<AudioClip>("Music/final_boss");
             BGM.Play();
             UIManager.Instance.UIMessage_2MSG.Clear();
             UIManager.Instance.ShowMessage2("Meadow Meteor Energy Cost Reduced");
