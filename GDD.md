@@ -156,44 +156,7 @@ Controls in this game follow the format of a traditional first-person perspectiv
 | Del                | Delete (Del): Cheat mode (enable when the game becomes too difficult), during which the experience level-up mechanism is disabled, and each press of the "L" key increases the level by 10.
 | ESC                | Escape (ESC): In-game pause/continue key, which brings up the menu for restarting or exiting the game.
 
-### Mechanics:
 
-**Freezing:**
-
-- Both players and monsters can be frozen.
-- Players' attack speed is not affected by freezing, unlike the movement + Attack speed penalty for monsters.
-
-**Cultivation:**
-
-- Some skills' strength increases with usage.
-- Players need to make choices when casting skills.
-- Overusing AOE (Area of Effect) skills may render single-target skills ineffective against bosses.
-- Single-target or control skills have their own limitations.
-- Players must explore different gameplay strategies.
-
-**Levels:**
-
-- Both players and monsters have corresponding levels.
-- Many in-game interactions between attack and defense are based on levels.
-- The core gameplay and goal revolve around leveling up.
-- Monster levels depend on the time of their appearance.
-- Having a lower level compared to monsters is deadly for players.
-- The game's success is largely determined by the level and the degree of skill cultivation.
-
-**Obstacle Blocking:**
-
-- All projectile spells are blocked by obstacles.
-- Summoning spells, like fireballs, can be cast on both sides of obstacles. But initial casting must target the obstacle itself to allow casting.
-
-**Pathfinding and Creep Accumulation:**
-
-- All monsters pursue players regardless of distance.
-- Hiding is rarely a good option.
-- Gaining an early-level advantage at the beginning of the game is recommended.
-- Eliminating low-level enemies is not difficult, but efficiently killing them within a limited time requires some skill.
-
-
-</center>
 
 ###  Progression
 [progression-flowchart](https://lucid.app/lucidchart/55ee7a9d-d9f5-43fc-b5c5-850204bcdba9/edit?invitationId=inv_106fb1f4-d21d-4cf0-a028-4dd347ed82b0&page=0_0#)
@@ -288,6 +251,45 @@ The player can leverage various items scattered around the castle to gain a boos
 
 </center>
 
+
+####  +++ Other +++
+
+**Freezing:**
+
+- Both players and monsters can be frozen.
+- Players' attack speed is not affected by freezing, unlike the movement + Attack speed penalty for monsters.
+
+**Cultivation:**
+
+- Some skills' strength increases with usage.
+- Players need to make choices when casting skills.
+- Overusing AOE (Area of Effect) skills may render single-target skills ineffective against bosses.
+- Single-target or control skills have their own limitations.
+- Players must explore different gameplay strategies.
+
+**Levels:**
+
+- Both players and monsters have corresponding levels.
+- Many in-game interactions between attack and defense are based on levels.
+- The core gameplay and goal revolve around leveling up.
+- Monster levels depend on the time of their appearance.
+- Having a lower level compared to monsters is deadly for players.
+- The game's success is largely determined by the level and the degree of skill cultivation.
+
+**Obstacle Blocking:**
+
+- All projectile spells are blocked by obstacles.
+- Summoning spells, like fireballs, can be cast on both sides of obstacles. But initial casting must target the obstacle itself to allow casting.
+
+**Pathfinding and Creep Accumulation:**
+
+- All monsters pursue players regardless of distance.
+- Hiding is rarely a good option.
+- Gaining an early-level advantage at the beginning of the game is recommended.
+- Eliminating low-level enemies is not difficult, but efficiently killing them within a limited time requires some skill.
+
+
+</center>
 
 ## Part 4 - Levels and World Design
 
@@ -479,7 +481,7 @@ A strong sense of dread and suspense pervades, with ghostly whispers and eerie u
 
 ###  >>>  Assets >>> 
 
-In the GDD phase, assets are undetermined, but we have compiled a list of available assets, categorized into scene elements and character (monster) models, UI along with animation controllers.
+Here are some easy-to-display materials. For a complete list, see the Reference and External Sources topic in report.
 
 #### +++ Scene +++
 
@@ -500,19 +502,6 @@ This package was used in providing some furnitures not included in the first pac
 
 [FREE Slavic Medieval Environment Town Interior and exterior](https://assetstore.unity.com/packages/3d/environments/fantasy/free-slavic-medieval-environment-town-interior-and-exterior-167010)
 
-
-
-
-- Medieval Castle Interior Game Level: (High Resolution)
-  <div align="center">
-    <div style="display: flex; justify-content: center;">
-      <img src="Images/1.png" alt="Medieval Castle Interior Game Level" width="200" style="margin-right: 5px;">
-      <img src="Images/2.png" alt="Medieval Castle Interior Game Level" width="200" style="margin-right: 5px;">
-      <img src="Images/3.png" alt="Medieval Castle Interior Game Level" width="200">
-    </div>
-  </div>
-
-- 
 
 - Lowpoly Castle Dungeon Tileset(Lowpoly)
   <div align="center">
