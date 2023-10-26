@@ -139,7 +139,34 @@ TODO (due milestone 3) - see specification for details
 
 ## Shaders and Special Effects
 
-TODO (due milestone 3) - see specification for details
+**1. Particle Effect** 
+
+In this game, shaders applied to objects and ability special effects are mostly imported material from packages source from unity's store. Except three, where it was custom written for this assignment to bring a sense of liveliness to the game. 
+
+**1.1 Candle Flame**
+
+Effect:
+<div  align = center>
+  <video src="images/candle_flame.mp4" height="200" autoplay=on>
+</div>
+
+Material used: **[Candle_flame_2](https://github.com/COMP30019/project-2-infinitegame-studio/blob/main/Assets/GameEnvironment/Castle/Materials/Candle_flame.mat)**
+
+Particle System settings: **[SM_Prop_CandleFlame_with_light.prefab](https://github.com/COMP30019/project-2-infinitegame-studio/blob/main/Assets/GameEnvironment/Castle/Prefabs/SM_Prop_CandleFlame_with_light.prefab)** - start @ Line 69.
+
+The candle flame prefab imported from Simple Fantasy interior is a static object. While the candle tip itself is configured to glow, compounded with strong point light, the candle itself is very nicely done. However, the candle flame itself is still a static object that does not move, which was a bit lacking, given that candle is the most widely used lighting source utilitised in the game, we thought to give it a bit flair adds to the detail of the game.
+
+<div  align = center>
+  <img src="images/candle.png" height="200">  
+  <img src="images/in-game candle.png" height="200"> 
+</div>
+
+The least resource draining method that we can implement is to have a static flame image hollowed out, set to move about rapidly within a small boundary. This would create the illusion that a live flame is burning. The particle system regulates the boundary, frequency, shape, velocity, colour, and rendering mode.
+
+<div  align = center>
+  <img src="Assets\GameEnvironment\Castle\Textures/candle_light.png" height="200">
+</div>
+Above is the root image for this flame.
 
 ## Summary of Contributions
 
@@ -147,5 +174,83 @@ TODO (due milestone 3) - see specification for details
 
 ## References and External Resources
 
-TODO (to be continuously updated) - see specification for details
+### External Resources
+#### Prefab packages 
+1. [Simple Fantasy Interiors - Cartoon Assets](https://assetstore.unity.com/packages/3d/environments/fantasy/simple-fantasy-interiors-cartoon-assets-76478): Bought from unity asset store.
+2. [Low Poly Dungeons](https://assetstore.unity.com/packages/3d/environments/dungeons/low-poly-dungeons-176350): Bought from unity asset store.
+3. [Lowpoly Castle Dungeon Tileset](https://assetstore.unity.com/packages/3d/environments/dungeons/lowpoly-castle-dungeon-tileset-195730): Bought from unity asset store.
+4. [FREE Slavic Medieval Environment](https://assetstore.unity.com/packages/3d/environments/fantasy/free-slavic-medieval-environment-town-interior-and-exterior-167010): Bought from unity asset store.
+5. [Modular Fantasy Castle pack - demo](https://assetstore.unity.com/packages/3d/environments/modular-fantasy-castle-pack-demo-189505): Bought from unity asset store.
+6. [](): Downloaded from ____
+7. [](): Downloaded from ____
+8. [](): Downloaded from ____
+9. [](): Downloaded from ____
+10. [](): Downloaded from ____
+11. [](): Downloaded from ____
+12. [](): Downloaded from ____
+13. [](): Downloaded from ____
+14. [](): Downloaded from ____
+
+#### Music
+1.  BGM: /Assets/Resources/Music/final_boss.mp3: [Apocalypse](https://pixabay.com/music/build-up-scenes-apocalypse-128378/) -  Downloaded from Pixabay.com
+2. /Assets/Resources/Music/haunted_house.mp3: [Haunted house ambiance](https://cdn.pixabay.com/download/audio/2022/03/01/audio_d7675feb0e.mp3?filename=haunted-house-ambience-21831.mp3&g-recaptcha-response=03AFcWeA4SS0BKySkEQlWcWQIc9-WL38gdlTAIvJdXO98lz4iSALoI2QDNGk3a8HgLup4Sc0yvFtK1dd29pqEzV0fReaCtXkCeW_gu_PNpe0M1tprbhwMwsVWG8krtRYZM0u7p3NiAjvwzfxsqBxZEEvB4jGdTRpJqLJPmC3PYQK8qt56O26QyutP20b2IokXKTcHgxKA4JbNhwyXk9foRFKimXXKkdMKzMbUyHeeshXUIBFUCQLCSqEcorrePnyI1JX6kbjjpplMM6DSERzuftSfebNyui0GZfSjtBevwMR3ShhKaDJnIMt-uhttGqM1RLZo3QimDs1rDchhzBsjWwAC7CIc-5-y3fy926b1_xEM4DVUWcn1L8Dqf6oJwi6m1ZutkFOwT7fEijr0u8GPTILM-jQcDfDHRIiWQP_IF5QucibxQjcEwf7iMfRnxc_paG4-ICh6uSiq1QyMefVRC11uGljNMqvj-5qeuDCXvU4kk2Fs6kIrPU6hOnBFnyAfFfHovVLSNPUjb0AyUk8JquAmlptmwFKXKXQ&remote_template=1) - Downloaded from Pixabay.com
+3. [](): Downloaded from ____
+4. [](): Downloaded from ____
+5. [](): Downloaded from ____
+6. [](): Downloaded from ____
+7. [](): Downloaded from ____
+8. [](): Downloaded from ____
+9. [](): Downloaded from ____
+10. [](): Downloaded from ____
+11. [](): Downloaded from ____
+
+
+### Resources involved in program development and descriptions of their use ###
+
+**Monster and Boss Models**
+- Monster and Boss models are available at this [link](https://assetstore.unity.com/packages/3d/characters/creatures/monster-4-low-poly-208684). The built-in animator functionality has been deprecated. Existing animations are sourced from Mixamo ([link](https://www.mixamo.com/), following links omitted). We have independently compressed and processed the textures to suit low-performance platforms.
+
+**Player Character Model**
+- The player character model can be found [here](https://assetstore.unity.com/packages/3d/characters/humanoids/fantasy/swordsman-170111#content). It exclusively utilizes the model with animations sourced from Mixamo, while the animator is entirely self-developed. This material does not provide any code; all player scripts have been developed in-house. We've also independently compressed and processed textures to ensure compatibility with low-performance platforms. The internal hierarchy structure has been adjusted accordingly.
+
+**Player's Sword**
+- The player's sword model can be found [here](https://assetstore.unity.com/packages/3d/props/weapons/demonic-sword-222519). It solely utilizes the model, and the "Sword" script is self-implemented, primarily for real-time attack detection relying on collision checks.
+
+**Monster Health Bar - Code Monkey: Health System (Includes Learning Video)**
+- For the monster's health bar, we've utilized the Code Monkey's Health System available [here](https://assetstore.unity.com/packages/tools/utilities/health-system-includes-learning-video-211787). The code involves IGetHealthSystem, HealthSystem, HealthSystemComponent, with some elements being modified. This primarily pertains to health bar smoothing and the addition of one-time setting to full functionality. State bars for entities other than the player also employ graphical assets from this package, but their specific functionalities are managed by our self-developed code, including EffectTimeBarUI and EffectTimeManager.
+
+**target-indicator**
+- The "target-indicator" is used for displaying the boss's orientation. This material provides code located under UI.OffScreenIndicator, with some partial rewrites. Mainly, these modifications address the issue of delayed screen size updates for drawing areas and attempts to implement more in-game text hints. Color changes over time for controlled monsters were also explored but ultimately not applied due to performance considerations. Secondary development involves Indicator, OffScreenIndicator, Target, and OffScreenIndicatorCore, with direct application of BoxObjectPool and ArrowObjectPool.
+
+**TextMeshPro**
+- TextMeshPro is a Unity built-in component used for informational prompts and displaying text in certain scenes.
+
+**Low Poly Food Lite Models (Food, Damage-Boosting Knife, Frying Pan, and Plate)**
+- Low Poly Food Lite assets are used for pickable items and have been combined into existing items by our development team. You can find them [here](https://assetstore.unity.com/packages/3d/props/food/low-poly-food-lite-258693).
+
+**Spell Effects**
+- Some visual particle effects within spell prefabs make use of the majority of effects from the "ky-magic-effects-free" package. However, all in-game effects for the spells themselves are self-developed. You can find these effects [here](https://assetstore.unity.com/packages/vfx/particles/spells/ky-magic-effects-free-21927).
+
+**Player's Bottom Left Avatar, Health Bar, and Mana Bar Display**
+- The game utilizes art assets and prefab structures from "rpg-unitframes-1-powerful-metal-95252." The logic for displaying health and other information is self-developed. This material does not provide any code. You can find these assets [here](https://assetstore.unity.com/packages/2d/gui/icons/rpg-unitframes-1-powerful-metal-95252).
+
+**Particle Ribbon**
+- Particle Ribbon is employed for particle effects in upgrades, attribute enhancements, health and mana restoration, freezing spell casting, player freezing, monster deaths, and other special effects. While there are minimal secondary developments, mainly concerning size, effect adjustments, and color changes, this package was not significantly modified. Related scripts such as ParticleEffectManager are self-developed. You can find Particle Ribbon [here](https://assetstore.unity.com/packages/vfx/particles/spells/particle-ribbon-42866).
+
+**Game Sound Effects and Some Music**
+- The game sound effects and some music are sourced from the game "New Swordsman" by Xishanju. The materials used are from online sources and are exclusively for educational purposes. As the game was released around 2000, specific links are no longer available. A Wikipedia entry on the game can be found [here](https://zh.wikipedia.org/wiki/%E5%89%91%E4%BE%A0%E6%83%85%E7%BC%98%E7%B3%BB%E5%88%97).
+
+### Other ###
+**Stylized Game Intro Image**
+- The stylized game intro image was generated by [SeaArt.ai](https://www.seaart.ai/) under our guidance.
+
+**Game Logo**
+- The game logo(Chinese character) was generated by [shufaziti](www.shufaziti.com).
+
+
+
+<!-- **Portrait of Xianzhong Zhang**
+- The image of Xianzhong Zhang is sourced from an anonymous user on Xiaohongshu (Little Red Book). Xianzhong Zhang, being a historical figure, does not possess portrait rights. -->
+
+
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-24ddc0f5d75046c5622901739e7c5dd533143b0c8e959d652212380cedb1ea36.svg)](https://classroom.github.com/a/0n2F_Zha)

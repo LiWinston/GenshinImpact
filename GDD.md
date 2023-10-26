@@ -129,31 +129,34 @@ This game is a _first-person horror_ game. Players see the game world through th
 Players have the agency to move within the boundary of the map, they can move to interact with objects around them, use weapons or items to interact with monsters. The main camera moves with the character, the camera moves with the character the player plays as.
 
 ### >>> character.Controls(input) >>>
-Controls follow the format of a traditional first-person perspective action game, with additional keys assigned to allow the player to interact with the environment.
 
-#### +++ Character movement +++ 
+Controls in this game follow the format of a traditional first-person perspective action game, with additional keys assigned to allow the player to interact with the environment.
 
-<center>
-
-| keys         | movement                    |
+#### +++ Character Movement +++
+| Keys         | Movement                    |
 | ------------ | ---------------------------- |
-| W, A, S, D   | forward, backward, left, right |
-| Spacebar     | jumping or climbing          |
-| Ctrl         | crouching                    |
-| Shift (hold) | sprinting                    |
+| W, A, S, D   | Normal Movement: Forward speed exceeds backward speed|
+| Spacebar     | Jump: Pressing Shift + Space allows for longer and higher jumps|
+|Left Control| Crouch: Moving slowly while crouched. After crouching for 1.5 seconds in a rested or out-of-combat state, enter "Zen Mode," temporarily accelerating life recovery rate to several times its normal rate and proportionally converting stamina into energy. Being attacked or taking any action interrupts Zen Mode. The conversion rate accelerates with the player's level.|
+| Shift + WASD|Sprint: Increases the speed limit, eliminates acceleration time (instant speed gain), and allows for quickly pushing aside enemies. It consumes a certain percentage of stamina per second (naturally recovered when out of combat).
 
-</center>
-
-####  +++ Character attack & interaction +++
-<center>
-
-| keys               | movement          |
+#### +++ Character Attack & Interaction +++
+| Keys               | Movement          |
 | ------------------ | ------------------ |
-| right-click (mouse)| normal attack      |
-| E                  | picking up items or interacting with the environment |
-| Q                  | ability            |
+| E                  | Picking up items or interacting with the environment |
+| Left-Click (Mouse)|Normal Attack: Sword; Damage increases with player level. Normal attacks include two sword forms, the upper-left thrust with a lower range, which doesn't consume stamina, and the seated swing, which consumes a small amount of stamina. There's always a chance to trigger a critical hit, swinging around to deal several times the damage of a normal attack. The critical hit rate increases with the player's level. Normal attacks and critical hits share a cooldown, which decreases as the player levels up.|
+| Right-Click (Mouse)| _"Extreme Cold"_: Inflicts immediate damage and a lasting ice effect for several seconds, adding a total of 20% continuous frozen damage. During the freeze, the enemy's movement speed, acceleration, and attack speed are all affected. The specific duration depends on the player's casting time, player level, monster level, and monster type. Bosses are significantly less affected by the freezing effect duration compared to regular enemies.|
+| Q                  | Ultimate Skill _"Autophagy"_: Inflicts a burst of damage and a mind control effect (lasting several seconds). Monsters will begin attacking other monsters. Burst damage increases with the player's level. In addition to the instant energy cost upon casting, controlling each enemy consumes an additional 2% of the current energy limit, until it's insufficient to control the remaining enemies. Bosses are significantly less affected by the control effect duration compared to regular enemies.            |
+| V                  | Whirlwind Kick: Inflicts a significant knockback effect, dealing minor fixed damage, useful for disengaging. Enemies kicked by this ability will fall and then get back up.
+| R                  | Golden Bell: Activates with a blue energy cost of 20%. Lasts for d = 7 seconds, providing increased damage resistance (damage reduction ratio, influenced by the player's level). Damage taken is converted into a percentage of energy consumption (equivalent to the resistance-adjusted life loss ratio). The protective effect automatically expires when energy falls below 10%. If Golden Bell is interrupted by the player or external factors, the remaining energy is returned proportionally. Golden Bell can effectively block ranged attacks from normal monsters and reflects them back, causing damage that scales with the player's level. For bosses, there is a significant reduction in the duration of control and freezing effects.
+| C                  | Meadow Meteor: Fires several sword energy waves, akin to meteors streaking across the field. The number of waves increases with the player's level. Although it can snipe targets at a distance in lower levels, it is more cost-effective against medium and close-range enemies. If it gets too close, dealing excessive damage to one or two targets may result in overflow damage. Affected by cultivation.
+| G                  | Persistent Reverie: Aggregates mana (extremely high energy consumption) to create an energy ball, which can bounce between nearby enemies after hitting the initial target. Damage diminishes by 20% with each bounce. This spell rewards the player with enemy-specific experience points for each enemy hit, which comes to effect when the energy ball disappears.
+| F                  | Fire: Hold F to select a landing point and release it. Inflicts a delayed damage over time to each individual entering the area, with stacking effects on the same target. If it exceeds the casting distance, the spell cannot be released, and releasing the key returns the energy. Affected by cultivation. Fire is most effective at eliminating groups of enemies and has low energy consumption, making it the preferred choice against numerous low-level enemies. However, its AOE damage becomes less relevant in the final battle.
+| ~                  | Tilde (~): If confident enough, you can initiate a boss battle early (generally not recommended).
+| Del                | Delete (Del): Cheat mode (enable when the game becomes too difficult), during which the experience level-up mechanism is disabled, and each press of the "L" key increases the level by 10.
+| ESC                | Escape (ESC): In-game pause/continue key, which brings up the menu for restarting or exiting the game.
 
-</center>
+
 
 ###  Progression
 [progression-flowchart](https://lucid.app/lucidchart/55ee7a9d-d9f5-43fc-b5c5-850204bcdba9/edit?invitationId=inv_106fb1f4-d21d-4cf0-a028-4dd347ed82b0&page=0_0#)
@@ -248,6 +251,45 @@ The player can leverage various items scattered around the castle to gain a boos
 
 </center>
 
+
+####  +++ Other +++
+
+**Freezing:**
+
+- Both players and monsters can be frozen.
+- Players' attack speed is not affected by freezing, unlike the movement + Attack speed penalty for monsters.
+
+**Cultivation:**
+
+- Some skills' strength increases with usage.
+- Players need to make choices when casting skills.
+- Overusing AOE (Area of Effect) skills may render single-target skills ineffective against bosses.
+- Single-target or control skills have their own limitations.
+- Players must explore different gameplay strategies.
+
+**Levels:**
+
+- Both players and monsters have corresponding levels.
+- Many in-game interactions between attack and defense are based on levels.
+- The core gameplay and goal revolve around leveling up.
+- Monster levels depend on the time of their appearance.
+- Having a lower level compared to monsters is deadly for players.
+- The game's success is largely determined by the level and the degree of skill cultivation.
+
+**Obstacle Blocking:**
+
+- All projectile spells are blocked by obstacles.
+- Summoning spells, like fireballs, can be cast on both sides of obstacles. But initial casting must target the obstacle itself to allow casting.
+
+**Pathfinding and Creep Accumulation:**
+
+- All monsters pursue players regardless of distance.
+- Hiding is rarely a good option.
+- Gaining an early-level advantage at the beginning of the game is recommended.
+- Eliminating low-level enemies is not difficult, but efficiently killing them within a limited time requires some skill.
+
+
+</center>
 
 ## Part 4 - Levels and World Design
 
@@ -439,7 +481,7 @@ A strong sense of dread and suspense pervades, with ghostly whispers and eerie u
 
 ###  >>>  Assets >>> 
 
-In the GDD phase, assets are undetermined, but we have compiled a list of available assets, categorized into scene elements and character (monster) models, UI along with animation controllers.
+Here are some easy-to-display materials. For a complete list, see the Reference and External Sources topic in report.
 
 #### +++ Scene +++
 
@@ -461,25 +503,6 @@ This package was used in providing some furnitures not included in the first pac
 [FREE Slavic Medieval Environment Town Interior and exterior](https://assetstore.unity.com/packages/3d/environments/fantasy/free-slavic-medieval-environment-town-interior-and-exterior-167010)
 
 
-
-
-- Medieval Castle Interior Game Level: (High Resolution)
-  <div align="center">
-    <div style="display: flex; justify-content: center;">
-      <img src="Images/1.png" alt="Medieval Castle Interior Game Level" width="200" style="margin-right: 5px;">
-      <img src="Images/2.png" alt="Medieval Castle Interior Game Level" width="200" style="margin-right: 5px;">
-      <img src="Images/3.png" alt="Medieval Castle Interior Game Level" width="200">
-    </div>
-  </div>
-
-- Fantasy Castles Pack(Medium Poly)
-  <div align="center">
-    <div style="display: flex; justify-content: center;">
-      <img src="Images/4.png" alt="Fantasy Castles Pack(Medium Poly)" width="350" style="margin-right: 5px;">
-      <img src="Images/5.png" alt="Fantasy Castles Pack(Medium Poly)" width="350">
-    </div>
-  </div>
-
 - Lowpoly Castle Dungeon Tileset(Lowpoly)
   <div align="center">
     <div style="display: flex; justify-content: center;">
@@ -488,13 +511,7 @@ This package was used in providing some furnitures not included in the first pac
     </div>
   </div>
 
-- Victorian Interior:(Exquisite yet affordable)
-  <div align="center">
-    <div style="display: flex; justify-content: center;">
-      <img src="Images/8.png" alt="Victorian Interior:(Exquisite yet affordable)" width="300" style="margin-right: 5px;">
-      <img src="Images/9.png" alt="Victorian Interior:(Exquisite yet affordable)" width="300">
-    </div>
-  </div>
+
 
 #### +++ Character +++
 
@@ -502,41 +519,16 @@ This package was used in providing some furnitures not included in the first pac
   <div align="center">
     <div style="display: flex; justify-content: center;">
       <img src="Images/10.png" alt="Monster_4 low-poly" width="300" style="margin-right: 5px;">
-      <img src="Images/11.png" alt="Monster_4 low-poly" width="300">
     </div>
   </div>
 
-- Demoness / Succubus & Dark Mage / Sorceress
-  <div align="center">
-    <div style="display: flex; justify-content: center;">
-      <img src="Images/12.png" alt="Demoness / Succubus & Dark Mage / Sorceress" width="300" style="margin-right: 5px;">
-      <img src="Images/13.png" alt="Demoness / Succubus & Dark Mage / Sorceress" width="300">
-    </div>
-  </div>
 
-- Fantastic Creature #1
-  <div align="center">
-    <img src="Images/14.png" alt="Fantastic Creature #1" width="300">
-  </div>
-
-- Pirate Customized
-  <div align="center">
-    <img src="Images/15.png" alt="Pirate Customized" width="300">
-  </div>
 
 #### +++ assets for UI +++ 
 
-- 3D Modern Menu UI
-  <div align="center">
-    <img src="Images/16.png" alt="3D Modern Menu UI" width="300">
-  </div>
 - RPG Unitframes #1 — POWERFUL METAL
 <div align="center">
     <img src="Images/17.png" alt="RPG Unitframes #1 — POWERFUL METAL" width="300"  >
-  </div>
-- Sword & Shield Motion Pack(Animation controller)
-  <div align="center">
-    <img src="Images/18.png" alt="Sword & Shield Motion Pack(Animation controller)" width="300">
   </div>
 
 
