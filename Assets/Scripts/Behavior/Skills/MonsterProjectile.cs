@@ -144,7 +144,7 @@ namespace Behavior.Skills
                 {
                     if(Random.Range(0, 100) > PlayerController.Instance.state.GetCurrentLevel())
                     {
-                        Debug.Log("Freeze Player");
+                        // Debug.Log("Freeze Player");
                         if (_damageable is IFreezable freezable) freezable.ActivateFreezeMode(1.5f, dmg / 2, 0.15f, 0f, 0.8f);
                         PlayerController.Instance.GetComponent<SpellCast>().StopJZZ(true);
                     }
@@ -153,7 +153,7 @@ namespace Behavior.Skills
                 {
                     if(Random.Range(0, 100) < PlayerController.Instance.state.GetCurrentLevel())
                     {
-                        Debug.Log("Freeze Monster");
+                        // Debug.Log("Freeze Monster");
                         if (_damageable is IFreezable freezable) freezable.ActivateFreezeMode(4.5f, dmg);
                     }
                 }

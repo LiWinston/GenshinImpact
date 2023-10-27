@@ -4,7 +4,6 @@ Shader "Unlit/testing"
     {
         _MainTex ("Albedo Texture", 2D) = "None" {}
         _GradientTex("Gradient", 2D) = "White" {}
-        _TintColor("Tint Color", Color) = (1,1,1,1)
         _Transparency("Transparency", Range(0.0,1.0)) = 0.75
         _Distance("Distance", Float) = 1
         _Amplitude("Amplitude", Float) = 1
@@ -23,8 +22,6 @@ Shader "Unlit/testing"
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
-            // make fog work
-            #pragma multi_compile_fog
 
             #include "UnityCG.cginc"
 
@@ -37,14 +34,12 @@ Shader "Unlit/testing"
             struct v2f
             {
                 float2 uv : TEXCOORD0;
-                UNITY_FOG_COORDS(1)
                 float4 vertex : SV_POSITION;
             };
 
             sampler2D _MainTex;
             sampler2D _GradientTex;
             float4 _MainTex_ST;
-            float4 _TintColor;
             float _Transparency;
             float _Distance;
             float _Amplitude;
@@ -66,10 +61,11 @@ Shader "Unlit/testing"
             {                     
                 // this using the colour gradient   
                 float gray = tex2D(_MainTex, i.uv).r;
-				// get scrolling        
-				float scroll = frac(gray + _Time.x*_Speed);
-                // sample the texture
-                fixed4 col = tex2D(_GradientTex, float2(scroll,0.8));
+				// this gets a gradual colour change over time, controlled by speed.        
+				float change_colour = frac(gray + _Time.x*_Speed);
+                // this samples the gradient colour from the colour gradient to apply to the main texture.
+                fixed4 col = tex2D(_GradientTex, float2(change_colour,0.8));
+                // apply transparency to the object
                 col.a = _Transparency;
                 return col;
             }
