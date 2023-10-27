@@ -139,7 +139,7 @@ TODO (due milestone 3) - see specification for details
 
 ## Shaders and Special Effects
 
-### **1. Particle Effect - Candle Flame** 
+### **Custom 1. Particle Effect - Candle Flame** 
 
 In this game, shaders applied to objects and ability special effects are mostly imported material from packages source from unity's store. Except three, where it was custom written for this assignment to bring a sense of liveliness to the game. 
 
@@ -148,11 +148,11 @@ In this game, shaders applied to objects and ability special effects are mostly 
   <img src="Images/candle_flame.gif" height="200">
 </div>
 
+Tutorial URL: [Atomospheric Candles in unity](https://www.youtube.com/watch?v=EKo1SLQD9KI), The idea to use particle system instead of writing a separate custom shader to simulate candle flame is taken from this tutorial, additional tweaks were applied in this implementation to enhance the effect.
+
 Material used: **[Candle_flame_2](https://github.com/COMP30019/project-2-infinitegame-studio/blob/main/Assets/GameEnvironment/Castle/Materials/Candle_flame.mat)**
 
 Particle System settings: **[SM_Prop_CandleFlame_with_light.prefab](https://github.com/COMP30019/project-2-infinitegame-studio/blob/main/Assets/GameEnvironment/Castle/Prefabs/SM_Prop_CandleFlame_with_light.prefab)** - start @ Line 69.
-
-
 
 The candle flame prefab imported from Simple Fantasy interior is a static object. While the candle tip itself is configured to glow, compounded with strong point light, the candle itself is very nicely done. However, the candle flame itself is still a static object that does not move, which was a bit lacking, given that candle is the most widely used lighting source utilitised in the game, we thought to give it a bit flair adds to the detail of the game.
 <div  align = center>
@@ -162,16 +162,41 @@ The candle flame prefab imported from Simple Fantasy interior is a static object
 
 The least resource draining method that we can implement is to have a static flame image hollowed out, set to move about rapidly within a small boundary. This would create the illusion that a live flame is burning. The particle system regulates the boundary, frequency, shape, velocity, colour, and rendering mode. Using the flame img from below as a standalone particle, have a tight and small spread of flames that moves vertically upwards creates the illusion of a live flame. Additionally, set the particle to shift its colour from yellow to red to improve realism.
 
+**Particle system attributes**: \
+Start lifetime: 0.5 \
+Start Speed: 0.05 \
+Start Size: Random beteween: 0.02 - 0.1 \
+After considerable experimentation, this set of parameters results in flame that is not too long, not too wide. Start lifetime works with vertical movement, limits its potential vertical movement. Having a start size that is randomised creates a vibrant flame that changes its size over time.\
+**Shape**: box \
+Position: 2.1102e-06, -0.00053324, 1.14e-08 \
+Scale: 0.0097, 0.0123, 0.004 \
+A box shape adds some spread to the flame, creates the illusiont that the flame is waving slightly. Scaling was applied to ensure that the spread is not too big, control it tightly around candle wick.\
+**Velocity over lifetime**: Speed modifier: 1 \
+**Limit Velocity over lifetime**: Speed: curve: dampen: 0.2 \
+By reducing its velocity before it sets to disappear, the residual particles would stack creating a deeper red.\
+**Colour over lifetime**: yellow to red \
+The original image is bright yellow, having it shift colour from yellow to red over lifetime can produce the distinct flame tip at the top more vividly. \
+**Size over lifetime**: Size 1.3 to 0.2 \
+Initially size over lifetime was set to constant, this proves too stale, where images of the size stacks on top of one other, was rather repetitive. \
+**Renderer**:  \
+Renderer mode: Vertical billboard \
+This makes the flame img to move in a vertical line, setting direction to 1 makes it move upwards.
+
+**Material Attributes**: \
+Rendering mode: Additive \
+Colour Mode: Multiply \
+Additive rendering mode would not introduce the background of the flame image, causing unwanted residual from the source image; colour mode set to multiply produce the desired output of flame colour transition.
+
 <div  align = center>
-  <img src="Assets\GameEnvironment\Castle\Textures/candle_light.png" height="200">
+  <img src="Assets\GameEnvironment\Castle\Textures/candle_light.png" height="150">
 </div>
 Above is the root image for this flame.
 
-The particle system is set to have a tight small box shape, emits from the candle wick, the flame image moves vertically before shortly disappear. Have a box shape creates a spread, which allows the tip of the expiring image that have turned red to have some differentiation from other copies of itself.
+The particle system is set to have a tight small box shape, emits from the candle wick, the flame image moves vertically before shortly disappear. Have a box shape creates a spread using a random seed, which allows the tip of the expiring image that have turned red to have some differentiation from other copies of itself.
 
 This implementation requires primarily vertex calculation for vertical movement calculation, and Pixel Shader calculations for colour over lifetime adjustments. Since this particle system is not expected to have physical interaction with any other object, its emitor mode could be set to **Transforms** rather than **rigid body**, this could further reduce computation load.
 
-### **2. Shader - Fireplace** 
+### **Custom 2. Shader - Fireplace** 
 ### Final Effect:
 <div  align = center>
   <img src="Images/fireplace.gif" height="200">
@@ -183,10 +208,14 @@ Shader used: **[yellow_flame](https://github.com/COMP30019/project-2-infinitegam
 
 This flame is a composite of multiple flames stacked on top of one another, it is an approximation that would not significantly strain the system. At earlier development stages, the framerates was abysmally low, we intended to have a live flame imported from somewhere else that would emulate a burning fire that would occassionally spits out bits of fire at the player, painted in blue, like a ghost flame. However, the burden to the framerate at that time proved this solution was non-viable, therefore, the task was to simulate a flame using minimal animations and particle generation. 
 
-This shader implements two simple functionalities, transformation and colour change over time. Having the time moves by sine or cos waves proved too predictable and strange, therefore we opted for a tan curve. This creates additional problems like clipping through the firepalce at times, which was mitigated, somewhat, by reducing the range of movement, increasing the frequency, and tuning the speed to be faster, the probability where the flame would clip through the fireplace is greatly reduced.
+This shader implements two simple functionalities, transformation and colour change over time. Having the time moves by sine or cos waves proved too predictable and strange for a fire, therefore we opted for a tan curve. This creates additional problems like clipping through the firepalce at times, which was mitigated, somewhat, by reducing the range of movement, and tuning the speed to be faster, the probability where the flame would clip through the fireplace is greatly reduced.
+
+This shader is used to animate the fireplace flame for prefab [fireplace](https://github.com/COMP30019/project-2-infinitegame-studio/blob/main/Assets/GameEnvironment/Castle/Prefabs/Fireplace.prefab). Each fireplace's flame is constructed with 4 different flame, 2 red glowing static flame, 1 animated yellow flame, and 1 colour changing animated flame. The fireplace is the main light source in most rooms, having a dynamic fixature would bring a sense of liveliness to the room.
+
+Since this shader is a composite construct, each flame is rendered in different way. The static flames needs only to calculate its geometry from local space and translated into world space, for animated flames, renderering is slightly different, for each frame, its vertices must first be recaluated, tesselation applies triangles to the surface. The object's geometry calculated, then translated from local space into world space, its colour transition would be calcuated last, before the final product moved into output buffer.
 
 
-
+### **Custom 3. Shader - XXX** 
 
 
 ## Summary of Contributions
