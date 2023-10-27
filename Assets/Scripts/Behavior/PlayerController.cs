@@ -716,7 +716,7 @@ namespace Behavior
             
             ParticleEffectManager.Instance.PlayParticleEffect("Charge_03.1 Rave Party", spineTransform.gameObject, 
                 Quaternion.identity, Color.red, Color.black, time);
-            Debug.Log("Charge_03.1 Rave Party");
+            // Debug.Log("Charge_03.1 Rave Party");
         }
         public Coroutine freezeEffectCoroutine { get; set; }
 
