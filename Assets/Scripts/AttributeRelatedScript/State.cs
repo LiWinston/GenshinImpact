@@ -603,14 +603,18 @@ namespace AttributeRelatedScript
         }
 
         private Coroutine ZenCoroutine { get; set; }
-    
+        
+
 
         private void StopZenCoroutine()
         {
             StopCoroutine(ZenCoroutine);
         }
+        internal bool IsInP2EConvertZenMode => isInP2EConvert_ZenMode;
+        private bool isInP2EConvert_ZenMode;
         private IEnumerator P2EConvert_ZenMode()
         {
+            isInP2EConvert_ZenMode = true;
             // StartCoroutine(ParticleEffectManager.Instance.PlayParticleEffectUntilEndCoroutine("Zen",
             //     UpdEffectTransform.gameObject, Quaternion.identity, Color.clear, Color.cyan, ExitZenMode));
             ZenCoroutine = StartCoroutine(ParticleEffectManager.Instance.PlayParticleEffectUntilEndCoroutine("Zen",
@@ -638,7 +642,7 @@ namespace AttributeRelatedScript
                 // 每帧等待
                 yield return null;
             }
+            isInP2EConvert_ZenMode = false;
         }
-
     }
 }
