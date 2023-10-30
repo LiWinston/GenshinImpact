@@ -377,6 +377,10 @@ namespace Behavior
                 }
             
             }
+            if (Input.GetKeyDown(KeyCode.Tab))
+            {
+                IconManager.ShowKeyBinding();
+            }
             
             // enabling cheat mode.
             if (Input.GetKeyDown(KeyCode.Delete))

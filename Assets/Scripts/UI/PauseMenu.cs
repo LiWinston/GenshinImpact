@@ -95,7 +95,7 @@ public class PauseMenu : MonoBehaviour
     void Pause()
     {
         pauseMenuUI.SetActive(true);
-        IconManager.ShowKeyBinding(0.5f);
+        // IconManager.ShowKeyBinding();
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
         Time.timeScale = 0f;

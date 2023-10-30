@@ -56,19 +56,12 @@ namespace UI
         private IEnumerator StartBehavior()
         {
             yield return new WaitForSeconds(1f);
-            foreach (var pair in _iconDictionary)
+            foreach (var icon in _iconDictionary.Values)
             {
-                pair.Value.ShowOff();
+                icon.ShowOff();
             }
         }
-
-        public void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.Tab))
-            {
-                ShowKeyBinding();
-            }
-        }
+        
 
         public void ShowIcon(IconName iconName)
         {
@@ -111,15 +104,6 @@ namespace UI
                 Debug.LogWarning("Icon with name " + iconName + " not found.");
             }
         }
-
-        
-        public void InitIconWithKeyBinding(IconName iconName, KeyCode keyBinding)
-        {
-            if (_iconDictionary.TryGetValue(iconName, out var value))
-            {
-                value.KeyBinding = keyBinding;
-            }
-        }
         
         public void InitIconWithKeyBinding(string iconName, KeyCode key, bool isElapsing = false)
         {
@@ -141,19 +125,26 @@ namespace UI
                 }
             }
         }
+        public void InitIconWithKeyBinding(IconName iconName, KeyCode key, bool isElapsing = false)
+        {
+            if (_iconDictionary.TryGetValue(iconName, out var value))
+            {
+                value.KeyBinding = key;
+                if (isElapsing)
+                {
+                    value.IsElapsing = true;
+                }
+            }
+            
+        }
 
         
         
-        public static void ShowKeyBinding(float time = 2.0f)
+        public static void ShowKeyBinding()
         {
-            if (_instance == null)
+            foreach (var icon in _iconDictionary.Values)
             {
-                // Handle the case when _instance is null, e.g., log an error or do nothing
-                return;
-            }
-            for(int i = 0; i < Enum.GetValues(typeof(IconName)).Length; i++)
-            {
-                _iconDictionary[(IconName)i].ShowKeyBinding(time);
+                icon.ShowKeyBinding();
             }
         }
 

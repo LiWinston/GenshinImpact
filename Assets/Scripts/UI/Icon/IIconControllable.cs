@@ -6,7 +6,7 @@ namespace UI
     {
         void ShowOn();
         void ShowOff();
-        void ShowKeyBinding(float time = 2.0f);
+        void ShowKeyBinding();
         KeyCode KeyBinding { set; }
         bool IsElapsing { set; }
     }
