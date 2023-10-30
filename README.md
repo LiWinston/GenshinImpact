@@ -215,7 +215,7 @@ This shader is used to animate the fireplace flame for prefab [fireplace](https:
 Since this shader is a composite construct, each flame is rendered in different way. The static flames needs only to calculate its geometry from local space and translated into world space, for animated flames, renderering is slightly different, for each frame, its vertices must first be recaluated, tesselation applies triangles to the surface. The object's geometry calculated, then translated from local space into world space, its colour transition would be calcuated last, before the final product moved into output buffer.
 
 
-### **Custom 3. Shader - XXX** 
+### **Custom 3. Shader - Shield** 
 
 
 ## Summary of Contributions

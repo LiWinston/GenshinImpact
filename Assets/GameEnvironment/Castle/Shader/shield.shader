@@ -46,9 +46,12 @@ Shader "Unlit/NewUnlitShader"
             sampler2D _MainTex;
             float4 _MainTex_ST;
             float4 _Color;
+            // these control the strength of ripple colour and 
             float _RippleStrength;
             float _RippleSpeed;
+            // this controls the fresnel effect intensity, higher would result in brighter colour
             float _FresnelIntensity;
+            // this controls the fresnel effect edge colour distance, higher would result in longer edge transition.
             float _FresnelRamp;
 
 
@@ -60,15 +63,12 @@ Shader "Unlit/NewUnlitShader"
                 o.normal = UnityObjectToWorldNormal(v.normal);
                 o.viewDir = normalize(WorldSpaceViewDir(v.vertex));
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
-
-                float2 pivot = float2(0.5, 0.5);
+                
                 // Rotation Matrix
                 float cosY = cos(_Time.y);
                 float sinY = sin(_Time.y);
                 float2x2 rot = float2x2(cosY, -sinY, sinY, cosY);
                 o.uv = mul(rot, o.uv);
-                o.uv += pivot;
-
                 return o;
             }
 
@@ -76,11 +76,11 @@ Shader "Unlit/NewUnlitShader"
             {
                 // sample the texture
                 fixed4 col = tex2D(_MainTex, i.uv);
-                // this creates a ripple time
+                // this produce a colour change.
                 fixed4 ripple = col * _Color * _RippleStrength * abs(sin(_Time.y * _RippleSpeed));
                 // apply fog
                 UNITY_APPLY_FOG(i.fogCoord, col);
-                // Fresnel effect
+                // this creates a Fresnel effect around the effect
                 float fresnelEffect = 1 - max(0,dot(i.normal, i.viewDir));
                 fresnelEffect = pow(fresnelEffect, _FresnelRamp) * _FresnelIntensity;
                 return fresnelEffect + ripple; 
