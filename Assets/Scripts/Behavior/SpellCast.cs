@@ -93,15 +93,19 @@ namespace Behavior
             {
                 case < 20:
                     JZZPfbName = "JZZ0";
-                    d = 6f;
+                    d = 7f;
                     break;
                 case < 40:
                     JZZPfbName = "JZZ";
-                    d = 7f;
+                    d = 8f;
+                    break;
+                case < 60:
+                    JZZPfbName = "JZZ2";
+                    d = 9f;
                     break;
                 default:
                     JZZPfbName = "JZZ2";
-                    d = 8f;
+                    d = 10f;
                     break;
             }
             _effectTimeManager.CreateEffectBar("JZZ", Color.cyan, d);
