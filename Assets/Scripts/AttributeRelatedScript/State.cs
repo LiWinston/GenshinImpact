@@ -2,6 +2,7 @@ using System.Collections;
 using System.Linq;
 using Behavior;
 using UI;
+using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -567,6 +568,7 @@ namespace AttributeRelatedScript
 
         private float DeltaEnergyRegeneration =>
             maxEnergy * energyRegenerationRate * (1.0f + (currentLevel - 1) * energyRegenAddition);
+        
         private void RegenerateHealthAndEnergy()
         {
             // Regenerate health and energy based on regeneration rates and current level
