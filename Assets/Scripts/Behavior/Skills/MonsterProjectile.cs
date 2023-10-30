@@ -40,7 +40,7 @@ namespace Behavior.Skills
                 // setRandomChildTransformFromObjAsTarget(PlayerController.Instance.gameObject);
                 _target = Find.FindDeepChild(PlayerController.Instance.transform, "neck_01"); // 获取玩家对象
                 _damageable = PlayerController.Instance;
-                dmg = _monsterBehaviour.monsterLevel/20 *Random.Range(_monsterBehaviour.minAttackPower, _monsterBehaviour.maxAttackPower) *
+                dmg = _monsterBehaviour.monsterLevel/50 *Random.Range(_monsterBehaviour.minAttackPower, _monsterBehaviour.maxAttackPower) *
                       (_monsterBehaviour.isBoss ? 1 : Random.Range(0.1f, 0.5f));//双标对待玩家和同类
             }
             else
@@ -108,7 +108,7 @@ namespace Behavior.Skills
                     
                     
                     transform.rotation = Quaternion.LookRotation(_target.position - transform.position);
-                    dmg = PlayerController.Instance.state.GetCurrentLevel() * 10 * _monsterBehaviour.monsterLevel/20 *Random.Range(_monsterBehaviour.minAttackPower, _monsterBehaviour.maxAttackPower);
+                    dmg = PlayerController.Instance.state.GetCurrentLevel() * 10 * _monsterBehaviour.monsterLevel/50 *Random.Range(_monsterBehaviour.minAttackPower, _monsterBehaviour.maxAttackPower);
                 }
                 else
                 {
@@ -123,7 +123,7 @@ namespace Behavior.Skills
                     
                     
                         transform.rotation = Quaternion.LookRotation(_target.position - transform.position);
-                        dmg = PlayerController.Instance.state.GetCurrentLevel() * 2 * _monsterBehaviour.monsterLevel/20 *Random.Range(_monsterBehaviour.minAttackPower, _monsterBehaviour.maxAttackPower);
+                        dmg = PlayerController.Instance.state.GetCurrentLevel() * 2 * _monsterBehaviour.monsterLevel/50 *Random.Range(_monsterBehaviour.minAttackPower, _monsterBehaviour.maxAttackPower);
                     }
                 }
             }
