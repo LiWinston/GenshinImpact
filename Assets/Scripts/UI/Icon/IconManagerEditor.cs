@@ -13,7 +13,7 @@ public class IconManagerEditor : Editor
 
         if (GUILayout.Button("Show Icon Dictionary"))
         {
-            foreach (var pair in iconManager.IconDictionary)
+            foreach (var pair in IconManager.IconDictionary)
             {
                 EditorGUILayout.LabelField(pair.Key.ToString(), pair.Value.ToString());
             }

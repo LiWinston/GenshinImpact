@@ -1,9 +1,12 @@
+using UnityEngine;
+
 namespace UI
 {
     public interface IIconControllable
     {
         void ShowOn();
         void ShowOff();
-        void ShowEffect();
+        void ShowKeyBinding();
+        KeyCode KeyBinding { set; }
     }
 }

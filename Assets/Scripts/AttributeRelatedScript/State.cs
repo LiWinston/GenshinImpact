@@ -105,6 +105,7 @@ namespace AttributeRelatedScript
         private float _baseAtkCd;//基础攻速,Should be final constant once initialized
 
         [Header("ZenMode(Recover)")] 
+        [SerializeField] private KeyCode ZENMODEKey = KeyCode.LeftControl;
         [SerializeField]private float zenModeP2EConversionEfficiency = 0.6f; // 禅模式下的体力转化率
         private bool isCrouchingCooldown; // 用于记录下蹲后的冷却状态
         private float _shakeBeforeZenMode = 1.5f; // 下蹲冷却时长施法前摇 要跟动画器中下蹲delay同步修改
@@ -215,6 +216,7 @@ namespace AttributeRelatedScript
 
         private void Start()
         {
+            IconManager.Instance().SetKeyBinding("ZenMode", ZENMODEKey);
             plyctl = PlayerController.Instance;
             healthBarObject = GameObject.Find("UIHealthbar");
             energyBarObject = GameObject.Find("UIManabar");
@@ -243,7 +245,7 @@ namespace AttributeRelatedScript
             }
             // _baseAtkCd = _AttcooldownCurve.curvePoints[0]._f_x_;
             _baseAtkCd = _AttcooldownCurve.CalculateValueAt(1);
-            UpdateAttackCooldown();
+            // UpdateAttackCooldown();
             
             if (!UpdEffectTransform) UpdEffectTransform = Find.FindDeepChild(transform, "spine_01");
             // if(0 !=_shakeBeforeZenMode) GetComponentInChildren<Animator>().SetFloat("_shakeBeforeZenMode",_shakeBeforeZenMode);
@@ -308,7 +310,7 @@ namespace AttributeRelatedScript
             // if (isInZenMode)
             // {
             //     // 检测是否按下了除了左控制键以外的其他键
-            //     if (Input.anyKeyDown || !Input.GetKeyDown(KeyCode.LeftControl))
+            //     if (Input.anyKeyDown || !Input.GetKeyDown(ZENMODEKey))
             //     {
             //         ExitZenMode();
             //     }
@@ -324,7 +326,7 @@ namespace AttributeRelatedScript
 
                 if (isInZenMode)
                 {
-                    if (Input.anyKeyDown && !Input.GetKey(KeyCode.LeftControl))
+                    if (Input.anyKeyDown && !Input.GetKey(ZENMODEKey))
                     {
                         ExitZenMode();
                     }
@@ -612,6 +614,7 @@ namespace AttributeRelatedScript
         }
         internal bool IsInP2EConvertZenMode => isInP2EConvert_ZenMode;
         private bool isInP2EConvert_ZenMode;
+
         private IEnumerator P2EConvert_ZenMode()
         {
             isInP2EConvert_ZenMode = true;
