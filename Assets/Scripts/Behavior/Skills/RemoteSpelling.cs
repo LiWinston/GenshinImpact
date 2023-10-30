@@ -77,8 +77,8 @@ namespace Behavior.Skills
         
 
 
-        private void Start(){
-            IconManager.Instance.SetKeyBinding(Name, key);
+        private void Start()
+        {
             throwingsBehavior = prefab.GetComponent<RemoteThrowingsBehavior>();
             if (throwingsBehavior.positionalCategory ==
                 RemoteThrowingsBehavior.PositionalCategory.ImmediatelyInPosition)
@@ -90,6 +90,9 @@ namespace Behavior.Skills
                 } while (GameObject.Find(randomName) != null);
                 SkillPreview = new GameObject(randomName);
             }
+            //init icon
+            var isElapsing = throwingsBehavior.positionalCategory != RemoteThrowingsBehavior.PositionalCategory.Throwing;
+            IconManager.Instance.InitIconWithKeyBinding(Name, key, isElapsing);
             
             // 首推直接拖进来，也可以用名字找曲线。用名字找曲线时曲线名字不能重复
             //You can directly drag it in first, or you can use the name to find the curve. When searching for a curve by name, the curve name cannot be repeated.
@@ -170,6 +173,7 @@ namespace Behavior.Skills
                     var ec = CalculateEnergyCost();
                     if (_playerController.state.ConsumeEnergy(ec))
                     {
+                        IconManager.Instance.ShowIcon(Name);
                         ++useTimes;
                         if(isAmountUpdatedWithLevel) StartCoroutine(Throw_LevelUpdated());
                         else
@@ -185,6 +189,7 @@ namespace Behavior.Skills
                 {
                     Energycost = CalculateEnergyCost();
                     BeginAiming();
+                    IconManager.Instance.ShowIcon(Name);
                 }
                 else if (Input.GetKeyUp(key))
                 {
@@ -193,6 +198,7 @@ namespace Behavior.Skills
                         StopCoroutine(castingCoroutine);
                     }
                     StartCoroutine(EndAimingAndCast());
+                    IconManager.Instance.HideIcon(Name);
                 }
             }
         }

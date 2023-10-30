@@ -60,6 +60,7 @@ namespace UI
             {
                 pair.Value.ShowOff();
             }
+            yield return new WaitForSeconds(1f);
             UIManager.Instance.ShowMessage1("Press Tab to show key bindings");
         }
 
@@ -78,7 +79,20 @@ namespace UI
                 _iconDictionary[iconName].ShowOn();
             }
         }
-        
+
+        public void ShowIcon(string iconName)
+        {
+            IconName enumName;
+            if (Enum.TryParse(iconName, true, out enumName) && _iconDictionary.ContainsKey(enumName))
+            {
+                _iconDictionary[enumName].ShowOn();
+            }
+            else
+            {
+                Debug.LogWarning("Icon with name " + iconName + " not found.");
+            }
+        }
+
         public void HideIcon(IconName iconName)
         {
             if (_iconDictionary.ContainsKey(iconName))
@@ -86,8 +100,22 @@ namespace UI
                 _iconDictionary[iconName].ShowOff();
             }
         }
+
+        public void HideIcon(string iconName)
+        {
+            IconName enumName;
+            if (Enum.TryParse(iconName, true, out enumName) && _iconDictionary.ContainsKey(enumName))
+            {
+                _iconDictionary[enumName].ShowOff();
+            }
+            else
+            {
+                Debug.LogWarning("Icon with name " + iconName + " not found.");
+            }
+        }
+
         
-        public void SetKeyBinding(IconName iconName, KeyCode keyBinding)
+        public void InitIconWithKeyBinding(IconName iconName, KeyCode keyBinding)
         {
             if (_iconDictionary.TryGetValue(iconName, out var value))
             {
@@ -95,7 +123,7 @@ namespace UI
             }
         }
         
-        public void SetKeyBinding(string iconName, KeyCode key)
+        public void InitIconWithKeyBinding(string iconName, KeyCode key, bool isElapsing = false)
         {
             IconName enumName;
             if (Enum.TryParse(iconName, true,out enumName))
@@ -108,6 +136,10 @@ namespace UI
                 if (_iconDictionary.TryGetValue(enumName, out var value))
                 {
                     value.KeyBinding = key;
+                    if (isElapsing)
+                    {
+                        value.IsElapsing = true;
+                    }
                 }
             }
         }

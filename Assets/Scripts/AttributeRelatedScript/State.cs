@@ -2,6 +2,7 @@ using System.Collections;
 using System.Linq;
 using Behavior;
 using UI;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using Utility;
@@ -216,7 +217,7 @@ namespace AttributeRelatedScript
 
         private void Start()
         {
-            IconManager.Instance.SetKeyBinding("ZenMode", ZENMODEKey);
+            IconManager.Instance.InitIconWithKeyBinding("ZenMode", ZENMODEKey);
             plyctl = PlayerController.Instance;
             healthBarObject = GameObject.Find("UIHealthbar");
             energyBarObject = GameObject.Find("UIManabar");
@@ -334,9 +335,13 @@ namespace AttributeRelatedScript
             }
             else
             {
-                if(isInZenMode) ExitZenMode();
+                if (isInZenMode)
+                {
+                    ExitZenMode();
+                }
             }
         }
+        
 
         // 更新生命值UI
         private void UpdateHealthUI()

@@ -32,9 +32,9 @@ namespace Behavior
 
         void Start()
         {
-            IconManager.Instance.SetKeyBinding("ExtremeCold", ExtremeColdKey);
-            IconManager.Instance.SetKeyBinding("GoldenBell", GoldenBellKey);
-            IconManager.Instance.SetKeyBinding("Autophagy", ULTKey);//ULT
+            IconManager.Instance.InitIconWithKeyBinding("ExtremeCold", ExtremeColdKey);
+            IconManager.Instance.InitIconWithKeyBinding("GoldenBell", GoldenBellKey);
+            IconManager.Instance.InitIconWithKeyBinding("Autophagy", ULTKey);//ULT
             state = GetComponent<State>();
             if (spellingPartTransform == null)
             {
@@ -82,6 +82,7 @@ namespace Behavior
         private void StartJZZ()
         {
             if (!state.ConsumeEnergy(state.maxEnergy * JZZCostRate)) return;
+            IconManager.Instance.ShowIcon(IconManager.IconName.GoldenBell);
             SoundEffectManager.Instance.PlaySound(new List<string>(){"Music/音效/法术/JZZ1","Music/音效/法术/JZZ2"}, gameObject);
             _effectTimeManager.CreateEffectBar("JZZ", Color.cyan, 7f);
             // GameObject.Find("Canvas").GetComponent<EffectTimeManager>().CreateEffectBar("JZZ", Color.cyan, 7f);
@@ -157,6 +158,7 @@ namespace Behavior
                 {
                     Destroy(jzzi.gameObject);
                 }
+                IconManager.Instance.HideIcon(IconManager.IconName.GoldenBell);
             }
         }
         private void ReturnEnergy()
@@ -182,6 +184,7 @@ namespace Behavior
             {
                 Debug.LogError("无法播放特效，因为 Weapon Transform 未指定！");
             }
+            IconManager.Instance.ShowIcon(IconManager.IconName.ExtremeCold);
             
             SoundEffectManager.Instance.PlaySound("Music/音效/法术/极寒", spellingPartTransform.gameObject);
             // 检测在法术范围内的敌人 TODO:??? Layer就不行==要GetMask
@@ -225,7 +228,7 @@ namespace Behavior
             {
                 return;
             };
-            
+            IconManager.Instance.ShowIcon(IconManager.IconName.Autophagy);
             SoundEffectManager.Instance.PlaySound("Music/音效/法术/ULT", spellingPartTransform.gameObject);
             
             // 检查是否成功获取了 Weapon 物体的引用

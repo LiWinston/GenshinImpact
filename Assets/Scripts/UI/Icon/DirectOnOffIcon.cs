@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,7 +9,8 @@ namespace UI
     {
         Image image;
         // Color originalColor; // 保存初始颜色
-        readonly float fadeDuration = 0.25f; // 调整这个值以控制渐变的速度
+        [SerializeField]bool isElapsing = false; // 是否随即消失
+        [SerializeField]float fadeDuration = 0.75f; // 调整这个值以控制渐变的速度
         [SerializeField] KeyCode keyBinding;
         private Text keyTextPrefab; // UI Text预制体
         private Text keyTextObject;
@@ -23,8 +25,19 @@ namespace UI
 
         public void ShowOn()
         {
-            // 淡入
-            StartCoroutine(FadeToAlpha(1.0f));
+            switch (IsElapsing)
+            {
+                case true:
+                    StartCoroutine(FadeToAlpha(1.0f));
+                    break;
+                case false:
+                    StartCoroutine(FadeToAlpha(1.0f, () =>
+                    {
+                        // 在协程完成后调用ShowOff
+                        ShowOff();
+                    }));
+                    break;
+            }
         }
 
         public void ShowOff()
@@ -42,6 +55,12 @@ namespace UI
         {
             get => keyBinding;
             set => keyBinding = value;
+        }
+
+        public bool IsElapsing
+        {
+            get => isElapsing;
+            set => isElapsing = value;
         }
 
         private IEnumerator ShowKeyBindingCoroutine(float time)
@@ -90,7 +109,7 @@ namespace UI
             keyTextObject.enabled = false;
         }
 
-        private IEnumerator FadeToAlpha(float targetAlpha)
+        private IEnumerator FadeToAlpha(float targetAlpha, Action onComplete = null)
         {
             float elapsedTime = 0;
             Color currentColor = image.color;
@@ -107,6 +126,7 @@ namespace UI
             // 确保最终颜色准确设置为目标透明度
             currentColor.a = targetAlpha;
             // image.color = currentColor;
+            onComplete?.Invoke();
         }
     }
 }
