@@ -104,7 +104,7 @@ namespace Behavior.Skills
                 StopCoroutine(BounceCoroutine);
                 BounceCoroutine = null;
             }
-            if(_effectCategory == EffectCategory.Bouncing && !GameManager.Instance.IsFinalBattle){
+            if(_effectCategory == EffectCategory.Bouncing && !GameSceneManager.Instance.IsFinalBattle){
                 PlayerController.Instance.ShowPlayerHUD("Extract EXP + " + BouncingEXP);
                 PlayerController.Instance.state.AddExperience(BouncingEXP);
             }

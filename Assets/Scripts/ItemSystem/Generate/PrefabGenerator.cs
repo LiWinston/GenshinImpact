@@ -83,6 +83,8 @@ namespace ItemSystem.Generate
     
         private void Update()
         {
+            targetPosition = transform.position;
+            
             countAll = objPool.CountAll;
             countActive = objPool.CountActive;
             countInactive = objPool.CountInactive;

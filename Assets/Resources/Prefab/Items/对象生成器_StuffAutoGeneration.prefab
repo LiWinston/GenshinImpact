@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 7250126472735157602}
   - component: {fileID: 804094611814960037}
   - component: {fileID: 774717009640581474}
+  - component: {fileID: -6125237918222523860}
   m_Layer: 0
   m_Name: "\u5BF9\u8C61\u751F\u6210\u5668_StuffAutoGeneration"
   m_TagString: Untagged
@@ -150,3 +151,17 @@ MonoBehaviour:
   needDistanceText: 1
   boxIndicatorDrawAtTransform: {fileID: 0}
   indicator: {fileID: 0}
+--- !u!114 &-6125237918222523860
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3030407638572315631}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09e48ffd779b5b946a5726967b2b5be0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movementSpeed: 0.2
+  approachSpeedRate: 8

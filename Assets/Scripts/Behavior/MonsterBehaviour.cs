@@ -88,6 +88,12 @@ namespace Behavior
             _effectTimeManager.StopEffect("Freeze");
             //Debug RT error, health Curve Init on get
             healthCurve = GetComponents<Component>().OfType<PositiveProportionalCurve>().FirstOrDefault(curve => curve.CurveName == "MonsterHealthLevelCurve");
+            HealthSystemComponent healthSystemComponent = GetComponent<HealthSystemComponent>();
+            if (healthSystemComponent != null)
+            {
+                health = healthSystemComponent.GetHealthSystem();
+                // UIManager.ShowMessage2("health 已找到.");
+            }
             InitializeMonsterLevel();
             _hasAppliedDeathEffect = false;
             target = PlayerController.Instance.gameObject;
