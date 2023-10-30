@@ -392,11 +392,11 @@ namespace Behavior
             if (isBoss)
             {
                 //TODO : boss的等级和经验值
-                monsterLevel = 100;
-                health.SetHealthMax(1500000, true);
+                monsterLevel = 75;
+                health.SetHealthMax(1200000, true);
                 monsterExperience = 9999;
-                minAttackPower = 25;
-                maxAttackPower = 42f;
+                minAttackPower = 18;
+                maxAttackPower = 36f;
                 return;
             }
             // 计算怪物等级，使其在五分钟内逐渐增长到最大等级

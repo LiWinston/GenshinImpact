@@ -85,13 +85,34 @@ namespace Behavior
             IconManager.Instance.ShowIcon(IconManager.IconName.GoldenBell);
             SoundEffectManager.Instance.PlaySound(new List<string>(){"Music/音效/法术/JZZ1","Music/音效/法术/JZZ2"}, gameObject);
             
-            _effectTimeManager.CreateEffectBar("JZZ", Color.cyan, 7f);
-            // GameObject.Find("Canvas").GetComponent<EffectTimeManager>().CreateEffectBar("JZZ", Color.cyan, 7f);
             state.isJZZ = true;
-            var d = 7f;
-            var JZZPfbName = state.GetCurrentLevel() > 30 ? "JZZ2" : "JZZ";
+            float d = 0;
+            // var JZZPfbName = state.GetCurrentLevel() > 30 ? "JZZ2" : "JZZ";
+            string JZZPfbName;
+            switch (state.GetCurrentLevel())
+            {
+                case < 20:
+                    JZZPfbName = "JZZ0";
+                    d = 7f;
+                    break;
+                case < 40:
+                    JZZPfbName = "JZZ";
+                    d = 8f;
+                    break;
+                case < 60:
+                    JZZPfbName = "JZZ2";
+                    d = 9f;
+                    break;
+                default:
+                    JZZPfbName = "JZZ2";
+                    d = 10f;
+                    break;
+            }
+            _effectTimeManager.CreateEffectBar("JZZ", Color.cyan, d);
+            // GameObject.Find("Canvas").GetComponent<EffectTimeManager>().CreateEffectBar("JZZ", Color.cyan, 7f);
+            
             ParticleSystem JZZ = Resources.Load<ParticleSystem>("Prefab/Skills/" + JZZPfbName);
-            if(JZZ == null) Debug.LogError("NO JZZ");
+            if(JZZ == null) Debug.LogError("NO JZZ" + JZZPfbName);
             
             jzzi = Instantiate(JZZ, innerSpellingTransform);
             jzzi.Play();
