@@ -31,6 +31,7 @@ namespace UI
 
         public void QuitGame()
         {
+            SceneManager.UnloadSceneAsync("GameScene");
             SceneManager.LoadScene("StartScene");
         }
     }

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Linq;
 using Behavior;
 using UI;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using Utility;
@@ -105,6 +106,7 @@ namespace AttributeRelatedScript
         private float _baseAtkCd;//基础攻速,Should be final constant once initialized
 
         [Header("ZenMode(Recover)")] 
+        [SerializeField] private KeyCode ZENMODEKey = KeyCode.LeftControl;
         [SerializeField]private float zenModeP2EConversionEfficiency = 0.6f; // 禅模式下的体力转化率
         private bool isCrouchingCooldown; // 用于记录下蹲后的冷却状态
         private float _shakeBeforeZenMode = 1.5f; // 下蹲冷却时长施法前摇 要跟动画器中下蹲delay同步修改
@@ -215,6 +217,7 @@ namespace AttributeRelatedScript
 
         private void Start()
         {
+            IconManager.Instance.InitIconWithKeyBinding("ZenMode", ZENMODEKey);
             plyctl = PlayerController.Instance;
             healthBarObject = GameObject.Find("UIHealthbar");
             energyBarObject = GameObject.Find("UIManabar");
@@ -243,7 +246,7 @@ namespace AttributeRelatedScript
             }
             // _baseAtkCd = _AttcooldownCurve.curvePoints[0]._f_x_;
             _baseAtkCd = _AttcooldownCurve.CalculateValueAt(1);
-            UpdateAttackCooldown();
+            // UpdateAttackCooldown();
             
             if (!UpdEffectTransform) UpdEffectTransform = Find.FindDeepChild(transform, "spine_01");
             // if(0 !=_shakeBeforeZenMode) GetComponentInChildren<Animator>().SetFloat("_shakeBeforeZenMode",_shakeBeforeZenMode);
@@ -308,7 +311,7 @@ namespace AttributeRelatedScript
             // if (isInZenMode)
             // {
             //     // 检测是否按下了除了左控制键以外的其他键
-            //     if (Input.anyKeyDown || !Input.GetKeyDown(KeyCode.LeftControl))
+            //     if (Input.anyKeyDown || !Input.GetKeyDown(ZENMODEKey))
             //     {
             //         ExitZenMode();
             //     }
@@ -324,7 +327,7 @@ namespace AttributeRelatedScript
 
                 if (isInZenMode)
                 {
-                    if (Input.anyKeyDown && !Input.GetKey(KeyCode.LeftControl))
+                    if (Input.anyKeyDown && !Input.GetKey(ZENMODEKey))
                     {
                         ExitZenMode();
                     }
@@ -332,9 +335,13 @@ namespace AttributeRelatedScript
             }
             else
             {
-                if(isInZenMode) ExitZenMode();
+                if (isInZenMode)
+                {
+                    ExitZenMode();
+                }
             }
         }
+        
 
         // 更新生命值UI
         private void UpdateHealthUI()
@@ -603,14 +610,19 @@ namespace AttributeRelatedScript
         }
 
         private Coroutine ZenCoroutine { get; set; }
-    
+        
+
 
         private void StopZenCoroutine()
         {
             StopCoroutine(ZenCoroutine);
         }
+        internal bool IsInP2EConvertZenMode => isInP2EConvert_ZenMode;
+        private bool isInP2EConvert_ZenMode;
+
         private IEnumerator P2EConvert_ZenMode()
         {
+            isInP2EConvert_ZenMode = true;
             // StartCoroutine(ParticleEffectManager.Instance.PlayParticleEffectUntilEndCoroutine("Zen",
             //     UpdEffectTransform.gameObject, Quaternion.identity, Color.clear, Color.cyan, ExitZenMode));
             ZenCoroutine = StartCoroutine(ParticleEffectManager.Instance.PlayParticleEffectUntilEndCoroutine("Zen",
@@ -638,7 +650,7 @@ namespace AttributeRelatedScript
                 // 每帧等待
                 yield return null;
             }
+            isInP2EConvert_ZenMode = false;
         }
-
     }
 }

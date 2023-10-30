@@ -127,6 +127,8 @@ namespace Behavior
 
         private void Start()
         {
+            IconManager.Instance.InitIconWithKeyBinding(IconManager.IconName.HurricaneKick, KeyCode.V);
+            IconManager.Instance.InitIconWithKeyBinding(IconManager.IconName.Sprint, KeyCode.LeftShift);
             audioSource = GetComponent<AudioSource>();
             // _criticalHitCurve = GetComponent<PositiveProportionalCurve>();
             _criticalHitCurve = GetComponents<Component>().OfType<PositiveProportionalCurve>().FirstOrDefault(curve => curve.CurveName == "CriticalHitCurve");
@@ -162,6 +164,7 @@ namespace Behavior
             animator.SetFloat("AttSpeedMult",1f);
             animator.Play("Getting_Up");
             
+            state.UpdateAttackCooldown();//Solve init upd error
             
             
             //Freeze
@@ -236,7 +239,7 @@ namespace Behavior
 
         private void HurricaneKick(){
             if (!state.ConsumePower(12.5f)) return;
-            
+            IconManager.Instance.ShowIcon(IconManager.IconName.HurricaneKick);
             animator.SetTrigger("HurricaneKickTrigger");
             
             rb.velocity = Vector3.zero;
@@ -436,12 +439,19 @@ namespace Behavior
                 {
                     if(state.ConsumePower(4 * Time.deltaTime))
                     {
+                        IconManager.Instance.ShowIcon(IconManager.IconName.Sprint);
                         float sprintSpeed = sprintSpeedRate * (isCrouching ? MaxCrouchPlySpeed : MaxPlySpeed) * (isFrozen ? 0.6f : 1f);
                         var v = moveDirection * sprintSpeed;
                         rb.velocity = new Vector3(v.x,rb.velocity.y , v.z);
+                        // IconManager.Instance.HideIcon(IconManager.IconName.Sprint);
                         return;
                     }
                 }
+            }
+
+            if (Input.GetKeyUp(KeyCode.LeftShift))
+            {
+                IconManager.Instance.HideIcon(IconManager.IconName.Sprint);
             }
             // current lo
             moveForceTimerCounter -= Time.deltaTime;

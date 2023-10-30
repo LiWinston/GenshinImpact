@@ -50,7 +50,7 @@ namespace UI
             {
                 if (isDisplayingMessage)
                 {
-                    if(messageQueue.Count > 5) messageQueue.Clear();
+                    if(messageQueue.Count > 3) messageQueue.Clear();
                     // 如果当前有消息正在显示，覆盖上一条消息
                     StopAllCoroutines(); // 停止当前正在显示的消息的淡入淡出过程
                     StartCoroutine(FadeOutMessage());

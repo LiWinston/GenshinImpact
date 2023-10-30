@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using AttributeRelatedScript;
 using Behavior.Effect;
 using Behavior.Health;
+using UI;
 using UnityEngine;
 using Utility;
 
@@ -20,14 +21,20 @@ namespace Behavior
         [SerializeField] internal float JZZCostRate = 0.2f;
         Coroutine jzzCoroutine = null;
         ParticleSystem jzzi = null;
-        
-        
+        [SerializeField] private KeyCode ExtremeColdKey = KeyCode.Mouse1;
+        [SerializeField] private KeyCode GoldenBellKey = KeyCode.R;
+        [SerializeField] private KeyCode ULTKey = KeyCode.Q;
+
+
         private void Awake(){
             _effectTimeManager = GetComponent<EffectTimeManager>();
         }
 
         void Start()
         {
+            IconManager.Instance.InitIconWithKeyBinding("ExtremeCold", ExtremeColdKey);
+            IconManager.Instance.InitIconWithKeyBinding("GoldenBell", GoldenBellKey);
+            IconManager.Instance.InitIconWithKeyBinding("Autophagy", ULTKey);//ULT
             state = GetComponent<State>();
             if (spellingPartTransform == null)
             {
@@ -49,21 +56,21 @@ namespace Behavior
 
         void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Mouse1))
+            if (Input.GetKeyDown(ExtremeColdKey))
             {
                 PlayerController.Instance.isCrouching = false;
                 animator.SetTrigger("Cast");
                 CastSpell();
             }
 
-            if (Input.GetKeyDown(KeyCode.Q))
+            if (Input.GetKeyDown(ULTKey))
             {
                 PlayerController.Instance.isCrouching = false;
                 animator.SetTrigger("ULT");
                 CastUlt();
             }
         
-            if (Input.GetKeyDown(KeyCode.R))
+            if (Input.GetKeyDown(GoldenBellKey))
             {
                 if(state.isJZZ) return;
                 PlayerController.Instance.isCrouching = false;
@@ -75,6 +82,7 @@ namespace Behavior
         private void StartJZZ()
         {
             if (!state.ConsumeEnergy(state.maxEnergy * JZZCostRate)) return;
+            IconManager.Instance.ShowIcon(IconManager.IconName.GoldenBell);
             SoundEffectManager.Instance.PlaySound(new List<string>(){"Music/音效/法术/JZZ1","Music/音效/法术/JZZ2"}, gameObject);
             _effectTimeManager.CreateEffectBar("JZZ", Color.cyan, 7f);
             // GameObject.Find("Canvas").GetComponent<EffectTimeManager>().CreateEffectBar("JZZ", Color.cyan, 7f);
@@ -132,6 +140,7 @@ namespace Behavior
             // 停止金钟罩效果
             state.isJZZ = false;
             _effectTimeManager.StopEffect("JZZ");
+            IconManager.Instance.HideIcon(IconManager.IconName.GoldenBell);
             // GameObject.Find("Canvas").GetComponent<EffectTimeManager>().StopEffect("JZZ");
         }
 
@@ -149,6 +158,7 @@ namespace Behavior
                 {
                     Destroy(jzzi.gameObject);
                 }
+                IconManager.Instance.HideIcon(IconManager.IconName.GoldenBell);
             }
         }
         private void ReturnEnergy()
@@ -174,6 +184,7 @@ namespace Behavior
             {
                 Debug.LogError("无法播放特效，因为 Weapon Transform 未指定！");
             }
+            IconManager.Instance.ShowIcon(IconManager.IconName.ExtremeCold);
             
             SoundEffectManager.Instance.PlaySound("Music/音效/法术/极寒", spellingPartTransform.gameObject);
             // 检测在法术范围内的敌人 TODO:??? Layer就不行==要GetMask
@@ -217,7 +228,7 @@ namespace Behavior
             {
                 return;
             };
-            
+            IconManager.Instance.ShowIcon(IconManager.IconName.Autophagy);
             SoundEffectManager.Instance.PlaySound("Music/音效/法术/ULT", spellingPartTransform.gameObject);
             
             // 检查是否成功获取了 Weapon 物体的引用
