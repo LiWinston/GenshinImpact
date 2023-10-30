@@ -7328,7 +7328,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -3.8, y: -84.1}
+  m_AnchoredPosition: {x: -3.8, y: -104.7}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &350296793
@@ -34813,7 +34813,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0.74375004, y: 1}
-  m_AnchoredPosition: {x: 14.8, y: -51.4}
+  m_AnchoredPosition: {x: 14.8, y: -76.7}
   m_SizeDelta: {x: 558.2994, y: 204.2888}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1501110303
@@ -34837,10 +34837,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: "WASD-Button: Normal Movement\nShift + WASD -Button: Speed Up\nRight click:
-    Extreme Cold\nLeft click: Normal Attack(Sword)\nLeft Control key: Crouch\nV-Button:
-    Hurricane Kick\nQ-Button: Mind Control \nR-Button: Golden Bell (Defense)\nE-Button:
-    Pick Up Items\nC-Button: Meadow Meteor\nG-Button: Persistent Reverie\nF-BUtton:
-    Fire Burn\n\n\n"
+    Extreme Cold\nLeft click: Normal Attack(Sword)\nLeft Control: Crouch\nV : Hurricane
+    Kick\nQ : Mind Control \nR : Golden Bell (Defense)\nE : Pick Up Items\nC : Meadow
+    Meteor\nG : Persistent Reverie\nF : Fire Burn\n\n\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
   m_sharedMaterial: {fileID: 2140032, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
@@ -34850,7 +34849,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4288782628
-  m_fontColor: {r: 0.14117646, g: 0.6313726, b: 0.63137245, a: 1}
+  m_fontColor: {r: 0.79402685, g: 0.8584906, b: 0.08503916, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -34870,10 +34869,10 @@ MonoBehaviour:
   m_fontSize: 20
   m_fontSizeBase: 20
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 33
+  m_fontStyle: 32
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -49363,8 +49362,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0.74375004, y: 1}
-  m_AnchoredPosition: {x: 13.8, y: 22.4}
-  m_SizeDelta: {x: 692.1116, y: 197.64}
+  m_AnchoredPosition: {x: 13.799999, y: 1.7167}
+  m_SizeDelta: {x: 692.1116, y: 19.0779}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2039452802
 MonoBehaviour:
@@ -49386,7 +49385,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Mechanism Specification
+  m_text: KeyBindings - Press TAB to View/Hide Keys in Game
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
   m_sharedMaterial: {fileID: 2140032, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
@@ -49396,7 +49395,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4281776591
-  m_fontColor: {r: 0.8117647, g: 0.7254902, b: 0.21176471, a: 1}
+  m_fontColor: {r: 1, g: 0.2263243, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -49416,7 +49415,7 @@ MonoBehaviour:
   m_fontSize: 40
   m_fontSizeBase: 40
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 1
