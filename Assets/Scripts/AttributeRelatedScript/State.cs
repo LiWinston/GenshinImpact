@@ -216,7 +216,7 @@ namespace AttributeRelatedScript
 
         private void Start()
         {
-            IconManager.Instance().SetKeyBinding("ZenMode", ZENMODEKey);
+            IconManager.Instance.SetKeyBinding("ZenMode", ZENMODEKey);
             plyctl = PlayerController.Instance;
             healthBarObject = GameObject.Find("UIHealthbar");
             energyBarObject = GameObject.Find("UIManabar");

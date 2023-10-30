@@ -8,7 +8,7 @@ namespace UI
     {
         Image image;
         // Color originalColor; // 保存初始颜色
-        float fadeDuration = 0.25f; // 调整这个值以控制渐变的速度
+        readonly float fadeDuration = 0.25f; // 调整这个值以控制渐变的速度
         [SerializeField] KeyCode keyBinding;
         private Text keyTextPrefab; // UI Text预制体
         private Text keyTextObject;
@@ -33,9 +33,9 @@ namespace UI
             StartCoroutine(FadeToAlpha(0.4f));
         }
 
-        public void ShowKeyBinding()
+        public void ShowKeyBinding(float time)
         {
-            StartCoroutine(ShowKeyBindingCoroutine());
+            StartCoroutine(ShowKeyBindingCoroutine(time));
         }
 
         public KeyCode KeyBinding
@@ -44,7 +44,7 @@ namespace UI
             set => keyBinding = value;
         }
 
-        private IEnumerator ShowKeyBindingCoroutine()
+        private IEnumerator ShowKeyBindingCoroutine(float time)
         {
             // 检查是否已存在 UI Text 对象
             if (keyTextObject == null)
@@ -86,7 +86,7 @@ namespace UI
             keyTextObject.enabled = true;
 
             // 等待一段时间后禁用UI Text对象
-            yield return new WaitForSeconds(2.0f); // 调整等待时间
+            yield return new WaitForSeconds(time); // 调整等待时间
             keyTextObject.enabled = false;
         }
 
@@ -97,7 +97,7 @@ namespace UI
 
             while (elapsedTime < fadeDuration)
             {
-                elapsedTime += Time.deltaTime;
+                elapsedTime += Time.fixedDeltaTime;
                 float t = Mathf.Clamp01(elapsedTime / fadeDuration);
                 currentColor.a = Mathf.Lerp(currentColor.a, targetAlpha, t);
                 image.color = currentColor;
@@ -106,7 +106,7 @@ namespace UI
 
             // 确保最终颜色准确设置为目标透明度
             currentColor.a = targetAlpha;
-            image.color = currentColor;
+            // image.color = currentColor;
         }
     }
 }

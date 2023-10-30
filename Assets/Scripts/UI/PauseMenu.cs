@@ -95,7 +95,7 @@ public class PauseMenu : MonoBehaviour
     void Pause()
     {
         pauseMenuUI.SetActive(true);
-        IconManager.ShowKeyBinding();
+        IconManager.ShowKeyBinding(0.5f);
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
         Time.timeScale = 0f;
@@ -107,6 +107,7 @@ public class PauseMenu : MonoBehaviour
     public void LoadMenu()
     {
         Time.timeScale = 1f;
+        SceneManager.UnloadSceneAsync("GameScene");
         SceneManager.LoadScene("StartScene");
     }
 

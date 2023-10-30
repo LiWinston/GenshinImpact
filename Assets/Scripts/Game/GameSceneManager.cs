@@ -12,7 +12,7 @@ using UnityEngine.UI;
 
 namespace Game
 {
-    public class GameManager : MonoBehaviour
+    public class GameSceneManager : MonoBehaviour
     {
         public Text timerText;
         private float startTime;
@@ -29,21 +29,21 @@ namespace Game
         [SerializeField] private float finalBattleSeconds = 75;
         private float finalBattleStartTimeStamp = 0f;
 
-        private static GameManager instance;
+        private static GameSceneManager instance;
         private string BGMSeries = "Horror";
 
-        public static GameManager Instance
+        public static GameSceneManager Instance
         {
             get
             {
             if (instance == null)
             {
-                instance = FindObjectOfType<GameManager>();
+                instance = FindObjectOfType<GameSceneManager>();
                 
                 if (instance == null)
                 {
                     GameObject gameObject = new GameObject("GameManager");
-                    instance = gameObject.AddComponent<GameManager>();
+                    instance = gameObject.AddComponent<GameSceneManager>();
                 }
             }
 

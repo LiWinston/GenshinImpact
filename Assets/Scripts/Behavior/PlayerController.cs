@@ -127,8 +127,8 @@ namespace Behavior
 
         private void Start()
         {
-            IconManager.Instance().SetKeyBinding(IconManager.IconName.HurricaneKick, KeyCode.V);
-            IconManager.Instance().SetKeyBinding(IconManager.IconName.Sprint, KeyCode.LeftShift);
+            IconManager.Instance.SetKeyBinding(IconManager.IconName.HurricaneKick, KeyCode.V);
+            IconManager.Instance.SetKeyBinding(IconManager.IconName.Sprint, KeyCode.LeftShift);
             audioSource = GetComponent<AudioSource>();
             // _criticalHitCurve = GetComponent<PositiveProportionalCurve>();
             _criticalHitCurve = GetComponents<Component>().OfType<PositiveProportionalCurve>().FirstOrDefault(curve => curve.CurveName == "CriticalHitCurve");

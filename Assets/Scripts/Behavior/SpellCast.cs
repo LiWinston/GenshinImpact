@@ -32,9 +32,9 @@ namespace Behavior
 
         void Start()
         {
-            IconManager.Instance().SetKeyBinding("ExtremeCold", ExtremeColdKey);
-            IconManager.Instance().SetKeyBinding("GoldenBell", GoldenBellKey);
-            IconManager.Instance().SetKeyBinding("Autophagy", ULTKey);//ULT
+            IconManager.Instance.SetKeyBinding("ExtremeCold", ExtremeColdKey);
+            IconManager.Instance.SetKeyBinding("GoldenBell", GoldenBellKey);
+            IconManager.Instance.SetKeyBinding("Autophagy", ULTKey);//ULT
             state = GetComponent<State>();
             if (spellingPartTransform == null)
             {
@@ -139,6 +139,7 @@ namespace Behavior
             // 停止金钟罩效果
             state.isJZZ = false;
             _effectTimeManager.StopEffect("JZZ");
+            IconManager.Instance.HideIcon(IconManager.IconName.GoldenBell);
             // GameObject.Find("Canvas").GetComponent<EffectTimeManager>().StopEffect("JZZ");
         }
 

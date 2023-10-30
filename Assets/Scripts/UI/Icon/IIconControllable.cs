@@ -6,7 +6,7 @@ namespace UI
     {
         void ShowOn();
         void ShowOff();
-        void ShowKeyBinding();
+        void ShowKeyBinding(float time = 2.0f);
         KeyCode KeyBinding { set; }
     }
 }

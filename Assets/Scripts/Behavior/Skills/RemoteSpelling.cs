@@ -78,7 +78,7 @@ namespace Behavior.Skills
 
 
         private void Start(){
-            IconManager.Instance().SetKeyBinding(Name, key);
+            IconManager.Instance.SetKeyBinding(Name, key);
             throwingsBehavior = prefab.GetComponent<RemoteThrowingsBehavior>();
             if (throwingsBehavior.positionalCategory ==
                 RemoteThrowingsBehavior.PositionalCategory.ImmediatelyInPosition)

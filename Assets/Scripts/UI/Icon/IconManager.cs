@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UI;
+using UnityEngine.SceneManagement;
 using Object = UnityEngine.Object;
 
 namespace UI
@@ -30,23 +31,36 @@ namespace UI
         }
 
 
-        public static IconManager Instance()
+        public static IconManager Instance
         {
-            if (_instance != null) return _instance;
-            _instance = GameObject.Find("IconManagerObject").AddComponent<IconManager>();
-            _instance.InitializeIcons();
+            get
+            { if (_instance != null) return _instance;
+              _instance = GameObject.Find("IconManagerObject").AddComponent<IconManager>();
+              _instance.InitializeIcons();
 
-            return _instance;
+              return _instance; }
+        }
+
+        private void Awake()
+        {
+            SceneManager.sceneUnloaded += OnSceneUnloaded;
         }
 
         private void Start()
         {
             _instance = this;
+            StartCoroutine(StartBehavior());
             InitializeIcons();
+        }
+
+        private IEnumerator StartBehavior()
+        {
+            yield return new WaitForSeconds(0.5f);
             foreach (var pair in _iconDictionary)
             {
                 pair.Value.ShowOff();
             }
+            UIManager.Instance.ShowMessage1("Press Tab to show key bindings");
         }
 
         public void Update()
@@ -100,11 +114,16 @@ namespace UI
 
         
         
-        public static void ShowKeyBinding()
+        public static void ShowKeyBinding(float time = 2.0f)
         {
+            if (_instance == null)
+            {
+                // Handle the case when _instance is null, e.g., log an error or do nothing
+                return;
+            }
             for(int i = 0; i < Enum.GetValues(typeof(IconName)).Length; i++)
             {
-                _iconDictionary[(IconName)i].ShowKeyBinding();
+                _iconDictionary[(IconName)i].ShowKeyBinding(time);
             }
         }
 
@@ -146,7 +165,21 @@ namespace UI
                 }
             }
         }
+        
+        private void OnSceneUnloaded(Scene scene)
+        {
+            // Debug.Log("ClearInstance !!!");
+            _iconDictionary.Clear();
+            _instance = null;
+        }
 
+        private void OnDestroy()
+        {
+            // Debug.Log("ClearInstanceManaul !!!");
+            _iconDictionary.Clear();
+            _instance = null;
+            SceneManager.sceneUnloaded -= OnSceneUnloaded;
+        }
         
     }
 }
