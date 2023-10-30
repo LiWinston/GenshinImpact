@@ -39,7 +39,7 @@ Shader "Unlit/NewUnlitShader"
                 float2 uv : TEXCOORD0;
                 UNITY_FOG_COORDS(1)
                 float4 vertex : SV_POSITION;
-                float3 normal : TEXCOORD1;
+                float3 normal : NORMAL;
                 float3 viewDir : TEXCOORD2;
             };
 
