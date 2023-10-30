@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Linq;
 using AttributeRelatedScript;
+using UI;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Pool;
@@ -77,8 +78,8 @@ namespace Behavior.Skills
 
 
         private void Start(){
+            IconManager.Instance.SetKeyBinding(Name, key);
             throwingsBehavior = prefab.GetComponent<RemoteThrowingsBehavior>();
-
             if (throwingsBehavior.positionalCategory ==
                 RemoteThrowingsBehavior.PositionalCategory.ImmediatelyInPosition)
             {

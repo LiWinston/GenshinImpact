@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using AttributeRelatedScript;
 using Behavior.Effect;
 using Behavior.Health;
+using UI;
 using UnityEngine;
 using Utility;
 
@@ -20,14 +21,20 @@ namespace Behavior
         [SerializeField] internal float JZZCostRate = 0.2f;
         Coroutine jzzCoroutine = null;
         ParticleSystem jzzi = null;
-        
-        
+        [SerializeField] private KeyCode ExtremeColdKey = KeyCode.Mouse1;
+        [SerializeField] private KeyCode GoldenBellKey = KeyCode.R;
+        [SerializeField] private KeyCode ULTKey = KeyCode.Q;
+
+
         private void Awake(){
             _effectTimeManager = GetComponent<EffectTimeManager>();
         }
 
         void Start()
         {
+            IconManager.Instance.SetKeyBinding("ExtremeCold", ExtremeColdKey);
+            IconManager.Instance.SetKeyBinding("GoldenBell", GoldenBellKey);
+            IconManager.Instance.SetKeyBinding("Autophagy", ULTKey);//ULT
             state = GetComponent<State>();
             if (spellingPartTransform == null)
             {
@@ -49,21 +56,21 @@ namespace Behavior
 
         void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Mouse1))
+            if (Input.GetKeyDown(ExtremeColdKey))
             {
                 PlayerController.Instance.isCrouching = false;
                 animator.SetTrigger("Cast");
                 CastSpell();
             }
 
-            if (Input.GetKeyDown(KeyCode.Q))
+            if (Input.GetKeyDown(ULTKey))
             {
                 PlayerController.Instance.isCrouching = false;
                 animator.SetTrigger("ULT");
                 CastUlt();
             }
         
-            if (Input.GetKeyDown(KeyCode.R))
+            if (Input.GetKeyDown(GoldenBellKey))
             {
                 if(state.isJZZ) return;
                 PlayerController.Instance.isCrouching = false;
@@ -132,6 +139,7 @@ namespace Behavior
             // 停止金钟罩效果
             state.isJZZ = false;
             _effectTimeManager.StopEffect("JZZ");
+            IconManager.Instance.HideIcon(IconManager.IconName.GoldenBell);
             // GameObject.Find("Canvas").GetComponent<EffectTimeManager>().StopEffect("JZZ");
         }
 
