@@ -24,13 +24,11 @@ Material:
   m_Shader: {fileID: -6465566751694194690, guid: 7a0992b6cd900574c939ccd5868a136f, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords:
-  - _BUILTIN_ALPHATEST_ON
-  - _BUILTIN_AlphaClip
+  m_ValidKeywords: []
+  m_InvalidKeywords:
   - _BUILTIN_SURFACE_TYPE_TRANSPARENT
   - _ENABLE_FOG_ON_TRANSPARENT
   - _SURFACE_TYPE_TRANSPARENT
-  m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -129,8 +127,8 @@ Material:
     - _DoubleSidedConstants: {r: 1, g: 1, b: -1, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _MainTexSpeed: {r: -0.1, g: 0, b: 0, a: 0}
-    - _colour1: {r: 1, g: 0.2566694, b: 0, a: 0}
-    - _colour2: {r: 1, g: 0, b: 0.07366419, a: 0}
+    - _colour1: {r: 1, g: 0.7836894, b: 0, a: 0}
+    - _colour2: {r: 0.10103929, g: 1, b: 0, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &6123373157675608092
 MonoBehaviour:
