@@ -55,13 +55,11 @@ namespace UI
 
         private IEnumerator StartBehavior()
         {
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(1f);
             foreach (var pair in _iconDictionary)
             {
                 pair.Value.ShowOff();
             }
-            yield return new WaitForSeconds(1f);
-            UIManager.Instance.ShowMessage1("Press Tab to show key bindings");
         }
 
         public void Update()
