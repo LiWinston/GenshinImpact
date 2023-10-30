@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace UI
@@ -10,7 +11,8 @@ namespace UI
         Image image;
         // Color originalColor; // 保存初始颜色
         [SerializeField]bool isElapsing = false; // 是否随即消失
-        [SerializeField]float fadeDuration = 0.75f; // 调整这个值以控制渐变的速度
+        [SerializeField]float fadeInDuration = 0.2f; // 调整这个值以控制渐变的速度
+        [FormerlySerializedAs("fadeDuration")] [SerializeField]float fadeOutDuration = 0.75f; // 调整这个值以控制渐变的速度
         [SerializeField] KeyCode keyBinding;
         private Text keyTextPrefab; // UI Text预制体
         private Text keyTextObject;
@@ -23,15 +25,20 @@ namespace UI
             keyTextPrefab = Resources.Load<Text>("Prefab/UI/UITextPrefab");
         }
 
+        Coroutine fadingOutCoroutine = null;
+        
         public void ShowOn()
         {
+            // StopAllCoroutines();
+            if(fadingOutCoroutine != null)
+                StopCoroutine(fadingOutCoroutine);
             switch (IsElapsing)
             {
                 case true:
-                    StartCoroutine(FadeToAlpha(1.0f));
+                    fadingOutCoroutine = StartCoroutine(FadeToAlpha(1.0f,fadeInDuration));
                     break;
                 case false:
-                    StartCoroutine(FadeToAlpha(1.0f, () =>
+                    fadingOutCoroutine = StartCoroutine(FadeToAlpha(1.0f, fadeInDuration,() =>
                     {
                         // 在协程完成后调用ShowOff
                         ShowOff();
@@ -43,7 +50,7 @@ namespace UI
         public void ShowOff()
         {
             // 淡出
-            StartCoroutine(FadeToAlpha(0.4f));
+            fadingOutCoroutine = StartCoroutine(FadeToAlpha(0.4f, fadeOutDuration));
         }
 
         public void ShowKeyBinding(float time)
@@ -62,6 +69,8 @@ namespace UI
             get => isElapsing;
             set => isElapsing = value;
         }
+
+        
 
         private IEnumerator ShowKeyBindingCoroutine(float time)
         {
@@ -109,23 +118,34 @@ namespace UI
             keyTextObject.enabled = false;
         }
 
-        private IEnumerator FadeToAlpha(float targetAlpha, Action onComplete = null)
+        private IEnumerator FadeToAlpha(float targetAlpha, float time = 0f,Action onComplete = null)
         {
-            float elapsedTime = 0;
+            // var Duration = time == -1f ? fadeDuration : time;
             Color currentColor = image.color;
-
-            while (elapsedTime < fadeDuration)
+            
+            var duration = time;
+            if (duration > 0f)
             {
-                elapsedTime += Time.fixedDeltaTime;
-                float t = Mathf.Clamp01(elapsedTime / fadeDuration);
-                currentColor.a = Mathf.Lerp(currentColor.a, targetAlpha, t);
-                image.color = currentColor;
-                yield return null;
-            }
+                float elapsedTime = 0;
+                
 
-            // 确保最终颜色准确设置为目标透明度
-            currentColor.a = targetAlpha;
-            // image.color = currentColor;
+                while (elapsedTime < duration)
+                {
+                    elapsedTime += Time.deltaTime;
+                    float t = Mathf.Clamp01(elapsedTime / duration);
+                    currentColor.a = Mathf.Lerp(currentColor.a, targetAlpha, t);
+                    image.color = currentColor;
+                    yield return null;
+                }
+                currentColor.a = targetAlpha;
+                image.color = currentColor;
+            }
+            else
+            {
+                // 确保最终颜色准确设置为目标透明度
+                currentColor.a = targetAlpha;
+                image.color = currentColor;
+            }
             onComplete?.Invoke();
         }
     }
