@@ -84,9 +84,17 @@ namespace Game
 
             if(!stuffGenerator) stuffGenerator = GameObject.Find("Stuff生成");
         }
+        
 
+        private bool hasActiveKeyBindings = false;
         private void Update()
         {
+            if (!hasActiveKeyBindings)
+            {
+                UIManager.Instance.ShowMessage2("Press TAB to Hide/Show Key Bindings!");
+                IconManager.ShowKeyBinding();
+                hasActiveKeyBindings = true;
+            }
             if (!gameEnded)
             {
                 // update remaining time
