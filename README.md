@@ -22,13 +22,6 @@ placeholder for it [here](GDD.md).
 
 ## Evaluation Plan
 
-    Evaluation techniques: Which evaluation techniques will you use and why? What tasks will you ask participants to perform?
-    Participants: How will you recruit participants? What qualifying criteria will you use to ensure that they are representative of your target audience?
-    Data collection: What sort of data is being collected? How will you collect the data? What tools will you use?
-    Data analysis: How will you analyse the data? What metrics will you use to evaluate your game, and provide a basis for making changes?
-    Timeline: What is your timeline for completing the evaluation? When will you make changes to the game?
-    Responsibilities: Who is responsible for each task? How will you ensure that everyone contributes equally?
-
 **1. Objectives and Scope:**
    1. The purpose of this Evaluation is to present the game's current state to beta tests, gather feedbacks and insights from testers about graphics, gameplay mechanics, audio, storyline, controls and UI. In particular, we are interested to understand how players feel about environment, monster, and other elements, whether these contribute positively to game immersion, or offer insufficient engagement for players to be motivated to continue the game.
    2. furthermore, we wish to gather feedback on QOL improvement that could be implemented to enhance game feedback, sense of control, and direction to the player. In the current design, the game is open world without a direct line of progression that forces players to undertake a certain route, concerns arises whether players could successfully complete the game with minimal level of hints currently available. Or that without clear goals or directives, players would feel like a headless chicken, not knowing what to do.
@@ -263,12 +256,12 @@ When asked about improvements to player skills.
 >"Why are the monster's sound effects so noisy? They're constantly screeching the entire match. This doesn't immerse me at all; instead, it's annoying."
 
 **AI Oddities**: 
->"The monsters' pathfinding sometimes stutters, and at other times, they move in the opposite direction, severely undermining the fun of combat," #
+>"The monsters' pathfinding sometimes stutters, and at other times, they move in the opposite direction, severely undermining the fun of combat,"
 
 regarding enemy behavior.
 
 _____
-#### #### Participant 4:
+#### Participant 4:
 **Value of Items**: 
 >"Is it really worth my time to pick up items like health potions when I have thousands of attack power? +1?" 
 
@@ -366,7 +359,6 @@ In this game, shaders applied to objects and ability special effects are mostly 
 
 Prefab using this particle system: **[SM_Prop_CandleFlame_with_light.prefab](https://github.com/COMP30019/project-2-infinitegame-studio/blob/main/Assets/GameEnvironment/Castle/Prefabs/SM_Prop_CandleFlame_with_light.prefab)**
 
-
 Tutorial URL: [Atomospheric Candles in unity](https://www.youtube.com/watch?v=EKo1SLQD9KI), The idea to use particle system instead of writing a separate custom shader to simulate candle flame is taken from this tutorial, additional tweaks were applied in this implementation to enhance the effect.
 
 Material used: **[Candle_flame_2](https://github.com/COMP30019/project-2-infinitegame-studio/blob/main/Assets/GameEnvironment/Castle/Materials/Candle_flame.mat)**
@@ -417,6 +409,7 @@ The particle system is set to have a tight small box shape, emits from the candl
 
 This implementation requires primarily vertex calculation for vertical movement calculation, and Pixel Shader calculations for colour over lifetime adjustments. Since this particle system is not expected to have physical interaction with any other object, its emitor mode could be set to **Transforms** rather than **rigid body**, this could further reduce computation load.
 
+_____
 ### **Custom 2. Shader - Fireplace** 
 ### Final Effect:
 <div  align = center>
@@ -437,7 +430,7 @@ This shader is used to animate the fireplace flame for prefab [fireplace](https:
 
 Since this shader is a composite construct, each flame is rendered in different way. The static flames needs only to calculate its geometry from local space and translated into world space, for animated flames, renderering is slightly different, for each frame, its vertices must first be recaluated, tesselation applies triangles to the surface. The object's geometry calculated, then translated from local space into world space, its colour transition would be calcuated last, before the final product moved into output buffer.
 
-
+_____
 ### **Custom 3. Shader - Shield** 
 <div  align = center>
   <img src="Images/shield2.gif" height="200">
@@ -462,12 +455,33 @@ Where static colour was too simplistic, we created a ripple effect where the col
 
 Rending the shield is relatively straight forward, the game calls the shield by invoking the particle system and creating a shield particle, its surface is textured and colour by material created by shield.shader. The shield rotates according to configuration set in vert, while it looks like that the shield is rotating wihuot a pattern, this is because all three axis are rotating at the same time.
 
-
+_____
 
 ## Summary of Contributions
 
-TODO (due milestone 3) - see specification for details
+YongChun Li:
 
+1. Player character: character design & implementation, ability design & implementation.
+2. Monster: monster design & implementation, boss design & implementation
+3. 
+
+YuXin Ren:
+
+1. 
+
+Rong Zhao:
+
+1. Game environment: skybox & BGM
+2. 
+
+Zekai Qian:
+
+1. Shader: shield design & implementation, fireplace design & implementation, candle design & implementation.
+2. Game environment: Castle layout & implementation
+3. Documentation: Evaluation plan & evaluation report; Shader Documentation
+4. 
+
+____
 ## References and External Resources
 
 ### External Resources
@@ -477,31 +491,12 @@ TODO (due milestone 3) - see specification for details
 3. [Lowpoly Castle Dungeon Tileset](https://assetstore.unity.com/packages/3d/environments/dungeons/lowpoly-castle-dungeon-tileset-195730): Bought from unity asset store.
 4. [FREE Slavic Medieval Environment](https://assetstore.unity.com/packages/3d/environments/fantasy/free-slavic-medieval-environment-town-interior-and-exterior-167010): Bought from unity asset store.
 5. [Modular Fantasy Castle pack - demo](https://assetstore.unity.com/packages/3d/environments/modular-fantasy-castle-pack-demo-189505): Bought from unity asset store.
-6. [](): Downloaded from ____
-7. [](): Downloaded from ____
-8. [](): Downloaded from ____
-9. [](): Downloaded from ____
-10. [](): Downloaded from ____
-11. [](): Downloaded from ____
-12. [](): Downloaded from ____
-13. [](): Downloaded from ____
-14. [](): Downloaded from ____
 
 #### Music
 1.  BGM: /Assets/Resources/Music/final_boss.mp3: [Apocalypse](https://pixabay.com/music/build-up-scenes-apocalypse-128378/) -  Downloaded from Pixabay.com
 2. /Assets/Resources/Music/haunted_house.mp3: [Haunted house ambiance](https://cdn.pixabay.com/download/audio/2022/03/01/audio_d7675feb0e.mp3?filename=haunted-house-ambience-21831.mp3&g-recaptcha-response=03AFcWeA4SS0BKySkEQlWcWQIc9-WL38gdlTAIvJdXO98lz4iSALoI2QDNGk3a8HgLup4Sc0yvFtK1dd29pqEzV0fReaCtXkCeW_gu_PNpe0M1tprbhwMwsVWG8krtRYZM0u7p3NiAjvwzfxsqBxZEEvB4jGdTRpJqLJPmC3PYQK8qt56O26QyutP20b2IokXKTcHgxKA4JbNhwyXk9foRFKimXXKkdMKzMbUyHeeshXUIBFUCQLCSqEcorrePnyI1JX6kbjjpplMM6DSERzuftSfebNyui0GZfSjtBevwMR3ShhKaDJnIMt-uhttGqM1RLZo3QimDs1rDchhzBsjWwAC7CIc-5-y3fy926b1_xEM4DVUWcn1L8Dqf6oJwi6m1ZutkFOwT7fEijr0u8GPTILM-jQcDfDHRIiWQP_IF5QucibxQjcEwf7iMfRnxc_paG4-ICh6uSiq1QyMefVRC11uGljNMqvj-5qeuDCXvU4kk2Fs6kIrPU6hOnBFnyAfFfHovVLSNPUjb0AyUk8JquAmlptmwFKXKXQ&remote_template=1) - Downloaded from Pixabay.com
-3. [](): Downloaded from ____
-4. [](): Downloaded from ____
-5. [](): Downloaded from ____
-6. [](): Downloaded from ____
-7. [](): Downloaded from ____
-8. [](): Downloaded from ____
-9. [](): Downloaded from ____
-10. [](): Downloaded from ____
-11. [](): Downloaded from ____
 
-
-### Resources involved in program development and descriptions of their use ###
+#### Resources involved in program development and descriptions of their use ###
 
 **Monster and Boss Models**
 - Monster and Boss models are available at this [link](https://assetstore.unity.com/packages/3d/characters/creatures/monster-4-low-poly-208684). The built-in animator functionality has been deprecated. Existing animations are sourced from Mixamo ([link](https://www.mixamo.com/), following links omitted). We have independently compressed and processed the textures to suit low-performance platforms.
