@@ -31,7 +31,8 @@ namespace Game
 
         private static GameSceneManager instance;
         private string BGMSeries = "Horror";
-
+        private bool hasActiveKeyBindings;
+        
         public static GameSceneManager Instance
         {
             get
@@ -83,10 +84,11 @@ namespace Game
             BGM.Play();
 
             if(!stuffGenerator) stuffGenerator = GameObject.Find("Stuff生成");
+            hasActiveKeyBindings = false;
         }
         
 
-        private bool hasActiveKeyBindings = false;
+        
         private void Update()
         {
             if (!hasActiveKeyBindings)
