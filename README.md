@@ -471,13 +471,14 @@ YuXin Ren:
 
 Rong Zhao:
 
-1. Game environment: skybox & BGM
-2. 
+1. Game Environment: Skybox & BGM
+2. Game UI: Start & Win scene, pausemenu
+3. Documentation: Evaluation report
 
 Zekai Qian:
 
 1. Shader: shield design & implementation, fireplace design & implementation, candle design & implementation.
-2. Game environment: Castle layout & implementation
+2. Game Environment: Castle layout & implementation
 3. Documentation: Evaluation plan & evaluation report; Shader Documentation
 4. 
 
