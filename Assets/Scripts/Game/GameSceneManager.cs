@@ -119,13 +119,13 @@ namespace Game
                         stuffGenerator.GetComponents<Component>().OfType<PrefabGenerator>().FirstOrDefault(pg => pg.prefab.name == "血包_HealthSupplyItem")!.maxCapacity = 0;
                         stuffGenerator.GetComponents<Component>().OfType<PrefabGenerator>().FirstOrDefault(pg => pg.prefab.name == "DamageIncreaseItem")!.maxCapacity = 0;
 
-                        PlayerController.Instance.GetComponents<Component>().OfType<RemoteSpelling>().FirstOrDefault(rs => rs.Name == "牧野流星")!.isCosumingEnegyProportionally = false;
+                        PlayerController.Instance.GetComponents<Component>().OfType<RemoteSpelling>().FirstOrDefault(rs => rs.Name == "MeadowMeteor")!.isCosumingEnegyProportionally = false;
                         // PlayerController.Instance.GetComponents<Component>().OfType<RemoteSpelling>().FirstOrDefault(rs => rs.Name == "魂牵梦萦")!.isAmountUpdatedWithLevel = true;
                         // PlayerController.Instance.GetComponents<Component>().OfType<RemoteSpelling>().FirstOrDefault(rs => rs.Name == "魂牵梦萦")!.maxAngle_SingleSide = 10f;
                         
                         var bouncePersistentReverie = PlayerController.Instance.GetComponents<Component>()
                             .OfType<RemoteSpelling>()
-                            .FirstOrDefault(rs => rs.Name == "魂牵梦萦");
+                            .FirstOrDefault(rs => rs.Name == "PersistentReverie");
 
                         if (bouncePersistentReverie != null)
                         {

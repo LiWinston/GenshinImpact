@@ -155,6 +155,8 @@ Controls in this game follow the format of a traditional first-person perspectiv
 | ~                  | Tilde (~): If confident enough, you can initiate a boss battle early (generally not recommended).
 | Del                | Delete (Del): Cheat mode (enable when the game becomes too difficult), during which the experience level-up mechanism is disabled, and each press of the "L" key increases the level by 10.
 | ESC                | Escape (ESC): In-game pause/continue key, which brings up the menu for restarting or exiting the game.
+| TAB                | Tablet (Tab): Display and hide control key prompts in the game.
+
 
 
 
