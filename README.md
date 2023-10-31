@@ -135,7 +135,223 @@ Stage 7. Implementing changes. Implement changes and play test changes, accept o
 
 ## Evaluation Report
 
-TODO (due milestone 3) - see specification for details
+### Introduction 
+A series of observations and interviews were conducted to beta test the prototype game. A series of themes were identified as common problems that most if not all participants have experienced to some degree, we have categorized them into distinct topics each addressing a particular gameplay element. The root cause of each problem, including the origin of those problems were thoroughly explored in discussion, mitigation strategies were discussed in Opportunities, these solutions were to be tested in later iterations and tested to see whether they could adequately address the problem identified in this evaluation study.
+Evidences
+_____
+### Observation:
+
+#### Participant 1 playthrough
+**Animation fluidity**: 
+>“Animations are stuttering, they are not fluid at all”
+
+participant find it difficult to get used to animations, sometimes they fail to cast spells because they are still swinging their sword.
+
+**Animation consistency**: 
+>“Attack is fast but dodging is so slow”
+
+control seems difficult to get familiarized with due to its uneven stutters.
+
+**Position awareness**: 
+>“Where should I go?”. 
+
+participants have a hard time understanding where they should go, and where they are.
+
+**Event awareness**: 
+
+>“what do I do now?” x3.  
+
+Participants experienced some difficulties understanding the event flow of the game, 2mins into the game, the participant is not sure what they should be doing, or how the game is progressing, looks like they have no positive feedback telling them what they have been doing is right or wrong.
+
+**Monotone gameplay**: 
+
+>“Don’t know what I am doing.”
+
+Participant is unsure what they are doing, or what they should be doing, and lack of direct instructions leads to mild anxiety.
+
+_____
+#### Participant 2 playthrough:
+**Gameplay difficulties**: 
+>“I don’t do any damage to it.” 
+
+Participants expressed some exasperation at how minions overstat them when they actively run away from the minions, and found it difficult to damage them.
+
+**Character controls**: 
+>“I can’t run straight”
+
+Participant found it difficult to precisely control character movement, in particular, 
+_____
+#### **Participant 3 playthrough**:
+**Survival Difficulty**: 
+>"How can I win, after all?" 
+
+Players often find it challenging to survive in the early stages of the game. They discover that even when they escape to high ground, they cannot avoid the damage from long-range attacks, especially when they've depleted their energy and can't activate their shields or when their stamina is exhausted and they can't use it for energy recovery. It seems like there's no other choice but to face certain death.
+
+**UI Delay**: 
+>"The text prompts are so cluttered; I can't extract useful information from them, they're just bothering me." 
+
+While the text prompts speed up their fading when they change frequently, it's still not enough to keep up with the game's progress, causing players to always be unaware of what's in effect at the moment and constantly distracted by the continuously refreshing old news.
+_____
+#### Participant 4 playthrough:
+
+**Monotonous Experience**: 
+>"The map is incredibly detailed, but players often don't need to leave their starting point to complete the game, making it difficult for players to continuously receive visual sensory stimulation and enjoy the game."
+
+**Mechanics Instruction**: 
+>"I had no idea how to use the skill the first time I tried it." 
+
+The game's mechanics are only explained at the beginning, making it hard for players to remember.
+_____
+####  Participant 5 playthrough:
+**Visual tips**: 
+>"It's too dark in some areas." 
+
+Participants mentioned that certain areas of the game were too dimly lit, making it difficult to recognize objects or paths. This often caused them to bump into obstacles or miss key items.
+
+**Audio Feedback**: 
+>"The sound is not synchronized with the actions." 
+
+There is a noticeable delay or mismatch between the actions the character performs and the corresponding audio feedback. For example, the sound of a jump does not sound until after the character lands.
+
+**Goal Clarity**: 
+>"What is the main goal here?"
+
+Participants were not clear about the overall goal of the game. They found themselves wandering aimlessly with no clear direction or purpose.
+
+**Mechanism**: 
+>"Combos are hard to perform." 
+
+This participant had a hard time comboing in combat. They found the required inputs to be either not intuitive or not responsive enough, resulting in frequent interruptions in the flow of combat
+_____
+#### Participant 6 playthrough:
+
+**Feedback Circuit**: 
+>"I wish I knew if I was doing this correctly". 
+
+Participants indicated that they would like more immediate feedback on their actions, especially when using abilities or interacting with game mechanics. This would help them determine if they are progressing correctly or if they need to make adjustments.
+
+**Game progression**: 
+>"It feels like I'm stuck in a cycle". 
+
+Players felt that the game lacked clear progress markers and smooth navigation, making it difficult to determine if he were advancing the storyline or just repeating similar tasks.
+_____
+### Interview:
+#### Participant 1:
+>“I can’t tell the difference where the monster is coming from”. 
+
+When asked about how sound design could be improved.
+>“There should be more tips”. 
+
+When asked where user experience could be improved in general.
+_____
+#### Participant 2:
+>“The running sound is really noisy, … distracting”.
+
+ When asked about how sound design could be improved.
+>“I don’t know which buttons are which…” 
+
+When asked about where UX could be improved in general. 
+_____
+#### Participant 3:
+
+**Skill Imbalance**: 
+>"The difference in strength between player skills is too significant. Some skills are overly powerful to the point where players can win the game with just that one move, while others have minimal impact considering the energy cost." 
+
+When asked about improvements to player skills.
+
+**Loud Monster Sound Effects**: 
+>"Why are the monster's sound effects so noisy? They're constantly screeching the entire match. This doesn't immerse me at all; instead, it's annoying."
+
+**AI Oddities**: 
+>"The monsters' pathfinding sometimes stutters, and at other times, they move in the opposite direction, severely undermining the fun of combat," #
+
+regarding enemy behavior.
+
+_____
+#### #### Participant 4:
+**Value of Items**: 
+>"Is it really worth my time to pick up items like health potions when I have thousands of attack power? +1?" 
+
+The player complains about item health potions.
+**Too many Skill**: 
+>"The skill on the G key is quite interesting; it bounces between enemies, but it is kinda of hard to keep track of dmg it does to every enemy"
+>"But this ability is too imbalanced where I only need to keep using it to quickly reach the maximum level."
+
+when evaluating the skill system. 
+_____
+#### Participant 5:
+>“It feels repetitive, I’m just doing the same thing over and over”.
+>I kept getting lost in the same area multiple times, I wish there were more landmarks or signs to guide me in the whole map.
+
+Players felt that the gameplay lacked variety, leading to a feeling of monotony. 
+
+_____
+#### Participant 6:
+>"I often get lost in dark areas, hoping for brighter indicators or signs." 
+
+Players feel a loss of direction in certain dimly lit parts of the game.
+>"I've collected some items, but I don't know their purpose." 
+
+Players express that they wish the items had clearer descriptions or usage hints.
+>"If the game had more storylines or character interactions, I think I'd be more engaged." 
+
+Players hope the game offers more than just combat, looking for elements that can enhance immersion.
+______________________________
+
+### Findings & discussions.
+#### Animation consistency
+Participant 1 thinks animations are not consistent, some animations are rendered quicker than others, this creates a disparity between participant expectation and reality of how to chain attacks. Discrepancy between animation speed of various attack and spells animation makes it hard for participants to tell what they have just done, the lack of UI feedback to confirm whether their latest commands have indeed had a physical impact in the game world is vital to diminish the gulf of execution for participants. Having clear and obvious animation carried through is critical for participants to confirm they are indeed in control.
+
+#### Animation fluidity:
+Participant 2 expressed disappointment at the animation fluidity. The player model seems to unexpectedly stagger in between animation transitions. Participants are often confused as to why animations have such different stagger time, why transitions are not as fluid as they expected, this destroys immersion, since participants have to constantly look at what the character is doing, rather than focusing on what is happening around them. This distraction is not helpful to facilitate a smooth gameplay experience.
+
+#### Minions & battle strategies:
+Participants are generally unaware that running away from minions is not a good option, that health and attack of minions scales with time as opposed to with player’s level, this contributes negatively to gameplay experience. Since explicit warnings are not present in the current iteration of the game, players have to playthrough the second time to formulate a better strategy. While this is creating additional mental load to the player, it does not seem to be detrimental to players who really want to finish the game, but may discourage players who are less experienced or enthusiastic about the game.
+
+#### Gameplay progression:
+We discovered that while participants understand they have to survive the game, there are little motivations for them to fight the minions, most would opt to run away, which does not help them to obtain sufficient levels & stats to face off against the final boss. The design team concluded that since there is no alternative way for the players to finish the game other than to fight the boss, progression seems monotonous and restrictive. Which is not suitable to the ‘open world’ setting we gave to the general level design. 
+
+### Opportunities & Problem Analysis
+####  Consistency of animation:
+Animation consistency or animation consistency can significantly affect player immersion and game flow. Participant 1 highlighted problems associated with different animation speeds that can undermine expectations. Consistent animation plays a key role in ensuring that players feel a seamless connection between their commands and game reactions. Solving this problem requires strengthening the game's feedback mechanism, which means having a more responsive UI. This may take the form of subtle vibrations, sound effects, or visual cues. Second, games can benefit from a standardized animation speed that resembles action, which would instill predictability in gameplay. Finally, user testing as a consistent practice is critical. Feedback from end users can help us identify overlooked usability issues and guide iterative improvements to the game.
+
+####  Minions & Battle Strategies:
+Understanding the mechanics of combat, especially with regard to minions, is crucial to strategic gameplay. At the moment, players don't seem to be aware of the minions' scaling mechanics, rendering the strategy ineffective. This knowledge gap can have a negative impact on the gaming experience. Solving this problem requires introducing a clear tutorial that clarifies the scaling mechanism of the minions. In addition, providing in-game cues can guide players to effective strategies and remind them of the consequences of their choices. After a player has failed, it is useful to analyze the feedback mechanism of their strategy. This feedback guides players to refine their approach, ensuring that they learn from their mistakes.
+
+#### Progression and Feedback Circuit:
+Several participants mentioned feeling uncertain about their progress in the game or expressed a desire for more immediate feedback. This suggests a need for a more transparent progression system or feedback mechanisms that help players understand if they are on the right track. Addressing this issue can improve player engagement and satisfaction.
+
+#### Audio Feedback:
+Participant 5 mentioned that the sound effects were not synchronized with the character's actions. This indicates a potential problem with audio feedback in the game, which could affect the overall gaming experience. Improving audio feedback synchronization can enhance immersion and gameplay quality. To address this issue, We implement audiovisual alignment tools: tools deployed in the game engine to ensure that sound effects and character movements are synchronized. These tools can identify differences in real time, allowing developers to make adjustments immediately. Sound effects are important feedback for player actions. Their synchronization with the in-game action ensures that players receive consistent and accurate feedback, enhancing immersion and a sense of reality.
+
+#### Visual Tips:
+Participant 5 pointed out that certain areas of the game were too dark, making it challenging to navigate and recognize objects. This suggests that visual cues or lighting in the game might need improvement. Enhancing the visual aspects of the game to provide better guidance and visibility could lead to a more enjoyable experience for players. In order to address this issue, Added torch placement, although many torches were added in the castle scene, optimizing their placement and light intensity was essential. We ensure that these torches are strategically positioned to illuminate critical paths and objects, aiding navigation and object recognition. While torches provide a certain atmosphere and beauty to the castle, their primary function is to help players improve their visibility.
+
+#### Goal Clarity:
+Participant 5 also expressed uncertainty about the game's main goal, indicating a lack of clarity in the game's objectives. Ensuring that players have a clear understanding of their goals and objectives can enhance their sense of purpose in the game and reduce frustration.
+
+#### Mechanism and Combos:
+Participant 5 mentioned that combos were challenging to perform, with inputs being unintuitive or not responsive enough. This highlights potential issues with the game's mechanics and combat system. Improving the clarity and responsiveness of in-game mechanics, such as combo systems, can lead to a more satisfying gaming experience.
+
+_____
+### Mitigation & Solution: 
+
+**Animation consistency**:
+
+Regarding animition consistency, we have reworked the animator entired, before, any animation could be prematurely exited and transition into the next animation could began almost immediately, we think reworking some animation to be indisruptable could solve this issue, some spell castings, and running and attacking animation would no longer be interrupable should provide more animation fluidity to the game.
+
+**Minions & Battle Strategies**:
+
+We think reworking the number of minions that could exist at once would reduce the likelihood of players bcoming swarmed, reducing the frequency of which they are spawned can also help with improving survivability by reducing the chance that players would be blocked from moving between rooms.
+
+**Audio Feedback**:
+
+Monster spawn noise was supposed to be warning to players that monsters are spawning, however we did not anticipate this would be aggressively annoying for player, to address this, we could shrink the fallout distance to massively reduce the loudness of the noise from monsters that are spawned further away from the player. This should help for players to differentiate between monsters spawning immediatly next to them vs those that are further away.
+
+**Progression**:
+
+By reworking experience required to level up, and making the experience curve linear, we could reduce the mental load to the player by making the amount of monsters that player must kill before they can level up relatively constant throughout the gameplayer, this should make progression easier to understand.
+
 
 ## Shaders and Special Effects
 
@@ -161,8 +377,8 @@ Particle System settings: **[SM_Prop_CandleFlame_with_light.prefab](https://gith
 
 The candle flame prefab imported from Simple Fantasy interior is a static object. While the candle tip itself is configured to glow, compounded with strong point light, the candle itself is very nicely done. However, the candle flame itself is still a static object that does not move, which was a bit lacking, given that candle is the most widely used lighting source utilitised in the game, we thought to give it a bit flair adds to the detail of the game.
 <div  align = center>
-  <img src="images/candle.png" height="200">  
-  <img src="images/in-game candle.png" height="200"> 
+  <img src="Images/candle.png" height="200">  
+  <img src="Images/in-game candle.png" height="200"> 
 </div>
 
 The least resource draining method that we can implement is to have a static flame image hollowed out, set to move about rapidly within a small boundary. This would create the illusion that a live flame is burning. The particle system regulates the boundary, frequency, shape, velocity, colour, and rendering mode. Using the flame img from below as a standalone particle, have a tight and small spread of flames that moves vertically upwards creates the illusion of a live flame. Additionally, set the particle to shift its colour from yellow to red to improve realism.
