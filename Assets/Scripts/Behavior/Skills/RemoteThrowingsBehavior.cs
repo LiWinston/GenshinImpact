@@ -220,7 +220,7 @@ namespace Behavior.Skills
                 if (mstbhv != null)
                 {
                     mstbhv.TakeDamage(AOEDamage);
-                    Debug.Log("ApplyAOEDamage" + AOEDamage);
+                    // Debug.Log("ApplyAOEDamage" + AOEDamage);
                 }
             }
         }
@@ -230,7 +230,7 @@ namespace Behavior.Skills
             var mstbhv = other.GetComponent<MonsterBehaviour>();
             if (mstbhv != null)
             {
-                Debug.Log("ApplyDamageOverTime" + damage);
+                // Debug.Log("ApplyDamageOverTime" + damage);
                 float duration = maxExistTime;
                 int id = GetInstanceID();
                 mstbhv._effectTimeManager.CreateEffectBar("Burn" + id, Color.red, duration);

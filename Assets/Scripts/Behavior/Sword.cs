@@ -48,7 +48,7 @@ namespace Behavior
             if (healthSystem != null)
             {
                 var dmg = pCtrl.GetDamage();
-                UIManager.Instance.ShowMessage1("A " + dmg + " Cut~");
+                UIManager.Instance.ShowMessage1("Made " + dmg + " Damage");
                 healthSystem.Damage(dmg); // Inflict damage on enemies
                 hitEnemies.Add(other); // 记录已攻击过的敌人
             }

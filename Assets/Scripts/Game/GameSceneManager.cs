@@ -31,7 +31,7 @@ namespace Game
 
         private static GameSceneManager instance;
         private string BGMSeries = "Horror";
-
+        
         public static GameSceneManager Instance
         {
             get
@@ -84,9 +84,12 @@ namespace Game
 
             if(!stuffGenerator) stuffGenerator = GameObject.Find("Stuff生成");
         }
-
+        
+        
+        
         private void Update()
         {
+           
             if (!gameEnded)
             {
                 // update remaining time
@@ -153,6 +156,8 @@ namespace Game
                 }
             }
         }
+
+        
 
         private void UpdateTimerText(float remainingTime)
         {

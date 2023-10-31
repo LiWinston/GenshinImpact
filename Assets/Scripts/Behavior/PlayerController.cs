@@ -124,9 +124,11 @@ namespace Behavior
         // private static readonly int Die = Animator.StringToHash("Die");
         private static readonly int IsDead = Animator.StringToHash("isDead");
 
+        private bool  hasActiveKeyBindings;
 
         private void Start()
         {
+            hasActiveKeyBindings = false;
             IconManager.Instance.InitIconWithKeyBinding(IconManager.IconName.HurricaneKick, KeyCode.V);
             IconManager.Instance.InitIconWithKeyBinding(IconManager.IconName.Sprint, KeyCode.LeftShift);
             audioSource = GetComponent<AudioSource>();
@@ -176,6 +178,11 @@ namespace Behavior
         private void Update()
 
         {
+            if (!hasActiveKeyBindings)
+            {
+                hasActiveKeyBindings = true;
+                StartCoroutine(ShowKeys());
+            }
             if (Mathf.Abs(rb.velocity.y) < 5e-3)
             {
                 isGrounded = true;
@@ -293,53 +300,6 @@ namespace Behavior
             }
         }
     
-        /// <summary>
-        /// /abandoned Attack function using range detect and angle limiting
-        /// </summary>
-        /*
-    private void Attack_Backup()
-    {
-        rb.velocity *= speed_Ratio_Attack;
-        UI.UIManager.Instance.ShowMessage2("Taste My Sword !!!(While a little stupid)");
-        animator.SetTrigger("AttackTrigger");
-        // var sword = SpellCast.FindDeepChild(transform, "Scabbard");
-        // ParticleEffectManager.Instance.PlayParticleEffect("Attack", sword.gameObject, Quaternion.identity,Color.white, Color.white);
-        Vector3 characterPosition = transform.position;
-        
-        Vector3 targetDirection = transform.forward;
-        
-        var attackAngle = damage.attackAngle;
-        var attackRange = damage.attackRange;
-        float attackRadius = Mathf.Tan(Mathf.Deg2Rad * (attackAngle / 2f)) * attackRange;
-        
-        Collider[] enemies = Physics.OverlapSphere(characterPosition, attackRange);
-        foreach (Collider enemyCollider in enemies)
-        {
-            // Check if enemy
-            if (enemyCollider.CompareTag("Enemy"))
-            {
-                // Calculate the vector of the main character to the enemy
-                Vector3 enemyPosition = enemyCollider.transform.position;
-                Vector3 direction = enemyPosition - characterPosition;
-
-                // Calculate the angle between the protagonist and the enemy
-                float angle = Vector3.Angle(targetDirection, direction);
-
-                // Check if the angle is within the attack angle range
-                if (angle <= attackAngle / 2f)
-                {
-                    // Check for HealthSystem components
-                    HealthSystem healthSystem = enemyCollider.GetComponent<HealthSystemComponent>().GetHealthSystem();
-                    if (healthSystem != null)
-                    {
-                        UIManager.Instance.ShowMessage1("A "+damage.CurrentDamage+" Cut~");
-                        healthSystem.Damage(damage.CurrentDamage); // Inflict damage on enemies
-                    }
-                }
-            }
-        }
-    }
-    */
     
         public void UserInput()
         {
@@ -764,6 +724,13 @@ namespace Behavior
             // attackCooldownInterval = OriginalAttackCooldownInterval;
             MaxSpeed = OriginalMaxMstSpeed;
             IsFrozen = false;
+        }
+        
+        private IEnumerator ShowKeys()
+        {
+            yield return new WaitForSeconds(1f);
+            UIManager.Instance.ShowMessage2("Press TAB to Hide/Show Key Bindings!");
+            IconManager.ShowKeyBinding();
         }
     }
 }

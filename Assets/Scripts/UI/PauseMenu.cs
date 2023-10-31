@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UI;
 using UnityEngine;
 using UnityEngine.UI; // 引用 Unity UI 命名空间
@@ -118,12 +119,12 @@ public class PauseMenu : MonoBehaviour
 
     void UpdateButtonSelection()
     {
-    Color selectedColor = Color.red; // 选中时的颜色
+    Color selectedColor = Color.yellow; // 选中时的颜色
     Color normalColor = Color.white; // 未选中时的颜色
 
         for (int i = 0; i < buttons.Length; i++)
         {
-            Text buttonText = buttons[i].GetComponentInChildren<Text>(); // 假设按钮的文本是它的子对象
+            TextMeshProUGUI buttonText = buttons[i].GetComponentInChildren<TextMeshProUGUI>(); // 假设按钮的文本是它的子对象
             if (buttonText != null) // 确保找到了 Text 组件
             {
                 buttonText.color = (i == selectedIndex) ? selectedColor : normalColor;
