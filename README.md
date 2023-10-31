@@ -466,8 +466,10 @@ YongChun Li:
 3. 
 
 YuXin Ren:
-
-1. 
+1. Game character: Sourced model & Assembled character assets
+2. Particle system （flames in the fireplace）
+3. Game scene: Winning/Losing Scene & Button
+4. Game balance: participated in Story lines & Game levels & Character Progression
 
 Rong Zhao:
 
