@@ -31,7 +31,6 @@ namespace Game
 
         private static GameSceneManager instance;
         private string BGMSeries = "Horror";
-        private bool hasActiveKeyBindings;
         
         public static GameSceneManager Instance
         {
@@ -84,19 +83,13 @@ namespace Game
             BGM.Play();
 
             if(!stuffGenerator) stuffGenerator = GameObject.Find("Stuff生成");
-            hasActiveKeyBindings = false;
         }
         
-
+        
         
         private void Update()
         {
-            if (!hasActiveKeyBindings)
-            {
-                UIManager.Instance.ShowMessage2("Press TAB to Hide/Show Key Bindings!");
-                IconManager.ShowKeyBinding();
-                hasActiveKeyBindings = true;
-            }
+           
             if (!gameEnded)
             {
                 // update remaining time
@@ -163,6 +156,8 @@ namespace Game
                 }
             }
         }
+
+        
 
         private void UpdateTimerText(float remainingTime)
         {
