@@ -46,7 +46,7 @@ Shader "Unlit/NewUnlitShader"
             sampler2D _MainTex;
             float4 _MainTex_ST;
             float4 _Color;
-            // these control the strength of ripple colour and 
+            // these control the transparency of the colour applied to the texture, and speed of colour change
             float _RippleStrength;
             float _RippleSpeed;
             // this controls the fresnel effect intensity, higher would result in brighter colour
@@ -60,7 +60,10 @@ Shader "Unlit/NewUnlitShader"
                 v2f o;
             
                 o.vertex = UnityObjectToClipPos(v.vertex);
+                // these variables are used to calcuated fresnel effect 
+                // this does the same as TransformObjectToWorldNormal(), since we are using Bulit-in renderer instead of URP, this is the function we use to get object to world normal
                 o.normal = UnityObjectToWorldNormal(v.normal);
+                // Returns normalised world space direction from given object space vertex position towards the camera.
                 o.viewDir = normalize(WorldSpaceViewDir(v.vertex));
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
                 
@@ -81,6 +84,7 @@ Shader "Unlit/NewUnlitShader"
                 // apply fog
                 UNITY_APPLY_FOG(i.fogCoord, col);
                 // this creates a Fresnel effect around the effect
+                // Object normal that are pointing towards the camera have amplified colour, thus creating a fresnel effect around the edge 
                 float fresnelEffect = 1 - max(0,dot(i.normal, i.viewDir));
                 fresnelEffect = pow(fresnelEffect, _FresnelRamp) * _FresnelIntensity;
                 return fresnelEffect + ripple; 
