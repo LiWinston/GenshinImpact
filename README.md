@@ -461,9 +461,11 @@ _____
 
 YongChun Li:
 
-1. Player character: character design & implementation, ability design & implementation.
-2. Monster: monster design & implementation, boss design & implementation
-3. 
+1. Building player behavior, monster behavior, projectile and skill frameworks, item interactions, delayed special effects bars, and timing management.
+2. Defining various interfaces and coding standards, including object pooling, icon visibility, damage interfaces, and freezing interfaces. Developing a strategy template class for instant-acting items. Developing a component for handling numerical curves.
+4. Managing background music, skill sound effects, and custom skill effects. Developing sound management systems and state machine music scripts. Collaborating with game design to plan skills, expected game effects, and balance adjustments.
+5. Designing and implementing unique core skills "ZenMode" and "Autophagy (Mind Control)."
+ 
 
 YuXin Ren:
 1. Game character: Sourced model & Assembled character assets
@@ -482,7 +484,7 @@ Zekai Qian:
 1. Shader: shield design & implementation, fireplace design & implementation, candle design & implementation.
 2. Game Environment: Castle layout & implementation
 3. Documentation: Evaluation plan & evaluation report; Shader Documentation
-4. 
+4. Made critical improvements to animation smoothness fixes.
 
 ____
 ## References and External Resources
