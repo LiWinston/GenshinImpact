@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Linq;
 using AttributeRelatedScript;
+using UI;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Pool;
@@ -76,9 +77,9 @@ namespace Behavior.Skills
         
 
 
-        private void Start(){
+        private void Start()
+        {
             throwingsBehavior = prefab.GetComponent<RemoteThrowingsBehavior>();
-
             if (throwingsBehavior.positionalCategory ==
                 RemoteThrowingsBehavior.PositionalCategory.ImmediatelyInPosition)
             {
@@ -89,6 +90,9 @@ namespace Behavior.Skills
                 } while (GameObject.Find(randomName) != null);
                 SkillPreview = new GameObject(randomName);
             }
+            //init icon
+            var isElapsing = throwingsBehavior.positionalCategory != RemoteThrowingsBehavior.PositionalCategory.Throwing;
+            IconManager.Instance.InitIconWithKeyBinding(Name, key, isElapsing);
             
             // 首推直接拖进来，也可以用名字找曲线。用名字找曲线时曲线名字不能重复
             //You can directly drag it in first, or you can use the name to find the curve. When searching for a curve by name, the curve name cannot be repeated.
@@ -169,6 +173,7 @@ namespace Behavior.Skills
                     var ec = CalculateEnergyCost();
                     if (_playerController.state.ConsumeEnergy(ec))
                     {
+                        IconManager.Instance.ShowIcon(Name);
                         ++useTimes;
                         if(isAmountUpdatedWithLevel) StartCoroutine(Throw_LevelUpdated());
                         else
@@ -184,6 +189,7 @@ namespace Behavior.Skills
                 {
                     Energycost = CalculateEnergyCost();
                     BeginAiming();
+                    IconManager.Instance.ShowIcon(Name);
                 }
                 else if (Input.GetKeyUp(key))
                 {
@@ -192,6 +198,7 @@ namespace Behavior.Skills
                         StopCoroutine(castingCoroutine);
                     }
                     StartCoroutine(EndAimingAndCast());
+                    IconManager.Instance.HideIcon(Name);
                 }
             }
         }
@@ -205,15 +212,27 @@ namespace Behavior.Skills
                                                          * _playerController.state.maxEnergy * (float)(Math.Log(useTimes) / Math.Log(baseDmg));
                 return throwingsBehavior._energyCost * CalculateDamage(useTimes) / baseDmg;
             }
-            
+
             //发射型
             (numberToThrow, angleIncrement) = isAmountUpdatedWithLevel ? 
-                CalculateShootNum_AngleInc(maxThrowingsCount, minThrowingsCount, maxAngle_SingleSide, minAngle) : (1,0f);
-            return 
-                isCosumingEnegyProportionally ? 
-                    若按比例每发耗能_singleShootEnegyConsumptionPercentage * _playerController.state.maxEnergy * numberToThrow
-                    :throwingsBehavior._energyCost * numberToThrow;
+                CalculateShootNum_AngleInc(maxThrowingsCount, minThrowingsCount, maxAngle_SingleSide, minAngle) : (1, 0f);
+    
+            if (isAmountUpdatedWithLevel) {
+                float energyExponent = 1.0f; // 默认为1
+                if (numberToThrow > 1 && numberToThrow <= maxThrowingsCount) {
+                    float transitionFraction = (float)(numberToThrow - 1) / (maxThrowingsCount - 1); // 用于线性过渡的分数
+                    energyExponent = 1.0f + (0.5f - 1.0f) * transitionFraction; // 计算指数 第一个是最高数量时的每发耗能折扣，第二个是最基础每发耗能折扣（一般地，置1）
+                }
+                return isCosumingEnegyProportionally ? 
+                    若按比例每发耗能_singleShootEnegyConsumptionPercentage * _playerController.state.maxEnergy * (float)(Math.Pow(numberToThrow, energyExponent)) :
+                    throwingsBehavior._energyCost * (float)(Math.Pow(numberToThrow, energyExponent));
+            } else {
+                return isCosumingEnegyProportionally ? 
+                    若按比例每发耗能_singleShootEnegyConsumptionPercentage * _playerController.state.maxEnergy * numberToThrow :
+                    throwingsBehavior._energyCost * numberToThrow;
+            }
         }
+
 
         //应仅在勾选了技能修炼（伤害随使用次数增加）时应用
         private float CalculateDamage(int useTime){

@@ -18,7 +18,7 @@ using System.Linq;
 
 namespace Behavior
 {
-    public class MonsterBehaviour : MonoBehaviour, IFreezable, IPoolable
+    public class MonsterBehaviour : MonoBehaviour, IFreezable, IPoolable, IDamageable
     {
         public PlayerController targetPlayer;
         internal GameObject target;
@@ -88,6 +88,12 @@ namespace Behavior
             _effectTimeManager.StopEffect("Freeze");
             //Debug RT error, health Curve Init on get
             healthCurve = GetComponents<Component>().OfType<PositiveProportionalCurve>().FirstOrDefault(curve => curve.CurveName == "MonsterHealthLevelCurve");
+            HealthSystemComponent healthSystemComponent = GetComponent<HealthSystemComponent>();
+            if (healthSystemComponent != null)
+            {
+                health = healthSystemComponent.GetHealthSystem();
+                // UIManager.ShowMessage2("health 已找到.");
+            }
             InitializeMonsterLevel();
             _hasAppliedDeathEffect = false;
             target = PlayerController.Instance.gameObject;
@@ -275,6 +281,28 @@ namespace Behavior
             Collider[] nearEnemies = Physics.OverlapSphere(transform.position, chaseDistance, enemyLayer);
 
             // initialise the nearest enemy to the player
+            // GameObject nearestEnemy = null;
+            // float nearestDistance = float.MaxValue;
+            //
+            // // cycle through all enemy
+            // foreach (Collider enemyCollider in nearEnemies)
+            // {
+            //     if (enemyCollider.gameObject == gameObject) continue;
+            //     //  check if enemy is still alive
+            //     MonsterBehaviour enemyMonster = enemyCollider.GetComponent<MonsterBehaviour>();
+            //     if (enemyMonster != null && !enemyMonster.health.IsDead())
+            //     {
+            //         // 计算距离
+            //         float distance = Vector3.Distance(transform.position, enemyCollider.transform.position);
+            //
+            //         // 如果找到更近的敌人，更新最近敌人和距离
+            //         if (distance < nearestDistance)
+            //         {
+            //             nearestEnemy = enemyCollider.gameObject;
+            //             nearestDistance = distance;
+            //         }
+            //     }
+            // }
             GameObject nearestEnemy = null;
             float nearestDistance = float.MaxValue;
 
@@ -297,6 +325,7 @@ namespace Behavior
                     }
                 }
             }
+
             curDistance = nearestDistance;
         
             if (nearestEnemy != null)
@@ -336,11 +365,11 @@ namespace Behavior
                 {
                     animator.SetTrigger("AttackTrigger");
                 }
-                target.GetComponent<MonsterBehaviour>().TakeDamage(70 + monsterLevel/20 * Random.Range(minAttackPower, maxAttackPower));
+                target.GetComponent<IDamageable>().TakeDamage(70 + monsterLevel/20 * Random.Range(minAttackPower, maxAttackPower));
             }
         }
 
-        internal void TakeDamage(float dmg)
+        public void TakeDamage(float dmg)
         {
             animator.SetTrigger("Hurt");
             health.Damage(dmg);
@@ -363,11 +392,11 @@ namespace Behavior
             if (isBoss)
             {
                 //TODO : boss的等级和经验值
-                monsterLevel = 100;
-                health.SetHealthMax(1500000, true);
-                monsterExperience = 0;
-                minAttackPower = 25;
-                maxAttackPower = 42f;
+                monsterLevel = 75;
+                health.SetHealthMax(1200000, true);
+                monsterExperience = 9999;
+                minAttackPower = 18;
+                maxAttackPower = 36f;
                 return;
             }
             // 计算怪物等级，使其在五分钟内逐渐增长到最大等级
@@ -491,4 +520,5 @@ namespace Behavior
             DeactivateFreezeMode();
         }
     }
+    
 }

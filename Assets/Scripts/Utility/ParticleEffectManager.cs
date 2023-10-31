@@ -54,13 +54,13 @@ namespace Utility
         public void PlayParticleEffect(GameObject particlePrefab, GameObject player, Quaternion rotation, Color startColor, Color endColor, float duration = -1f)
         {
             var particleEffect = Instantiate(particlePrefab, player.transform.position, rotation);
-            var particleSystem = particleEffect.GetComponent<ParticleSystem>();
+            var particleSystemComponent = particleEffect.GetComponent<ParticleSystem>();
 
             // 设置特效的持续时间
             if (duration < 0f)
             {
                 // duration = defaultDuration;
-                duration = particleSystem.totalTime;
+                duration = particleSystemComponent.totalTime;
             }
 
             if (autoDestroy)
@@ -69,13 +69,13 @@ namespace Utility
             }
 
             // 设置特效的初始颜色
-            var particleMain = particleSystem.main;
+            var particleMain = particleSystemComponent.main;
             particleMain.startColor = startColor;
 
             particleEffect.transform.SetParent(player.transform);
 
             // 添加淡入淡出效果
-            StartCoroutine(FadeInAndOut(particleSystem, particleEffect, duration, startColor, endColor));
+            StartCoroutine(FadeInAndOut(particleSystemComponent, particleEffect, duration, startColor, endColor));
         }
 
         private IEnumerator FadeInAndOut(ParticleSystem particleSystem, GameObject particleEffect, float duration, Color startColor, Color endColor)

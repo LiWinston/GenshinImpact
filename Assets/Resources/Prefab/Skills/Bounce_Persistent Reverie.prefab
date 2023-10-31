@@ -51,12 +51,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   triggerRange: 0.5
   damage: 500
-  AOEDamage: 300
-  AOERange: 3
+  AOEDamage: 1
+  AOERange: 8
   positionalCategory: 0
   _effectCategory: 2
   maxExistTime: 4
-  _energyCost: 200
+  _energyCost: 800
   throwingSpeed: 15
   startAudioClip: {fileID: 8300000, guid: aedc95da5b3c0f6479dd334ce872b80a, type: 3}
   hitAudioClip: {fileID: 8300000, guid: 8c8c8e1c7d4730d40986760c950a9eed, type: 3}
@@ -248,6 +248,10 @@ PrefabInstance:
     - target: {fileID: 100004, guid: 391ec6f1311384e75b4888fd6fc26b7e, type: 3}
       propertyPath: m_Layer
       value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100004, guid: 391ec6f1311384e75b4888fd6fc26b7e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 100006, guid: 391ec6f1311384e75b4888fd6fc26b7e, type: 3}
       propertyPath: m_Layer

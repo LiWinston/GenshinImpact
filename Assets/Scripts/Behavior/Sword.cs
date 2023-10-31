@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using Behavior.Health;
 using UI;
@@ -12,6 +13,7 @@ namespace Behavior
         [SerializeField] private BoxCollider swordCollider;
         private HashSet<Collider> hitEnemies = new HashSet<Collider>();
         private int enemyLayer;
+        private bool hasDoneDieBehaviour = false;
 
         private void Start()
         {
@@ -46,7 +48,7 @@ namespace Behavior
             if (healthSystem != null)
             {
                 var dmg = pCtrl.GetDamage();
-                UIManager.Instance.ShowMessage1("A " + dmg + " Cut~");
+                UIManager.Instance.ShowMessage1("Made " + dmg + " Damage");
                 healthSystem.Damage(dmg); // Inflict damage on enemies
                 hitEnemies.Add(other); // 记录已攻击过的敌人
             }
@@ -57,5 +59,31 @@ namespace Behavior
             animator.SetBool("isAttacking", false);
             hitEnemies.Clear();
         }
+
+        public void BehaviourOnHolderDie()
+        {
+            if(hasDoneDieBehaviour) return;
+            hasDoneDieBehaviour = true;
+            StartCoroutine(SwordOffHand());
+
+        }
+
+        private IEnumerator SwordOffHand()
+        {
+            var demonicSword = transform.parent.gameObject;
+            var swrb = demonicSword.GetComponent<Rigidbody>();
+            
+            yield return new WaitForSeconds(0.8f);
+            
+            demonicSword.transform.SetParent(null);
+            swrb.isKinematic = false;
+            swrb.useGravity = true;
+            // swordCollider.providesContacts = true;
+            swordCollider.isTrigger = false;
+            GetComponent<CapsuleCollider>().enabled = true;
+            // swrb.AddForce(swrb.velocity.normalized * (swrb.mass * 4f), ForceMode.Impulse);
+            swrb.AddForce(Vector3.back * (-2f * (swrb.mass * 2f)), ForceMode.Impulse);
+        }
+        
     }
 }

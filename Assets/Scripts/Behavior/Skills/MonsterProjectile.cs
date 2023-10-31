@@ -1,4 +1,6 @@
 using System.Collections;
+using Behavior.Effect;
+using Behavior.Health;
 using UnityEngine;
 using UnityEngine.Pool;
 using Utility;
@@ -9,14 +11,15 @@ namespace Behavior.Skills
     {
         [SerializeField] private float rotateSpeed = 30f;
         public float projectileSpeed = 10f; // 投射物速度
-        public float damage = 10f; // 投射物伤害
 
         private Transform _target; // 玩家对象的引用
+        private IDamageable _damageable;
         // private Vector3 initialPosition; // 投射物初始位置
         private bool _hasHit = false;
         public MonsterBehaviour _monsterBehaviour;
         private Coroutine existCoroutine;
         [SerializeField] private float maxExistTime = 5f;
+        private float dmg;
 
 
         public ObjectPool<GameObject> ThisPool { get; set; }
@@ -31,6 +34,21 @@ namespace Behavior.Skills
             existCoroutine = StartCoroutine(ReturnToPoolDelayed(maxExistTime));
             IsExisting = true;
             GetComponent<AudioSource>().Play();
+            
+            if (_monsterBehaviour.target.layer == LayerMask.NameToLayer("Player"))
+            {
+                // setRandomChildTransformFromObjAsTarget(PlayerController.Instance.gameObject);
+                _target = Find.FindDeepChild(PlayerController.Instance.transform, "neck_01"); // 获取玩家对象
+                _damageable = PlayerController.Instance;
+                dmg = _monsterBehaviour.monsterLevel/50 *Random.Range(_monsterBehaviour.minAttackPower, _monsterBehaviour.maxAttackPower) *
+                      (_monsterBehaviour.isBoss ? 1 : Random.Range(0.1f, 0.5f));//双标对待玩家和同类
+            }
+            else
+            {
+                setRandomChildTransformFromObjAsTarget(_monsterBehaviour.target.gameObject);
+                // _target = Find.FindDeepChild(_monsterBehaviour.target.transform, "head"); 
+                _damageable = _monsterBehaviour.target.GetComponent<IDamageable>();
+            }
         }
 
         public void actionOnRelease()
@@ -47,8 +65,8 @@ namespace Behavior.Skills
         
         private void Start()
         {
-            // initialPosition = transform.position;
-            _target = Find.FindDeepChild(PlayerController.Instance.transform, "neck_01"); // 获取玩家对象
+            
+            
         }
 
         private void Update()
@@ -59,7 +77,7 @@ namespace Behavior.Skills
                 if (_target != null)
                 {
                     var distance = _target.position - transform.position;
-                    if(distance.magnitude < 0.5f) HitPlayer();
+                    if(distance.magnitude < 0.5f) HitTarget();
                     // 计算朝向玩家的方向
                     var direction = distance.normalized;
 
@@ -80,12 +98,37 @@ namespace Behavior.Skills
 
         private void OnTriggerEnter(Collider other)
         {
-            // // if(other.gameObject.layer == LayerMask.NameToLayer("Player"))
-            // if(other.gameObject.CompareTag("Player"))
-            // {
-            //     Debug.Log("Hit Player");
-            //     HitPlayer();
-            // }
+            if(other.gameObject.layer == LayerMask.NameToLayer("PlayerShield"))
+            {
+                if (!_monsterBehaviour.isBoss)
+                {
+                    _damageable = _monsterBehaviour;
+                    _target = Find.FindDeepChild(_monsterBehaviour.transform, "head");
+                    // setRandomChildTransformFromObjAsTarget(_monsterBehaviour.gameObject);
+                    
+                    
+                    transform.rotation = Quaternion.LookRotation(_target.position - transform.position);
+                    dmg = PlayerController.Instance.state.GetCurrentLevel() * 10 * _monsterBehaviour.monsterLevel/50 *Random.Range(_monsterBehaviour.minAttackPower, _monsterBehaviour.maxAttackPower);
+                }
+                else
+                {
+                    int minReflectChance = 5;
+                    int maxReflectChance = 70;
+                    int reflectChance = Random.Range(minReflectChance, maxReflectChance + 1);
+                    if (Random.Range(0, 100) < reflectChance)
+                    {
+                        _damageable = _monsterBehaviour;
+                        // _target = Find.FindDeepChild(_monsterBehaviour.transform, "head");
+                        setRandomChildTransformFromObjAsTarget(_monsterBehaviour.gameObject);
+                    
+                    
+                        transform.rotation = Quaternion.LookRotation(_target.position - transform.position);
+                        dmg = PlayerController.Instance.state.GetCurrentLevel() * 2 * _monsterBehaviour.monsterLevel/50 *Random.Range(_monsterBehaviour.minAttackPower, _monsterBehaviour.maxAttackPower);
+                    }
+                }
+            }
+            
+            
             if (other.gameObject.layer == LayerMask.GetMask("Wall", "Floor")) Destroy(this.gameObject);
             if (other.gameObject.layer== LayerMask.NameToLayer("Wall") || other.gameObject.layer == LayerMask.NameToLayer("Floor"))
             {
@@ -93,13 +136,29 @@ namespace Behavior.Skills
             }
         }
     
-        private void HitPlayer()
+        private void HitTarget()
         {
-            // 玩家受到伤害
-            PlayerController.Instance.TakeDamage(_monsterBehaviour.monsterLevel/20 *Random.Range(_monsterBehaviour.minAttackPower, _monsterBehaviour.maxAttackPower));
-            
-        
-
+            if (_monsterBehaviour.isBoss)
+            {
+                if (_damageable is PlayerController)
+                {
+                    if(Random.Range(0, 100) > PlayerController.Instance.state.GetCurrentLevel())
+                    {
+                        // Debug.Log("Freeze Player");
+                        if (_damageable is IFreezable freezable) freezable.ActivateFreezeMode(1.5f, dmg / 2, 0.15f, 0f, 0.8f);
+                        PlayerController.Instance.GetComponent<SpellCast>().StopJZZ(true);
+                    }
+                }
+                if(_damageable is MonsterBehaviour)
+                {
+                    if(Random.Range(0, 100) < PlayerController.Instance.state.GetCurrentLevel())
+                    {
+                        // Debug.Log("Freeze Monster");
+                        if (_damageable is IFreezable freezable) freezable.ActivateFreezeMode(4.5f, dmg);
+                    }
+                }
+            }
+            _damageable.TakeDamage(dmg);
             // 标记为已击中，以避免重复伤害
             _hasHit = true;
 
@@ -118,6 +177,15 @@ namespace Behavior.Skills
             {
                 ThisPool.Release(gameObject);
             }
+        }
+
+        private void setRandomChildTransformFromObjAsTarget(GameObject obj)
+        {
+            Transform[] childTransforms = obj.GetComponentsInChildren<Transform>();
+
+            // 随机选择一个子对象作为目标
+            int randomChildIndex = Random.Range(0, childTransforms.Length);
+            _target = childTransforms[randomChildIndex];
         }
     }
 }

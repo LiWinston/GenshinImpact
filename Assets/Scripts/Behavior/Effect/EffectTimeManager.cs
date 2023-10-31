@@ -76,5 +76,22 @@ namespace Behavior.Effect
                 _statusBars[i].transform.position = newPosition;
             }
         }
+        
+        public float GetEffectProgress(string effectType)
+        {
+            EffectTimeBarUI effectTimeBar = _statusBars.Find(statusBar => statusBar.EffectType == effectType);
+
+            if (effectTimeBar != null)
+            {
+                // 获取状态条的进度并返回
+                return effectTimeBar.GetEffectProgress();
+            }
+            else
+            {
+                // 如果找不到指定类型的状态条，返回 -1 表示未找到
+                return 0;
+            }
+        }
+
     }
 }

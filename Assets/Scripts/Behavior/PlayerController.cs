@@ -2,11 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using AttributeRelatedScript;
+using Behavior.Effect;
 using Behavior.Health;
 using ItemSystem;
 using TMPro;
 using UI;
 using Unity.Mathematics;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.SceneManagement;
@@ -14,11 +16,12 @@ using UnityEngine.Serialization;
 using Utility;
 using Cursor = UnityEngine.Cursor;
 using Random = UnityEngine.Random;
+using State = AttributeRelatedScript.State;
 
 
 namespace Behavior
 {
-    public class PlayerController : MonoBehaviour
+    public class PlayerController : MonoBehaviour, IDamageable, IFreezable
     {
         private static PlayerController _instance;
         public static PlayerController Instance
@@ -36,6 +39,8 @@ namespace Behavior
 
         public void Awake()
         {
+            spineTransform = Find.FindDeepChild(transform, "clavicle_l");
+            _effectTimeManager = GetComponent<EffectTimeManager>();
             _instance = this;
         }
 
@@ -79,6 +84,14 @@ namespace Behavior
         public delegate void OnAttackEndedHandler();
         public event OnAttackEndedHandler OnAttackEnded;
 
+        [InspectorLabel("Freeze")]
+        private bool isFrozen;
+        private float originalAcceleration;
+        private float originalAttackCooldownInterval;
+        private float originalMaxPlySpeed;
+        Transform spineTransform;
+        private EffectTimeManager _effectTimeManager;
+        
         public bool IsCrouching
         {
             get { return isCrouching; }
@@ -111,9 +124,13 @@ namespace Behavior
         // private static readonly int Die = Animator.StringToHash("Die");
         private static readonly int IsDead = Animator.StringToHash("isDead");
 
+        private bool  hasActiveKeyBindings;
 
         private void Start()
         {
+            hasActiveKeyBindings = false;
+            IconManager.Instance.InitIconWithKeyBinding(IconManager.IconName.HurricaneKick, KeyCode.V);
+            IconManager.Instance.InitIconWithKeyBinding(IconManager.IconName.Sprint, KeyCode.LeftShift);
             audioSource = GetComponent<AudioSource>();
             // _criticalHitCurve = GetComponent<PositiveProportionalCurve>();
             _criticalHitCurve = GetComponents<Component>().OfType<PositiveProportionalCurve>().FirstOrDefault(curve => curve.CurveName == "CriticalHitCurve");
@@ -148,11 +165,24 @@ namespace Behavior
             if (Camera.main != null) Camera.main.transform.rotation = Quaternion.identity; // 正前方
             animator.SetFloat("AttSpeedMult",1f);
             animator.Play("Getting_Up");
+            
+            state.UpdateAttackCooldown();//Solve init upd error
+            
+            
+            //Freeze
+            originalAcceleration = forwardForce;
+            originalAttackCooldownInterval = state.AttackCooldown;
+            originalMaxPlySpeed = MaxPlySpeed;
         }
 
         private void Update()
 
         {
+            if (!hasActiveKeyBindings)
+            {
+                hasActiveKeyBindings = true;
+                StartCoroutine(ShowKeys());
+            }
             if (Mathf.Abs(rb.velocity.y) < 5e-3)
             {
                 isGrounded = true;
@@ -216,7 +246,7 @@ namespace Behavior
 
         private void HurricaneKick(){
             if (!state.ConsumePower(12.5f)) return;
-            
+            IconManager.Instance.ShowIcon(IconManager.IconName.HurricaneKick);
             animator.SetTrigger("HurricaneKickTrigger");
             
             rb.velocity = Vector3.zero;
@@ -270,53 +300,6 @@ namespace Behavior
             }
         }
     
-        /// <summary>
-        /// /abandoned Attack function using range detect and angle limiting
-        /// </summary>
-        /*
-    private void Attack_Backup()
-    {
-        rb.velocity *= speed_Ratio_Attack;
-        UI.UIManager.Instance.ShowMessage2("Taste My Sword !!!(While a little stupid)");
-        animator.SetTrigger("AttackTrigger");
-        // var sword = SpellCast.FindDeepChild(transform, "Scabbard");
-        // ParticleEffectManager.Instance.PlayParticleEffect("Attack", sword.gameObject, Quaternion.identity,Color.white, Color.white);
-        Vector3 characterPosition = transform.position;
-        
-        Vector3 targetDirection = transform.forward;
-        
-        var attackAngle = damage.attackAngle;
-        var attackRange = damage.attackRange;
-        float attackRadius = Mathf.Tan(Mathf.Deg2Rad * (attackAngle / 2f)) * attackRange;
-        
-        Collider[] enemies = Physics.OverlapSphere(characterPosition, attackRange);
-        foreach (Collider enemyCollider in enemies)
-        {
-            // Check if enemy
-            if (enemyCollider.CompareTag("Enemy"))
-            {
-                // Calculate the vector of the main character to the enemy
-                Vector3 enemyPosition = enemyCollider.transform.position;
-                Vector3 direction = enemyPosition - characterPosition;
-
-                // Calculate the angle between the protagonist and the enemy
-                float angle = Vector3.Angle(targetDirection, direction);
-
-                // Check if the angle is within the attack angle range
-                if (angle <= attackAngle / 2f)
-                {
-                    // Check for HealthSystem components
-                    HealthSystem healthSystem = enemyCollider.GetComponent<HealthSystemComponent>().GetHealthSystem();
-                    if (healthSystem != null)
-                    {
-                        UIManager.Instance.ShowMessage1("A "+damage.CurrentDamage+" Cut~");
-                        healthSystem.Damage(damage.CurrentDamage); // Inflict damage on enemies
-                    }
-                }
-            }
-        }
-    }
-    */
     
         public void UserInput()
         {
@@ -353,6 +336,10 @@ namespace Behavior
                     }
                 }
             
+            }
+            if (Input.GetKeyDown(KeyCode.Tab))
+            {
+                IconManager.ShowKeyBinding();
             }
             
             // enabling cheat mode.
@@ -410,33 +397,39 @@ namespace Behavior
                 moveDirection.Normalize();
             }
         
-            if (!Input.GetKey(KeyCode.LeftShift))
-            {
-                // current lo
-                moveForceTimerCounter -= Time.deltaTime;
-                if (!(moveForceTimerCounter <= 0))
-                {
-                    return;
-                }
-                moveForceTimerCounter += moveForceTimer;
-                var f = isCrouching ? crouchForceRate * forwardForce : forwardForce;
-
-                rb.AddForce(moveDirection * f, ForceMode.Force);
-                float maxSpeed = isCrouching ? MaxCrouchPlySpeed : MaxPlySpeed;
-                rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxSpeed);
-            }
-            else
+            if (Input.GetKey(KeyCode.LeftShift))
             {
                 if (Vector3.zero != moveDirection)
                 {
                     if(state.ConsumePower(4 * Time.deltaTime))
                     {
-                        float sprintSpeed = sprintSpeedRate * (isCrouching ? MaxCrouchPlySpeed : MaxPlySpeed);
+                        IconManager.Instance.ShowIcon(IconManager.IconName.Sprint);
+                        float sprintSpeed = sprintSpeedRate * (isCrouching ? MaxCrouchPlySpeed : MaxPlySpeed) * (isFrozen ? 0.6f : 1f);
                         var v = moveDirection * sprintSpeed;
                         rb.velocity = new Vector3(v.x,rb.velocity.y , v.z);
+                        // IconManager.Instance.HideIcon(IconManager.IconName.Sprint);
+                        return;
                     }
                 }
             }
+
+            if (Input.GetKeyUp(KeyCode.LeftShift))
+            {
+                IconManager.Instance.HideIcon(IconManager.IconName.Sprint);
+            }
+            // current lo
+            moveForceTimerCounter -= Time.deltaTime;
+            if (!(moveForceTimerCounter <= 0))
+            {
+                return;
+            }
+
+            moveForceTimerCounter += moveForceTimer;
+            var f = isCrouching ? crouchForceRate * forwardForce : forwardForce;
+
+            rb.AddForce(moveDirection * f, ForceMode.Force);
+            float maxSpeed = isCrouching ? MaxCrouchPlySpeed : MaxPlySpeed;
+            rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxSpeed);
         }
 
         public bool _isDead { get; set; }
@@ -623,14 +616,14 @@ namespace Behavior
             {
                 _isDead = true;
                 animator.Play("Flying Back Death");
-                //animator.SetBool(Standing, false);
-                //animator.SetBool(IsAttacking, false);
-                //animator.SetBool(IsMoving, false);
-                //animator.SetBool(IsGrounded, false);
+                swordObject.GetComponent<Sword>().BehaviourOnHolderDie();
+                // HeadOff();
+                
                 animator.SetBool(IsDead,_isDead);
                 StartCoroutine(GameOver());
                 return;
             }
+            
             switch (state.isJZZ)
             {
                 case true:
@@ -651,7 +644,7 @@ namespace Behavior
 
         private IEnumerator GameOver()
         {
-            yield return new WaitForSeconds(2.7f);
+            yield return new WaitForSeconds(1.9f);
             SceneManager.LoadScene("LoseScene"); 
         }
 
@@ -673,6 +666,71 @@ namespace Behavior
         public void UpdateAttackAnimationTime(float attackSpeedRate)
         {
             animator.SetFloat(AttSpeedMult,attackSpeedRate);
+        }
+
+        public Rigidbody Rb => rb;
+
+        public bool IsFrozen { get => isFrozen; set => isFrozen = value; }
+        public float OriginalMaxMstSpeed { get => originalMaxPlySpeed; set => originalMaxPlySpeed = value; }
+        public float MaxSpeed { get => MaxPlySpeed; set=> MaxPlySpeed = value; }
+        public float OriginalMoveForce { get => originalAcceleration; set => originalAcceleration = value; }
+        public float OriginalAttackCooldownInterval { get => originalAttackCooldownInterval; set => originalAttackCooldownInterval = value; }
+
+        public void ActivateFreezeMode(float duration, float continuousDamageAmount, float instantVelocityMultiplier = 0.05f, float attackCooldownIntervalMultiplier = 2f, float MaxSpeedMultiplier = 0.18f)
+        {
+            // if(!freezeEffectCoroutine.IsUnityNull()) StopCoroutine(freezeEffectCoroutine);
+            var time = duration;
+            // if(isBoss) time = duration/3;
+            DeactivateFreezeMode();
+            freezeEffectCoroutine = StartCoroutine(FreezeEffectCoroutine(time, instantVelocityMultiplier, attackCooldownIntervalMultiplier, MaxSpeedMultiplier));
+            // 启动持续掉血的协程
+            StartCoroutine(Effect.ContinuousDamage.MakeContinuousDamage(this, continuousDamageAmount, time ));
+            _effectTimeManager.StopEffect("Freeze");
+            _effectTimeManager.CreateEffectBar("Freeze", new Color(153, 0, 255), time);
+            
+            ParticleEffectManager.Instance.PlayParticleEffect("Charge_03.1 Rave Party", spineTransform.gameObject, 
+                Quaternion.identity, Color.red, Color.black, time);
+            // Debug.Log("Charge_03.1 Rave Party");
+        }
+        public Coroutine freezeEffectCoroutine { get; set; }
+
+        public void DeactivateFreezeMode()
+        {
+            if(!freezeEffectCoroutine.IsUnityNull()) StopCoroutine(freezeEffectCoroutine);
+            // 恢复原始推力和攻击间隔
+            forwardForce = OriginalMoveForce;
+            // attackCooldownInterval = OriginalAttackCooldownInterval;
+            MaxSpeed = OriginalMaxMstSpeed;
+            IsFrozen = false;
+            
+            _effectTimeManager.StopEffect("Freeze");
+        }
+
+        public IEnumerator FreezeEffectCoroutine(float duration, float instantVelocityMultiplier = 0.25f, float attackCooldownIntervalMultiplier = 2f, float MaxSpeedMultiplier = 0.36f)
+        {
+            OriginalMoveForce = forwardForce;
+            IsFrozen = true;
+            Rb.velocity *= instantVelocityMultiplier;
+            // 减小加速推力和增加攻击间隔
+            forwardForce *= 0.95f; // 降低至60%
+            // attackCooldownInterval *= attackCooldownIntervalMultiplier; // 增加至200%
+            OriginalMaxMstSpeed = MaxSpeed;
+            MaxSpeed *= MaxSpeedMultiplier;
+            // 等待冰冻效果持续时间
+            yield return new WaitForSeconds(duration);
+
+            // 恢复原始推力和攻击间隔
+            forwardForce = originalAcceleration;
+            // attackCooldownInterval = OriginalAttackCooldownInterval;
+            MaxSpeed = OriginalMaxMstSpeed;
+            IsFrozen = false;
+        }
+        
+        private IEnumerator ShowKeys()
+        {
+            yield return new WaitForSeconds(1f);
+            UIManager.Instance.ShowMessage2("Press TAB to Hide/Show Key Bindings!");
+            IconManager.ShowKeyBinding();
         }
     }
 }
