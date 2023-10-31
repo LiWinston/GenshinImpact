@@ -148,11 +148,16 @@ In this game, shaders applied to objects and ability special effects are mostly 
   <img src="Images/candle_flame.gif" height="200">
 </div>
 
+Prefab using this particle system: **[SM_Prop_CandleFlame_with_light.prefab](https://github.com/COMP30019/project-2-infinitegame-studio/blob/main/Assets/GameEnvironment/Castle/Prefabs/SM_Prop_CandleFlame_with_light.prefab)**
+
+
 Tutorial URL: [Atomospheric Candles in unity](https://www.youtube.com/watch?v=EKo1SLQD9KI), The idea to use particle system instead of writing a separate custom shader to simulate candle flame is taken from this tutorial, additional tweaks were applied in this implementation to enhance the effect.
 
 Material used: **[Candle_flame_2](https://github.com/COMP30019/project-2-infinitegame-studio/blob/main/Assets/GameEnvironment/Castle/Materials/Candle_flame.mat)**
 
 Particle System settings: **[SM_Prop_CandleFlame_with_light.prefab](https://github.com/COMP30019/project-2-infinitegame-studio/blob/main/Assets/GameEnvironment/Castle/Prefabs/SM_Prop_CandleFlame_with_light.prefab)** - start @ Line 69.
+
+
 
 The candle flame prefab imported from Simple Fantasy interior is a static object. While the candle tip itself is configured to glow, compounded with strong point light, the candle itself is very nicely done. However, the candle flame itself is still a static object that does not move, which was a bit lacking, given that candle is the most widely used lighting source utilitised in the game, we thought to give it a bit flair adds to the detail of the game.
 <div  align = center>
@@ -202,6 +207,8 @@ This implementation requires primarily vertex calculation for vertical movement 
   <img src="Images/fireplace.gif" height="200">
 </div>
 
+Prefab using this shader: **[fireplace](https://github.com/COMP30019/project-2-infinitegame-studio/blob/main/Assets/GameEnvironment/Castle/Prefabs/Fireplace.prefab)**
+
 Shader used: **[flame_shadow](https://github.com/COMP30019/project-2-infinitegame-studio/blob/main/Assets/GameEnvironment/Castle/Shader/flame_shadow.shader)** - this creates the flame that changes colour over time, and moves occassionally upwards.
 
 Shader used: **[yellow_flame](https://github.com/COMP30019/project-2-infinitegame-studio/blob/main/Assets/GameEnvironment/Castle/Shader/yellow_flame.shader)** - this creates the flame in the center, that moves side by side.
@@ -216,6 +223,29 @@ Since this shader is a composite construct, each flame is rendered in different 
 
 
 ### **Custom 3. Shader - Shield** 
+<div  align = center>
+  <img src="Images/shield2.gif" height="200">
+</div>
+
+Prefab using this shader: **[jzz2](https://github.com/COMP30019/project-2-infinitegame-studio/blob/main/Assets/Resources/Prefab/Skills/JZZ2.prefab)**
+
+Shader used: **[Shield.shader](https://github.com/COMP30019/project-2-infinitegame-studio/blob/main/Assets/GameEnvironment/Castle/Shader/shield.shader)**
+
+Texture used: **[Shield_flow.png](https://github.com/COMP30019/project-2-infinitegame-studio/blob/main/Assets/GameEnvironment/Castle/Textures/shield_flow.png)** - This is the texture used on the shield.
+
+Shielding is a critical component of gameplay in our design, since players will likely be taking damage from their battles continously, given the lack of breathing room for the player to use zen mode to help, shielding becomes critical in improving survivability.
+The old shield design uses the "default particle" as the texture for the shield, we thought that design was too simplistic, thus we thought to add more flavour to the shield once the player hit a certain level, signifying an improvement protection and survivability.
+
+The shield uses three main component, the fresnel effect around the edge, rotation matrix, and a custom created texture, each was learned from a different tutorial throughout the game development process creating different prefabs. The fresnel effect was learned from [this tutorial](https://www.youtube.com/watch?v=nuoQdbJwAHo&t=534s), this creates the fresnel effect around the effect, regulated by the **_FresnelIntensity** and **_FresnelRamp** variables which controls the strength and transition on the edge. The fresnel effect is achieved by calculating the unity object's normal in world space relative to the camera, the surface with normal that are pointing at a direction more perpendicular to the camera normal are enhanced with stronger light, the distance from the edge to the center to apply colour with can be adjusted using **_FresnelRamp**, the colour intensity can be adjusted by **_FresnelIntensity** respectively. During rendering, the rotation of the spheric shield is first calculated, object surface normal is then drived allowing for frag to take this matrice to calculate where to strengthen colour on the sphere. 
+
+The rotation matrix was learned from [this tutorial](https://gist.github.com/baba-s/b46396a8c92f1f4e5e011b1dd20e3a4d) when trying to learn how to create a spinning magic circle for spell casting, this rotation matrix allows the object to rotate around a axis, modifying this by adding _RotationSpeed variable to control the speed, and changing speed relative to (_Time.y,: since level loaded) unscaled time instead of a fixed angle creates a more stable effect, further modifying the rotation matrix allows for a more distorted, non-linear transformation of the sphere object, which in turn creates a wind effect around the shield. 
+
+While wraping a premade hex shield texture was proving to be not fitting with the setting, we opted for the trail texture learned from creating the [trail.shadergraph](https://github.com/COMP30019/project-2-infinitegame-studio/blob/main/Assets/GameEnvironment/Castle/Shader/trail.shadergraph) from [Stylized Trail Tutorial](https://www.youtube.com/watch?v=wvK6MNlmCCE), using photoshop to duplicate the trail texture, when applied to across the shield surface, it looks like wind surrounding the shield. 
+
+Where static colour was too simplistic, we created a ripple effect where the colour would transition gradually from filled to transparency. The transition is controlled by **_RippleStrength** which controls light strength, **_RippleSpeed** controls the speed/frequency of transition. 
+
+Rending the shield is relatively straight forward, the game calls the shield by invoking the particle system and creating a shield particle, its surface is textured and colour by material created by shield.shader. The shield rotates according to configuration set in vert, while it looks like that the shield is rotating wihuot a pattern, this is because all three axis are rotating at the same time.
+
 
 
 ## Summary of Contributions
