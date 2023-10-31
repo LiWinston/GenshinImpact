@@ -119,7 +119,7 @@ public class PauseMenu : MonoBehaviour
 
     void UpdateButtonSelection()
     {
-    Color selectedColor = Color.red; // 选中时的颜色
+    Color selectedColor = Color.yellow; // 选中时的颜色
     Color normalColor = Color.white; // 未选中时的颜色
 
         for (int i = 0; i < buttons.Length; i++)
