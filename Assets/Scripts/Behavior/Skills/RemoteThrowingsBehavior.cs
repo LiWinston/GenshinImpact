@@ -220,7 +220,7 @@ namespace Behavior.Skills
                 if (mstbhv != null)
                 {
                     mstbhv.TakeDamage(AOEDamage);
-                    Debug.Log("ApplyAOEDamage" + AOEDamage);
+                    // Debug.Log("ApplyAOEDamage" + AOEDamage);
                 }
             }
         }
